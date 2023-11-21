@@ -1,0 +1,441 @@
+### Global parameters ###
+global:
+  # -- Global Docker image registry
+  imageRegistry: ""
+  # -- Global Docker registry secret names as an array
+  imagePullSecrets:
+    []
+    # - myRegistryKeySecretName
+  # -- Global StorageClass for Persistent Volume(s)
+  storageClass: ""
+
+# -- String to partially override common.names.name
+nameOverride: ""
+# -- String to fully override common.names.fullname
+fullnameOverride: ""
+# -- String to fully override common.names.namespace
+namespaceOverride: ""
+# -- Labels to add to all deployed objects
+commonLabels: {}
+# -- Annotations to add to all deployed objects
+commonAnnotations: {}
+
+# -- Array of extra objects to deploy with the release
+extraDeploy: []
+
+diagnosticMode:
+  # -- Enable diagnostic mode (all probes will be disabled)
+  enabled: false
+
+image:
+  # -- Image registry
+  registry: docker.io
+  # -- Image repository
+  repository: epam/ai-dial-core
+  # -- Image tag (immutable tags are recommended)
+  tag: latest
+  # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
+  digest: ""
+  # -- Image pull policy
+  # ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  pullPolicy: IfNotPresent
+  # -- Optionally specify an array of imagePullSecrets.
+  # Secrets must be manually created in the namespace.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  pullSecrets:
+    []
+    # - myRegistryKeySecretName
+
+# -- Annotations to add to dial-core deployed objects
+annotations: {}
+# -- Labels to add to dial-core deployed objects
+labels: {}
+# -- Number of dial-core replicas to deploy
+replicaCount: 1
+
+containerPorts:
+  # -- dial-core HTTP container port
+  http: 8080
+  # -- dial-core HTTP container port for metrics
+  metrics: 9464
+
+### Probes configuration ###
+# Configure extra options for dial-core container liveness and readiness probes
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
+# livenessProbe -- LivenessProbe on containers
+livenessProbe: {}
+# -- ReadinessProbe on containers
+readinessProbe: {}
+# -- StartupProbe on containers
+startupProbe: {}
+
+# -- dial-core resource requests and limits
+# ref: http://kubernetes.io/docs/user-guide/compute-resources/
+resources: {}
+
+### Pods Security Context Configuration ###
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+podSecurityContext:
+  # -- Enabled dial-core pod's Security Context
+  enabled: true
+  # -- Set dial-core pod's Security Context fsGroup
+  fsGroup: 1001
+
+### Container Security Context Configuration ###
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+containerSecurityContext:
+  # -- Enabled dial-core container's Security Context
+  enabled: true
+  # -- Set dial-core container's Security Context runAsUser
+  runAsUser: 1001
+  # -- Set dial-core containers' Security Context runAsNonRoot
+  runAsNonRoot: true
+  # -- Set dial-core containers' Security Context runAsNonRoot
+  readOnlyRootFilesystem: false
+
+# -- The name of an existing ConfigMap with your custom configuration for container
+existingConfigmap:
+# -- Override default dial-core command (useful when using custom images)
+command: []
+# -- Override default dial-core args (useful when using custom images)
+args: []
+# -- dial-core pods host aliases
+# https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
+hostAliases: []
+# -- Extra labels for dial-core pods
+# ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+# -- Annotations for dial-core pods
+# ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+
+###  Pod Disruption Budget configuration ###
+# ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb
+pdb:
+  # -- Enable/disable a Pod Disruption Budget creation
+  create: false
+
+### Autoscaling configuration ###
+# ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+autoscaling:
+  # -- Enable autoscaling for dial-core
+  enabled: false
+
+# -- Affinity for dial-core pods assignment
+affinity: {}
+# -- Node labels for dial-core pods assignment
+# ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector: {}
+# -- Tolerations for dial-core pods assignment
+# ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+tolerations: []
+
+### Deployment strategy type ###
+# ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+updateStrategy:
+  # -- StrategyType
+  # Can be set to RollingUpdate or OnDelete
+  type: RollingUpdate
+
+# -- dial-core pods' priorityClassName
+priorityClassName: ""
+# -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods
+topologySpreadConstraints: []
+# -- Name of the k8s scheduler (other than default) for dial-core pods
+# ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+schedulerName: ""
+# -- Seconds dial-core pod needs to terminate gracefully
+# ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+terminationGracePeriodSeconds: ""
+# -- for the dial-core container(s) to automate configuration before or after startup
+lifecycleHooks: {}
+# -- Key-value pairs extra environment variables to add to dial-core
+env:
+  {}
+  # key1: "value1"
+  # key2: "value2"
+# -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-core
+secrets:
+  {}
+  # key1: "value1"
+  # key2: "value2"
+# -- Name of existing Secret containing extra env vars for dial-core containers
+extraEnvVarsSecret: ""
+# -- Optionally specify extra list of additional volumes for the dial-core pod(s)
+extraVolumes: []
+# -- Optionally specify extra list of additional volumeMounts for the dial-core container(s)
+extraVolumeMounts: []
+# -- Add additional sidecar containers to the dial-core pod(s)
+sidecars:
+  []
+  # - name: your-image-name
+  #   image: your-image
+  #   imagePullPolicy: Always
+  #   ports:
+  #     - name: your-port-name
+  #       containerPort: 1234
+# -- Add additional init containers to the dial-core pod(s)
+# ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+initContainers:
+  []
+  # - name: your-image-name
+  #   image: your-image
+  #   imagePullPolicy: Always
+  #   command: ["sh", "-c", 'echo "hello world"']
+
+# -- Enable Host Network
+# If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet
+hostNetwork: false
+
+### Service configuration ###
+service:
+  # -- dial-core service type
+  type: ClusterIP
+  ports:
+    # -- dial-core service HTTP port
+    http: 80
+  # -- Node ports to expose
+  # NOTE: choose port between <30000-32767>
+  nodePorts:
+    # -- Node port for HTTP
+    http: ""
+  # -- dial-core service Cluster IP
+  # clusterIP: None
+  clusterIP: ""
+  # -- dial-core service Load Balancer IP
+  # ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer
+  loadBalancerIP: ""
+  # -- dial-core service Load Balancer sources
+  # ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
+  loadBalancerSourceRanges:
+    []
+    # - 10.10.10.0/24
+  # -- dial-core service external traffic policy
+  # ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  externalTrafficPolicy: Cluster
+  # -- Additional custom annotations for dial-core service
+  annotations: {}
+  # -- Extra ports to expose in dial-core service (normally used with the `sidecars` value)
+  extraPorts: []
+  # -- Control where client requests go, to the same pod or round-robin
+  # Values: ClientIP or None
+  # ref: https://kubernetes.io/docs/user-guide/services/
+  sessionAffinity: None
+  # -- Additional settings for the sessionAffinity
+  sessionAffinityConfig:
+    {}
+    # clientIP:
+    #   timeoutSeconds: 300
+
+### ServiceAccount configuration ###
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the common.names.fullname template
+  name: ""
+  # -- Additional Service Account annotations (evaluated as a template)
+  annotations: {}
+  # -- Automount service account token for the server service account
+  automountServiceAccountToken: true
+
+### Prometheus metrics configuration ###
+metrics:
+  # -- Enable the export of Prometheus metrics
+  enabled: false
+  ### Dedicated Kubernetes Service for dial-core metrics configuration ###
+  service:
+    # -- dial-core metrics service type
+    type: ClusterIP
+    # -- dial-core metrics service port
+    ports:
+      # -- dial-core metrics service port
+      http: 9464
+    # -- Node ports to expose
+    # NOTE: choose port between <30000-32767>
+    nodePorts:
+      # -- Node port for metrics
+      http: ""
+    # -- dial-core metrics service Cluster IP
+    # clusterIP: None
+    clusterIP: ""
+    # -- dial-core metrics service Load Balancer IP
+    # ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer
+    loadBalancerIP: ""
+    # -- dial-core metrics service Load Balancer sources
+    # ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
+    loadBalancerSourceRanges:
+      []
+      # - 10.10.10.0/24
+    # -- dial-core metrics service external traffic policy
+    # ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+    externalTrafficPolicy: Cluster
+    # -- Additional custom annotations for dial-core metrics service
+    annotations:
+      {}
+      # prometheus.io/scrape: "true"
+      # prometheus.io/port: "{{ .Values.metrics.service.port }}"
+    # -- Extra ports to expose in dial-core metrics service (normally used with the `sidecars` value)
+    extraPorts: []
+    # -- Control where client requests go, to the same pod or round-robin
+    # Values: ClientIP or None
+    # ref: https://kubernetes.io/docs/user-guide/services/
+    sessionAffinity: None
+    # -- Additional settings for the sessionAffinity
+    sessionAffinityConfig:
+      {}
+      # clientIP:
+      #   timeoutSeconds: 300
+  ### Prometheus Operator ServiceMonitor configuration ###
+  serviceMonitor:
+    # -- if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
+    enabled: false
+    # -- Namespace in which Prometheus is running
+    namespace: ""
+    # -- Additional custom annotations for the ServiceMonitor
+    annotations: {}
+    # -- Extra labels for the ServiceMonitor
+    labels: {}
+    # -- The name of the label on the target service to use as the job name in Prometheus
+    jobLabel: ""
+    # -- honorLabels chooses the metric's labels on collisions with target labels
+    honorLabels: false
+    # -- Specify service metrics port
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    port: "http-metrics"
+    # -- Specify metrics path
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    path: "/metrics"
+    # -- Interval at which metrics should be scraped.
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    # e.g: interval: 10s
+    interval: ""
+    # -- Timeout after which the scrape is ended
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    # e.g: scrapeTimeout: 10s
+    scrapeTimeout: ""
+    # -- Specify additional relabeling of metrics
+    metricRelabelings: []
+    # -- Specify general relabeling
+    relabelings: []
+    # -- Prometheus instance selector labels
+    # ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
+    selector:
+      {}
+      # prometheus: my-prometheus
+
+### Ingress configuration ###
+# ref: http://kubernetes.io/docs/user-guide/ingress/
+ingress:
+  # -- Enable ingress record generation for container
+  enabled: false
+  # -- Ingress path type
+  pathType: Prefix
+  # -- IngressClass that will be be used to implement the Ingress
+  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class
+  ingressClassName: ""
+  # -- Default path for the ingress record
+  # NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers
+  path: /
+  # -- Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
+  # Use this parameter to set the required annotations for cert-manager, see
+  # ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: cluster-issuer-name
+  # -- Change default name of service for the ingress record
+  serviceName: ""
+  # -- An array with hostname(s) to be covered with the ingress record
+  hosts:
+    - dial-core.local
+  # -- TLS configuration for additional hostname(s) to be covered with this ingress record
+  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+  tls:
+    []
+    # - hosts:
+    #     - dial-core.local
+    #   secretName: dial-core.local-tls
+  # -- An array with additional arbitrary paths that may need to be added to the ingress under the main host
+  extraPaths:
+    []
+    # - path: /*
+    #   pathType: ImplementationSpecific
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: use-annotation
+  # -- An array with additional hostname(s) to be covered with the ingress record
+  extraRules:
+    []
+    # - name: dial-core-tmp.local
+    #   path: "/foo"                       # Optional, default - "/"
+    #   pathType: ImplementationSpecific   # Optional, default - Prefix
+    #   serviceName: foo
+    #   servicePort: 80
+
+### Logger configuration ###
+logger:
+  # -- Enable/disable logger
+  enabled: false
+  image:
+    # -- Image registry for logger component
+    registry: "timberio"
+    # -- Image repository for logger component
+    repository: vector
+    # -- Image tag for logger component
+    tag: 0.33.0-alpine
+    # -- Image digest for logger component in the way sha256:aa....
+    digest: ""
+    # -- Image pull policy for logger component
+    # ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    pullPolicy: IfNotPresent
+    # -- Optionally specify an array of imagePullSecrets.
+    # Secrets must be manually created in the namespace.
+    # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    pullSecrets:
+      []
+      # - myRegistryKeySecretName
+
+  resources: {}
+  env: {}
+  secrets: {}
+  extraEnvVarsSecret: ""
+
+  command:
+    - vector
+  args:
+    - "--config"
+    - /etc/vector/vector.yaml
+
+  containerSecurityContext:
+    enabled: false
+    runAsUser: 1001
+    runAsNonRoot: true
+
+  config: |
+    sources:
+      core_logs:
+        type: "file"
+        max_line_bytes: 100000000
+        oldest_first: true
+        include:
+          - /app/log/*.log
+
+    sinks:
+      console:
+        inputs:
+          - core_logs
+        type: console
+        target: "stdout"
+        encoding:
+          codec: "text"
+  extraVolumeMounts:
+    {}
+    # - name: logger
+    #   mountPath: /var/log/nginx
+    # - mountPath: /etc/vector/vector.yaml
+    #   name: logger-config
+    #   subPath: vector.yaml
