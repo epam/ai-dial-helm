@@ -1,0 +1,9 @@
+# cr.yaml
+# Set to true for GPG signing
+sign: true
+
+# UID of the GPG key to use
+key: 149404362+ai-dial-actions@users.noreply.github.com
+
+# Do not mark release as latest cause it may be a dependency chart, not dial
+make-release-latest: false

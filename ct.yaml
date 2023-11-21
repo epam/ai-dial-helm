@@ -1,0 +1,12 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: main
+chart-dirs:
+  - charts
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
+  # - dial=https://charts.epam-rail.com
+# Better output for GitHub Actions
+github-groups: true
+# Increased timeout for heavy charts
+# helm-extra-args: --timeout 600s
