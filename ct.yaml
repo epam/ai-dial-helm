@@ -8,5 +8,7 @@ chart-repos:
   # - dial=https://charts.epam-rail.com
 # Better output for GitHub Actions
 github-groups: true
+# Disable maintainer validation to allow custom URLs
+validate-maintainers: false
 # Increased timeout for heavy charts
 # helm-extra-args: --timeout 600s
