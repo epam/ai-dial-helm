@@ -24,3 +24,4 @@
 *.lock
 OWNERS
 README.md.gotmpl
+ci/
