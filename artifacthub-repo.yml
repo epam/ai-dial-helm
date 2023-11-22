@@ -1,0 +1,5 @@
+# Artifact Hub repository metadata file
+repositoryID: c3495856-0162-44e1-8914-66ab4fb861d5
+owners: # (optional, used to claim repository ownership)
+  - name: epam
+    email: Auto_EPM-DIAL_github_robot@epam.com
