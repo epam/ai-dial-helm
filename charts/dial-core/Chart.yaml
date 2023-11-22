@@ -1,0 +1,24 @@
+annotations:
+  category: MachineLearning
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: "1.0"
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+    version: 2.2.4
+description: Helm chart for dial core
+home: https://epam-rail.com
+icon: "https://docs.epam-rail.com/img/favicon.ico"
+keywords:
+  - ai-dial
+kubeVersion: ">=1.23.0-0"
+maintainers:
+  - name: EPAM Systems
+    url: https://github.com/epam
+name: dial-core
+sources:
+  - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
+version: 1.0.0
