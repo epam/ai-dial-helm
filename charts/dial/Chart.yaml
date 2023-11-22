@@ -1,0 +1,68 @@
+annotations:
+  category: MachineLearning
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: "1.0"
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+    version: 2.2.4
+  - name: keycloak
+    repository: https://charts.bitnami.com/bitnami
+    condition: keycloak.enabled
+    version: 16.0.5
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: authhelper
+    condition: authhelper.enabled
+    version: 1.0.0
+  - name: dial-core
+    repository: https://charts.epam-rail.com
+    alias: core
+    condition: core.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: chat
+    condition: chat.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: themes
+    condition: themes.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: openai
+    condition: openai.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: bedrock
+    condition: bedrock.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: vertexai
+    condition: vertexai.enabled
+    version: 1.0.0
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: assistant
+    condition: assistant.enabled
+    version: 1.0.0
+description: Umbrella chart for DIAL solution
+home: https://epam-rail.com
+icon: "https://docs.epam-rail.com/img/favicon.ico"
+keywords:
+  - ai-dial
+kubeVersion: ">=1.23.0-0"
+maintainers:
+  - name: EPAM Systems
+    url: https://github.com/epam
+name: dial
+sources:
+  - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
+version: 1.0.0

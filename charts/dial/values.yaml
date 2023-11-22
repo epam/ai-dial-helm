@@ -1,0 +1,131 @@
+# This is umbrella chart. It means that it doesn't contain resources itself, but combines several charts as dependencies.
+# Configuration values represented here are either complimentary or override values from dependency charts for example purposes.
+# Check dependency charts for hints and details about specific values, their defaults and extra configuration.
+
+extraDeploy: []
+
+### keycloak configuration ##
+# ref: https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md
+keycloak:
+  # -- Enable/disable keycloak
+  enabled: false
+  proxy: edge
+  # auth:
+  #   adminUser: "admin"
+  #   adminPassword: "youReallyNeedToChangeThis"
+  extraEnvVars:
+    - name: KC_FEATURES
+      value: "token-exchange,admin-fine-grained-authz,declarative-user-profile"
+  postgresql:
+    enabled: true
+    # auth:
+    #   postgresPassword: "youReallyNeedToChangeThis"
+    #   password: "youReallyNeedToChangeThis"
+  keycloakConfigCli:
+    enabled: true
+    extraEnvVars:
+      - name: IMPORT_VARSUBSTITUTION_ENABLED
+        value: "true"
+    # configuration:
+    #   realm.yaml: |
+    #     yourRealmConfig
+
+### ai-dial-auth-helper configuration ###
+authhelper:
+  # -- Enable/disable ai-dial-auth-helper.
+  # Set `keycloak.enabled: true` before enabling this.
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "authentication"
+  image:
+    repository: epam/ai-dial-auth-helper
+    tag: 0.1.1
+  containerPorts:
+    http: 4088
+  # env:
+  #   SERVER_HOSTURL: ""
+  #   OAUTH2_PROVIDERURI: ""
+  # secrets:
+  #   OAUTH2_CLIENTSECRET: ""
+
+### ai-dial-core configuration ###
+core:
+  # -- Enable/disable ai-dial-core
+  enabled: true
+  image:
+    tag: 0.2.1
+
+### ai-dial-chat configuration ###
+chat:
+  # -- Enable/disable ai-dial-chat
+  enabled: true
+  commonLabels:
+    app.kubernetes.io/component: "application"
+  image:
+    repository: epam/ai-dial-chat
+    tag: 0.1.9
+  containerPorts:
+    http: 3000
+
+### ai-dial-chat-themes configuration ###
+themes:
+  # -- Enable/disable ai-dial-chat-themes
+  enabled: true
+  commonLabels:
+    app.kubernetes.io/component: "webserver"
+  image:
+    repository: epam/ai-dial-chat-themes
+    tag: 0.1.1
+  containerPorts:
+    http: 8080
+  podSecurityContext:
+    fsGroup: 101
+  containerSecurityContext:
+    runAsUser: 101
+
+### ai-dial-adapter-openai configuration ###
+openai:
+  # -- Enable/disable ai-dial-adapter-openai
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "adapter"
+  image:
+    repository: epam/ai-dial-adapter-openai
+    tag: 0.1.1
+
+### ai-dial-adapter-bedrock configuration ###
+bedrock:
+  # -- Enable/disable ai-dial-adapter-bedrock
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "adapter"
+  image:
+    repository: epam/ai-dial-adapter-bedrock
+    tag: 0.2.0
+  secrets:
+    {}
+    # DEFAULT_REGION: "us-east-1"
+    # AWS_ACCESS_KEY_ID: ""
+    # AWS_SECRET_ACCESS_KEY: ""
+
+### ai-dial-adapter-vertexai configuration ###
+vertexai:
+  # -- Enable/disable ai-dial-adapter-vertexai
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "adapter"
+  image:
+    repository: epam/ai-dial-adapter-vertexai
+    tag: 0.2.0
+
+### ai-dial-assistant configuration ###
+assistant:
+  # -- Enable/disable ai-dial-assistant
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "application"
+  image:
+    repository: epam/ai-dial-assistant
+    tag: 0.1.0
+  # env:
+  #   OPENAI_API_BASE: ""
