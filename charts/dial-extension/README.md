@@ -8,7 +8,7 @@ Helm chart for dial extensions
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-extension
+helm install --name my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
 ```
 
 ## Prerequisites
