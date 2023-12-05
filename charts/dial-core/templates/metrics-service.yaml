@@ -41,7 +41,7 @@ spec:
   loadBalancerIP: {{ .Values.metrics.service.loadBalancerIP }}
   {{- end }}
   ports:
-    - name: http
+    - name: http-metrics
       targetPort: http-metrics
       port: {{ .Values.metrics.service.ports.http }}
       protocol: TCP
