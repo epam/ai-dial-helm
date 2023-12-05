@@ -21,4 +21,4 @@ maintainers:
 name: dial-core
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
-version: 1.0.0
+version: 1.0.1
