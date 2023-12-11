@@ -15,14 +15,14 @@
 - [NGINX Ingress controller](https://docs.nginx.com/nginx-ingress-controller/installation/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- Azure `gpt-35-turbo` model deployed, useful documentation:
+- Azure `gpt-35-turbo` model deployed:
   - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/Azure%20Model%20Deployment)
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the EPAM AI DIAL system with configured connection to the Azure GPT-3.5 API.\
-Please note that this guide represents a very basic deployment scenario, and should never be used in production.\
-Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are out of scope of this guide.
+By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
+Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
+Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
 

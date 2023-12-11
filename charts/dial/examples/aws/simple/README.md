@@ -1,6 +1,6 @@
-# AI DIAL Installation Quick Start Guide
+# AI DIAL AWS Installation Simple Guide
 
-- [AI DIAL Installation Quick Start Guide](#ai-dial-installation-quick-start-guide)
+- [AI DIAL AWS Installation Simple Guide](#ai-dial-aws-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
   - [Install](#install)
@@ -14,14 +14,14 @@
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- Azure `gpt-35-turbo` model deployed, useful documentation:
+- Azure `gpt-35-turbo` model deployed:
   - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/Azure%20Model%20Deployment)
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the EPAM AI DIAL system with configured connection to the Azure GPT-3.5 API.\
-Please note that this guide represents a very basic deployment scenario, and should never be used in production.\
-Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are out of scope of this guide.
+By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
+Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
+Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
 
