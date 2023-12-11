@@ -9,7 +9,7 @@
 
 ## Prerequisites
 
-- Kubernetes cluster 1.24+
+- EKS 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
