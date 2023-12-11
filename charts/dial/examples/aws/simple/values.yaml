@@ -1,0 +1,137 @@
+core:
+  enabled: true
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  env:
+    aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+  secrets:
+    aidial.config.json: |
+      {
+        "models": {
+          "gpt-35-turbo": {
+            "type": "chat",
+            "displayName": "GPT-3.5",
+            "iconUrl": "https://themes.%%DOMAIN%%/gpt3.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-35-turbo/chat/completions",
+            "upstreams": [
+              {
+                "endpoint": "%%MODEL_ENDPOINT%%",
+                "key": "%%MODEL_KEY%%"
+              }
+            ]
+          }
+        },
+        "keys": {
+          "%%OPENAI_API_KEY%%": {
+            "role": "chat",
+            "userAuth": "OPTIONAL"
+          }
+        },
+        "roles": {
+          "chat": {
+            "limits": {
+              "gpt-35-turbo": {}
+            }
+          }
+        }
+      }
+  extraVolumes:
+    - name: config
+      secret:
+        secretName: '{{ template "dialCore.names.fullname" . }}'
+        items:
+          - key: aidial.config.json
+            path: aidial.config.json
+  extraVolumeMounts:
+    - name: config
+      mountPath: "/mnt/secrets-store/aidial.config.json"
+      subPath: aidial.config.json
+      readOnly: true
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /health
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - dial.%%DOMAIN%%
+
+chat:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    OPENAI_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    OPENAI_API_VERSION: "2023-03-15-preview"
+    # -- List of DIAL chat features to enable;
+    # ref: https://github.com/epam/ai-dial-chat/blob/development/src/types/features.ts
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL chat should be applied
+    THEMES_CONFIG_HOST: "https://themes.%%DOMAIN%%"
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    # -- API key defined in core configuration
+    OPENAI_API_KEY: "%%OPENAI_API_KEY%%"
+    # -- Token to access chat without any external auth provider;
+    # Works like a password (not recommended for production)
+    AUTH_TEST_TOKEN: "%%AUTH_TEST_TOKEN%%"
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /api/health
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - chat.%%DOMAIN%%
+
+themes:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /config.json
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - themes.%%DOMAIN%%
+
+openai:
+  enabled: true

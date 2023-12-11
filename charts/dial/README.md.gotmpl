@@ -6,13 +6,6 @@
 
 {{ template "chart.description" . }}
 
-## TL;DR
-
-```console
-helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial
-```
-
 ## Prerequisites
 
 - Helm 3.8.0+
@@ -30,7 +23,12 @@ helm repo add dial https://charts.epam-rail.com
 helm install --name my-release dial/dial
 ```
 
-The command deploys dial on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+The command deploys AI DIAL on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+## Examples
+
+Due to flexibility of the system, it's impossible to define default values for all parameters and cover all use cases.\
+However, we provide a set of [examples](examples) that can be used as a good starting point for your own configuration.
 
 ## Uninstalling the Chart
 

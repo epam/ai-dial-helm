@@ -17,42 +17,42 @@ dependencies:
     repository: https://charts.epam-rail.com
     alias: authhelper
     condition: authhelper.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-core
     repository: https://charts.epam-rail.com
     alias: core
     condition: core.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: chat
     condition: chat.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: themes
     condition: themes.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: openai
     condition: openai.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: bedrock
     condition: bedrock.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: vertexai
     condition: vertexai.enabled
-    version: 1.0.0
+    version: 1.0.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: assistant
     condition: assistant.enabled
-    version: 1.0.0
+    version: 1.0.1
 description: Umbrella chart for DIAL solution
 home: https://epam-rail.com
 icon: "https://docs.epam-rail.com/img/favicon.ico"
@@ -65,4 +65,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 1.1.0
+version: 1.1.1

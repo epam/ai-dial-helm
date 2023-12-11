@@ -1,15 +1,8 @@
 # dial
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.1.1](https://img.shields.io/badge/Version-1.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
-
-## TL;DR
-
-```console
-helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial
-```
 
 ## Prerequisites
 
@@ -25,14 +18,14 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | common | 2.2.4 |
 | https://charts.bitnami.com/bitnami | keycloak | 16.0.5 |
-| https://charts.epam-rail.com | core(dial-core) | 1.0.0 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.0.0 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.0.0 |
+| https://charts.epam-rail.com | core(dial-core) | 1.0.1 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.0.1 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.0.1 |
 
 ## Installing the Chart
 
@@ -43,7 +36,12 @@ helm repo add dial https://charts.epam-rail.com
 helm install --name my-release dial/dial
 ```
 
-The command deploys dial on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+The command deploys AI DIAL on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+## Examples
+
+Due to flexibility of the system, it's impossible to define default values for all parameters and cover all use cases.\
+However, we provide a set of [examples](examples) that can be used as a good starting point for your own configuration.
 
 ## Uninstalling the Chart
 
