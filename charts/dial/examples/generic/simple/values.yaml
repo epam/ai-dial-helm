@@ -80,9 +80,6 @@ chat:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     # -- API key defined in core configuration
     OPENAI_API_KEY: "%%OPENAI_API_KEY%%"
-    # -- Token to access chat without any external auth provider;
-    # Works like a password (not recommended for production)
-    AUTH_TEST_TOKEN: "%%AUTH_TEST_TOKEN%%"
   ingress:
     enabled: true
     ingressClassName: nginx

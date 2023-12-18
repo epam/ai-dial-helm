@@ -58,7 +58,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%OPENAI_API_KEY%%` with generated value (`pwgen -s -1 64`)
-    - Replace `%%AUTH_TEST_TOKEN%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
     - Replace `%%MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
@@ -91,7 +90,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
-      - Use previously generated `%%AUTH_TEST_TOKEN%%` value
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%OPENAI_API_KEY%%` value
 
