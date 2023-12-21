@@ -39,7 +39,7 @@ authhelper:
     app.kubernetes.io/component: "authentication"
   image:
     repository: epam/ai-dial-auth-helper
-    tag: 0.1.1
+    tag: 0.2.0
   containerPorts:
     http: 4088
   # env:
@@ -53,7 +53,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.4.0
+    tag: 0.5.0
 
 ### ai-dial-chat configuration ###
 chat:
@@ -63,7 +63,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.2.2
+    tag: 0.3.5
   containerPorts:
     http: 3000
 
@@ -91,7 +91,12 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.2.0
+    tag: 0.5.1
+  # env:
+  #   DIAL_USE_FILE_STORAGE: "true"
+  #   DIAL_URL: "http://{{ .Release.Name }}-core"
+  #   GPT4_VISION_DEPLOYMENTS: "gpt-4-vision-preview"
+  #   DALLE3_DEPLOYMENTS: "dalle3"
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -101,7 +106,10 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.2.0
+    tag: 0.4.1
+  # env:
+  #   DIAL_USE_FILE_STORAGE: "true"
+  #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets:
     {}
     # DEFAULT_REGION: "us-east-1"
@@ -126,6 +134,6 @@ assistant:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-assistant
-    tag: 0.2.3
+    tag: 0.4.0
   # env:
-  #   OPENAI_API_BASE: ""
+  #   OPENAI_API_BASE: "http://{{ .Release.Name }}-core"
