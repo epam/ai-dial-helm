@@ -97,17 +97,22 @@ spec:
               value: {{ tpl $value $ | quote }}
             {{- end }}
           {{- end }}
-          {{- if or .Values.secrets .Values.extraEnvVarsSecret }}
           envFrom:
             {{- if .Values.secrets }}
             - secretRef:
                 name: {{ template "dialCore.names.fullname" . }}
             {{- end }}
+            {{- if .Values.configuration.encryption.existingSecret }}
+            - secretRef:
+                name: {{ .Values.configuration.encryption.existingSecret }}
+            {{- else }}
+            - secretRef:
+                name: {{ template "dialCore.encryptionSecretName" . }}
+            {{- end }}
             {{- if .Values.extraEnvVarsSecret }}
             - secretRef:
                 name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
             {{- end }}
-          {{- end }}
           {{- if .Values.resources }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}

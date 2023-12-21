@@ -16,4 +16,9 @@ Access the pod you want to debug by executing
   kubectl exec --namespace {{ include "common.names.namespace" . | quote }} -ti <NAME OF THE POD> -- bash
 {{- end }}
 
+{{- if not .Values.configuration.encryption.existingSecret -}}
+  {{- $passwordValidationErrors := include "dialCore.values.requirePasswords" (dict "secret" (include "dialCore.encryptionSecretName" .) "context" $) -}}
+  {{- include "common.errors.upgrade.passwords.empty" (dict "validationErrors" (list $passwordValidationErrors) "context" $) -}}
+{{- end }}
+
 {{- include "dialCore.validateValues" . }}
