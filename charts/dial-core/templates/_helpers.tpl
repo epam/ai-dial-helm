@@ -53,3 +53,84 @@ Return name for logger resources
 {{- define "dialCoreLogger.names.fullname" -}}
 {{- template "common.names.fullname" . -}}-logger
 {{- end -}}
+
+
+{{/*
+Return name for encryption secret
+*/}}
+{{- define "dialCore.encryptionSecretName" -}}
+{{- template "dialCore.names.fullname" . -}}-encryption
+{{- end -}}
+
+{{/* vim: set filetype=mustache: */}}
+{{/*
+Validate dial-core required passwords are not empty.
+
+Usage:
+{{ include "dialCore.values.requirePasswords" (dict "secret" "secretName" "subchart" false "context" $) }}
+Params:
+  - secret - String - Required. Name of the secret where dial-core values are stored, e.g: "core-encryption"
+  - subchart - Boolean - Optional. Whether dial-core is used as subchart or not. Default: false
+*/}}
+{{- define "dialCore.values.requirePasswords" -}}
+  {{- $existingSecret := include "dialCore.values.existingSecret" . -}}
+  {{- $enabled := include "dialCore.values.enabled" . -}}
+  {{- $authPrefix := include "dialCore.values.key.encryption" . -}}
+  {{- $valueKeyPassword := printf "%s.password" $authPrefix -}}
+  {{- $valueKeySalt := printf "%s.salt" $authPrefix -}}
+
+  {{- if and (or (not $existingSecret) (eq $existingSecret "\"\"")) (eq $enabled "true") -}}
+    {{- $requiredPasswords := list -}}
+      {{- $requiredPassword := dict "valueKey" $valueKeyPassword "secret" .secret "field" "aidial.encryption.password" -}}
+      {{- $requiredPasswords = append $requiredPasswords $requiredPassword -}}
+      {{- $requiredSalt := dict "valueKey" $valueKeySalt "secret" .secret "field" "aidial.encryption.salt" -}}
+      {{- $requiredPasswords = append $requiredPasswords $requiredSalt -}}
+    {{- include "common.validations.values.multiple.empty" (dict "required" $requiredPasswords "context" .context) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Auxiliary function to get the right value for existingSecret.
+
+Usage:
+{{ include "dialCore.values.existingSecret" (dict "context" $) }}
+Params:
+  - subchart - Boolean - Optional. Whether dial-core is used as subchart or not. Default: false
+*/}}
+{{- define "dialCore.values.existingSecret" -}}
+  {{- if .subchart -}}
+    {{- .context.Values.core.configuration.encryption.existingSecret | quote -}}
+  {{- else -}}
+    {{- .context.Values.configuration.encryption.existingSecret | quote -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Auxiliary function to get the right value for enabled dial-core.
+
+Usage:
+{{ include "dialCore.values.enabled" (dict "context" $) }}
+*/}}
+{{- define "dialCore.values.enabled" -}}
+  {{- if .subchart -}}
+    {{- printf "%v" .context.Values.core.enabled -}}
+  {{- else -}}
+    {{- printf "%v" (not .context.Values.enabled) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Auxiliary function to get the right value for the key auth
+
+Usage:
+{{ include "dialCore.values.key.encryption" (dict "subchart" "true" "context" $) }}
+Params:
+  - subchart - Boolean - Optional. Whether dial-core is used as subchart or not. Default: false
+*/}}
+{{- define "dialCore.values.key.encryption" -}}
+  {{- if .subchart -}}
+    core.configuration.encryption
+  {{- else -}}
+    configuration.encryption
+  {{- end -}}
+{{- end -}}

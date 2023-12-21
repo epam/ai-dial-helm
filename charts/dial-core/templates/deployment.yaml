@@ -98,9 +98,16 @@ spec:
             {{- end }}
           {{- end }}
           envFrom:
-            {{- if or .Values.secrets .Values.configuration.encryption }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ template "dialCore.names.fullname" . }}
+            {{- end }}
+            {{- if .Values.configuration.encryption.existingSecret }}
+            - secretRef:
+                name: {{ .Values.configuration.encryption.existingSecret }}
+            {{- else }}
+            - secretRef:
+                name: {{ template "dialCore.encryptionSecretName" . }}
             {{- end }}
             {{- if .Values.extraEnvVarsSecret }}
             - secretRef:
