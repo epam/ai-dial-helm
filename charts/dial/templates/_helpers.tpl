@@ -1,4 +1,11 @@
 {{/*
+Return name for dial-core encryption secret
+*/}}
+{{- define "dial.core.encryptionSecretName" -}}
+{{- printf "%s-%s" .Release.Name "core-encryption" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
 Compile all warnings into a single message.
 {{- $messages := append $messages (include "dial.validateValues.foo" .) -}}
 {{- $messages := append $messages (include "dial.validateValues.bar" .) -}}

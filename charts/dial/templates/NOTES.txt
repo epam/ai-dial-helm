@@ -4,4 +4,12 @@ APP VERSION: {{ .Chart.AppVersion  }}
 
 ** Please be patient while the chart is being deployed **
 
+{{- $passwordValidationErrors := list -}}
+{{- if .Values.core.enabled }}
+    {{- $coreSecretName := include "dial.core.encryptionSecretName" . -}}
+    {{- $corePasswordValidationErrors := include "dialCore.values.requirePasswords" (dict "secret" $coreSecretName "subchart" true "context" $) -}}
+    {{- $passwordValidationErrors = append $passwordValidationErrors $corePasswordValidationErrors -}}
+{{- end }}
+{{- include "common.errors.upgrade.passwords.empty" (dict "validationErrors" $passwordValidationErrors "context" $) -}}
+
 {{- include "dial.validateValues" . }}
