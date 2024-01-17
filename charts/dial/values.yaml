@@ -53,7 +53,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.5.0
+    tag: 0.6.0
 
 ### ai-dial-chat configuration ###
 chat:
@@ -63,7 +63,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.3.5
+    tag: 0.4.2
   containerPorts:
     http: 3000
 
@@ -75,7 +75,7 @@ themes:
     app.kubernetes.io/component: "webserver"
   image:
     repository: epam/ai-dial-chat-themes
-    tag: 0.2.0
+    tag: 0.3.0
   containerPorts:
     http: 8080
   podSecurityContext:
@@ -91,7 +91,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.5.1
+    tag: 0.6.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -106,7 +106,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.4.1
+    tag: 0.5.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -124,7 +124,9 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.2.0
+    tag: 0.3.1
+  # env:
+  #   DIAL_URL: "http://{{ .Release.Name }}-core"
 
 ### ai-dial-assistant configuration ###
 assistant:
@@ -134,6 +136,7 @@ assistant:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-assistant
-    tag: 0.4.0
+    tag: 0.5.0
   # env:
   #   OPENAI_API_BASE: "http://{{ .Release.Name }}-core"
+  #   TOOLS_SUPPORTING_DEPLOYMENTS: "gpt-4-turbo"
