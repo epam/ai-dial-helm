@@ -23,7 +23,7 @@ core:
           }
         },
         "keys": {
-          "%%OPENAI_API_KEY%%": {
+          "%%DIAL_API_KEY%%": {
             "role": "chat",
             "userAuth": "OPTIONAL"
           }
@@ -76,8 +76,8 @@ chat:
     NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
-    OPENAI_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    OPENAI_API_VERSION: "2023-03-15-preview"
+    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_API_VERSION: "2023-03-15-preview"
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer"
@@ -87,7 +87,7 @@ chat:
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     # -- API key defined in core configuration
-    OPENAI_API_KEY: "%%OPENAI_API_KEY%%"
+    DIAL_API_KEY: "%%DIAL_API_KEY%%"
   ingress:
     enabled: true
     ingressClassName: alb
