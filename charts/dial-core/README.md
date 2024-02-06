@@ -180,13 +180,13 @@ helm install my-release dial/dial-core -f values.yaml
 | podSecurityContext.fsGroup | int | `1001` | Set dial-core pod's Security Context fsGroup |
 | priorityClassName | string | `""` | dial-core pods' priorityClassName |
 | readinessProbe | object | `{}` | ReadinessProbe on containers |
-| redis.cluster.nodes | int | `3` |  |
+| redis.cluster.nodes | int | `3` | The number of master nodes should always be >= 3, otherwise cluster creation will fail |
 | redis.cluster.replicas | int | `0` |  |
 | redis.cluster.update.currentNumberOfNodes | int | `3` |  |
 | redis.cluster.update.currentNumberOfReplicas | int | `0` |  |
 | redis.enabled | bool | `false` |  |
 | redis.redis.configmap | string | `"# Intentional gap from 6gb to 6Gi left\nmaxmemory 6gb\n# Evict using approximated LFU, only keys with an expire set\nmaxmemory-policy volatile-lfu"` |  |
-| redis.redis.useAOFPersistence | string | `"no"` |  |
+| redis.redis.useAOFPersistence | string | `"no"` | Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default) |
 | redis.resources.limits.memory | string | `"6Gi"` |  |
 | redis.resources.requests.memory | string | `"6Gi"` |  |
 | replicaCount | int | `1` | Number of dial-core replicas to deploy |
