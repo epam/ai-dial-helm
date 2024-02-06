@@ -458,3 +458,26 @@ logger:
     # - mountPath: /etc/vector/vector.yaml
     #   name: logger-config
     #   subPath: vector.yaml
+
+redis:
+  enabled: false
+  resources:
+    requests:
+      memory: 6Gi
+    limits:
+      memory: 6Gi
+  redis:
+    # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
+    useAOFPersistence: "no"
+    configmap: |-
+      # Intentional gap from 6gb to 6Gi left
+      maxmemory 6gb
+      # Evict using approximated LFU, only keys with an expire set
+      maxmemory-policy volatile-lfu
+  cluster:
+    # -- The number of master nodes should always be >= 3, otherwise cluster creation will fail
+    nodes: 3
+    replicas: 0
+    update:
+      currentNumberOfNodes: 3
+      currentNumberOfReplicas: 0

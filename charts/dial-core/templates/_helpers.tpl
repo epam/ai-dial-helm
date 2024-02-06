@@ -54,7 +54,6 @@ Return name for logger resources
 {{- template "common.names.fullname" . -}}-logger
 {{- end -}}
 
-
 {{/*
 Return name for encryption secret
 */}}
@@ -133,4 +132,21 @@ Params:
   {{- else -}}
     configuration.encryption
   {{- end -}}
+{{- end -}}
+
+{{/*
+Return Redis configuration for dial-core for dependency chart
+*/}}
+{{- define "dialCore.redisSettings" -}}
+{{- if .Values.redis.enabled -}}
+- name: aidial.redis.clusterServersConfig.nodeAddresses
+  value: '[{{- printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.redis) | quote -}}]'
+{{- if .Values.redis.usePassword }}
+- name: aidial.redis.clusterServersConfig.password
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "redis-cluster.secretName" .Subcharts.redis }}
+      key: {{ include "redis-cluster.secretPasswordKey" .Subcharts.redis }}
+{{- end -}}
+{{- end -}}
 {{- end -}}
