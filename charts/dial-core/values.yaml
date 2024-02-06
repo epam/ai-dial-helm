@@ -460,7 +460,7 @@ logger:
     #   subPath: vector.yaml
 
 redis:
-  enabled: true
+  enabled: false
   resources:
     requests:
       memory: 6Gi
