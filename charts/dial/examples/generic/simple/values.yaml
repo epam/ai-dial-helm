@@ -3,8 +3,15 @@ core:
   podAnnotations:
     # -- Annotation hack to restart core pod after each Helm chart upgrade
     autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  configuration:
+    encryption:
+      password: "%%CORE_ENCRYPT_PASSWORD%%"
+      salt: "%CORE_ENCRYPT_SALT%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
+    aidial.identityProviders.fake.rolePath: "roles"
+    aidial.identityProviders.fake.issuerPattern: "issuer"
   secrets:
     aidial.config.json: |
       {
@@ -25,7 +32,7 @@ core:
         "keys": {
           "%%DIAL_API_KEY%%": {
             "role": "chat",
-            "userAuth": "OPTIONAL"
+            "project": "example"
           }
         },
         "roles": {
@@ -56,7 +63,7 @@ core:
     hosts:
       - dial.%%DOMAIN%%
     tls:
-      - secretName: "%%TLS_SECRET_NAME%%"
+      - secretName: "dial-tls-secret"
         hosts:
           - dial.%%DOMAIN%%
 
@@ -88,7 +95,7 @@ chat:
     hosts:
       - chat.%%DOMAIN%%
     tls:
-      - secretName: "%%TLS_SECRET_NAME%%"
+      - secretName: "chat-tls-secret"
         hosts:
           - chat.%%DOMAIN%%
 
@@ -104,7 +111,7 @@ themes:
     hosts:
       - dial.%%DOMAIN%%
     tls:
-      - secretName: "%%TLS_SECRET_NAME%%"
+      - secretName: "dial-tls-secret"
         hosts:
           - dial.%%DOMAIN%%
 
