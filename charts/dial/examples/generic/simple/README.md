@@ -16,11 +16,12 @@
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - Azure `gpt-35-turbo` model deployed:
-  - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/Azure%20Model%20Deployment)
+  - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
 
 ## Expected Outcome
 
 By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
+Please note that this guide **does not use a persistent disk** for data storage.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
 Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
@@ -58,10 +59,12 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
+    - Replace `%%CORE_ENCRYPT_PASSWORD%%` with generated value (`pwgen -s -1 32`)
+    - Replace `%%CORE_ENCRYPT_SALT%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
     - Replace `%%MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
-    - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production` and `%%TLS_SECRET_NAME%%` with your TLS secret name, e.g. `dial-tls-secret`
+    - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
