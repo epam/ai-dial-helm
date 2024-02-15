@@ -14,12 +14,14 @@
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- Azure `gpt-35-turbo` model deployed:
-  - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/Azure%20Model%20Deployment)
+- [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured (optional)
+- [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html) and [managing access keys for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+  - [Bedrock Model Deployment Guide](https://docs.epam-rail.com/Deployment/Bedrock%20Model%20Deployment)
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
+By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Bedrock API.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
 Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
@@ -55,11 +57,16 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
-    - It's assumed you've configured **aws-load-balancer-controller** and **external-dns** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+    - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
+    - Replace `%%CORE_ENCRYPT_PASSWORD%%` with generated value (`pwgen -s -1 32`)
+    - Replace `%%CORE_ENCRYPT_SALT%%` with generated value (`pwgen -s -1 32`)
+    - Replace `%%CORE_AWS_ACCESS_KEY%%` with S3 user access key from [prerequisites](#prerequisites)
+    - Replace `%%CORE_AWS_SECRET_KEY%%` with S3 user secret key from [prerequisites](#prerequisites)
+    - Replace `%%CORE_AWS_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
+    - Replace `%%BEDROCK_AWS_ROLE_ARN%%` with AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
-    - Replace `%%MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
-    - Replace `%%MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
+    - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
