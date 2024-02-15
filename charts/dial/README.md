@@ -1,6 +1,6 @@
 # dial
 
-![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -85,7 +85,7 @@ helm install my-release dial/dial -f values.yaml
 | assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
-| assistant.image.tag | string | `"0.5.0"` |  |
+| assistant.image.tag | string | `"0.6.0"` |  |
 | authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
 | authhelper.containerPorts.http | int | `4088` |  |
 | authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
@@ -94,15 +94,15 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.5.0"` |  |
+| bedrock.image.tag | string | `"0.6.0"` |  |
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.4.2"` |  |
+| chat.image.tag | string | `"0.5.1"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.6.0"` |  |
+| core.image.tag | string | `"0.7.1"` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
@@ -115,7 +115,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
-| openai.image.tag | string | `"0.6.0"` |  |
+| openai.image.tag | string | `"0.7.0"` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
@@ -126,4 +126,4 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
-| vertexai.image.tag | string | `"0.3.1"` |  |
+| vertexai.image.tag | string | `"0.4.0"` |  |
