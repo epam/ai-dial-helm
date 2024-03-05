@@ -71,8 +71,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
-
-
 2. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**

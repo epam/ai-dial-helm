@@ -15,7 +15,7 @@
 - [NGINX Ingress controller](https://docs.nginx.com/nginx-ingress-controller/installation/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- Azure `gpt-35-turbo` model deployed:
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) `gpt-35-turbo` model deployed:
   - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
 
 ## Expected Outcome
@@ -62,11 +62,12 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_SALT%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
-    - Replace `%%MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
-    - Replace `%%MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
+    - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
+    - Replace `%%AZURE_MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
+    - Replace `%%AZURE_MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
-1. Install `dial` helm chart in created namespace, applying custom values file:
+2. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -91,7 +92,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ** Please be patient while the chart is being deployed **
     ```
 
-1. Now you can access:
+3. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value

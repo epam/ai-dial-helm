@@ -23,8 +23,8 @@ core:
             "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-35-turbo/chat/completions",
             "upstreams": [
               {
-                "endpoint": "%%MODEL_ENDPOINT%%",
-                "key": "%%MODEL_KEY%%"
+                "endpoint": "%%AZURE_MODEL_ENDPOINT%%",
+                "key": "%%AZURE_MODEL_KEY%%"
               }
             ]
           }
