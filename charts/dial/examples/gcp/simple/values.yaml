@@ -17,6 +17,7 @@ core:
     aidial.storage.bucket: "%%GCP_CORE_STORAGE_BUCKET_NAME%%"
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
+    aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials"}'
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
