@@ -1,0 +1,134 @@
+core:
+  enabled: true
+  serviceAccount:
+    create: true
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_CORE_SERVICE_ACCOUNT%%"
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  configuration:
+    encryption:
+      password: "%%CORE_ENCRYPT_PASSWORD%%"
+      salt: "%CORE_ENCRYPT_SALT%"
+  env:
+    aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.storage.provider: "google-cloud-storage"
+    aidial.storage.bucket: "%%GCP_CORE_STORAGE_BUCKET_NAME%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
+    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
+    aidial.identityProviders.fake.rolePath: "roles"
+    aidial.identityProviders.fake.issuerPattern: "issuer"
+  secrets:
+    aidial.config.json: |
+      {
+        "models": {
+          "gemini-pro": {
+            "type": "chat",
+            "displayName": "Gemini Pro",
+            "iconUrl": "https://dial.%%DOMAIN%%/themes/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
+          }
+        },
+        "keys": {
+          "%%DIAL_API_KEY%%": {
+            "role": "chat",
+            "project": "example"
+          }
+        },
+        "roles": {
+          "chat": {
+            "limits": {
+              "gemini-pro": {}
+            }
+          }
+        }
+      }
+  extraVolumes:
+    - name: config
+      secret:
+        secretName: '{{ template "dialCore.names.fullname" . }}'
+        items:
+          - key: aidial.config.json
+            path: aidial.config.json
+  extraVolumeMounts:
+    - name: config
+      mountPath: "/mnt/secrets-store/aidial.config.json"
+      subPath: aidial.config.json
+      readOnly: true
+  redis:
+    enabled: true
+    password: "%%REDIS_PASSWORD%%"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
+
+chat:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    # -- List of DIAL chat features to enable;
+    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,input-files,attachments-manager"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL chat should be applied
+    THEMES_CONFIG_HOST: "https://dial.%%DOMAIN%%/themes"
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    # -- API key defined in core configuration
+    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - chat.%%DOMAIN%%
+    tls:
+      - secretName: "chat-tls-secret"
+        hosts:
+          - chat.%%DOMAIN%%
+
+themes:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    path: "/themes/(.*)"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
+
+vertexai:
+  enabled: true
+
+  serviceAccount:
+    create: true
+    name: dial-vertexai
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_VERTEXAI_SERVICE_ACCOUNT%%"
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DEFAULT_REGION: "%%GCP_REGION%%"
