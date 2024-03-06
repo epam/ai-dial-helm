@@ -460,18 +460,18 @@ logger:
     #   subPath: vector.yaml
 
 redis:
-  enabled: false
+  enabled: true
   resources:
     requests:
-      memory: 6Gi
+      memory: 2Gi
     limits:
-      memory: 6Gi
+      memory: 2Gi
   redis:
     # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
     useAOFPersistence: "no"
     configmap: |-
-      # Intentional gap from 6gb to 6Gi left
-      maxmemory 6gb
+      # Intentional gap from 2gb to 2Gi left
+      maxmemory 2gb
       # Evict using approximated LFU, only keys with an expire set
       maxmemory-policy volatile-lfu
   cluster:
