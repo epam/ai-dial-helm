@@ -69,7 +69,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
-2. Install `dial` helm chart in created namespace, applying custom values file:
+1. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -94,7 +94,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ** Please be patient while the chart is being deployed **
     ```
 
-3. Now you can access:
+1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value
