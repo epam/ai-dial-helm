@@ -1,5 +1,9 @@
 core:
   enabled: true
+  serviceAccount:
+    create: true
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_CORE_SERVICE_ACCOUNT%%"
   podAnnotations:
     # -- Annotation hack to restart core pod after each Helm chart upgrade
     autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
@@ -9,6 +13,11 @@ core:
       salt: "%CORE_ENCRYPT_SALT%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.storage.provider: "google-cloud-storage"
+    aidial.storage.bucket: "%%GCP_CORE_STORAGE_BUCKET_NAME%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
+    aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials"}'
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
@@ -16,17 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gpt-35-turbo": {
+          "gemini-pro": {
             "type": "chat",
-            "displayName": "GPT-3.5",
-            "iconUrl": "https://dial.%%DOMAIN%%/themes/gpt3.svg",
-            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-35-turbo/chat/completions",
-            "upstreams": [
-              {
-                "endpoint": "%%AZURE_MODEL_ENDPOINT%%",
-                "key": "%%AZURE_MODEL_KEY%%"
-              }
-            ]
+            "displayName": "Gemini Pro",
+            "iconUrl": "https://dial.%%DOMAIN%%/themes/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
           }
         },
         "keys": {
@@ -38,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "gpt-35-turbo": {}
+              "gemini-pro": {}
             }
           }
         }
@@ -117,5 +120,16 @@ themes:
         hosts:
           - dial.%%DOMAIN%%
 
-openai:
+vertexai:
   enabled: true
+
+  serviceAccount:
+    create: true
+    name: dial-vertexai
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_VERTEXAI_SERVICE_ACCOUNT%%"
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DEFAULT_REGION: "%%GCP_REGION%%"

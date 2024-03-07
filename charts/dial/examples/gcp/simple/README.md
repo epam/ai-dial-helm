@@ -1,6 +1,6 @@
-# AI DIAL Generic Installation Simple Guide
+# AI DIAL GCP Installation Simple Guide
 
-- [AI DIAL Generic Installation Simple Guide](#ai-dial-generic-installation-simple-guide)
+- [AI DIAL GCP Installation Simple Guide](#ai-dial-gcp-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
   - [Install](#install)
@@ -9,19 +9,20 @@
 
 ## Prerequisites
 
-- Kubernetes cluster 1.24+
+- GKE 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [NGINX Ingress controller](https://docs.nginx.com/nginx-ingress-controller/installation/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) `gpt-35-turbo` model deployed:
-  - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
+- [workload identity federation for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
+- [Google Storage bucket](https://cloud.google.com/storage/docs/buckets)
+- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-pro` model deployed:
+  - [GCP Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
-Please note that this guide **does not use a persistent disk** for data storage.\
+By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the VertexAI API.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
 Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
@@ -63,8 +64,11 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_SALT%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%AZURE_MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
-    - Replace `%%AZURE_MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
+    - Replace `%%GCP_CORE_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
+    - Replace `%%GCP_CORE_STORAGE_BUCKET_NAME%%` with Google Storage bucket name from [prerequisites](#prerequisites)
+    - Replace `%%GCP_PROJECT_ID%%` with GCP Project Id e.g. `dial-191923`
+    - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
+    - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
 2. Install `dial` helm chart in created namespace, applying custom values file:
