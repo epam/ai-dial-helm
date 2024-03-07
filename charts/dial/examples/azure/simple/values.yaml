@@ -93,7 +93,7 @@ chat:
     DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
-    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,input-files,attachments-manager"
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "https://dial.%%DOMAIN%%/themes"
