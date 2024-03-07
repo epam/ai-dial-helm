@@ -1,5 +1,10 @@
 core:
   enabled: true
+  serviceAccount:
+    create: true
+    # -- You can use a aidial.storage.identity/aidial.storage.credential in the environment variable instead.
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
   podAnnotations:
     # -- Annotation hack to restart core pod after each Helm chart upgrade
     autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
@@ -10,9 +15,9 @@ core:
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
     aidial.storage.provider: "aws-s3"
-    aidial.storage.identity: "%%CORE_AWS_ACCESS_KEY%%"
-    aidial.storage.credential: "%%CORE_AWS_SECRET_KEY%%"
-    aidial.storage.bucket: "%%CORE_AWS_S3_BUCKET_NAME%%"
+    aidial.storage.bucket: "%%AWS_CORE_S3_BUCKET_NAME%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
@@ -53,6 +58,9 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
+  redis:
+    enabled: true
+    password: "%%REDIS_PASSWORD%%"
   ingress:
     enabled: true
     ingressClassName: alb
@@ -84,7 +92,7 @@ chat:
     DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
-    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer"
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "https://themes.%%DOMAIN%%"
@@ -136,11 +144,13 @@ themes:
 
 bedrock:
   enabled: true
-  env:
-    DEFAULT_REGION: "%%BEDROCK_AWS_REGION%%"
 
   serviceAccount:
     create: true
     # -- You can use a AWS_ACCESS_KEY/AWS_SECRET_KEY in the environment variable instead.
     annotations:
-      eks.amazonaws.com/role-arn: "%%BEDROCK_AWS_ROLE_ARN%%"
+      eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
