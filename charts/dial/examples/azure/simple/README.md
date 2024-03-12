@@ -12,7 +12,7 @@
 - AKS 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
-- [NGINX Ingress controller](https://docs.nginx.com/nginx-ingress-controller/installation/) installed in the cluster
+- [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html)
