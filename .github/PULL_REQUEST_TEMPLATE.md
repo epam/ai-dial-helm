@@ -32,6 +32,7 @@
 <!-- [Place an '[X]' (no spaces) in all applicable fields. Please remove unrelated fields.] -->
 
 - [ ] Chart version bumped in `Chart.yaml` according to [semver](http://semver.org/)
+- [ ] `appVersion` bumped in `Chart.yaml` if it's `dial` chart and any application version changed
 - [ ] Variables are documented in the `values.yaml` and added to the `README.md` using [helm-docs](https://github.com/norwoodj/helm-docs)
 - [ ] Title of the pull request follows [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
 
