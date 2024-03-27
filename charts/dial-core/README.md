@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -138,8 +138,8 @@ helm install my-release dial/dial-core -f values.yaml
 | logger.image.digest | string | `""` | Image digest for logger component in the way sha256:aa.... |
 | logger.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy for logger component ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images |
 | logger.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |
-| logger.image.registry | string | `"timberio"` | Image registry for logger component |
-| logger.image.repository | string | `"vector"` | Image repository for logger component |
+| logger.image.registry | string | `"docker.io"` | Image registry for logger component |
+| logger.image.repository | string | `"timberio/vector"` | Image repository for logger component |
 | logger.image.tag | string | `"0.33.0-alpine"` | Image tag for logger component |
 | logger.resources | object | `{}` |  |
 | logger.secrets | object | `{}` |  |

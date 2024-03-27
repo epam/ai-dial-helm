@@ -401,9 +401,9 @@ logger:
   enabled: false
   image:
     # -- Image registry for logger component
-    registry: "timberio"
+    registry: docker.io
     # -- Image repository for logger component
-    repository: vector
+    repository: timberio/vector
     # -- Image tag for logger component
     tag: 0.33.0-alpine
     # -- Image digest for logger component in the way sha256:aa....
