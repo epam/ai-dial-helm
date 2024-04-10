@@ -1,6 +1,6 @@
 # dial
 
-![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 1.7.0](https://img.shields.io/badge/AppVersion-1.7.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -94,13 +94,13 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.7.0"` |  |
+| bedrock.image.tag | string | `"0.8.0"` |  |
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.8.0"` |  |
+| chat.image.tag | string | `"0.9.0"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.8.1"` |  |
 | extraDeploy | list | `[]` |  |
@@ -121,7 +121,7 @@ helm install my-release dial/dial -f values.yaml
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
-| themes.image.tag | string | `"0.3.0"` |  |
+| themes.image.tag | string | `"0.4.0"` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
