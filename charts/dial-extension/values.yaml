@@ -117,25 +117,25 @@ pdb:
   create: false
 
 ### Autoscaling configuration ###
-# ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 autoscaling:
   hpa:
+    # -- Enable HPA
+    # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    enabled: false
     # -- Annotations for HPA resource
     annotations: {}
-    # -- Enable autoscaling for dial-extension
-    enabled: false
-    # -- Min replicas
-    minReplicas: 1
-    # -- Max replicas
-    maxReplicas: 3
-    # -- Target CPU utilization percentage
-    targetCPUUtilizationPercentage: 75
-    # -- Target Memory utilization percentage
-    targetMemoryUtilizationPercentage: ""
-    # -- HPA Custom rules
-    customRules: []
     # -- HPA Behavior
     behavior: {}
+    # -- Minimum number of replicas
+    minReplicas: 1
+    # -- Maximum number of replicas
+    maxReplicas: 3
+    # -- Target CPU utilization percentage
+    targetCPU: 80
+    # -- Target Memory utilization percentage
+    targetMemory: null
+    # -- HPA Custom rules
+    customRules: []
 
 # -- Affinity for dial-extension pods assignment
 affinity: {}
