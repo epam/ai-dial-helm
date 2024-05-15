@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -77,7 +77,14 @@ helm install my-release dial/dial-extension -f values.yaml
 | affinity | object | `{}` | Affinity for dial-extension pods assignment |
 | annotations | object | `{}` | Annotations to add to dial-extension deployed objects |
 | args | list | `[]` | Override default dial-extension args (useful when using custom images) |
-| autoscaling.enabled | bool | `false` | Enable autoscaling for dial-extension |
+| autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
+| autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
+| autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
+| autoscaling.hpa.enabled | bool | `false` | Enable autoscaling for dial-extension |
+| autoscaling.hpa.maxReplicas | int | `3` | Max replicas |
+| autoscaling.hpa.minReplicas | int | `1` | Min replicas |
+| autoscaling.hpa.targetCPUUtilizationPercentage | int | `75` | Target CPU utilization percentage |
+| autoscaling.hpa.targetMemoryUtilizationPercentage | string | `""` | Target Memory utilization percentage |
 | command | list | `[]` | Override default dial-extension command (useful when using custom images) |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
