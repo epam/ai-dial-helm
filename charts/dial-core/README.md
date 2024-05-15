@@ -81,11 +81,11 @@ helm install my-release dial/dial-core -f values.yaml
 | autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
 | autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
 | autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
-| autoscaling.hpa.enabled | bool | `false` | Enable autoscaling for dial-extension |
-| autoscaling.hpa.maxReplicas | int | `3` | Max replicas |
-| autoscaling.hpa.minReplicas | int | `1` | Min replicas |
-| autoscaling.hpa.targetCPUUtilizationPercentage | int | `75` | Target CPU utilization percentage |
-| autoscaling.hpa.targetMemoryUtilizationPercentage | string | `""` | Target Memory utilization percentage |
+| autoscaling.hpa.enabled | bool | `false` | Enable HPA ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ |
+| autoscaling.hpa.maxReplicas | int | `3` | Maximum number of replicas |
+| autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas |
+| autoscaling.hpa.targetCPU | int | `80` | Target CPU utilization percentage |
+| autoscaling.hpa.targetMemory | string | `nil` | Target Memory utilization percentage |
 | command | list | `[]` | Override default dial-core command (useful when using custom images) |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
