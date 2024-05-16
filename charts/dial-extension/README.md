@@ -80,7 +80,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
 | autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
 | autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
-| autoscaling.hpa.enabled | bool | `true` | Enable HPA ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ |
+| autoscaling.hpa.enabled | bool | `false` | Enable HPA ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ |
 | autoscaling.hpa.maxReplicas | int | `3` | Maximum number of replicas |
 | autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas |
 | autoscaling.hpa.targetCPU | string | `""` | Target CPU utilization percentage |
