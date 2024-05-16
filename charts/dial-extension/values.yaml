@@ -131,9 +131,9 @@ autoscaling:
     # -- Maximum number of replicas
     maxReplicas: 3
     # -- Target CPU utilization percentage
-    targetCPU: 80
+    targetCPU: ""
     # -- Target Memory utilization percentage
-    targetMemory: null
+    targetMemory: ""
     # -- HPA Custom rules
     customRules: []
 
