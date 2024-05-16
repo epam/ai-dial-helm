@@ -20,7 +20,7 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.autoscaling.hpa.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   {{- if .Values.updateStrategy }}

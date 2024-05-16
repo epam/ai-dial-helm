@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.0.2](https://img.shields.io/badge/Version-2.0.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -78,7 +78,14 @@ helm install my-release dial/dial-core -f values.yaml
 | affinity | object | `{}` | Affinity for dial-core pods assignment |
 | annotations | object | `{}` | Annotations to add to dial-core deployed objects |
 | args | list | `[]` | Override default dial-core args (useful when using custom images) |
-| autoscaling.enabled | bool | `false` | Enable autoscaling for dial-core |
+| autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
+| autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
+| autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
+| autoscaling.hpa.enabled | bool | `false` | Enable HPA ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ |
+| autoscaling.hpa.maxReplicas | int | `3` | Maximum number of replicas |
+| autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas |
+| autoscaling.hpa.targetCPU | string | `""` | Target CPU utilization percentage |
+| autoscaling.hpa.targetMemory | string | `""` | Target Memory utilization percentage |
 | command | list | `[]` | Override default dial-core command (useful when using custom images) |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
