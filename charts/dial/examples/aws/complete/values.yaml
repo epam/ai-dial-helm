@@ -1,0 +1,251 @@
+core:
+  enabled: true
+  serviceAccount:
+    create: true
+    # -- You can use a aidial.storage.identity/aidial.storage.credential in the environment variable instead.
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  configuration:
+    encryption:
+      password: "%%CORE_ENCRYPT_PASSWORD%%"
+      salt: "%%CORE_ENCRYPT_SALT%%"
+  env:
+    aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.storage.provider: "aws-s3"
+    aidial.storage.bucket: "%%AWS_CORE_S3_BUCKET_NAME%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
+
+    aidial.identityProviders.cognito.jwksUrl: "https://cognito-idp.%%AWS_COGNITO_REGION%%.amazonaws.com/%%AWS_COGNITO_ID%%/.well-known/jwks.json"
+    aidial.identityProviders.cognito.rolePath: "roles"
+    aidial.identityProviders.cognito.issuerPattern: '^https:\/\/cognito-idp\.%%AWS_COGNITO_REGION%%\.amazonaws\.com.+$'
+    aidial.identityProviders.cognito.loggingKey: "email"
+    aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
+
+  secrets:
+    aidial.config.json: |
+      {
+          "models": {
+              "gpt-4": {
+                  "type": "chat",
+                  "displayName": "GPT-4",
+                  "iconUrl": "https://themes.%%DOMAIN%%//gpt4.svg",
+                  "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
+                  "upstreams": [
+                      {
+                          "endpoint": "http://AZURE_DEPLOYMENT_HOST/openai/deployments/gpt-4/chat/completions"
+                      }
+                  ]
+              },
+              "chat-bison": {
+                  "type": "chat",
+                  "displayName": "PaLM2",
+                  "iconUrl": "https://themes.%%DOMAIN%%/palm2.svg",
+                  "endpoint": "http://dial-vertex.%%NAMESPACE%%.svc.cluster.local/openai/deployments/chat-bison-32k@002/chat/completions"
+              },
+              "anthropic.claude-v1": {
+                  "type": "chat",
+                  "displayName": "Anthropic (Claude)",
+                  "iconUrl": "https://themes.%%DOMAIN%%/anthropic.svg",
+                  "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+              }
+          },
+          "roles": {
+              "default": {
+                  "limits": {
+                      "gpt-4": {},
+                      "chat-bison": {},
+                      "anthropic.claude-v1": {}
+                  }
+              }
+          }
+      }
+
+  extraVolumes:
+    - name: config
+      secret:
+        secretName: '{{ template "dialCore.names.fullname" . }}'
+        items:
+          - key: aidial.config.json
+            path: aidial.config.json
+
+    - name: secrets
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: dial-core-secret
+
+  extraVolumeMounts:
+    - name: config
+      mountPath: "/mnt/secrets-store/aidial.config.json"
+      subPath: aidial.config.json
+      readOnly: true
+    - name: secrets
+      readOnly: true
+      mountPath: /mnt/secrets-store
+
+  extraDeploy:
+    - apiVersion: secrets-store.csi.x-k8s.io/v1
+      kind: SecretProviderClass
+      metadata:
+        name: dial-core-secret
+      spec:
+        provider: aws
+        parameters:
+          objects: |
+            - objectName: %%DIAL_CORE_SECRET%%
+              objectType: "secretsmanager"
+
+  redis:
+    enabled: false
+
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /health
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - dial.%%DOMAIN%%
+
+chat:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    # -- List of DIAL chat features to enable;
+    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL chat should be applied
+    THEMES_CONFIG_HOST: "https://themes.%%DOMAIN%%"
+
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    # -- API key defined in core configuration
+    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+    AUTH_COGNITO_CLIENT_ID: "%%AUTH_COGNITO_CLIENT_ID%%"
+    AUTH_COGNITO_HOST: "%%AUTH_COGNITO_HOST%%"
+    AUTH_COGNITO_NAME: "%%AUTH_COGNITO_NAME%%"
+    AUTH_COGNITO_SECRET: "%%AUTH_COGNITO_SECRET%%"
+
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /api/health
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - chat.%%DOMAIN%%
+
+themes:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /health
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - themes.%%DOMAIN%%
+
+bedrock:
+  enabled: true
+
+  serviceAccount:
+    create: true
+    # -- You can use a AWS_ACCESS_KEY/AWS_SECRET_KEY in the environment variable instead.
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
+
+
+vertexai:
+  enabled: true
+
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential.json"
+    DEFAULT_REGION: "us-central1"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: gcp-cred
+      data:
+        credential.json: |
+          %%GCP_WORKLOAD_IDENTITY_CREDS%%
+
+  extraVolumes:
+    - name: token
+      projected:
+        sources:
+          - serviceAccountToken:
+              audience: "%%GCP_SERVICE_ACCOUNT_AUDIENCE%%"
+              expirationSeconds: 3600
+              path: token
+    - name: workload-identity-credential-configuration
+      configMap:
+        name: gcp-cred
+
+  extraVolumeMounts:
+    - name: token
+      mountPath: "/var/run/service-account"
+      readOnly: true
+    - name: workload-identity-credential-configuration
+      mountPath: "/etc/workload-identity"
+      readOnly: true
+
+openai:
+  enabled: true
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  serviceAccount:
+    enabled: true
+    name: dial-openai
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
