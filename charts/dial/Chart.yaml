@@ -65,4 +65,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 2.3.1
+version: 2.4.0
