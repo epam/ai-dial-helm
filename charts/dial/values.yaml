@@ -39,7 +39,7 @@ authhelper:
     app.kubernetes.io/component: "authentication"
   image:
     repository: epam/ai-dial-auth-helper
-    tag: 0.2.0
+    tag: 0.3.0
   containerPorts:
     http: 4088
   # env:
@@ -53,7 +53,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.9.0
+    tag: 0.10.0
 
 ### ai-dial-chat configuration ###
 chat:
@@ -63,7 +63,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.10.0
+    tag: 0.11.0
   containerPorts:
     http: 3000
 
@@ -106,7 +106,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.10.0
+    tag: 0.11.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -124,7 +124,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.6.0
+    tag: 0.7.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
 
