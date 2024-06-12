@@ -25,7 +25,7 @@ This chart can be used as an _umbrella_ chart to deploy several AI DIAL componen
 Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
-|------------|------|---------|
+|------------|------|:---------:|
 | https://charts.bitnami.com/bitnami | common | 2.14.1 |
 | https://charts.bitnami.com/bitnami | keycloak | 16.1.7 |
 | https://charts.epam-rail.com | core(dial-core) | 2.0.2 |
@@ -100,9 +100,22 @@ In the table below, you can find the list of parameters used in the defaut [valu
 > To configure each component, refer to relevant repositories for configuration details. For your reference, you can use the [configuration example](./dial/examples/generic/simple/values.yaml). You can find the list of repositories of the components in the first section of this document.
 
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+|-----|:------:|---------|-------------|
+| keycloak.enabled | bool | `false` | Enable/disable keycloak |
+| keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
+| keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz,declarative-user-profile"` |  |
+| keycloak.keycloakConfigCli.enabled | bool | `true` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
+| keycloak.postgresql.enabled | bool | `true` |  |
+| keycloak.proxy | string | `"edge"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.10.0"` |  |
+| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
+| authhelper.containerPorts.http | int | `4088` |  |
+| authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
+| authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
+| authhelper.image.tag | string | `"0.3.0"` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
@@ -115,23 +128,6 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
 | themes.image.tag | string | `"0.4.0"` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
-| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
-| assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
-| assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
-| assistant.image.tag | string | `"0.7.0"` |  |
-| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
-| authhelper.containerPorts.http | int | `4088` |  |
-| authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
-| authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
-| authhelper.image.tag | string | `"0.3.0"` |  |
-| keycloak.enabled | bool | `false` | Enable/disable keycloak |
-| keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
-| keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz,declarative-user-profile"` |  |
-| keycloak.keycloakConfigCli.enabled | bool | `true` |  |
-| keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
-| keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
-| keycloak.postgresql.enabled | bool | `true` |  |
-| keycloak.proxy | string | `"edge"` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
@@ -145,4 +141,8 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.7.0"` |  |
+| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
+| assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
+| assistant.image.tag | string | `"0.7.0"` |  |
 | extraDeploy | list | `[]` |  |
