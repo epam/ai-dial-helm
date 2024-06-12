@@ -109,7 +109,7 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
-| core.enabled | bool | `true` | Enable/disable ai-dial-core |
+| core.enabled | bool | `true` | Enable/disable ai-dial-core<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
 | core.image.tag | string | `"0.10.0"` |  |
 | authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
 | authhelper.containerPorts.http | int | `4088` |  |
