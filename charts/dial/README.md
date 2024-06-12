@@ -111,18 +111,18 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
 | core.enabled | bool | `true` | Use this flag to enable/disable ai-dial-core<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
-| core.image.tag | string | `"0.10.0"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
+| core.image.tag | string | `"0.10.0"` | |
 | authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` | Refer to  [AI DIAL Auth Helper](https://github.com/epam/ai-dial-auth-helper) to view configuration guidelines. |
 | authhelper.containerPorts.http | int | `4088` |  |
 | authhelper.enabled | bool | `false` | Use this flag to enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
 | authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
 | authhelper.image.tag | string | `"0.3.0"` |  |
-| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-chat) to view configuration guidelines. |
+| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` | Refer to [AI DIAL Chat](https://github.com/epam/ai-dial-chat) to view configuration guidelines. |
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Use this flag to enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.11.0"` |  |
-| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-chat-themes) to view configuration guidelines. |
+| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` | Refer to [AI DIAL Chat Themes](https://github.com/epam/ai-dial-chat-themes) to view configuration guidelines. |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Use this flag to enable/disable ai-dial-chat-themes |
