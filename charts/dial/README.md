@@ -14,6 +14,7 @@ This chart can be used as an _umbrella_ chart to deploy several AI DIAL componen
   * [Bedrock](https://github.com/epam/ai-dial-adapter-bedrock)
   * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
+> You can also view them in [chart.yaml](./chart.yaml)
 ## Prerequisites
 
 - Helm 3.8.0+
