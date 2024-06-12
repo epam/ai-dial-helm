@@ -2,7 +2,17 @@
 
 ![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![AppVersion: 1.9.0](https://img.shields.io/badge/AppVersion-1.9.0-informational?style=flat-square)
 
-Umbrella chart for DIAL solution
+This chart can be used as an _umbrella_ chart to deploy several AI DIAL components in one package.
+
+* [Core](https://github.com/epam/ai-dial-core)
+* [Chat](https://github.com/epam/ai-dial-chat)
+* [Chat Themes](https://github.com/epam/ai-dial-chat-themes)
+* [Assistant](https://github.com/epam/ai-dial-assistant)
+* [Auth Helper](https://github.com/epam/ai-dial-auth-helper)
+* Adapters
+  * [OpenAI](https://github.com/epam/ai-dial-adapter-openai)
+  * [Bedrock](https://github.com/epam/ai-dial-adapter-bedrock)
+  * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
 ## Prerequisites
 
@@ -57,6 +67,8 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ## Parameters
 
+There are two ways to specify configuration parameters: as arguments passed with the `helm install` command or using a values.yaml file. 
+
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
@@ -65,20 +77,27 @@ helm install my-release dial/dial --set chat.image.tag=latest
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
 
+1. Create a values.yaml file with the necessary configuration paramaters:
+   
 ```yaml
 # values.yaml file content
 chat:
   image:
     tag: latest
 ```
-
+2. Use your values.yaml file as a source of configuration parameters when deploying a Helm chart:
+    
 ```console
 helm install my-release dial/dial -f values.yaml
 ```
 
-**NOTE**: You can use the default [values.yaml](values.yaml)
+## Configuring Values
 
-## Values
+> **NOTE**: You can use the default [values.yaml](values.yaml) file as a template. It includes all the components you can deploy using this chart with their minimal configurations.  
+
+In the table below, you can find the list of parameters used in the defaut [values.yaml](values.yaml) file.
+
+> To configure each component, refer to relevant repositories for configuration details. For your reference, you can use the [configuration example](./dial/examples/generic/simple/values.yaml). You can find the list of repositories of the components in the first section of this document.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
