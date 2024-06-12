@@ -109,39 +109,39 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
-| core.enabled | bool | `true` | Enable/disable ai-dial-core<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
-| core.image.tag | string | `"0.10.0"` |  |
-| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
+| core.enabled | bool | `true` | Use this flag to enable/disable ai-dial-core<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
+| core.image.tag | string | `"0.10.0"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) to view configuration guidelines. |
+| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` | Refer to  [AI DIAL Auth Helper](https://github.com/epam/ai-dial-auth-helper) to view configuration guidelines. |
 | authhelper.containerPorts.http | int | `4088` |  |
 | authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
 | authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
 | authhelper.image.tag | string | `"0.3.0"` |  |
-| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-chat) to view configuration guidelines. |
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.11.0"` |  |
-| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
+| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` | Refer to [AI DIAL Core](https://github.com/epam/ai-dial-chat-themes) to view configuration guidelines. |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
 | themes.image.tag | string | `"0.4.0"` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
-| openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |Refer to [AI DIAL Adapter OpenAI](https://github.com/epam/ai-dial-adapter-openai) to view configuration guidelines.  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.11.0"` |  |
-| bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` | Refer to [AI DIAL Adapter Bedrock](https://github.com/epam/ai-dial-adapter-bedrock) to view configuration guidelines. |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
 | bedrock.image.tag | string | `"0.11.0"` |  |
 | bedrock.secrets | object | `{}` |  |
-| vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` | Refer to [AI DIAL Adapter Vertex](https://github.com/epam/ai-dial-adapter-vertexai) to view configuration guidelines. |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.7.0"` |  |
-| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |Refer to [AI DIAL Assistant](https://github.com/epam/ai-dial-assistant) to view configuration guidelines.   |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
 | assistant.image.tag | string | `"0.7.0"` |  |
