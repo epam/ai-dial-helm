@@ -14,7 +14,7 @@ This chart can be used as an _umbrella_ chart to deploy several AI DIAL componen
   * [Bedrock](https://github.com/epam/ai-dial-adapter-bedrock)
   * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
-> You can also view them in [chart.yaml](./chart.yaml)
+> You can also view them in [chart.yaml](./Chart.yaml)
 ## Prerequisites
 
 - Helm 3.8.0+
@@ -98,7 +98,7 @@ helm install my-release dial/dial -f values.yaml
 
 In the table below, you can find the list of parameters used in the defaut [values.yaml](values.yaml) file.
 
-> To configure each component, refer to relevant repositories for configuration details. For your reference, you can use the [configuration example](./dial/examples/generic/simple/values.yaml). You can find the list of repositories of the components in the first section of this document.
+> To configure each component, refer to relevant repositories for configuration details. For your reference, you can use the [configuration example](./examples/generic/simple/values.yaml). You can find the list of repositories of the components in the first section of this document.
 
 | Key | Type | Default | Description |
 |-----|:------:|---------|-------------|
