@@ -101,6 +101,20 @@ In the table below, you can find the list of parameters used in the defaut [valu
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| core.enabled | bool | `true` | Enable/disable ai-dial-core |
+| core.image.tag | string | `"0.10.0"` |  |
+| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| chat.containerPorts.http | int | `3000` |  |
+| chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
+| chat.image.repository | string | `"epam/ai-dial-chat"` |  |
+| chat.image.tag | string | `"0.11.0"` |  |
+| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
+| themes.containerPorts.http | int | `8080` |  |
+| themes.containerSecurityContext.runAsUser | int | `101` |  |
+| themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
+| themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
+| themes.image.tag | string | `"0.4.0"` |  |
+| themes.podSecurityContext.fsGroup | int | `101` |  |
 | assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
@@ -110,19 +124,6 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
 | authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
 | authhelper.image.tag | string | `"0.3.0"` |  |
-| bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
-| bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.11.0"` |  |
-| bedrock.secrets | object | `{}` |  |
-| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
-| chat.containerPorts.http | int | `3000` |  |
-| chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
-| chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.11.0"` |  |
-| core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.10.0"` |  |
-| extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz,declarative-user-profile"` |  |
@@ -135,14 +136,13 @@ In the table below, you can find the list of parameters used in the defaut [valu
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.11.0"` |  |
-| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
-| themes.containerPorts.http | int | `8080` |  |
-| themes.containerSecurityContext.runAsUser | int | `101` |  |
-| themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
-| themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
-| themes.image.tag | string | `"0.4.0"` |  |
-| themes.podSecurityContext.fsGroup | int | `101` |  |
+| bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
+| bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
+| bedrock.image.tag | string | `"0.11.0"` |  |
+| bedrock.secrets | object | `{}` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.7.0"` |  |
+| extraDeploy | list | `[]` |  |
