@@ -22,9 +22,31 @@
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-3.5 API.\
+**Important Warning**
+
+Please note that this guide **does not use a persistent disk** for data storage.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
 Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
+
+**Scope**
+
+By following the instructions in this guide, you will install the AI DIAL system on AKS with the selcted minimal configurations (defined in the [values.yaml](values.yaml) file) of the following components: AI DIAL Core, AI DIAL Chat, AI DIAL Chat Themes and a connection to the Azure GPT-3.5 API.
+
+## What's next?
+
+Having installed the system with minimal settings and a limited scope of features, you can go further and learn how to create a custom [Configuration](https://docs.epam-rail.com/Deployment/configuration) and add more components.
+
+Refer to a repository of each component to view a full set of configuration parameters and guidelines:
+
+* [Core](https://github.com/epam/ai-dial-core)
+* [Chat](https://github.com/epam/ai-dial-chat)
+* [Chat Themes](https://github.com/epam/ai-dial-chat-themes)
+* [Assistant](https://github.com/epam/ai-dial-assistant)
+* [Auth Helper](https://github.com/epam/ai-dial-auth-helper)
+* Adapters
+  * [OpenAI](https://github.com/epam/ai-dial-adapter-openai)
+  * [Bedrock](https://github.com/epam/ai-dial-adapter-bedrock)
+  * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
 ## Install
 
@@ -130,7 +152,3 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ```console
     namespace "dial" deleted
     ```
-
-## What's next?
-
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
