@@ -66,12 +66,8 @@ core:
     ingressClassName: alb
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/target-type: ip    
       alb.ingress.kubernetes.io/healthcheck-path: /health
-      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
@@ -105,12 +101,8 @@ chat:
     ingressClassName: alb
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/target-type: ip  
       alb.ingress.kubernetes.io/healthcheck-path: /api/health
-      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
@@ -128,11 +120,7 @@ themes:
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/backend-protocol: HTTP
       alb.ingress.kubernetes.io/healthcheck-path: /health
-      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
