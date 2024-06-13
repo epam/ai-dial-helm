@@ -3,9 +3,10 @@
 - [AI DIAL Generic Installation Simple Guide](#ai-dial-generic-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
+  - [What's next?](#whats-next)
   - [Install](#install)
   - [Uninstall](#uninstall)
-  - [What's next?](#whats-next)
+  
 
 ## Prerequisites
 
