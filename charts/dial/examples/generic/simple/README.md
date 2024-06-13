@@ -31,6 +31,8 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 By following the instructions in this guide, you will install the AI DIAL system with the selcted minimal configurations (defined in the [values.yaml](values.yaml) file) of the following components: AI DIAL Core, AI DIAL Chat, AI DIAL Chat Themes and a connection to the Azure GPT-3.5 API.
 
+![](./img/generic-simple-schema.png)
+
 ## What's next?
 
 Having installed the system with minimal settings and a limited scope of features, you can go further and learn how to create a custom [Configuration](https://docs.epam-rail.com/Deployment/configuration) and add more components.
