@@ -2,7 +2,7 @@
 
 ![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![AppVersion: 1.9.0](https://img.shields.io/badge/AppVersion-1.9.0-informational?style=flat-square)
 
-This chart can be used as an _umbrella_ chart to deploy several AI DIAL components in one package.
+This chart can be used as an _umbrella_ chart to deploy several AI DIAL components in one package:
 
 * [Core](https://github.com/epam/ai-dial-core)
 * [Chat](https://github.com/epam/ai-dial-chat)
