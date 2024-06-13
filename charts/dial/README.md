@@ -115,7 +115,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
-| openai.image.tag | string | `"0.11.0"` |  |
+| openai.image.tag | string | `"0.12.0"` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
@@ -126,4 +126,4 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
-| vertexai.image.tag | string | `"0.7.0"` |  |
+| vertexai.image.tag | string | `"0.8.0"` |  |

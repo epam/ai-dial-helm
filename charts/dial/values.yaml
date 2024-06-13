@@ -91,7 +91,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.11.0
+    tag: 0.12.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -121,7 +121,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.7.0
+    tag: 0.8.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
 
