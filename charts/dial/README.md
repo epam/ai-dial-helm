@@ -15,6 +15,7 @@ This chart can be used as an _umbrella_ chart to deploy several AI DIAL componen
   * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
 > You can also view them in [chart.yaml](./Chart.yaml)
+
 ## Prerequisites
 
 - Helm 3.8.0+
@@ -48,11 +49,6 @@ helm install --name my-release dial/dial
 ```
 
 The command deploys AI DIAL on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
-
-## Examples
-
-Due to flexibility of the system, it's impossible to define default values for all parameters and cover all use cases.\
-However, we provide a set of [examples](examples) that can be used as a good starting point for your own configuration.
 
 ## Uninstalling the Chart
 
@@ -95,6 +91,9 @@ helm install my-release dial/dial -f values.yaml
 ## Configuring Values
 
 > **NOTE**: You can use the default [values.yaml](values.yaml) file as a template. It includes all the components you can deploy using this chart with their minimal configurations.  
+
+> **Examples**: due to flexibility of the system, it's impossible to define default values for all parameters and cover all use cases.\
+However, we provide a set of [examples](examples) that can be used as a good starting point for your own configuration.
 
 In the table below, you can find the list of parameters used in the defaut [values.yaml](values.yaml) file.
 
