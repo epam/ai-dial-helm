@@ -4,7 +4,7 @@
 
 Using this Helm chart, you can deploy AI DIAL Core.
 
-> Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) repository to learn about it.
+> Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core) repository to learn about it./
 > Refer to [AI DIAL Documentation](https://docs.epam-rail.com/architecture#ai-dial-core) to learn more about its components and features.
 
 ## Prerequisites
