@@ -92,12 +92,12 @@ helm install my-release dial/dial -f values.yaml
 
 > **NOTE**: You can use the default [values.yaml](values.yaml) file as a template. It includes all the components you can deploy using this chart with their minimal configurations.  
 
+To configure each component, refer to relevant repositories for configuration details. You can find the list of repositories of the components in the first section of this document.
+
 > **Examples**: due to flexibility of the system, it's impossible to define default values for all parameters and cover all use cases.\
 However, we provide a set of [examples](examples) that can be used as a good starting point for your own configuration.
 
 In the table below, you can find the list of parameters used in the defaut [values.yaml](values.yaml) file.
-
-> To configure each component, refer to relevant repositories for configuration details. For your reference, you can use the [configuration example](./examples/generic/simple/values.yaml). You can find the list of repositories of the components in the first section of this document.
 
 | Key | Type | Default | Description |
 |-----|:------:|---------|-------------|
