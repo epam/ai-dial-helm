@@ -5,47 +5,63 @@ core:
     # -- You can use a aidial.storage.identity/aidial.storage.credential in the environment variable instead.
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
-  podAnnotations:
-    # -- Annotation hack to restart core pod after each Helm chart upgrade
-    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
   configuration:
     encryption:
       password: "%%CORE_ENCRYPT_PASSWORD%%"
-      salt: "%CORE_ENCRYPT_SALT%"
+      salt: "%%CORE_ENCRYPT_SALT%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
     aidial.storage.provider: "aws-s3"
     aidial.storage.bucket: "%%AWS_CORE_S3_BUCKET_NAME%%"
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.redis.clusterServersConfig.nodeAddresses: "%%AWS_ELASTICACHE_ENDPOINT%%"
+    aidial.identityProviders.cognito.jwksUrl: "https://cognito-idp.%%AWS_COGNITO_REGION%%.amazonaws.com/%%AWS_COGNITO_ID%%/.well-known/jwks.json"
+    aidial.identityProviders.cognito.rolePath: "cognito:groups"
+    aidial.identityProviders.cognito.issuerPattern: '^https:\/\/cognito-idp\.%%AWS_COGNITO_REGION%%\.amazonaws\.com.+$'
+    aidial.identityProviders.cognito.loggingKey: "sub"
+
   secrets:
+    aidial.redis.clusterServersConfig.password: "%%AWS_ELASTICACHE_PASSWORD%%"
+    aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
-        "models": {
-          "anthropic.claude-v1": {
-            "type": "chat",
-            "displayName": "Anthropic (Claude)",
-            "iconUrl": "https://themes.%%DOMAIN%%/anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+          "models": {
+              "gpt-4": {
+                  "type": "chat",
+                  "displayName": "GPT-4",
+                  "iconUrl": "https://themes.%%DOMAIN%%//gpt4.svg",
+                  "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
+                  "upstreams": [
+                      {
+                          "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
+                      }
+                  ]
+              },
+              "chat-bison": {
+                  "type": "chat",
+                  "displayName": "PaLM2",
+                  "iconUrl": "https://themes.%%DOMAIN%%/palm2.svg",
+                  "endpoint": "http://dial-vertex.%%NAMESPACE%%.svc.cluster.local/openai/deployments/chat-bison-32k@002/chat/completions"
+              },
+              "anthropic.claude-v1": {
+                  "type": "chat",
+                  "displayName": "Anthropic (Claude)",
+                  "iconUrl": "https://themes.%%DOMAIN%%/anthropic.svg",
+                  "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+              }
+          },
+          "roles": {
+              "default": {
+                  "limits": {
+                      "gpt-4": {},
+                      "chat-bison": {},
+                      "anthropic.claude-v1": {}
+                  }
+              }
           }
-        },
-        "keys": {
-          "%%DIAL_API_KEY%%": {
-            "role": "chat",
-            "project": "example"
-          }
-        },
-        "roles": {
-          "chat": {
-            "limits": {
-              "anthropic.claude-v1": {}
-            }
-          }
-        }
       }
+
   extraVolumes:
     - name: config
       secret:
@@ -53,20 +69,44 @@ core:
         items:
           - key: aidial.config.json
             path: aidial.config.json
+
+    - name: secrets
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: dial-core-secret
+
   extraVolumeMounts:
     - name: config
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
+    - name: secrets
+      readOnly: true
+      mountPath: /mnt/secrets-store
+
+  extraDeploy:
+    - apiVersion: secrets-store.csi.x-k8s.io/v1
+      kind: SecretProviderClass
+      metadata:
+        name: dial-core-secret
+      spec:
+        provider: aws
+        parameters:
+          objects: |
+            - objectName: %%AMS_SSPS_DIAL_CORE_SECRET%%
+              objectType: "secretsmanager"
+
   redis:
-    enabled: true
-    password: "%%REDIS_PASSWORD%%"
+    enabled: false
+
   ingress:
     enabled: true
     ingressClassName: alb
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip    
+      alb.ingress.kubernetes.io/target-type: ip
       alb.ingress.kubernetes.io/healthcheck-path: /health
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
@@ -92,16 +132,21 @@ chat:
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "https://themes.%%DOMAIN%%"
+
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     # -- API key defined in core configuration
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
+    AUTH_COGNITO_CLIENT_ID: "%%AUTH_COGNITO_CLIENT_ID%%"
+    AUTH_COGNITO_HOST: "%%AUTH_COGNITO_HOST%%"
+    AUTH_COGNITO_SECRET: "%%AUTH_COGNITO_SECRET%%"
+
   ingress:
     enabled: true
     ingressClassName: alb
     annotations:
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip  
+      alb.ingress.kubernetes.io/target-type: ip
       alb.ingress.kubernetes.io/healthcheck-path: /api/health
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
@@ -133,12 +178,65 @@ themes:
 bedrock:
   enabled: true
 
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+
   serviceAccount:
     create: true
     # -- You can use a AWS_ACCESS_KEY/AWS_SECRET_KEY in the environment variable instead.
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
 
+
+vertexai:
+  enabled: true
+
   env:
-    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
+    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential.json"
+    DEFAULT_REGION: "us-central1"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: gcp-cred
+      data:
+        credential.json: |
+          %%GCP_WORKLOAD_IDENTITY_CREDS%%
+
+  extraVolumes:
+    - name: token
+      projected:
+        sources:
+          - serviceAccountToken:
+              audience: "%%GCP_SERVICE_ACCOUNT_AUDIENCE%%"
+              expirationSeconds: 3600
+              path: token
+    - name: workload-identity-credential-configuration
+      configMap:
+        name: gcp-cred
+
+  extraVolumeMounts:
+    - name: token
+      mountPath: "/var/run/service-account"
+      readOnly: true
+    - name: workload-identity-credential-configuration
+      mountPath: "/etc/workload-identity"
+      readOnly: true
+
+openai:
+  enabled: true
+
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  serviceAccount:
+    enabled: true
+    name: dial-openai
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
