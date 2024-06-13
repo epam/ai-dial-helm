@@ -16,6 +16,8 @@ This chart can be used as an _umbrella_ chart to deploy several AI DIAL componen
 
 > You can also view them in [chart.yaml](./Chart.yaml)
 
+![](./img/dial-chart-schema.png)
+
 ## Prerequisites
 
 - Helm 3.8.0+
