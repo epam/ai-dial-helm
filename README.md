@@ -13,6 +13,8 @@ In this repository, you can find the documentation for the following charts:
  * [dial-extension](./charts/dial-extension) - you can use this chart to deploy various [AI DIAL components](https://github.com/search?q=org%3Aepam++DIAL&type=repositories) separately.
  * [dial](./charts/dial) - use this chart to deploy various [AI DIAL components](https://github.com/search?q=org%3Aepam++DIAL&type=repositories) at once.
 
+> Refer to [AI DIAL Architecture](https://docs.epam-rail.com/architecture) to learn more about it.
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts. Please refer to Helm's [documentation](https://helm.sh/docs) to get started.
