@@ -68,15 +68,13 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AWS_COGNITO_REGION%%` - aws region where resides Cognito pool e.g. `us-east-1`
     - Replace `%%AWS_COGNITO_ID%%` with AWS Cognito pool id e.g. `us-east-1_AbcD0efGh`
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint [link](https://docs.epam-rail.com/tutorials/quick-start-model#step-2-configuration)
-    - Replace `%%DIAL_CORE_SECRET%%` with DIAL core secrets !!!!!!!!!!!!!!!!
-    - Replace `%%CERTIFICATE_ARN%%` with associated ACM certificate arn e.g. `arn:aws:acm:us-east-1:123456789012:certificate/1234567a-b123-4567-8c9d-123456789012`
+    - Replace `%%AMS_SSPS_DIAL_CORE_SECRET%%` with DIAL core secrets in AWS Secrets Manager
+    - Replace `%%AWS_CERTIFICATE_ARN%%` with associated ACM certificate arn e.g. `arn:aws:acm:us-east-1:123456789012:certificate/1234567a-b123-4567-8c9d-123456789012`
+    - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
-    - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `%%COGNITO_ENDPOINT%%`/`%%AWS_COGNITO_ID%%` e.g. `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
-        * where %%COGNITO_ENDPOINT%% - endpoint of AWS Cognito [link](https://docs.aws.amazon.com/general/latest/gr/cognito_identity.html)
-    - Replace `%%AUTH_COGNITO_NAME%%` with Cognito client name e.g. `dial` [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AUTH_COGNITO_SECRET%%` with Cognito secret [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
-
-    ####################
+    - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCashe like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
+    - Replace `%%AWS_ELASTICACHE_PASSWORD%%` with AWS ElastiCashe password
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
@@ -98,7 +96,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     ```
 
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
-
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
@@ -109,7 +106,7 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
-    - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+    - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
 2. Install `dial` helm chart in created namespace, applying custom values file:
 

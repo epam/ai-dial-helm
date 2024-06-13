@@ -5,9 +5,6 @@ core:
     # -- You can use a aidial.storage.identity/aidial.storage.credential in the environment variable instead.
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
-  podAnnotations:
-    # -- Annotation hack to restart core pod after each Helm chart upgrade
-    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
   configuration:
     encryption:
       password: "%%CORE_ENCRYPT_PASSWORD%%"
@@ -18,14 +15,15 @@ core:
     aidial.storage.bucket: "%%AWS_CORE_S3_BUCKET_NAME%%"
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
-
+    aidial.redis.clusterServersConfig.nodeAddresses: "%%AWS_ELASTICACHE_ENDPOINT%%"
     aidial.identityProviders.cognito.jwksUrl: "https://cognito-idp.%%AWS_COGNITO_REGION%%.amazonaws.com/%%AWS_COGNITO_ID%%/.well-known/jwks.json"
-    aidial.identityProviders.cognito.rolePath: "roles"
+    aidial.identityProviders.cognito.rolePath: "cognito:groups"
     aidial.identityProviders.cognito.issuerPattern: '^https:\/\/cognito-idp\.%%AWS_COGNITO_REGION%%\.amazonaws\.com.+$'
-    aidial.identityProviders.cognito.loggingKey: "email"
-    aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
+    aidial.identityProviders.cognito.loggingKey: "sub"
 
   secrets:
+    aidial.redis.clusterServersConfig.password: "%%AWS_ELASTICACHE_PASSWORD%%"
+    aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
           "models": {
@@ -36,7 +34,7 @@ core:
                   "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
                   "upstreams": [
                       {
-                          "endpoint": "http://AZURE_DEPLOYMENT_HOST/openai/deployments/gpt-4/chat/completions"
+                          "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
                       }
                   ]
               },
@@ -97,7 +95,7 @@ core:
         provider: aws
         parameters:
           objects: |
-            - objectName: %%DIAL_CORE_SECRET%%
+            - objectName: %%AMS_SSPS_DIAL_CORE_SECRET%%
               objectType: "secretsmanager"
 
   redis:
@@ -118,7 +116,7 @@ core:
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
       alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
-      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
       alb.ingress.kubernetes.io/ssl-redirect: "443"
     hosts:
       - dial.%%DOMAIN%%
@@ -145,7 +143,6 @@ chat:
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
     AUTH_COGNITO_CLIENT_ID: "%%AUTH_COGNITO_CLIENT_ID%%"
     AUTH_COGNITO_HOST: "%%AUTH_COGNITO_HOST%%"
-    AUTH_COGNITO_NAME: "%%AUTH_COGNITO_NAME%%"
     AUTH_COGNITO_SECRET: "%%AUTH_COGNITO_SECRET%%"
 
   ingress:
@@ -163,7 +160,7 @@ chat:
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
       alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
-      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
       alb.ingress.kubernetes.io/ssl-redirect: "443"
     hosts:
       - chat.%%DOMAIN%%
@@ -185,13 +182,16 @@ themes:
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
       alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
-      alb.ingress.kubernetes.io/certificate-arn: "%%CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
       alb.ingress.kubernetes.io/ssl-redirect: "443"
     hosts:
       - themes.%%DOMAIN%%
 
 bedrock:
   enabled: true
+
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
 
   serviceAccount:
     create: true
@@ -240,6 +240,9 @@ vertexai:
 
 openai:
   enabled: true
+
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
 
   podLabels:
     azure.workload.identity/use: "true"
