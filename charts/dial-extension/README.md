@@ -35,7 +35,6 @@ To install the chart with the release name `my-release`:
 helm repo add dial https://charts.epam-rail.com
 helm install --name my-release dial/dial-extension
 ```
-
 The command deploys dial-extension on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
@@ -75,9 +74,9 @@ image:
 helm install my-release dial/dial-extension -f values.yaml
 ```
 
-**NOTE**: You can use the default [values.yaml](values.yaml)
+## Configuring Values
 
-## Values
+You can use the default [values.yaml](values.yaml) file as a starting point. The below table lists all the parameters that can be can be configured during installation.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
