@@ -3,9 +3,10 @@
 - [AI DIAL GCP Installation Simple Guide](#ai-dial-gcp-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
+  - [What's next?](#whats-next)
   - [Install](#install)
   - [Uninstall](#uninstall)
-  - [What's next?](#whats-next)
+  
 
 ## Prerequisites
 
@@ -44,8 +45,6 @@ Refer to a repository of each component to view a full set of configuration para
 * [Assistant](https://github.com/epam/ai-dial-assistant)
 * [Auth Helper](https://github.com/epam/ai-dial-auth-helper)
 * Adapters
-  * [OpenAI](https://github.com/epam/ai-dial-adapter-openai)
-  * [Bedrock](https://github.com/epam/ai-dial-adapter-bedrock)
   * [Vertex](https://github.com/epam/ai-dial-adapter-vertexai)
 
 ## Install
