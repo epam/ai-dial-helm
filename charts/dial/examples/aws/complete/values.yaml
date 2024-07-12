@@ -16,13 +16,17 @@ core:
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
     aidial.redis.clusterServersConfig.nodeAddresses: "%%AWS_ELASTICACHE_ENDPOINT%%"
+    aidial.redis.provider.name: aws-elasti-cache
+    aidial.redis.provider.userId: "%%AWS_ELASTICACHE_USER_ID%%"
+    aidial.redis.provider.region: "%%AWS_ELASTICACHE_REGION%%"
+    aidial.redis.provider.clusterName: "%%AWS_ELASTICACHE_CLUSTERNAME%%"
+    aidial.redis.provider.serverless: "%%AWS_ELASTICACHE_IS_SERVERLES%%"
     aidial.identityProviders.cognito.jwksUrl: "https://cognito-idp.%%AWS_COGNITO_REGION%%.amazonaws.com/%%AWS_COGNITO_ID%%/.well-known/jwks.json"
     aidial.identityProviders.cognito.rolePath: "cognito:groups"
     aidial.identityProviders.cognito.issuerPattern: '^https:\/\/cognito-idp\.%%AWS_COGNITO_REGION%%\.amazonaws\.com.+$'
     aidial.identityProviders.cognito.loggingKey: "sub"
 
   secrets:
-    aidial.redis.clusterServersConfig.password: "%%AWS_ELASTICACHE_PASSWORD%%"
     aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
@@ -186,7 +190,6 @@ bedrock:
     # -- You can use a AWS_ACCESS_KEY/AWS_SECRET_KEY in the environment variable instead.
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
-
 
 vertexai:
   enabled: true

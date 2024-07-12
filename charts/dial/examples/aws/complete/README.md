@@ -20,7 +20,7 @@
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Cognito](https://docs.epam-rail.com/Deployment/idp-configuration/cognito)
 - [Amazon Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/whats-in-a-secret.html)
-- [Amazon ElastiCache for Redis](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/WhatIs.html)
+- [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
   - [Vertex AI Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
@@ -74,7 +74,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AUTH_COGNITO_SECRET%%` with Cognito secret [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCashe like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
-    - Replace `%%AWS_ELASTICACHE_PASSWORD%%` with AWS ElastiCashe password
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
@@ -104,6 +103,10 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AWS_CORE_ROLE_ARN%%` with S3 AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
+    - Replace `%%AWS_ELASTICACHE_USER_ID%%` with AWS ElastiCache User ID configured in IAM authentication mode [prerequisites](#prerequisites)
+    - Replace `%%AWS_ELASTICACHE_REGION%%` with AWS ElastiCache region [prerequisites](#prerequisites)
+    - Replace `%%AWS_ELASTICACHE_CLUSTERNAME%%` with AWS ElastiCache cluster name [prerequisites](#prerequisites)
+    - Replace `%%AWS_ELASTICACHE_IS_SERVERLES%%` with AWS ElastiCache serverless flag [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
