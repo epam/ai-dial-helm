@@ -74,7 +74,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AUTH_COGNITO_SECRET%%` with Cognito secret [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCashe like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
-    - Replace `%%AWS_ELASTICACHE_PASSWORD%%` with AWS ElastiCashe password
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity

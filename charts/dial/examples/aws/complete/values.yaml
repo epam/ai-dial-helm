@@ -27,7 +27,6 @@ core:
     aidial.identityProviders.cognito.loggingKey: "sub"
 
   secrets:
-    aidial.redis.clusterServersConfig.password: "%%AWS_ELASTICACHE_PASSWORD%%"
     aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
