@@ -11,4 +11,4 @@ github-groups: true
 # Disable maintainer validation to allow custom URLs
 validate-maintainers: false
 # Increased timeout for heavy charts
-# helm-extra-args: --timeout 600s
+helm-extra-args: --timeout 600s
