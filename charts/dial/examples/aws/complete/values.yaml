@@ -191,7 +191,6 @@ bedrock:
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
 
-
 vertexai:
   enabled: true
 
