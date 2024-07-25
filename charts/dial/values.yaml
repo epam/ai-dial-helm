@@ -91,7 +91,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.13.3
+    tag: 0.13.1
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -104,7 +104,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.13.1
+    tag: 0.13.3
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets:
