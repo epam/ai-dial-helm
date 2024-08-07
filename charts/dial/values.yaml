@@ -54,7 +54,7 @@ core:
   enabled: true
   image:
     tag: 0.14.0
-  
+
   livenessProbe:
     enabled: true
     httpGet:
@@ -99,7 +99,7 @@ chat:
     tag: 0.15.0
   containerPorts:
     http: 3000
-  
+
   livenessProbe:
     enabled: true
     httpGet:
@@ -148,7 +148,7 @@ themes:
     fsGroup: 101
   containerSecurityContext:
     runAsUser: 101
-  
+
   livenessProbe:
     enabled: true
     httpGet:
