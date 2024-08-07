@@ -75,8 +75,8 @@ core:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+
   startupProbe:
     enabled: false
     httpGet:
@@ -120,8 +120,8 @@ chat:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+
   startupProbe:
     enabled: false
     httpGet:
@@ -169,8 +169,8 @@ themes:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+
   startupProbe:
     enabled: false
     httpGet:
@@ -205,7 +205,7 @@ openai:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -215,8 +215,8 @@ openai:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+
   startupProbe:
     enabled: false
     httpGet:
@@ -265,7 +265,7 @@ bedrock:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
+    failureThreshold: 3
     
   startupProbe:
     enabled: false
@@ -310,8 +310,8 @@ vertexai:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+
   startupProbe:
     enabled: false
     httpGet:
@@ -356,8 +356,8 @@ assistant:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 
-    
+    failureThreshold: 3
+        
   startupProbe:
     enabled: false
     httpGet:
