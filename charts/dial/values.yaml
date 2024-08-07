@@ -54,7 +54,7 @@ core:
   enabled: true
   image:
     tag: 0.14.0
-
+  
   livenessProbe:
     enabled: true
     httpGet:
@@ -65,7 +65,7 @@ core:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -99,7 +99,7 @@ chat:
     tag: 0.15.0
   containerPorts:
     http: 3000
-
+  
   livenessProbe:
     enabled: true
     httpGet:
@@ -110,7 +110,7 @@ chat:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -148,7 +148,7 @@ themes:
     fsGroup: 101
   containerSecurityContext:
     runAsUser: 101
-
+  
   livenessProbe:
     enabled: true
     httpGet:
@@ -159,7 +159,7 @@ themes:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -244,7 +244,7 @@ bedrock:
     # AWS_DEFAULT_REGION: "us-east-1"
     # AWS_ACCESS_KEY_ID: ""
     # AWS_SECRET_ACCESS_KEY: ""
-
+  
   livenessProbe:
     enabled: true
     httpGet:
@@ -255,7 +255,7 @@ bedrock:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -266,7 +266,7 @@ bedrock:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   startupProbe:
     enabled: false
     httpGet:
@@ -335,7 +335,7 @@ assistant:
   # env:
   #   OPENAI_API_BASE: "http://{{ .Release.Name }}-core"
   #   TOOLS_SUPPORTING_DEPLOYMENTS: "gpt-4-turbo"
-  
+
   livenessProbe:
     enabled: true
     httpGet:
@@ -346,7 +346,7 @@ assistant:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-    
+
   readinessProbe:
     enabled: true
     httpGet:
@@ -357,7 +357,7 @@ assistant:
     timeoutSeconds: 3
     successThreshold: 1
     failureThreshold: 3
-        
+
   startupProbe:
     enabled: false
     httpGet:
