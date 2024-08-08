@@ -1,12 +1,6 @@
 openai:
   enabled: true
 
-bedrock:
-  enabled: true
-
-vertexai:
-  enabled: true
-
 core:
   env:
     # Mock identity provider configuration to start the application
