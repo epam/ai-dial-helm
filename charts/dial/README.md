@@ -149,30 +149,6 @@ helm install my-release dial/dial -f values.yaml
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.15.0"` |  |
-| chat.livenessProbe.enabled | bool | `true` |  |
-| chat.livenessProbe.failureThreshold | int | `3` |  |
-| chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.livenessProbe.httpGet.port | int | `3000` |  |
-| chat.livenessProbe.initialDelaySeconds | int | `45` |  |
-| chat.livenessProbe.periodSeconds | int | `15` |  |
-| chat.livenessProbe.successThreshold | int | `1` |  |
-| chat.livenessProbe.timeoutSeconds | int | `3` |  |
-| chat.readinessProbe.enabled | bool | `true` |  |
-| chat.readinessProbe.failureThreshold | int | `3` |  |
-| chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.readinessProbe.httpGet.port | int | `3000` |  |
-| chat.readinessProbe.initialDelaySeconds | int | `30` |  |
-| chat.readinessProbe.periodSeconds | int | `15` |  |
-| chat.readinessProbe.successThreshold | int | `1` |  |
-| chat.readinessProbe.timeoutSeconds | int | `3` |  |
-| chat.startupProbe.enabled | bool | `false` |  |
-| chat.startupProbe.failureThreshold | int | `6` |  |
-| chat.startupProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.startupProbe.httpGet.port | int | `3000` |  |
-| chat.startupProbe.initialDelaySeconds | int | `45` |  |
-| chat.startupProbe.periodSeconds | int | `15` |  |
-| chat.startupProbe.successThreshold | int | `1` |  |
-| chat.startupProbe.timeoutSeconds | int | `5` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.14.0"` |  |
 | extraDeploy | list | `[]` |  |
@@ -218,31 +194,7 @@ helm install my-release dial/dial -f values.yaml
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
 | themes.image.tag | string | `"0.4.1"` |  |
-| themes.livenessProbe.enabled | bool | `true` |  |
-| themes.livenessProbe.failureThreshold | int | `3` |  |
-| themes.livenessProbe.httpGet.path | string | `"/health"` |  |
-| themes.livenessProbe.httpGet.port | int | `8080` |  |
-| themes.livenessProbe.initialDelaySeconds | int | `45` |  |
-| themes.livenessProbe.periodSeconds | int | `10` |  |
-| themes.livenessProbe.successThreshold | int | `1` |  |
-| themes.livenessProbe.timeoutSeconds | int | `3` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
-| themes.readinessProbe.enabled | bool | `true` |  |
-| themes.readinessProbe.failureThreshold | int | `3` |  |
-| themes.readinessProbe.httpGet.path | string | `"/health"` |  |
-| themes.readinessProbe.httpGet.port | int | `8080` |  |
-| themes.readinessProbe.initialDelaySeconds | int | `30` |  |
-| themes.readinessProbe.periodSeconds | int | `10` |  |
-| themes.readinessProbe.successThreshold | int | `1` |  |
-| themes.readinessProbe.timeoutSeconds | int | `3` |  |
-| themes.startupProbe.enabled | bool | `false` |  |
-| themes.startupProbe.failureThreshold | int | `6` |  |
-| themes.startupProbe.httpGet.path | string | `"/health"` |  |
-| themes.startupProbe.httpGet.port | int | `8080` |  |
-| themes.startupProbe.initialDelaySeconds | int | `60` |  |
-| themes.startupProbe.periodSeconds | int | `10` |  |
-| themes.startupProbe.successThreshold | int | `1` |  |
-| themes.startupProbe.timeoutSeconds | int | `5` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
