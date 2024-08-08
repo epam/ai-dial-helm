@@ -7,3 +7,6 @@ core:
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
+
+chat:
+  enabled: false
