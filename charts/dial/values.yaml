@@ -149,38 +149,38 @@ themes:
   containerSecurityContext:
     runAsUser: 101
 
-  # livenessProbe:
-  #   enabled: true
-  #   httpGet:
-  #     path: /health
-  #     port: 8080
-  #   initialDelaySeconds: 45
-  #   periodSeconds: 10
-  #   timeoutSeconds: 3
-  #   successThreshold: 1
-  #   failureThreshold: 3
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: 8080
+    initialDelaySeconds: 45
+    periodSeconds: 15
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
 
-  # readinessProbe:
-  #   enabled: true
-  #   httpGet:
-  #     path: /health
-  #     port: 8080
-  #   initialDelaySeconds: 30
-  #   periodSeconds: 10
-  #   timeoutSeconds: 3
-  #   successThreshold: 1
-  #   failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+      port: 8080
+    initialDelaySeconds: 45
+    periodSeconds: 15
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
 
-  # startupProbe:
-  #   enabled: false
-  #   httpGet:
-  #     path: /health
-  #     port: 8080
-  #   initialDelaySeconds: 60
-  #   periodSeconds: 10
-  #   timeoutSeconds: 5
-  #   failureThreshold: 6
-  #   successThreshold: 1
+  startupProbe:
+    enabled: false
+    httpGet:
+      path: /health
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 15
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
 
 ### ai-dial-adapter-openai configuration ###
 openai:

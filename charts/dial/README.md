@@ -194,7 +194,31 @@ helm install my-release dial/dial -f values.yaml
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
 | themes.image.tag | string | `"0.4.1"` |  |
+| themes.livenessProbe.enabled | bool | `true` |  |
+| themes.livenessProbe.failureThreshold | int | `3` |  |
+| themes.livenessProbe.httpGet.path | string | `"/health"` |  |
+| themes.livenessProbe.httpGet.port | int | `8080` |  |
+| themes.livenessProbe.initialDelaySeconds | int | `45` |  |
+| themes.livenessProbe.periodSeconds | int | `15` |  |
+| themes.livenessProbe.successThreshold | int | `1` |  |
+| themes.livenessProbe.timeoutSeconds | int | `3` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
+| themes.readinessProbe.enabled | bool | `true` |  |
+| themes.readinessProbe.failureThreshold | int | `3` |  |
+| themes.readinessProbe.httpGet.path | string | `"/health"` |  |
+| themes.readinessProbe.httpGet.port | int | `8080` |  |
+| themes.readinessProbe.initialDelaySeconds | int | `45` |  |
+| themes.readinessProbe.periodSeconds | int | `15` |  |
+| themes.readinessProbe.successThreshold | int | `1` |  |
+| themes.readinessProbe.timeoutSeconds | int | `3` |  |
+| themes.startupProbe.enabled | bool | `false` |  |
+| themes.startupProbe.failureThreshold | int | `6` |  |
+| themes.startupProbe.httpGet.path | string | `"/health"` |  |
+| themes.startupProbe.httpGet.port | int | `8080` |  |
+| themes.startupProbe.initialDelaySeconds | int | `60` |  |
+| themes.startupProbe.periodSeconds | int | `15` |  |
+| themes.startupProbe.successThreshold | int | `1` |  |
+| themes.startupProbe.timeoutSeconds | int | `5` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
