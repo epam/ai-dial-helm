@@ -1,5 +1,5 @@
-# env:
-#   # Mock identity provider configuration to start the application
-#   aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-#   aidial.identityProviders.fake.rolePath: "roles"
-#   aidial.identityProviders.fake.issuerPattern: "issuer"
+env:
+  # Mock identity provider configuration to start the application
+  aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
+  aidial.identityProviders.fake.rolePath: "roles"
+  aidial.identityProviders.fake.issuerPattern: "issuer"
