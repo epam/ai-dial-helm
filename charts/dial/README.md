@@ -89,7 +89,7 @@ helm install my-release dial/dial -f values.yaml
 | assistant.livenessProbe.enabled | bool | `true` |  |
 | assistant.livenessProbe.failureThreshold | int | `3` |  |
 | assistant.livenessProbe.httpGet.path | string | `"/health"` |  |
-| assistant.livenessProbe.httpGet.port | int | `5000` |  |
+| assistant.livenessProbe.httpGet.port | string | `"http"` |  |
 | assistant.livenessProbe.initialDelaySeconds | int | `30` |  |
 | assistant.livenessProbe.periodSeconds | int | `10` |  |
 | assistant.livenessProbe.successThreshold | int | `1` |  |
@@ -97,7 +97,7 @@ helm install my-release dial/dial -f values.yaml
 | assistant.readinessProbe.enabled | bool | `true` |  |
 | assistant.readinessProbe.failureThreshold | int | `3` |  |
 | assistant.readinessProbe.httpGet.path | string | `"/health"` |  |
-| assistant.readinessProbe.httpGet.port | int | `5000` |  |
+| assistant.readinessProbe.httpGet.port | string | `"http"` |  |
 | assistant.readinessProbe.initialDelaySeconds | int | `15` |  |
 | assistant.readinessProbe.periodSeconds | int | `10` |  |
 | assistant.readinessProbe.successThreshold | int | `1` |  |
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | assistant.startupProbe.enabled | bool | `false` |  |
 | assistant.startupProbe.failureThreshold | int | `6` |  |
 | assistant.startupProbe.httpGet.path | string | `"/health"` |  |
-| assistant.startupProbe.httpGet.port | int | `5000` |  |
+| assistant.startupProbe.httpGet.port | string | `"http"` |  |
 | assistant.startupProbe.initialDelaySeconds | int | `30` |  |
 | assistant.startupProbe.periodSeconds | int | `10` |  |
 | assistant.startupProbe.successThreshold | int | `1` |  |
@@ -122,7 +122,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.livenessProbe.failureThreshold | int | `3` |  |
 | bedrock.livenessProbe.httpGet.path | string | `"/health"` |  |
-| bedrock.livenessProbe.httpGet.port | int | `5000` |  |
+| bedrock.livenessProbe.httpGet.port | string | `"http"` |  |
 | bedrock.livenessProbe.initialDelaySeconds | int | `30` |  |
 | bedrock.livenessProbe.periodSeconds | int | `10` |  |
 | bedrock.livenessProbe.successThreshold | int | `1` |  |
@@ -130,7 +130,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.readinessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.failureThreshold | int | `3` |  |
 | bedrock.readinessProbe.httpGet.path | string | `"/health"` |  |
-| bedrock.readinessProbe.httpGet.port | int | `5000` |  |
+| bedrock.readinessProbe.httpGet.port | string | `"http"` |  |
 | bedrock.readinessProbe.initialDelaySeconds | int | `15` |  |
 | bedrock.readinessProbe.periodSeconds | int | `10` |  |
 | bedrock.readinessProbe.successThreshold | int | `1` |  |
@@ -139,7 +139,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.startupProbe.enabled | bool | `false` |  |
 | bedrock.startupProbe.failureThreshold | int | `6` |  |
 | bedrock.startupProbe.httpGet.path | string | `"/health"` |  |
-| bedrock.startupProbe.httpGet.port | int | `5000` |  |
+| bedrock.startupProbe.httpGet.port | string | `"http"` |  |
 | bedrock.startupProbe.initialDelaySeconds | int | `30` |  |
 | bedrock.startupProbe.periodSeconds | int | `10` |  |
 | bedrock.startupProbe.successThreshold | int | `1` |  |
@@ -150,7 +150,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.15.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
-| chat.livenessProbe.failureThreshold | int | `3` |  |
+| chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.livenessProbe.httpGet.port | string | `"http"` |  |
 | chat.livenessProbe.initialDelaySeconds | int | `30` |  |
@@ -158,7 +158,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.livenessProbe.successThreshold | int | `1` |  |
 | chat.livenessProbe.timeoutSeconds | int | `3` |  |
 | chat.readinessProbe.enabled | bool | `true` |  |
-| chat.readinessProbe.failureThreshold | int | `3` |  |
+| chat.readinessProbe.failureThreshold | int | `6` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.readinessProbe.httpGet.port | string | `"http"` |  |
 | chat.readinessProbe.initialDelaySeconds | int | `15` |  |
@@ -191,7 +191,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.livenessProbe.failureThreshold | int | `3` |  |
 | openai.livenessProbe.httpGet.path | string | `"/health"` |  |
-| openai.livenessProbe.httpGet.port | int | `5000` |  |
+| openai.livenessProbe.httpGet.port | string | `"http"` |  |
 | openai.livenessProbe.initialDelaySeconds | int | `30` |  |
 | openai.livenessProbe.periodSeconds | int | `10` |  |
 | openai.livenessProbe.successThreshold | int | `1` |  |
@@ -199,7 +199,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.readinessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.failureThreshold | int | `3` |  |
 | openai.readinessProbe.httpGet.path | string | `"/health"` |  |
-| openai.readinessProbe.httpGet.port | int | `5000` |  |
+| openai.readinessProbe.httpGet.port | string | `"http"` |  |
 | openai.readinessProbe.initialDelaySeconds | int | `15` |  |
 | openai.readinessProbe.periodSeconds | int | `10` |  |
 | openai.readinessProbe.successThreshold | int | `1` |  |
@@ -207,7 +207,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.startupProbe.enabled | bool | `false` |  |
 | openai.startupProbe.failureThreshold | int | `6` |  |
 | openai.startupProbe.httpGet.path | string | `"/health"` |  |
-| openai.startupProbe.httpGet.port | int | `5000` |  |
+| openai.startupProbe.httpGet.port | string | `"http"` |  |
 | openai.startupProbe.initialDelaySeconds | int | `30` |  |
 | openai.startupProbe.periodSeconds | int | `10` |  |
 | openai.startupProbe.successThreshold | int | `1` |  |
@@ -250,7 +250,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.livenessProbe.failureThreshold | int | `3` |  |
 | vertexai.livenessProbe.httpGet.path | string | `"/health"` |  |
-| vertexai.livenessProbe.httpGet.port | int | `5000` |  |
+| vertexai.livenessProbe.httpGet.port | string | `"http"` |  |
 | vertexai.livenessProbe.initialDelaySeconds | int | `30` |  |
 | vertexai.livenessProbe.periodSeconds | int | `10` |  |
 | vertexai.livenessProbe.successThreshold | int | `1` |  |
@@ -258,7 +258,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.failureThreshold | int | `3` |  |
 | vertexai.readinessProbe.httpGet.path | string | `"/health"` |  |
-| vertexai.readinessProbe.httpGet.port | int | `5000` |  |
+| vertexai.readinessProbe.httpGet.port | string | `"http"` |  |
 | vertexai.readinessProbe.initialDelaySeconds | int | `15` |  |
 | vertexai.readinessProbe.periodSeconds | int | `10` |  |
 | vertexai.readinessProbe.successThreshold | int | `1` |  |
@@ -266,7 +266,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.startupProbe.enabled | bool | `false` |  |
 | vertexai.startupProbe.failureThreshold | int | `6` |  |
 | vertexai.startupProbe.httpGet.path | string | `"/health"` |  |
-| vertexai.startupProbe.httpGet.port | int | `5000` |  |
+| vertexai.startupProbe.httpGet.port | string | `"http"` |  |
 | vertexai.startupProbe.initialDelaySeconds | int | `30` |  |
 | vertexai.startupProbe.periodSeconds | int | `10` |  |
 | vertexai.startupProbe.successThreshold | int | `1` |  |

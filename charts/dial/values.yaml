@@ -76,7 +76,7 @@ chat:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 3
+    failureThreshold: 6
 
   readinessProbe:
     enabled: true
@@ -87,7 +87,7 @@ chat:
     periodSeconds: 10
     timeoutSeconds: 3
     successThreshold: 1
-    failureThreshold: 3
+    failureThreshold: 6
 
   startupProbe:
     enabled: false
@@ -166,7 +166,7 @@ openai:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 3
@@ -177,7 +177,7 @@ openai:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 15
     periodSeconds: 10
     timeoutSeconds: 3
@@ -188,7 +188,7 @@ openai:
     enabled: false
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -216,7 +216,7 @@ bedrock:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 3
@@ -227,7 +227,7 @@ bedrock:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 15
     periodSeconds: 10
     timeoutSeconds: 3
@@ -238,7 +238,7 @@ bedrock:
     enabled: false
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -261,7 +261,7 @@ vertexai:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 3
@@ -272,7 +272,7 @@ vertexai:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 15
     periodSeconds: 10
     timeoutSeconds: 3
@@ -283,7 +283,7 @@ vertexai:
     enabled: false
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -307,7 +307,7 @@ assistant:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 3
@@ -318,7 +318,7 @@ assistant:
     enabled: true
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 15
     periodSeconds: 10
     timeoutSeconds: 3
@@ -329,7 +329,7 @@ assistant:
     enabled: false
     httpGet:
       path: /health
-      port: 5000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
