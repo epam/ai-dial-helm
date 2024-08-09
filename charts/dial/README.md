@@ -151,7 +151,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.image.tag | string | `"0.15.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `3` |  |
-| chat.livenessProbe.httpGet.path | string | `"/health"` |  |
+| chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.livenessProbe.httpGet.port | int | `3000` |  |
 | chat.livenessProbe.initialDelaySeconds | int | `30` |  |
 | chat.livenessProbe.periodSeconds | int | `10` |  |
@@ -159,7 +159,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.livenessProbe.timeoutSeconds | int | `3` |  |
 | chat.readinessProbe.enabled | bool | `true` |  |
 | chat.readinessProbe.failureThreshold | int | `3` |  |
-| chat.readinessProbe.httpGet.path | string | `"/health"` |  |
+| chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.readinessProbe.httpGet.port | int | `3000` |  |
 | chat.readinessProbe.initialDelaySeconds | int | `15` |  |
 | chat.readinessProbe.periodSeconds | int | `10` |  |
