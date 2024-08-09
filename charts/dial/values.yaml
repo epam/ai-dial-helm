@@ -71,7 +71,7 @@ chat:
     enabled: true
     httpGet:
       path: /api/health
-      port: 3000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 3
@@ -82,7 +82,7 @@ chat:
     enabled: true
     httpGet:
       path: /api/health
-      port: 3000
+      port: http
     initialDelaySeconds: 15
     periodSeconds: 10
     timeoutSeconds: 3
@@ -93,7 +93,7 @@ chat:
     enabled: false
     httpGet:
       path: /health
-      port: 3000
+      port: http
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
