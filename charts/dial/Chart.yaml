@@ -22,7 +22,7 @@ dependencies:
     repository: https://charts.epam-rail.com
     alias: core
     condition: core.enabled
-    version: 2.0.3
+    version: 2.0.4
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: chat
