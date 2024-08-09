@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.0.4](https://img.shields.io/badge/Version-2.0.4-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -130,7 +130,7 @@ helm install my-release dial/dial-core -f values.yaml
 | initContainers | list | `[]` | Add additional init containers to the dial-core pod(s) ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ |
 | labels | object | `{}` | Labels to add to dial-core deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-core container(s) to automate configuration before or after startup |
-| livenessProbe | object | `{}` | LivenessProbe on containers |
+| livenessProbe | object | `{"enabled":true,"failureThreshold":12,"httpGet":{"path":"/health","port":"http"},"initialDelaySeconds":60,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":3}` | LivenessProbe on containers |
 | logger.args[0] | string | `"--config"` |  |
 | logger.args[1] | string | `"/etc/vector/vector.yaml"` |  |
 | logger.command[0] | string | `"vector"` |  |
@@ -186,7 +186,7 @@ helm install my-release dial/dial-core -f values.yaml
 | podSecurityContext.enabled | bool | `true` | Enabled dial-core pod's Security Context |
 | podSecurityContext.fsGroup | int | `1001` | Set dial-core pod's Security Context fsGroup |
 | priorityClassName | string | `""` | dial-core pods' priorityClassName |
-| readinessProbe | object | `{}` | ReadinessProbe on containers |
+| readinessProbe | object | `{"enabled":true,"failureThreshold":6,"httpGet":{"path":"/health","port":"http"},"initialDelaySeconds":60,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":3}` | ReadinessProbe on containers |
 | redis.cluster.nodes | int | `3` | The number of master nodes should always be >= 3, otherwise cluster creation will fail |
 | redis.cluster.replicas | int | `0` |  |
 | redis.cluster.update.currentNumberOfNodes | int | `3` |  |
@@ -217,7 +217,7 @@ helm install my-release dial/dial-core -f values.yaml
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the common.names.fullname template |
 | sidecars | list | `[]` | Add additional sidecar containers to the dial-core pod(s) |
-| startupProbe | object | `{}` | StartupProbe on containers |
+| startupProbe | object | `{"enabled":false,"failureThreshold":6,"httpGet":{"path":"/health","port":"http"},"initialDelaySeconds":10,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":3}` | StartupProbe on containers |
 | terminationGracePeriodSeconds | string | `""` | Seconds dial-core pod needs to terminate gracefully ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods |
 | tolerations | list | `[]` | Tolerations for dial-core pods assignment ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods |
