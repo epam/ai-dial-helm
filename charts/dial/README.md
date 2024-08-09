@@ -152,7 +152,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `3` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.livenessProbe.httpGet.port | int | `3000` |  |
+| chat.livenessProbe.httpGet.port | string | `"http"` |  |
 | chat.livenessProbe.initialDelaySeconds | int | `30` |  |
 | chat.livenessProbe.periodSeconds | int | `10` |  |
 | chat.livenessProbe.successThreshold | int | `1` |  |
@@ -160,7 +160,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.enabled | bool | `true` |  |
 | chat.readinessProbe.failureThreshold | int | `3` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.readinessProbe.httpGet.port | int | `3000` |  |
+| chat.readinessProbe.httpGet.port | string | `"http"` |  |
 | chat.readinessProbe.initialDelaySeconds | int | `15` |  |
 | chat.readinessProbe.periodSeconds | int | `10` |  |
 | chat.readinessProbe.successThreshold | int | `1` |  |
@@ -168,7 +168,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.startupProbe.enabled | bool | `false` |  |
 | chat.startupProbe.failureThreshold | int | `6` |  |
 | chat.startupProbe.httpGet.path | string | `"/health"` |  |
-| chat.startupProbe.httpGet.port | int | `3000` |  |
+| chat.startupProbe.httpGet.port | string | `"http"` |  |
 | chat.startupProbe.initialDelaySeconds | int | `30` |  |
 | chat.startupProbe.periodSeconds | int | `10` |  |
 | chat.startupProbe.successThreshold | int | `1` |  |
