@@ -2,6 +2,7 @@ openai:
   enabled: true
 
 core:
+  enabled: false
   env:
     # Mock identity provider configuration to start the application
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
