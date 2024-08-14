@@ -53,7 +53,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.14.1
+    tag: 0.14.0
 
 ### ai-dial-chat configuration ###
 chat:
@@ -63,7 +63,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.15.2
+    tag: 0.15.0
   containerPorts:
     http: 3000
   livenessProbe:
@@ -96,6 +96,9 @@ chat:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
 
 ### ai-dial-chat-themes configuration ###
 themes:
@@ -142,6 +145,9 @@ themes:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
 
 ### ai-dial-adapter-openai configuration ###
 openai:
@@ -185,6 +191,9 @@ openai:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -232,6 +241,9 @@ bedrock:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -244,7 +256,6 @@ vertexai:
     tag: 0.9.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
-
   livenessProbe:
     enabled: true
     httpGet:
@@ -275,6 +286,9 @@ vertexai:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
 
 ### ai-dial-assistant configuration ###
 assistant:
@@ -318,3 +332,7 @@ assistant:
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
+  ## @param metrics.customLivenessProbe Custom livenessProbe that overrides the default one
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
