@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 2.0.4](https://img.shields.io/badge/Version-2.0.4-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.0.5](https://img.shields.io/badge/Version-2.0.5-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -98,6 +98,9 @@ helm install my-release dial/dial-core -f values.yaml
 | containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set dial-core containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsNonRoot | bool | `true` | Set dial-core containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsUser | int | `1001` | Set dial-core container's Security Context runAsUser |
+| customLivenessProbe | object | `{}` |  |
+| customReadinessProbe | object | `{}` |  |
+| customStartupProbe | object | `{}` |  |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-core |
 | existingConfigmap | string | `nil` | The name of an existing ConfigMap with your custom configuration for container |

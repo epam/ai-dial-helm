@@ -96,6 +96,13 @@ startupProbe:
   failureThreshold: 6
   successThreshold: 1
 
+## @param metrics.customLivenessProbe Custom livenessProbe that overrides the default one
+customLivenessProbe: {}
+## @param metrics.customReadinessProbe Custom readinessProbe that overrides the default one
+customReadinessProbe: {}
+## @param metrics.customStartupProbe Custom startupProbe that overrides the default one
+customStartupProbe: {}
+
 # -- dial-core resource requests and limits
 # ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources: {}
