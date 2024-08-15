@@ -83,6 +83,9 @@ helm install my-release dial/dial -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| assistant.customLivenessProbe | object | `{}` |  |
+| assistant.customReadinessProbe | object | `{}` |  |
+| assistant.customStartupProbe | object | `{}` |  |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
 | assistant.image.tag | string | `"0.7.0"` |  |
@@ -116,6 +119,9 @@ helm install my-release dial/dial -f values.yaml
 | authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
 | authhelper.image.tag | string | `"0.3.0"` |  |
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| bedrock.customLivenessProbe | object | `{}` |  |
+| bedrock.customReadinessProbe | object | `{}` |  |
+| bedrock.customStartupProbe | object | `{}` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
 | bedrock.image.tag | string | `"0.13.3"` |  |
@@ -146,9 +152,12 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.startupProbe.timeoutSeconds | int | `5` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
+| chat.customLivenessProbe | object | `{}` |  |
+| chat.customReadinessProbe | object | `{}` |  |
+| chat.customStartupProbe | object | `{}` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.15.2"` |  |
+| chat.image.tag | string | `"0.15.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -174,7 +183,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.startupProbe.successThreshold | int | `1` |  |
 | chat.startupProbe.timeoutSeconds | int | `5` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.14.1"` |  |
+| core.image.tag | string | `"0.14.0"` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
@@ -185,6 +194,9 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| openai.customLivenessProbe | object | `{}` |  |
+| openai.customReadinessProbe | object | `{}` |  |
+| openai.customStartupProbe | object | `{}` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.13.1"` |  |
@@ -215,6 +227,9 @@ helm install my-release dial/dial -f values.yaml
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
+| themes.customLivenessProbe | object | `{}` |  |
+| themes.customReadinessProbe | object | `{}` |  |
+| themes.customStartupProbe | object | `{}` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
 | themes.image.tag | string | `"0.4.1"` |  |
@@ -244,6 +259,9 @@ helm install my-release dial/dial -f values.yaml
 | themes.startupProbe.successThreshold | int | `1` |  |
 | themes.startupProbe.timeoutSeconds | int | `5` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| vertexai.customLivenessProbe | object | `{}` |  |
+| vertexai.customReadinessProbe | object | `{}` |  |
+| vertexai.customStartupProbe | object | `{}` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.9.0"` |  |
