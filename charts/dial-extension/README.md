@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -94,6 +94,9 @@ helm install my-release dial/dial-extension -f values.yaml
 | containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsNonRoot | bool | `true` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsUser | int | `1001` | Set dial-extension container's Security Context runAsUser |
+| customLivenessProbe | object | `{}` |  |
+| customReadinessProbe | object | `{}` |  |
+| customStartupProbe | object | `{}` |  |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
 | existingConfigmap | string | `nil` | The name of an existing ConfigMap with your custom configuration for container |
@@ -126,7 +129,14 @@ helm install my-release dial/dial-extension -f values.yaml
 | initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ |
 | labels | object | `{}` | Labels to add to dial-extension deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-extension container(s) to automate configuration before or after startup |
-| livenessProbe | object | `{}` | LivenessProbe on containers |
+| livenessProbe.enabled | bool | `false` |  |
+| livenessProbe.failureThreshold | int | `3` |  |
+| livenessProbe.httpGet.path | string | `"/health"` |  |
+| livenessProbe.httpGet.port | string | `"http"` |  |
+| livenessProbe.initialDelaySeconds | int | `30` |  |
+| livenessProbe.periodSeconds | int | `10` |  |
+| livenessProbe.successThreshold | int | `1` |  |
+| livenessProbe.timeoutSeconds | int | `3` |  |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
 | metrics.service.annotations | object | `{}` | Additional custom annotations for dial-extension metrics service |
 | metrics.service.clusterIP | string | `""` | dial-extension metrics service Cluster IP clusterIP: None |
@@ -163,7 +173,14 @@ helm install my-release dial/dial-extension -f values.yaml
 | podSecurityContext.enabled | bool | `true` | Enabled dial-extension pod's Security Context |
 | podSecurityContext.fsGroup | int | `1001` | Set dial-extension pod's Security Context fsGroup |
 | priorityClassName | string | `""` | dial-extension pods' priorityClassName |
-| readinessProbe | object | `{}` | ReadinessProbe on containers |
+| readinessProbe.enabled | bool | `false` |  |
+| readinessProbe.failureThreshold | int | `3` |  |
+| readinessProbe.httpGet.path | string | `"/health"` |  |
+| readinessProbe.httpGet.port | string | `"http"` |  |
+| readinessProbe.initialDelaySeconds | int | `15` |  |
+| readinessProbe.periodSeconds | int | `10` |  |
+| readinessProbe.successThreshold | int | `1` |  |
+| readinessProbe.timeoutSeconds | int | `3` |  |
 | replicaCount | int | `1` | Number of dial-extension replicas to deploy |
 | resources | object | `{}` | dial-extension resource requests and limits ref: http://kubernetes.io/docs/user-guide/compute-resources/ |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/ |
@@ -185,7 +202,14 @@ helm install my-release dial/dial-extension -f values.yaml
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the common.names.fullname template |
 | sidecars | list | `[]` | Add additional sidecar containers to the dial-extension pod(s) |
-| startupProbe | object | `{}` | StartupProbe on containers |
+| startupProbe.enabled | bool | `false` |  |
+| startupProbe.failureThreshold | int | `6` |  |
+| startupProbe.httpGet.path | string | `"/health"` |  |
+| startupProbe.httpGet.port | string | `"http"` |  |
+| startupProbe.initialDelaySeconds | int | `30` |  |
+| startupProbe.periodSeconds | int | `10` |  |
+| startupProbe.successThreshold | int | `1` |  |
+| startupProbe.timeoutSeconds | int | `5` |  |
 | terminationGracePeriodSeconds | string | `""` | Seconds dial-extension pod needs to terminate gracefully ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods |
 | tolerations | list | `[]` | Tolerations for dial-extension pods assignment ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods |
