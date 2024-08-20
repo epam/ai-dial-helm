@@ -157,7 +157,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.customStartupProbe | object | `{}` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.15.0"` |  |
+| chat.image.tag | string | `"0.15.2"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -183,7 +183,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.startupProbe.successThreshold | int | `1` |  |
 | chat.startupProbe.timeoutSeconds | int | `5` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.14.0"` |  |
+| core.image.tag | string | `"0.14.1"` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
