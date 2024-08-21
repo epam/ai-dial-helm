@@ -78,12 +78,12 @@ livenessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 12
-## @param metrics.readinessProbe.enabled Enable readinessProbe on Prometheus exporter containers
-## @param metrics.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-## @param metrics.readinessProbe.periodSeconds Period seconds for readinessProbe
-## @param metrics.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-## @param metrics.readinessProbe.failureThreshold Failure threshold for readinessProbe
-## @param metrics.readinessProbe.successThreshold Success threshold for readinessProbe
+# -- @param metrics.readinessProbe.enabled Enable readinessProbe on Prometheus exporter containers
+# -- @param metrics.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
+# -- @param metrics.readinessProbe.periodSeconds Period seconds for readinessProbe
+# -- @param metrics.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
+# -- @param metrics.readinessProbe.failureThreshold Failure threshold for readinessProbe
+# -- @param metrics.readinessProbe.successThreshold Success threshold for readinessProbe
 readinessProbe:
   enabled: true
   httpGet:
@@ -94,12 +94,12 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 6
-## @param metrics.startupProbe.enabled Enable startupProbe on Prometheus exporter containers
-## @param metrics.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
-## @param metrics.startupProbe.periodSeconds Period seconds for startupProbe
-## @param metrics.startupProbe.timeoutSeconds Timeout seconds for startupProbe
-## @param metrics.startupProbe.failureThreshold Failure threshold for startupProbe
-## @param metrics.startupProbe.successThreshold Success threshold for startupProbe
+# -- @param metrics.startupProbe.enabled Enable startupProbe on Prometheus exporter containers
+# -- @param metrics.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
+# -- @param metrics.startupProbe.periodSeconds Period seconds for startupProbe
+# -- @param metrics.startupProbe.timeoutSeconds Timeout seconds for startupProbe
+# -- @param metrics.startupProbe.failureThreshold Failure threshold for startupProbe
+# -- @param metrics.startupProbe.successThreshold Success threshold for startupProbe
 startupProbe:
   enabled: false
   httpGet:
@@ -111,11 +111,11 @@ startupProbe:
   failureThreshold: 6
   successThreshold: 1
 
-## @param metrics.customLivenessProbe Custom livenessProbe that overrides the default one
+# -- @param metrics.customLivenessProbe Custom livenessProbe that overrides the default one
 customLivenessProbe: {}
-## @param metrics.customReadinessProbe Custom readinessProbe that overrides the default one
+# -- @param metrics.customReadinessProbe Custom readinessProbe that overrides the default one
 customReadinessProbe: {}
-## @param metrics.customStartupProbe Custom startupProbe that overrides the default one
+# -- @param metrics.customStartupProbe Custom startupProbe that overrides the default one
 customStartupProbe: {}
 
 # -- dial-core resource requests and limits
