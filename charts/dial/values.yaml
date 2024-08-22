@@ -70,32 +70,12 @@ chat:
     enabled: true
     httpGet:
       path: /api/health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
     failureThreshold: 6
   readinessProbe:
     enabled: true
     httpGet:
       path: /api/health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
     failureThreshold: 6
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
 
 ### ai-dial-chat-themes configuration ###
 themes:
@@ -114,34 +94,8 @@ themes:
     runAsUser: 101
   livenessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
   readinessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
 
 ### ai-dial-adapter-openai configuration ###
 openai:
@@ -157,34 +111,8 @@ openai:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
   readinessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -204,34 +132,8 @@ bedrock:
     # AWS_SECRET_ACCESS_KEY: ""
   livenessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
   readinessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -244,37 +146,10 @@ vertexai:
     tag: 0.9.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
-
   livenessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
   readinessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
 
 ### ai-dial-assistant configuration ###
 assistant:
@@ -290,31 +165,5 @@ assistant:
   #   TOOLS_SUPPORTING_DEPLOYMENTS: "gpt-4-turbo"
   livenessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
   readinessProbe:
     enabled: true
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
-    failureThreshold: 3
-  startupProbe:
-    enabled: false
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-    successThreshold: 1
