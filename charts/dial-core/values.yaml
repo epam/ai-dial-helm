@@ -62,12 +62,6 @@ containerPorts:
 ### Probes configuration ###
 # Configure extra options for dial-core container liveness and readiness probes
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
-## @param metrics.livenessProbe.enabled Enable livenessProbe on Prometheus exporter containers
-## @param metrics.livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
-## @param metrics.livenessProbe.periodSeconds Period seconds for livenessProbe
-## @param metrics.livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
-## @param metrics.livenessProbe.failureThreshold Failure threshold for livenessProbe
-## @param metrics.livenessProbe.successThreshold Success threshold for livenessProbe
 livenessProbe:
   enabled: true
   httpGet:
@@ -78,12 +72,6 @@ livenessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 12
-# -- @param metrics.readinessProbe.enabled Enable readinessProbe on Prometheus exporter containers
-# -- @param metrics.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-# -- @param metrics.readinessProbe.periodSeconds Period seconds for readinessProbe
-# -- @param metrics.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-# -- @param metrics.readinessProbe.failureThreshold Failure threshold for readinessProbe
-# -- @param metrics.readinessProbe.successThreshold Success threshold for readinessProbe
 readinessProbe:
   enabled: true
   httpGet:
@@ -94,12 +82,6 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 6
-# -- @param metrics.startupProbe.enabled Enable startupProbe on Prometheus exporter containers
-# -- @param metrics.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
-# -- @param metrics.startupProbe.periodSeconds Period seconds for startupProbe
-# -- @param metrics.startupProbe.timeoutSeconds Timeout seconds for startupProbe
-# -- @param metrics.startupProbe.failureThreshold Failure threshold for startupProbe
-# -- @param metrics.startupProbe.successThreshold Success threshold for startupProbe
 startupProbe:
   enabled: false
   httpGet:
@@ -110,12 +92,11 @@ startupProbe:
   timeoutSeconds: 3
   failureThreshold: 6
   successThreshold: 1
-
-# -- @param metrics.customLivenessProbe Custom livenessProbe that overrides the default one
+# -- Custom livenessProbe that overrides the default one
 customLivenessProbe: {}
-# -- @param metrics.customReadinessProbe Custom readinessProbe that overrides the default one
+# -- Custom readinessProbe that overrides the default one
 customReadinessProbe: {}
-# -- @param metrics.customStartupProbe Custom startupProbe that overrides the default one
+# -- Custom startupProbe that overrides the default one
 customStartupProbe: {}
 
 # -- dial-core resource requests and limits
