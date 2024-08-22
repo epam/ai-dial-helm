@@ -102,25 +102,15 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
-| chat.customLivenessProbe.enabled | bool | `true` |  |
-| chat.customLivenessProbe.failureThreshold | int | `6` |  |
-| chat.customLivenessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.customLivenessProbe.httpGet.port | string | `"http"` |  |
-| chat.customLivenessProbe.initialDelaySeconds | int | `30` |  |
-| chat.customLivenessProbe.periodSeconds | int | `10` |  |
-| chat.customLivenessProbe.successThreshold | int | `1` |  |
-| chat.customLivenessProbe.timeoutSeconds | int | `3` |  |
-| chat.customReadinessProbe.enabled | bool | `true` |  |
-| chat.customReadinessProbe.failureThreshold | int | `6` |  |
-| chat.customReadinessProbe.httpGet.path | string | `"/api/health"` |  |
-| chat.customReadinessProbe.httpGet.port | string | `"http"` |  |
-| chat.customReadinessProbe.initialDelaySeconds | int | `15` |  |
-| chat.customReadinessProbe.periodSeconds | int | `10` |  |
-| chat.customReadinessProbe.successThreshold | int | `1` |  |
-| chat.customReadinessProbe.timeoutSeconds | int | `3` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.15.2"` |  |
+| chat.livenessProbe.enabled | bool | `true` |  |
+| chat.livenessProbe.failureThreshold | int | `6` |  |
+| chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
+| chat.readinessProbe.enabled | bool | `true` |  |
+| chat.readinessProbe.failureThreshold | int | `6` |  |
+| chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.14.1"` |  |
 | extraDeploy | list | `[]` |  |

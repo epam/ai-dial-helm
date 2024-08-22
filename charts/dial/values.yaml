@@ -66,25 +66,15 @@ chat:
     tag: 0.15.2
   containerPorts:
     http: 3000
-  customLivenessProbe:
+  livenessProbe:
     enabled: true
     httpGet:
       path: /api/health
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
     failureThreshold: 6
-  customReadinessProbe:
+  readinessProbe:
     enabled: true
     httpGet:
       path: /api/health
-      port: http
-    initialDelaySeconds: 15
-    periodSeconds: 10
-    timeoutSeconds: 3
-    successThreshold: 1
     failureThreshold: 6
 
 ### ai-dial-chat-themes configuration ###
@@ -177,4 +167,3 @@ assistant:
     enabled: true
   readinessProbe:
     enabled: true
-
