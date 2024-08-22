@@ -62,7 +62,6 @@ containerPorts:
 ### Probes configuration ###
 # Configure extra options for dial-core container liveness and readiness probes
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
-# -- LivenessProbe on containers
 livenessProbe:
   enabled: true
   httpGet:
@@ -73,7 +72,6 @@ livenessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 12
-# -- ReadinessProbe on containers
 readinessProbe:
   enabled: true
   httpGet:
@@ -84,7 +82,6 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 6
-# -- StartupProbe on containers
 startupProbe:
   enabled: false
   httpGet:
@@ -95,6 +92,12 @@ startupProbe:
   timeoutSeconds: 3
   failureThreshold: 6
   successThreshold: 1
+# -- Custom livenessProbe that overrides the default one
+customLivenessProbe: {}
+# -- Custom readinessProbe that overrides the default one
+customReadinessProbe: {}
+# -- Custom startupProbe that overrides the default one
+customStartupProbe: {}
 
 # -- dial-core resource requests and limits
 # ref: http://kubernetes.io/docs/user-guide/compute-resources/
