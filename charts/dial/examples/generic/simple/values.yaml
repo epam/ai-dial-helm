@@ -6,7 +6,7 @@ core:
   configuration:
     encryption:
       password: "%%CORE_ENCRYPT_PASSWORD%%"
-      salt: "%CORE_ENCRYPT_SALT%"
+      salt: "%%CORE_ENCRYPT_SALT%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
