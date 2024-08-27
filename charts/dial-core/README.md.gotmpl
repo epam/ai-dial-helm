@@ -10,7 +10,7 @@
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-core
+helm install my-release dial/dial-core
 ```
 
 ## Prerequisites
@@ -27,7 +27,7 @@ To install the chart with the release name `my-release`:
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-core
+helm install my-release dial/dial-core
 ```
 
 The command deploys dial-core on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -67,6 +67,55 @@ helm install my-release dial/dial-core -f values.yaml
 **NOTE**: You can use the default [values.yaml](values.yaml)
 
 {{ template "chart.valuesSection" . }}
+
+## Upgrading
+
+### To 3.0.0
+
+**IMPORTANT**: Manual Action Required for Self-Managed Secrets
+
+In this version we have to reflect `ai-dial-core` [application configuration parameters renaming](https://github.com/epam/ai-dial-core/pull/455) by renaming several values in this chart.
+
+- `configuration.encryption.password` parameter is renamed to `configuration.encryption.secret`
+- `configuration.encryption.salt` parameter is changed to `configuration.encryption.key`
+
+#### How to upgrade to version 3.0.0
+
+a) If using encryption Kubernetes secret created by the chart:
+
+1. Update the parameters you have in your current deployment values (e.g. `values.yaml` file or set via `--set`) according to the changes below:
+     - `configuration.encryption.password` --> `configuration.encryption.secret`
+     - `configuration.encryption.salt` --> `configuration.encryption.key`
+1. Delete the `*-encryption` secret, e.g. (replace `my-release` with the actual release name):
+
+    ```console
+    kubectl delete secret my-release-dial-core-encryption
+    ```
+
+1. Proceed with the helm upgrade as usual, e.g.:
+
+    ```console
+    helm upgrade my-release dial/dial-core -f values.yaml
+    ```
+
+b) If using your own managed Kubernetes secret (`configuration.encryption.existingSecret` is set):
+
+1. Rename keys in your existing secret:
+
+    - `aidial.encryption.password` --> `aidial.encryption.secret`
+    - `aidial.encryption.salt` --> `aidial.encryption.key`
+
+    You can update your existing secret to rename or move the keys using the following one-liner command (replace `<your-existing-secret-name>` and `<namespace>` with the actual values):
+
+    ```console
+      kubectl get secret <your-existing-secret-name> -o yaml -n <namespace> | jq '.data["aidial.encryption.secret"] = .data["aidial.encryption.password"] | .data["aidial.encryption.key"] = .data["aidial.encryption.salt"] | del(.data["aidial.encryption.password"], .data["aidial.encryption.salt"])' | kubectl replace -f -
+    ```
+
+1. Proceed with the helm upgrade as usual, e.g.:
+
+    ```console
+    helm upgrade my-release dial/dial-core -f values.yaml
+    ```
 
 ## Redis
 

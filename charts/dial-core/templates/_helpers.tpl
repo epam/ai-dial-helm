@@ -75,15 +75,15 @@ Params:
   {{- $existingSecret := include "dialCore.values.existingSecret" . -}}
   {{- $enabled := include "dialCore.values.enabled" . -}}
   {{- $authPrefix := include "dialCore.values.key.encryption" . -}}
-  {{- $valueKeyPassword := printf "%s.password" $authPrefix -}}
-  {{- $valueKeySalt := printf "%s.salt" $authPrefix -}}
+  {{- $valueKeySecret := printf "%s.secret" $authPrefix -}}
+  {{- $valueKeyKey := printf "%s.key" $authPrefix -}}
 
   {{- if and (or (not $existingSecret) (eq $existingSecret "\"\"")) (eq $enabled "true") -}}
     {{- $requiredPasswords := list -}}
-      {{- $requiredPassword := dict "valueKey" $valueKeyPassword "secret" .secret "field" "aidial.encryption.password" -}}
-      {{- $requiredPasswords = append $requiredPasswords $requiredPassword -}}
-      {{- $requiredSalt := dict "valueKey" $valueKeySalt "secret" .secret "field" "aidial.encryption.salt" -}}
-      {{- $requiredPasswords = append $requiredPasswords $requiredSalt -}}
+      {{- $requiredSecret := dict "valueKey" $valueKeySecret "secret" .secret "field" "aidial.encryption.secret" -}}
+      {{- $requiredPasswords = append $requiredPasswords $requiredSecret -}}
+      {{- $requiredKey := dict "valueKey" $valueKeyKey "secret" .secret "field" "aidial.encryption.key" -}}
+      {{- $requiredPasswords = append $requiredPasswords $requiredKey -}}
     {{- include "common.validations.values.multiple.empty" (dict "required" $requiredPasswords "context" .context) -}}
   {{- end -}}
 {{- end -}}
