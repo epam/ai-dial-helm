@@ -11,7 +11,7 @@ core:
   configuration:
     encryption:
       secret: "%%CORE_ENCRYPT_SECRET%%"
-      key: "%CORE_ENCRYPT_KEY%"
+      key: "%%CORE_ENCRYPT_KEY%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
     aidial.storage.provider: "aws-s3"
