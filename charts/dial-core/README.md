@@ -253,7 +253,7 @@ helm install my-release dial/dial-core -f values.yaml
 
 **IMPORTANT**: Manual Action Required for Self-Managed Secrets
 
-In this version we have to reflect `ai-dial-core` [application configuration parameters renaming](https://github.com/epam/ai-dial-core/pull/455) by renaming several values in this chart.
+In this version we have to reflect `ai-dial-core` [application configuration parameters renaming](https://github.com/epam/ai-dial-core/pull/455) in version `0.15.1+` by renaming several values in this chart.
 
 - `configuration.encryption.password` parameter is renamed to `configuration.encryption.secret`
 - `configuration.encryption.salt` parameter is changed to `configuration.encryption.key`
