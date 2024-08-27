@@ -1,6 +1,6 @@
 # dial
 
-![Version: 2.9.0](https://img.shields.io/badge/Version-2.9.0-informational?style=flat-square) ![AppVersion: 1.14.0](https://img.shields.io/badge/AppVersion-1.14.0-informational?style=flat-square)
+![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 1.14.1](https://img.shields.io/badge/AppVersion-1.14.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -33,7 +33,7 @@ To install the chart with the release name `my-release`:
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial
+helm install my-release dial/dial
 ```
 
 The command deploys AI DIAL on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -112,7 +112,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.failureThreshold | int | `6` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.15.0"` |  |
+| core.image.tag | string | `"0.15.1"` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
@@ -143,3 +143,50 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.image.tag | string | `"0.9.0"` |  |
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.enabled | bool | `true` |  |
+
+## Upgrading
+
+### To 3.0.0
+
+In this version we have to reflect `ai-dial-core` [application configuration parameters renaming](https://github.com/epam/ai-dial-core/pull/455) in version `0.15.1+` by renaming several values in this chart.
+
+- `core.configuration.encryption.password` parameter is renamed to `core.configuration.encryption.secret`
+- `core.configuration.encryption.salt` parameter is changed to `core.configuration.encryption.key`
+
+### How to upgrade to version 3.0.0
+
+a) If using encryption Kubernetes secret created by the chart:
+
+1. Update the parameters you have in your current deployment values (e.g. `values.yaml` file or set via `--set`) according to the changes below:
+     - `core.configuration.encryption.password` --> `core.configuration.encryption.secret`
+     - `core.configuration.encryption.salt` --> `core.configuration.encryption.key`
+1. Delete the `*-encryption` secret, e.g. (replace `my-release` with the actual release name):
+
+    ```console
+    kubectl delete secret my-release-dial-core-encryption
+    ```
+
+1. Proceed with the helm upgrade as usual, e.g.:
+
+    ```console
+    helm upgrade my-release dial/dial -f values.yaml
+    ```
+
+b) If using your own managed Kubernetes secret (`core.configuration.encryption.existingSecret` is set):
+
+1. Rename keys in your existing secret:
+
+    - `aidial.encryption.password` --> `aidial.encryption.secret`
+    - `aidial.encryption.salt` --> `aidial.encryption.key`
+
+    You can update your existing secret to rename or move the keys using the following one-liner command (replace `<your-existing-secret-name>` and `<namespace>` with the actual values):
+
+    ```console
+      kubectl get secret <your-existing-secret-name> -o yaml -n <namespace> | jq '.data["aidial.encryption.secret"] = .data["aidial.encryption.password"] | .data["aidial.encryption.key"] = .data["aidial.encryption.salt"] | del(.data["aidial.encryption.password"], .data["aidial.encryption.salt"])' | kubectl replace -f -
+    ```
+
+1. Proceed with the helm upgrade as usual, e.g.:
+
+    ```console
+    helm upgrade my-release dial/dial -f values.yaml
+    ```
