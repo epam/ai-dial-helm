@@ -7,8 +7,8 @@ core:
       eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
   configuration:
     encryption:
-      password: "%%CORE_ENCRYPT_PASSWORD%%"
-      salt: "%%CORE_ENCRYPT_SALT%%"
+      secret: "%%CORE_ENCRYPT_SECRET%%"
+      key: "%%CORE_ENCRYPT_KEY%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
     aidial.storage.provider: "aws-s3"
