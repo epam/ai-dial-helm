@@ -18,7 +18,7 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | common | 2.14.1 |
 | https://charts.bitnami.com/bitnami | keycloak | 16.1.7 |
-| https://charts.epam-rail.com | core(dial-core) | 2.0.5 |
+| https://charts.epam-rail.com | core(dial-core) | 3.0.0 |
 | https://charts.epam-rail.com | authhelper(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | chat(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | themes(dial-extension) | 1.0.4 |
