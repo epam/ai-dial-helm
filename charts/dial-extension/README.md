@@ -8,7 +8,7 @@ Helm chart for dial extensions
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
+helm install my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
 ```
 
 ## Prerequisites
@@ -31,7 +31,7 @@ To install the chart with the release name `my-release`:
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-extension
+helm install my-release dial/dial-extension
 ```
 
 The command deploys dial-extension on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
