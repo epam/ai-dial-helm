@@ -53,7 +53,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.15.1
+    tag: 0.15.2
 
 ### ai-dial-chat configuration ###
 chat:
