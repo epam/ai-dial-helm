@@ -76,7 +76,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
-    - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%TRUSTSTORE_PASSWORD%%` with Java truststore password, e.g. `changeit`
     - Replace `%%GCP_CORE_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%GCP_CORE_STORAGE_BUCKET_NAME%%` with Google Storage bucket name from [prerequisites](#prerequisites)

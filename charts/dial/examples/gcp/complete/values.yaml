@@ -46,7 +46,7 @@ core:
             "iconUrl": "/Gemini.svg",
             "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
           },
-          "anthropic.claude-v1": {
+          "anthropic.claude-v2:1": {
               "type": "chat",
               "displayName": "Anthropic (Claude)",
               "iconUrl": "/anthropic.svg",
@@ -58,7 +58,7 @@ core:
             "limits": {
               "gpt-4": {},
               "gemini-1.5-pro": {},
-              "anthropic.claude-v1": {}
+              "anthropic.claude-v2:1": {}
             }
           }
         }
