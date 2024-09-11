@@ -151,6 +151,22 @@ vertexai:
   readinessProbe:
     enabled: true
 
+### ai-dial-adapter-dial configuration ###
+adapter-dial:
+  # -- Enable/disable ai-dial-adapter-dial
+  enabled: false
+  commonLabels:
+    app.kubernetes.io/component: "adapter"
+  image:
+    repository: epam/ai-dial-adapter-dial
+    tag: 0.1.0
+  # env:
+  #   DIAL_URL: "http://{{ .Release.Name }}-core"
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
 ### ai-dial-assistant configuration ###
 assistant:
   # -- Enable/disable ai-dial-assistant

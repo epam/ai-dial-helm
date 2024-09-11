@@ -53,6 +53,11 @@ dependencies:
     alias: assistant
     condition: assistant.enabled
     version: 1.0.4
+  - name: dial-extension
+    repository: https://charts.epam-rail.com
+    alias: adapter-dial
+    condition: adapter-dial.enabled
+    version: 1.0.4
 description: Umbrella chart for DIAL solution
 home: https://epam-rail.com
 icon: "https://docs.epam-rail.com/img/favicon.ico"
@@ -65,4 +70,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 3.0.0
+version: 3.1.0

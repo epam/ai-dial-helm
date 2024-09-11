@@ -1,6 +1,6 @@
 # dial
 
-![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 1.14.1](https://img.shields.io/badge/AppVersion-1.14.1-informational?style=flat-square)
+![Version: 3.1.0](https://img.shields.io/badge/Version-3.1.0-informational?style=flat-square) ![AppVersion: 1.14.1](https://img.shields.io/badge/AppVersion-1.14.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -26,6 +26,7 @@ Kubernetes: `>=1.23.0-0`
 | https://charts.epam-rail.com | bedrock(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | vertexai(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | assistant(dial-extension) | 1.0.4 |
+| https://charts.epam-rail.com | adapter-dial(dial-extension) | 1.0.4 |
 
 ## Installing the Chart
 
@@ -82,6 +83,12 @@ helm install my-release dial/dial -f values.yaml
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| adapter-dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| adapter-dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
+| adapter-dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
+| adapter-dial.image.tag | string | `"0.1.0"` |  |
+| adapter-dial.livenessProbe.enabled | bool | `true` |  |
+| adapter-dial.readinessProbe.enabled | bool | `true` |  |
 | assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
