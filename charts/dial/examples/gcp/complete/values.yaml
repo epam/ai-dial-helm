@@ -1,0 +1,176 @@
+core:
+  enabled: true
+  serviceAccount:
+    create: true
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_CORE_SERVICE_ACCOUNT%%"
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  configuration:
+    encryption:
+      secret: "%%CORE_ENCRYPT_SECRET%%"
+      key: "%%CORE_ENCRYPT_KEY%%"
+  env:
+    aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.storage.provider: "google-cloud-storage"
+    aidial.storage.bucket: "%%GCP_CORE_STORAGE_BUCKET_NAME%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
+    aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials"}'
+    aidial.identityProviders.google.userInfoEndpoint: "https://openidconnect.googleapis.com/v1/userinfo"
+    aidial.identityProviders.google.rolePath: "fn:getGoogleWorkspaceGroups"
+    aidial.identityProviders.google.loggingKey: "sub"
+    aidial.identityProviders.google.loggingSalt: "loggingSalt"
+    aidial.redis.clusterServersConfig.nodeAddresses: "%%GCP_MEMORYSTORE_REDISCLUSTER_ENDPOINT%%"
+    aidial.redis.clusterServersConfig.sslTruststore: "file:///mnt/secrets-store/redis-truststore.jks"
+    aidial.redis.clusterServersConfig.sslTruststorePassword: "%%TRUSTSTORE_PASSWORD%%"
+  secrets:
+    aidial.config.json: |
+      {
+        "models": {
+            "gpt-4": {
+              "type": "chat",
+              "displayName": "GPT-4",
+              "iconUrl": "/gpt4.svg",
+              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
+              "upstreams": [
+                  {
+                      "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
+                  }
+              ]
+          },
+          "gemini-1.5-pro": {
+            "type": "chat",
+            "displayName": "Gemini 1.5 Pro",
+            "iconUrl": "/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
+          },
+          "anthropic.claude-v2:1": {
+              "type": "chat",
+              "displayName": "Anthropic (Claude)",
+              "iconUrl": "/anthropic.svg",
+              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+          }
+        },
+        "roles": {
+          "chat": {
+            "limits": {
+              "gpt-4": {},
+              "gemini-1.5-pro": {},
+              "anthropic.claude-v2:1": {}
+            }
+          }
+        }
+      }
+  extraVolumes:
+    - name: config
+      secret:
+        secretName: '{{ template "dialCore.names.fullname" . }}'
+        items:
+          - key: aidial.config.json
+            path: aidial.config.json
+    - name: redis-cacert
+      secret:
+        secretName: redis-cacert
+        items:
+          - key: redis-truststore.jks
+            path: redis-truststore.jks
+  extraVolumeMounts:
+    - name: config
+      mountPath: "/mnt/secrets-store/aidial.config.json"
+      subPath: aidial.config.json
+      readOnly: true
+    - name: redis-cacert
+      mountPath: "/mnt/secrets-store/redis-truststore.jks"
+      subPath: redis-truststore.jks
+      readOnly: true
+  redis:
+    enabled: false
+  ingress:
+    enabled: true
+    ingressClassName: gce
+    annotations:
+      kubernetes.io/ingress.class: "gce"
+      kubernetes.io/ingress.global-static-ip-name: "%%GCP_CORE_IP_ADDRESS%%"
+      networking.gke.io/managed-certificates: "%%GCP_CORE_CERTIFICATE%%"
+    hosts:
+      - dial.%%DOMAIN%%
+
+chat:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    # -- List of DIAL chat features to enable;
+    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL chat should be applied
+    THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
+    DEFAULT_MODEL: "gemini-1.5-pro"
+    AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
+    AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
+    AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    # -- API key defined in core configuration
+    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+  ingress:
+    enabled: true
+    ingressClassName: gce
+    annotations:
+      kubernetes.io/ingress.class: "gce"
+      kubernetes.io/ingress.global-static-ip-name: "%%GCP_CHAT_IP_ADDRESS%%"
+      networking.gke.io/managed-certificates: "%%GCP_CHAT_CERTIFICATE%%"
+    hosts:
+      - chat.%%DOMAIN%%
+
+themes:
+  enabled: true
+  ingress:
+    enabled: false
+
+vertexai:
+  enabled: true
+
+  serviceAccount:
+    create: true
+    name: dial-vertexai
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_VERTEXAI_SERVICE_ACCOUNT%%"
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DEFAULT_REGION: "%%GCP_REGION%%"
+
+bedrock:
+  enabled: true
+
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+    AWS_ACCESS_KEY: "%%AWS_ACCESS_KEY%%"
+    AWS_SECRET_KEY: "%%AWS_SECRET_KEY%%"
+
+  serviceAccount:
+    create: true
+
+openai:
+  enabled: true
+
+  env:
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  serviceAccount:
+    enabled: true
+    name: dial-openai
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
