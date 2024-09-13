@@ -93,7 +93,7 @@ core:
     annotations:
       kubernetes.io/ingress.class: "gce"
       kubernetes.io/ingress.global-static-ip-name: "%%GCP_CORE_IP_ADDRESS%%"
-      networking.gke.io/managed-certificates: "%%GCP_CORE_CERTITIFICATE%%"
+      networking.gke.io/managed-certificates: "%%GCP_CORE_CERTIFICATE%%"
     hosts:
       - dial.%%DOMAIN%%
 
@@ -126,7 +126,7 @@ chat:
     annotations:
       kubernetes.io/ingress.class: "gce"
       kubernetes.io/ingress.global-static-ip-name: "%%GCP_CHAT_IP_ADDRESS%%"
-      networking.gke.io/managed-certificates: "%%GCP_CHAT_CERTITIFICATE%%"
+      networking.gke.io/managed-certificates: "%%GCP_CHAT_CERTIFICATE%%"
     hosts:
       - chat.%%DOMAIN%%
 

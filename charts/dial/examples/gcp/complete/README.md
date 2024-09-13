@@ -1,6 +1,6 @@
 # AI DIAL GCP Installation Complete Guide
 
-- [AI DIAL GCP Installation Complete Guide](#ai-dial-gcp-installation-simple-guide)
+- [AI DIAL GCP Installation Complete Guide](#ai-dial-gcp-installation-complete-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
   - [Install](#install)
@@ -80,9 +80,9 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_CORE_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%GCP_CORE_STORAGE_BUCKET_NAME%%` with Google Storage bucket name from [prerequisites](#prerequisites)
     - Replace `%%GCP_CHAT_IP_ADDRESS%%` with static IP address name for Chat from [prerequisites](#prerequisites)
-    - Replace `%%GCP_CHAT_CERTITIFICATE%%` with Google-managed certificate name for Chat from [prerequisites](#prerequisites)
+    - Replace `%%GCP_CHAT_CERTIFICATE%%` with Google-managed certificate name for Chat from [prerequisites](#prerequisites)
     - Replace `%%GCP_CORE_IP_ADDRESS%%` with static IP address name for Core from [prerequisites](#prerequisites)
-    - Replace `%%GCP_CORE_CERTITIFICATE%%` with Google-managed certificate name for Core from [prerequisites](#prerequisites)
+    - Replace `%%GCP_CORE_CERTIFICATE%%` with Google-managed certificate name for Core from [prerequisites](#prerequisites)
     - Replace `%%GCP_PROJECT_ID%%` with GCP Project Id e.g. `dial-191923`
     - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
     - Replace `%%GCP_MEMORYSTORE_REDISCLUSTER_ENDPOINT%%` with MemoryStore RedisCluster endpoint, e.g. `[\"rediss://10.0.0.2:6379\"]`
@@ -93,7 +93,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AWS_SECRET_KEY%%` with AWS secret key from [prerequisites](#prerequisites)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
 
-2. Install `dial` helm chart in created namespace, applying custom values file:
+1. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -118,7 +118,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ** Please be patient while the chart is being deployed **
     ```
 
-3. Now you can access:
+1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value
