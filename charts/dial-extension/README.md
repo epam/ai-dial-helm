@@ -99,7 +99,6 @@ helm install my-release dial/dial-extension -f values.yaml
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
-| existingConfigmap | string | `nil` | The name of an existing ConfigMap with your custom configuration for container |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-extension containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
