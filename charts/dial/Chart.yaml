@@ -55,8 +55,8 @@ dependencies:
     version: 1.0.4
   - name: dial-extension
     repository: https://charts.epam-rail.com
-    alias: adapter-dial
-    condition: adapter-dial.enabled
+    alias: dial
+    condition: dial.enabled
     version: 1.0.4
 description: Umbrella chart for DIAL solution
 home: https://epam-rail.com

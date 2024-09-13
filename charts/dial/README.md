@@ -26,7 +26,7 @@ Kubernetes: `>=1.23.0-0`
 | https://charts.epam-rail.com | bedrock(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | vertexai(dial-extension) | 1.0.4 |
 | https://charts.epam-rail.com | assistant(dial-extension) | 1.0.4 |
-| https://charts.epam-rail.com | adapter-dial(dial-extension) | 1.0.4 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.0.4 |
 
 ## Installing the Chart
 
@@ -83,12 +83,6 @@ helm install my-release dial/dial -f values.yaml
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| adapter-dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| adapter-dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
-| adapter-dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
-| adapter-dial.image.tag | string | `"0.1.0"` |  |
-| adapter-dial.livenessProbe.enabled | bool | `true` |  |
-| adapter-dial.readinessProbe.enabled | bool | `true` |  |
 | assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
 | assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
@@ -120,6 +114,12 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.16.0"` |  |
+| dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
+| dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
+| dial.image.tag | string | `"0.1.0"` |  |
+| dial.livenessProbe.enabled | bool | `true` |  |
+| dial.readinessProbe.enabled | bool | `true` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |

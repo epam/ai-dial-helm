@@ -152,7 +152,7 @@ vertexai:
     enabled: true
 
 ### ai-dial-adapter-dial configuration ###
-adapter-dial:
+dial:
   # -- Enable/disable ai-dial-adapter-dial
   enabled: false
   commonLabels:
