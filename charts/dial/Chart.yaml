@@ -2,7 +2,7 @@ annotations:
   category: MachineLearning
   licenses: Apache-2.0
 apiVersion: v2
-appVersion: "1.14.1"
+appVersion: "1.15.0"
 dependencies:
   - name: common
     repository: https://charts.bitnami.com/bitnami
