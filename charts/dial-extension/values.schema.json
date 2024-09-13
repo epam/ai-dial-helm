@@ -592,11 +592,21 @@
                     "type": "array"
                 },
                 "tls": {
+                    "type": "array",
                     "items": {
-                        "type": "string",
-                        "format": "hostname"
-                    },
-                    "type": "array"
+                        "type": "object",
+                        "properties": {
+                            "secretName": {
+                                "type": "string"
+                            },
+                            "hosts": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
                 },
                 "extraPaths": {
                     "type": "array"
