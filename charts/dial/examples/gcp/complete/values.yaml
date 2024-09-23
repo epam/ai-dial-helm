@@ -154,8 +154,8 @@ bedrock:
 
   env:
     DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_ACCESS_KEY: "%%AWS_ACCESS_KEY%%"
-    AWS_SECRET_KEY: "%%AWS_SECRET_KEY%%"
+    AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
+    AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
 
   serviceAccount:
     create: true

@@ -1,0 +1,196 @@
+core:
+  enabled: true
+  serviceAccount:
+    create: true
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
+  configuration:
+    encryption:
+      secret: "%%CORE_ENCRYPT_SECRET%%"
+      key: "%%CORE_ENCRYPT_KEY%%"
+  env:
+    aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
+    aidial.storage.provider: "azureblob"
+    aidial.storage.bucket: "%%AZURE_CORE_BLOB_STORAGE_NAME%%"
+    aidial.storage.endpoint: "%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%"
+    aidial.storage.createBucket: "false"
+    aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
+    aidial.identityProviders.azure.loggingKey: "sub"
+    aidial.identityProviders.azure.loggingSalt: "loggingSalt"
+    aidial.identityProviders.azure.jwksUrl: "https://login.microsoftonline.com/%%AZURE_TENANT_ID%%/discovery/v2.0/keys"
+    aidial.identityProviders.azure.rolePath: "groups"
+    aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
+    aidial.redis.singleServerConfig.address: "%%AZURE_CACHE_REDIS_ADDRESS%%"
+    aidial.redis.singleServerConfig.password: "%%AZURE_CACHE_REDIS_PASSWORD%%"
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  secrets:
+    aidial.config.json: |
+      {
+        "models": {
+          "gpt-35-turbo-0301": {
+              "type": "chat",
+              "displayName": "GPT-3.5 Turbo",
+              "displayVersion": "0301",
+              "tokenizerModel": "gpt-3.5-turbo-0301",
+              "iconUrl": "gpt3.svg",
+              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-35-turbo-0301/chat/completions",
+              "upstreams": [
+                  {
+                      "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%.azure.com/openai/deployments/gpt-35-turbo-0301/chat/completions"
+                  }
+              ]
+          },
+           "gemini-1.5-pro-preview-0409": {
+            "type": "chat",
+            "displayName": "Gemini 1.5 Pro",
+            "iconUrl": "Gemini-Pro-Vision.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-1.5-pro-preview-0409/chat/completions"
+          },
+          "anthropic.claude-v2:1": {
+              "type": "chat",
+              "displayName": "Anthropic (Claude)",
+              "iconUrl": "anthropic.svg",
+              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v2:1/chat/completions"
+          }
+        },
+        "roles": {
+          "chat": {
+            "limits": {
+              "gpt-4": {},
+              "gemini-1.5-pro-preview-0409": {},
+              "anthropic.claude-v2:1": {}
+            }
+          }
+        }
+      }
+  extraVolumes:
+    - name: config
+      secret:
+        secretName: '{{ template "dialCore.names.fullname" . }}'
+        items:
+          - key: aidial.config.json
+            path: aidial.config.json
+  extraVolumeMounts:
+    - name: config
+      mountPath: "/mnt/secrets-store/aidial.config.json"
+      subPath: aidial.config.json
+      readOnly: true
+  redis:
+    enabled: false
+
+chat:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    # -- List of DIAL chat features to enable;
+    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
+    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL chat should be applied
+    THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
+    DEFAULT_MODEL: "gpt-35-turbo-0301"
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    AUTH_AZURE_AD_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
+    AUTH_AZURE_AD_TENANT_ID: "%%AZURE_TENANT_ID%%"
+    AUTH_AZURE_AD_SECRET: "%%AZURE_CLIENT_SECRET%%"
+    AUTH_AZURE_AD_SCOPE: "openid profile %%AZURE_CLIENT_ID%%/.default email offline_access"
+    # -- API key defined in core configuration
+    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+  ingress:
+    enabled: true
+    ingressClassName: azure-application-gateway
+    annotations:
+      appgw.ingress.kubernetes.io/backend-protocol: "http"
+      appgw.ingress.kubernetes.io/appgw-ssl-certificate: "ssl-cert"
+      appgw.ingress.kubernetes.io/ssl-redirect: "true"
+      appgw.ingress.kubernetes.io/backend-path-prefix: "/"
+      appgw.ingress.kubernetes.io/request-timeout: "30"
+      appgw.ingress.kubernetes.io/use-private-ip: "false"
+    hosts:
+      - chat.%%DOMAIN%%
+
+themes:
+  enabled: true
+  ingress:
+    enabled: false
+
+vertexai:
+  enabled: true
+
+  serviceAccount:
+    create: true
+    annotations:
+      iam.gke.io/gcp-service-account: "%%GCP_SERVICE_ACCOUNT_ID%%"
+
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential-configuration.json"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
+    DEFAULT_REGION: "%%GCP_REGION%%"
+
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: gcp-cred
+      data:
+        credential.json: |
+          %%GCP_WORKLOAD_IDENTITY_CREDS%%
+
+  extraVolumes:
+    - name: token
+      projected:
+        sources:
+          - serviceAccountToken:
+              audience: "%%GCP_SERVICE_ACCOUNT_AUDIENCE%%"
+              expirationSeconds: 3600
+              path: token
+    - name: workload-identity-credential-configuration
+      configMap:
+        name: gcp-cred
+
+  extraVolumeMounts:
+    - name: token
+      mountPath: "/var/run/service-account"
+      readOnly: true
+    - name: workload-identity-credential-configuration
+      mountPath: "/etc/workload-identity"
+      readOnly: true
+
+bedrock:
+  enabled: true
+
+  env:
+    AWS_DEFAULT_REGION: "%%AWS_REGION%%"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
+    AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
+
+  serviceAccount:
+    create: true
+
+openai:
+  enabled: true
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  serviceAccount:
+    enabled: true
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
