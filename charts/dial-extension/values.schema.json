@@ -657,47 +657,5 @@
             "type": "object"
         }
     },
-    "type": "object",
-    "allOf": [
-        {
-            "if": {
-                "properties": {
-                    "diagnosticMode": {
-                        "properties": {
-                            "enabled": {
-                                "enum": [
-                                    true
-                                ]
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "diagnosticMode"
-                ]
-            },
-            "then": {
-                "properties": {
-                    "livenessProbe": {
-                        "properties": {
-                            "enabled": {
-                                "enum": [
-                                    false
-                                ]
-                            }
-                        }
-                    },
-                    "readinessProbe": {
-                        "properties": {
-                            "enabled": {
-                                "enum": [
-                                    false
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    ]
+    "type": "object"
 }
