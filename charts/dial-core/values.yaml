@@ -506,12 +506,12 @@ logger:
 
 redis:
   enabled: true
-  resources:
-    requests:
-      memory: 2Gi
-    limits:
-      memory: 2Gi
   redis:
+    resources:
+      requests:
+        memory: 2Gi
+      limits:
+        memory: 2Gi
     # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
     useAOFPersistence: "no"
     configmap: |-
