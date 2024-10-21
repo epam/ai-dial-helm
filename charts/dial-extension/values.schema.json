@@ -586,8 +586,7 @@
                 },
                 "hosts": {
                     "items": {
-                        "type": "string",
-                        "format": "hostname"
+                        "type": "string"
                     },
                     "type": "array"
                 },
