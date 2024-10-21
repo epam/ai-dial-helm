@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.0.5](https://img.shields.io/badge/Version-1.0.5-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.6](https://img.shields.io/badge/Version-1.0.6-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -124,7 +124,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | ingress.path | string | `"/"` | Default path for the ingress record NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers |
 | ingress.pathType | string | `"Prefix"` | Ingress path type |
 | ingress.serviceName | string | `""` | Change default name of service for the ingress record |
-| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |
+| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |
 | initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ |
 | labels | object | `{}` | Labels to add to dial-extension deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-extension container(s) to automate configuration before or after startup |

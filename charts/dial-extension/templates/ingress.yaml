@@ -22,7 +22,7 @@ spec:
   ingressClassName: {{ .Values.ingress.ingressClassName }}
 {{- end }}
 {{- if .Values.ingress.tls }}
-  tls: {{ toYaml .Values.ingress.tls | nindent 4 }}
+  tls: {{- include "common.tplvalues.render" (dict "value" .Values.ingress.tls "context" $) | nindent 4 }}
 {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
