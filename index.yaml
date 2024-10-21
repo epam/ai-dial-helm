@@ -2266,6 +2266,34 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: "1.0"
+    created: "2024-10-21T18:35:14.426236632Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 2.14.1
+    description: Helm chart for dial extensions
+    digest: d7bb5689f777e38e8c6f0172fd32ca8af9a3807846eebee3dfd9868622a77dc0
+    home: https://epam-rail.com
+    icon: https://docs.epam-rail.com/img/favicon.ico
+    keywords:
+    - ai-dial
+    kubeVersion: '>=1.23.0-0'
+    maintainers:
+    - name: EPAM Systems
+      url: https://github.com/epam
+    name: dial-extension
+    sources:
+    - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-extension
+    urls:
+    - https://github.com/epam/ai-dial-helm/releases/download/dial-extension-1.0.6/dial-extension-1.0.6.tgz
+    version: 1.0.6
+  - annotations:
+      category: MachineLearning
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: "1.0"
     created: "2024-10-21T17:06:57.414975454Z"
     dependencies:
     - name: common
@@ -2429,4 +2457,4 @@ entries:
     urls:
     - https://github.com/epam/ai-dial-helm/releases/download/dial-extension-1.0.0/dial-extension-1.0.0.tgz
     version: 1.0.0
-generated: "2024-10-21T17:06:57.415114644Z"
+generated: "2024-10-21T18:35:14.426525811Z"
