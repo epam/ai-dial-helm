@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.5](https://img.shields.io/badge/Version-1.0.5-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -8,7 +8,7 @@ Helm chart for dial extensions
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
+helm install my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
 ```
 
 ## Prerequisites
@@ -31,7 +31,7 @@ To install the chart with the release name `my-release`:
 
 ```console
 helm repo add dial https://charts.epam-rail.com
-helm install --name my-release dial/dial-extension
+helm install my-release dial/dial-extension
 ```
 
 The command deploys dial-extension on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -99,7 +99,6 @@ helm install my-release dial/dial-extension -f values.yaml
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
-| existingConfigmap | string | `nil` | The name of an existing ConfigMap with your custom configuration for container |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-extension containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
