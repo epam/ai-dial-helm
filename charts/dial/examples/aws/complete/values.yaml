@@ -52,7 +52,7 @@ core:
                   "type": "chat",
                   "displayName": "Anthropic (Claude)",
                   "iconUrl": "https://themes.%%DOMAIN%%/anthropic.svg",
-                  "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+                  "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-instant-v1/chat/completions"
               }
           },
           "roles": {
