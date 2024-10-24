@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 3.0.1](https://img.shields.io/badge/Version-3.0.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 3.0.2](https://img.shields.io/badge/Version-3.0.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -103,7 +103,6 @@ helm install my-release dial/dial-core -f values.yaml
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-core |
-| existingConfigmap | string | `nil` | The name of an existing ConfigMap with your custom configuration for container |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-core containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-core container(s) |
@@ -129,7 +128,7 @@ helm install my-release dial/dial-core -f values.yaml
 | ingress.path | string | `"/"` | Default path for the ingress record NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers |
 | ingress.pathType | string | `"Prefix"` | Ingress path type |
 | ingress.serviceName | string | `""` | Change default name of service for the ingress record |
-| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |
+| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |
 | initContainers | list | `[]` | Add additional init containers to the dial-core pod(s) ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ |
 | labels | object | `{}` | Labels to add to dial-core deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-core container(s) to automate configuration before or after startup |
