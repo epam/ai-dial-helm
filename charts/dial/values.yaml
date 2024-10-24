@@ -143,7 +143,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.12.0
+    tag: 0.12.1
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
