@@ -123,8 +123,6 @@ containerSecurityContext:
   # -- Set dial-core containers' Security Context runAsNonRoot
   readOnlyRootFilesystem: false
 
-# -- The name of an existing ConfigMap with your custom configuration for container
-existingConfigmap:
 # -- Override default dial-core command (useful when using custom images)
 command: []
 # -- Override default dial-core args (useful when using custom images)
@@ -414,7 +412,7 @@ ingress:
   # -- An array with hostname(s) to be covered with the ingress record
   hosts:
     - dial-core.local
-  # -- TLS configuration for additional hostname(s) to be covered with this ingress record
+  # -- TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template)
   # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
   tls:
     []
