@@ -147,7 +147,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
-| vertexai.image.tag | string | `"0.12.0"` |  |
+| vertexai.image.tag | string | `"0.12.1"` |  |
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 
