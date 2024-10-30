@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 3.0.2](https://img.shields.io/badge/Version-3.0.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,8 +23,8 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | 2.14.1 |
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 9.1.5 |
+| https://charts.bitnami.com/bitnami | common | 2.26.0 |
+| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 11.0.6 |
 
 ## Installing the Chart
 
