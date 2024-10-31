@@ -248,6 +248,17 @@ helm install my-release dial/dial-core -f values.yaml
 
 ## Upgrading
 
+### To 4.0.0
+
+Bumping the major version to highlight Redis `7.2.4` --> `7.4.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/7.4/00-RELEASENOTES) for specific details.
+
+As for `redis-cluster` helm chart, following security defaults changed:
+
+- `runAsGroup` is changed from `0` to `1001`
+- `readOnlyRootFilesystem` is set to `true`
+
+This could potentially break any customization or init scripts used in your deployment. If this is the case, change the default values to the previous ones.
+
 ### To 3.0.0
 
 **IMPORTANT**: Manual Action Required for Self-Managed Secrets
