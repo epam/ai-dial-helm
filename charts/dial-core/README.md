@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 3.0.2](https://img.shields.io/badge/Version-3.0.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,8 +23,8 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | 2.14.1 |
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 9.1.5 |
+| https://charts.bitnami.com/bitnami | common | 2.26.0 |
+| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 11.0.6 |
 
 ## Installing the Chart
 
@@ -247,6 +247,17 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 
 ## Upgrading
+
+### To 4.0.0
+
+Bumping the major version to highlight Redis `7.2.4` --> `7.4.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/7.4/00-RELEASENOTES) for specific details.
+
+As for `redis-cluster` helm chart, following security defaults changed:
+
+- `runAsGroup` is changed from `0` to `1001`
+- `readOnlyRootFilesystem` is set to `true`
+
+This could potentially break any customization or init scripts used in your deployment. If this is the case, change the default values to the previous ones.
 
 ### To 3.0.0
 
