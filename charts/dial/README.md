@@ -1,6 +1,6 @@
 # dial
 
-![Version: 3.3.0](https://img.shields.io/badge/Version-3.3.0-informational?style=flat-square) ![AppVersion: 1.17.0](https://img.shields.io/badge/AppVersion-1.17.0-informational?style=flat-square)
+![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![AppVersion: 1.18.0](https://img.shields.io/badge/AppVersion-1.18.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -16,17 +16,17 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | 2.14.1 |
+| https://charts.bitnami.com/bitnami | common | 2.26.0 |
 | https://charts.bitnami.com/bitnami | keycloak | 16.1.7 |
-| https://charts.epam-rail.com | core(dial-core) | 3.0.2 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.0.6 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.0.6 |
+| https://charts.epam-rail.com | core(dial-core) | 4.0.0 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.1.0 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.1.0 |
 
 ## Installing the Chart
 
@@ -97,7 +97,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.16.0"` |  |
+| bedrock.image.tag | string | `"0.17.0"` |  |
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.enabled | bool | `true` |  |
 | bedrock.secrets | object | `{}` |  |
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.19.0"` |  |
+| chat.image.tag | string | `"0.20.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -113,11 +113,11 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.failureThreshold | int | `6` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.18.0"` |  |
+| core.image.tag | string | `"0.19.0"` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
-| dial.image.tag | string | `"0.1.0"` |  |
+| dial.image.tag | string | `"0.3.0"` |  |
 | dial.livenessProbe.enabled | bool | `true` |  |
 | dial.readinessProbe.enabled | bool | `true` |  |
 | extraDeploy | list | `[]` |  |
@@ -132,7 +132,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
-| openai.image.tag | string | `"0.16.0"` |  |
+| openai.image.tag | string | `"0.17.0"` |  |
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.enabled | bool | `true` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
@@ -140,7 +140,7 @@ helm install my-release dial/dial -f values.yaml
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
-| themes.image.tag | string | `"0.8.0"` |  |
+| themes.image.tag | string | `"0.9.1"` |  |
 | themes.livenessProbe.enabled | bool | `true` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
@@ -152,6 +152,10 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 
 ## Upgrading
+
+### To 4.0.0
+
+Bumping the major version to highlight Redis upgrade in `dial-core` helm chart. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/7.4/00-RELEASENOTES) and [dial-core-4.0.0 release notes](https://github.com/epam/ai-dial-helm/releases/tag/dial-core-4.0.0) for specific details.
 
 ### To 3.0.0
 

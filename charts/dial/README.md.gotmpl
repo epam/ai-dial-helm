@@ -69,6 +69,10 @@ helm install my-release dial/dial -f values.yaml
 
 ## Upgrading
 
+### To 4.0.0
+
+Bumping the major version to highlight Redis upgrade in `dial-core` helm chart. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/7.4/00-RELEASENOTES) and [dial-core-4.0.0 release notes](https://github.com/epam/ai-dial-helm/releases/tag/dial-core-4.0.0) for specific details.
+
 ### To 3.0.0
 
 In this version we have to reflect `ai-dial-core` [application configuration parameters renaming](https://github.com/epam/ai-dial-core/pull/455) in version `0.15.1+` by renaming several values in this chart.
