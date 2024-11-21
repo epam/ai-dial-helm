@@ -105,7 +105,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.17.0
+    tag: 0.17.1
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
