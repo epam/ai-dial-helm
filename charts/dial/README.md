@@ -1,6 +1,6 @@
 # dial
 
-![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![AppVersion: 1.18.0](https://img.shields.io/badge/AppVersion-1.18.0-informational?style=flat-square)
+![Version: 4.0.1](https://img.shields.io/badge/Version-4.0.1-informational?style=flat-square) ![AppVersion: 1.18.1](https://img.shields.io/badge/AppVersion-1.18.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -132,7 +132,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
-| openai.image.tag | string | `"0.17.0"` |  |
+| openai.image.tag | string | `"0.17.1"` |  |
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.enabled | bool | `true` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
