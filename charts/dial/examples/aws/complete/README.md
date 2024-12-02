@@ -68,7 +68,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AWS_COGNITO_REGION%%` - aws region where resides Cognito pool e.g. `us-east-1`
     - Replace `%%AWS_COGNITO_ID%%` with AWS Cognito pool id e.g. `us-east-1_AbcD0efGh`
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint [link](https://docs.epam-rail.com/tutorials/quick-start-model#step-2-configuration)
-    - Replace `%%AMS_SSPS_DIAL_CORE_SECRET%%` with DIAL core secrets in AWS Secrets Manager
     - Replace `%%AWS_CERTIFICATE_ARN%%` with associated ACM certificate arn e.g. `arn:aws:acm:us-east-1:123456789012:certificate/1234567a-b123-4567-8c9d-123456789012`
     - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)

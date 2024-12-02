@@ -74,33 +74,11 @@ core:
           - key: aidial.config.json
             path: aidial.config.json
 
-    - name: secrets
-      csi:
-        driver: secrets-store.csi.k8s.io
-        readOnly: true
-        volumeAttributes:
-          secretProviderClass: dial-core-secret
-
   extraVolumeMounts:
     - name: config
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-    - name: secrets
-      readOnly: true
-      mountPath: /mnt/secrets-store
-
-  extraDeploy:
-    - apiVersion: secrets-store.csi.x-k8s.io/v1
-      kind: SecretProviderClass
-      metadata:
-        name: dial-core-secret
-      spec:
-        provider: aws
-        parameters:
-          objects: |
-            - objectName: %%AMS_SSPS_DIAL_CORE_SECRET%%
-              objectType: "secretsmanager"
 
   redis:
     enabled: false
