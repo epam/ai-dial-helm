@@ -19,7 +19,6 @@
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Cognito](https://docs.epam-rail.com/Deployment/idp-configuration/cognito)
-- [Amazon Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/whats-in-a-secret.html)
 - [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
   - [Vertex AI Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
