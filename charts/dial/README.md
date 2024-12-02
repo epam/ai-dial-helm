@@ -117,7 +117,7 @@ helm install my-release dial/dial -f values.yaml
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
-| dial.image.tag | string | `"0.3.0"` |  |
+| dial.image.tag | string | `"0.3.1"` |  |
 | dial.livenessProbe.enabled | bool | `true` |  |
 | dial.readinessProbe.enabled | bool | `true` |  |
 | extraDeploy | list | `[]` |  |

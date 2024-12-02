@@ -159,7 +159,7 @@ dial:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-dial
-    tag: 0.3.0
+    tag: 0.3.1
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
