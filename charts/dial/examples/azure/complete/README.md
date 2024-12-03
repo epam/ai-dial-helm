@@ -1,4 +1,4 @@
-# AI DIAL GCP Installation Complete Guide
+# AI DIAL Azure Installation Complete Guide
 
 - [AI DIAL Azure Installation Complete Guide](#ai-dial-azure-installation-complete-guide)
   - [Prerequisites](#prerequisites)

@@ -1,6 +1,6 @@
-# AI DIAL AKS Installation Simple Guide
+# AI DIAL Azure Installation Simple Guide
 
-- [AI DIAL AKS Installation Simple Guide](#ai-dial-aks-installation-simple-guide)
+- [AI DIAL Azure Installation Simple Guide](#ai-dial-azure-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
   - [Install](#install)
