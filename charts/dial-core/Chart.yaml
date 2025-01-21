@@ -5,15 +5,15 @@ apiVersion: v2
 appVersion: "1.0"
 dependencies:
   - name: common
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
     tags:
       - bitnami-common
-    version: 2.26.0
+    version: 2.29.0
   - name: redis-cluster
     repository: https://charts.bitnami.com/bitnami
     alias: redis
     condition: redis.enabled
-    version: 11.0.6
+    version: 11.4.0
 description: Helm chart for dial core
 home: https://epam-rail.com
 icon: "https://docs.epam-rail.com/img/favicon.ico"
@@ -26,4 +26,4 @@ maintainers:
 name: dial-core
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
-version: 4.0.0
+version: 4.1.0
