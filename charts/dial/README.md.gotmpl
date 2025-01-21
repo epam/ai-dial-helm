@@ -69,6 +69,89 @@ helm install my-release dial/dial -f values.yaml
 
 ## Upgrading
 
+### To 5.0.0
+
+> [!TIP]
+> If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've updated the following underlying dependencies which require manual actions:
+
+- `bitnami/keycloak` Helm chart version bumped from `16.1.7` to `24.4.3`
+  - `keycloak` version bumped from `22.0.3` to `26.0.8`
+  - `bitnami/postgresql` Helm chart from `12.12.9` to `16.4.3`
+    - `postgresql` version bumped from `15.4.0` to `17.2.0`
+
+Please refer to the official documentation for more details:
+
+- [bitnami/keycloak helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md#upgrading)
+- [bitnami/postgresql helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/README.md#upgrading)
+
+> [!IMPORTANT]
+> We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
+
+1. Stop Keycloak
+1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
+
+1. Run `helm upgrade` command with usual arguments and **new** `5.X.X` chart version, with addition of special values:
+    - add values
+
+      ```yaml
+      keycloak:
+        diagnosticMode:
+          enabled: true
+        keycloakConfigCli:
+          enabled: false
+        postgresql:
+          diagnosticMode:
+            enabled: true
+      ```
+
+    - delete `declarative-user-profile` from `keycloak.extraEnvVars.*.KC_FEATURES` if it's present
+    - delete all occurrences of `bruteForceProtected` option from `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used
+1. After `helm upgrade` is finished, open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+
+    ```bash
+    # rename old data dir
+    mv /var/lib/postgresql/data /var/lib/postgresql/data_old
+
+    # run postgres manually
+    nohup /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh > /dev/null 2>&1 &
+
+    # restore databases from dump (replace `PGPASSWORD` with the actual password)
+    export PGUSER=postgres
+    export PGPASSWORD=PASSWORD_PLACEHOLDER
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    psql -d postgres -f ${PGDUMP_DIR}/pg_dumpall-YYYY-MM-DD-HH-MM.pgdump
+    ```
+
+1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, but without special values
+    - delete values
+
+      ```yaml
+      keycloak:
+        diagnosticMode:
+          enabled: true
+        keycloakConfigCli:
+          enabled: false
+        postgresql:
+          diagnosticMode:
+            enabled: true
+      ```
+
+1. Verify DIAL is up and running correctly
+
 ### To 4.0.0
 
 Bumping the major version to highlight Redis upgrade in `dial-core` helm chart. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/7.4/00-RELEASENOTES) and [dial-core-4.0.0 release notes](https://github.com/epam/ai-dial-helm/releases/tag/dial-core-4.0.0) for specific details.

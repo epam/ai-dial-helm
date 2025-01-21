@@ -15,7 +15,7 @@ keycloak:
   #   adminPassword: "youReallyNeedToChangeThis"
   extraEnvVars:
     - name: KC_FEATURES
-      value: "token-exchange,admin-fine-grained-authz,declarative-user-profile"
+      value: "token-exchange,admin-fine-grained-authz"
   postgresql:
     enabled: true
     # auth:
