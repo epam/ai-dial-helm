@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.1.0](https://img.shields.io/badge/Version-4.1.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.1.1](https://img.shields.io/badge/Version-4.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -150,7 +150,7 @@ helm install my-release dial/dial-core -f values.yaml
 | logger.enabled | bool | `false` | Enable/disable logger |
 | logger.env | object | `{}` |  |
 | logger.extraEnvVarsSecret | string | `""` |  |
-| logger.extraVolumeMounts | object | `{}` |  |
+| logger.extraVolumeMounts | list | `[]` |  |
 | logger.image.digest | string | `""` | Image digest for logger component in the way sha256:aa.... |
 | logger.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy for logger component ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images |
 | logger.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |

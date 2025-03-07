@@ -495,11 +495,11 @@ logger:
         encoding:
           codec: "text"
   extraVolumeMounts:
-    {}
+    []
     # - name: logger
     #   mountPath: /var/log/nginx
-    # - mountPath: /etc/vector/vector.yaml
-    #   name: logger-config
+    # - name: logger-config
+    #   mountPath: /etc/vector/vector.yaml
     #   subPath: vector.yaml
 
 redis:
