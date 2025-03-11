@@ -203,11 +203,35 @@ Please refer to the official documentation for more details:
 
     - delete `declarative-user-profile` from `keycloak.extraEnvVars.*.KC_FEATURES` if it's present
     - delete all occurrences of `bruteForceProtected` option from `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used
+    - add `"basic"` to all occurrences of `defaultClientScopes` option usage in `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used, e.g.
+
+        ```diff
+        ...
+        clientId: chatbot-ui
+          name: chatbot-ui
+          defaultClientScopes:
+        +   - basic
+            - web-origins
+            - acr
+            - profile
+            - roles
+            - email
+            - dial
+          optionalClientScopes:
+            - address
+            - phone
+            - offline_access
+            - microprofile-jwt
+          ...
+        ```
+
+        > [!tip]
+        > Find detailed information about this change in keycloak-config-cli [migration guide](https://github.com/adorsys/keycloak-config-cli/blob/b2ebdfc26c6ba289d18579295d087ec9003d553e/docs/FEATURES.md#keycloak-version-2501).
 1. After `helm upgrade` is finished, open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
 
     ```bash
     # rename old data dir
-    mv /var/lib/postgresql/data /var/lib/postgresql/data_old
+    mv /bitnami/postgresql/data /bitnami/postgresql/data_old
 
     # run postgres manually
     nohup /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh > /dev/null 2>&1 &
