@@ -127,6 +127,10 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[1].name | string | `"LOGGING_LEVEL_KEYCLOAKCONFIGCLI"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[1].value | string | `"DEBUG"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[2].name | string | `"LOGGING_LEVEL_REALMCONFIG"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[2].value | string | `"DEBUG"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
