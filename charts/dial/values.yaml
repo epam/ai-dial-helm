@@ -26,6 +26,10 @@ keycloak:
     extraEnvVars:
       - name: IMPORT_VARSUBSTITUTION_ENABLED
         value: "true"
+      - name: LOGGING_LEVEL_KEYCLOAKCONFIGCLI
+        value: DEBUG
+      - name: LOGGING_LEVEL_REALMCONFIG
+        value: DEBUG
     # configuration:
     #   realm.yaml: |
     #     yourRealmConfig
