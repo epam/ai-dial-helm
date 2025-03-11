@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.3.0](https://img.shields.io/badge/Version-5.3.0-informational?style=flat-square) ![AppVersion: 1.24.0](https://img.shields.io/badge/AppVersion-1.24.0-informational?style=flat-square)
+![Version: 5.3.1](https://img.shields.io/badge/Version-5.3.1-informational?style=flat-square) ![AppVersion: 1.24.1](https://img.shields.io/badge/AppVersion-1.24.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -17,15 +17,15 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
-| https://charts.epam-rail.com | core(dial-core) | 4.1.0 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.2.0 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.2.0 |
+| https://charts.epam-rail.com | core(dial-core) | 4.1.1 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
 
 ## Installing the Chart
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.26.0"` |  |
+| chat.image.tag | string | `"0.26.3"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -203,11 +203,35 @@ Please refer to the official documentation for more details:
 
     - delete `declarative-user-profile` from `keycloak.extraEnvVars.*.KC_FEATURES` if it's present
     - delete all occurrences of `bruteForceProtected` option from `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used
+    - add `"basic"` to all occurrences of `defaultClientScopes` option usage in `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used, e.g.
+
+        ```diff
+        ...
+        clientId: chatbot-ui
+          name: chatbot-ui
+          defaultClientScopes:
+        +   - basic
+            - web-origins
+            - acr
+            - profile
+            - roles
+            - email
+            - dial
+          optionalClientScopes:
+            - address
+            - phone
+            - offline_access
+            - microprofile-jwt
+          ...
+        ```
+
+        > [!tip]
+        > Find detailed information about this change in keycloak-config-cli [migration guide](https://github.com/adorsys/keycloak-config-cli/blob/b2ebdfc26c6ba289d18579295d087ec9003d553e/docs/FEATURES.md#keycloak-version-2501).
 1. After `helm upgrade` is finished, open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
 
     ```bash
     # rename old data dir
-    mv /var/lib/postgresql/data /var/lib/postgresql/data_old
+    mv /bitnami/postgresql/data /bitnami/postgresql/data_old
 
     # run postgres manually
     nohup /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh > /dev/null 2>&1 &

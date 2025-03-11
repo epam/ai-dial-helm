@@ -63,7 +63,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.26.0
+    tag: 0.26.3
   containerPorts:
     http: 3000
   livenessProbe:
