@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.1.1](https://img.shields.io/badge/Version-4.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.1.2](https://img.shields.io/badge/Version-4.1.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -140,11 +140,12 @@ helm install my-release dial/dial-core -f values.yaml
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
 | livenessProbe.timeoutSeconds | int | `3` |  |
-| logger.args[0] | string | `"--config"` |  |
-| logger.args[1] | string | `"/etc/vector/vector.yaml"` |  |
-| logger.command[0] | string | `"vector"` |  |
-| logger.config | string | `"sources:\n  core_logs:\n    type: \"file\"\n    max_line_bytes: 100000000\n    oldest_first: true\n    include:\n      - /app/log/*.log\n\nsinks:\n  console:\n    inputs:\n      - core_logs\n    type: console\n    target: \"stdout\"\n    encoding:\n      codec: \"text\"\n"` |  |
-| logger.containerSecurityContext.enabled | bool | `false` |  |
+| logger.args[0] | string | `"-c"` |  |
+| logger.args[1] | string | `"mkdir -p /var/tmp/vector && exec vector --config /etc/vector/vector.yaml"` |  |
+| logger.command[0] | string | `"/bin/sh"` |  |
+| logger.config | string | `"data_dir: \"/var/tmp/vector\"\n\nsources:\n  core_logs:\n    type: \"file\"\n    max_line_bytes: 100000000\n    oldest_first: true\n    include:\n      - /app/log/*.log\n\nsinks:\n  console:\n    inputs:\n      - core_logs\n    type: console\n    target: \"stdout\"\n    encoding:\n      codec: \"text\"\n"` |  |
+| logger.containerSecurityContext.enabled | bool | `true` |  |
+| logger.containerSecurityContext.runAsGroup | int | `1001` |  |
 | logger.containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | logger.containerSecurityContext.runAsUser | int | `1001` |  |
 | logger.enabled | bool | `false` | Enable/disable logger |
@@ -156,7 +157,7 @@ helm install my-release dial/dial-core -f values.yaml
 | logger.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |
 | logger.image.registry | string | `"docker.io"` | Image registry for logger component |
 | logger.image.repository | string | `"timberio/vector"` | Image repository for logger component |
-| logger.image.tag | string | `"0.33.0-alpine"` | Image tag for logger component |
+| logger.image.tag | string | `"0.45.0-alpine"` | Image tag for logger component |
 | logger.resources | object | `{}` |  |
 | logger.secrets | object | `{}` |  |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |

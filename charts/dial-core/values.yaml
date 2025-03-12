@@ -448,7 +448,7 @@ logger:
     # -- Image repository for logger component
     repository: timberio/vector
     # -- Image tag for logger component
-    tag: 0.33.0-alpine
+    tag: 0.45.0-alpine
     # -- Image digest for logger component in the way sha256:aa....
     digest: ""
     # -- Image pull policy for logger component
@@ -466,18 +466,23 @@ logger:
   secrets: {}
   extraEnvVarsSecret: ""
 
+  # Original vector image allows only root user to write to /var/lib/vector directory.
+  # Create a different directory to run vector without root privileges.
   command:
-    - vector
+    - /bin/sh
   args:
-    - "--config"
-    - /etc/vector/vector.yaml
+    - "-c"
+    - "mkdir -p /var/tmp/vector && exec vector --config /etc/vector/vector.yaml"
 
   containerSecurityContext:
-    enabled: false
+    enabled: true
     runAsUser: 1001
+    runAsGroup: 1001
     runAsNonRoot: true
 
   config: |
+    data_dir: "/var/tmp/vector"
+
     sources:
       core_logs:
         type: "file"
