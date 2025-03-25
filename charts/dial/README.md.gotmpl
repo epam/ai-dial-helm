@@ -69,6 +69,25 @@ helm install my-release dial/dial -f values.yaml
 
 ## Upgrading
 
+### To 5.4.0
+
+> [!TIP]
+> If you don't use custom Core logger configuration, disregard the information below and proceed with Helm upgrade as usual.
+
+> [!CAUTION]
+> The upgrade require Core logger configuration update.
+
+Add `data_dir: "/var/tmp/vector"` to `core.logger.config` if custom vector config is used. This is required to run vector without root privileges.
+
+**Example:**
+
+```
+core:
+  logger:
+    config: |
+      data_dir: "/var/tmp/vector"
+```
+
 ### To 5.0.0
 
 > [!TIP]
