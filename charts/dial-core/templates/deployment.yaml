@@ -65,7 +65,7 @@ spec:
       topologySpreadConstraints: {{- include "common.tplvalues.render" (dict "value" .Values.topologySpreadConstraints "context" .) | nindent 8 }}
       {{- end }}
       {{- if .Values.podSecurityContext.enabled }}
-      securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.podSecurityContext "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
@@ -82,7 +82,7 @@ spec:
           image: {{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           {{- if .Values.containerSecurityContext.enabled }}
-          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.containerSecurityContext "context" $) | nindent 12 }}
           {{- end }}
           {{- if .Values.command }}
           command: {{- include "common.tplvalues.render" (dict "value" .Values.command "context" $) | nindent 12 }}
@@ -165,7 +165,7 @@ spec:
           args: {{- include "common.tplvalues.render" (dict "value" .Values.logger.args "context" $) | nindent 12 }}
           {{- end }}
           {{- if .Values.logger.containerSecurityContext.enabled }}
-          securityContext: {{- omit .Values.logger.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.logger.containerSecurityContext "context" $) | nindent 12 }}
           {{- end }}
           resources: {{ toYaml .Values.logger.resources | nindent 12 }}
           {{ if .Values.logger.env }}

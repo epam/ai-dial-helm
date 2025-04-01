@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.2.1](https://img.shields.io/badge/Version-1.2.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -90,10 +90,16 @@ helm install my-release dial/dial-extension -f values.yaml
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
 | containerPorts.http | int | `5000` | dial-extension HTTP container port |
 | containerPorts.metrics | int | `9464` | dial-extension HTTP container port for metrics |
+| containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set dial-extension container's Security Context allowPrivilegeEscalation |
+| containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Set dial-extension container's Security Context capabilities |
 | containerSecurityContext.enabled | bool | `true` | Enabled dial-extension container's Security Context |
+| containerSecurityContext.privileged | bool | `false` | Set dial-extension container's Security Context privileged |
 | containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set dial-extension containers' Security Context runAsNonRoot |
+| containerSecurityContext.runAsGroup | int | `1001` | Set dial-extension container's Security Context runAsGroup |
 | containerSecurityContext.runAsNonRoot | bool | `true` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsUser | int | `1001` | Set dial-extension container's Security Context runAsUser |
+| containerSecurityContext.seLinuxOptions | object | `{}` | Set dial-extension SELinux options in container |
+| containerSecurityContext.seccompProfile | object | `{"type":"RuntimeDefault"}` | Set dial-extension container's Security Context seccomp profile |
 | customLivenessProbe | object | `{}` | Custom livenessProbe that overrides the default one |
 | customReadinessProbe | object | `{}` | Custom readinessProbe that overrides the default one |
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
@@ -104,6 +110,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-extension pod(s) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
+| global.compatibility | object | `{"openshift":{"adaptSecurityContext":"disabled"}}` | Compatibility adaptations for Openshift |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
@@ -171,6 +178,9 @@ helm install my-release dial/dial-extension -f values.yaml
 | podLabels | object | `{}` | Extra labels for dial-extension pods ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | podSecurityContext.enabled | bool | `true` | Enabled dial-extension pod's Security Context |
 | podSecurityContext.fsGroup | int | `1001` | Set dial-extension pod's Security Context fsGroup |
+| podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Set filesystem group change policy |
+| podSecurityContext.supplementalGroups | list | `[]` | Set filesystem extra groups |
+| podSecurityContext.sysctls | list | `[]` | Set kernel settings using the sysctl interface |
 | priorityClassName | string | `""` | dial-extension pods' priorityClassName |
 | readinessProbe.enabled | bool | `false` |  |
 | readinessProbe.failureThreshold | int | `3` |  |
