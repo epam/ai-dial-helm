@@ -3,11 +3,14 @@ global:
   # -- Global Docker image registry
   imageRegistry: ""
   # -- Global Docker registry secret names as an array
-  imagePullSecrets:
-    []
-    # - myRegistryKeySecretName
+  imagePullSecrets: []
   # -- Global StorageClass for Persistent Volume(s)
   storageClass: ""
+  # -- Compatibility adaptations for Openshift
+  compatibility:
+    openshift:
+      ## -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
+      adaptSecurityContext: disabled
 
 # -- String to partially override common.names.name
 nameOverride: ""
@@ -109,6 +112,12 @@ resources: {}
 podSecurityContext:
   # -- Enabled dial-extension pod's Security Context
   enabled: true
+  # -- Set filesystem group change policy
+  fsGroupChangePolicy: Always
+  # -- Set kernel settings using the sysctl interface
+  sysctls: []
+  # -- Set filesystem extra groups
+  supplementalGroups: []
   # -- Set dial-extension pod's Security Context fsGroup
   fsGroup: 1001
 
@@ -117,12 +126,26 @@ podSecurityContext:
 containerSecurityContext:
   # -- Enabled dial-extension container's Security Context
   enabled: true
+  # -- Set dial-extension SELinux options in container
+  seLinuxOptions: {}
   # -- Set dial-extension container's Security Context runAsUser
   runAsUser: 1001
+  # -- Set dial-extension container's Security Context runAsGroup
+  runAsGroup: 1001
   # -- Set dial-extension containers' Security Context runAsNonRoot
   runAsNonRoot: true
+  # -- Set dial-extension container's Security Context privileged
+  privileged: false
   # -- Set dial-extension containers' Security Context runAsNonRoot
   readOnlyRootFilesystem: false
+  # -- Set dial-extension container's Security Context allowPrivilegeEscalation
+  allowPrivilegeEscalation: false
+  # -- Set dial-extension container's Security Context capabilities
+  capabilities:
+    drop: ["ALL"]
+  # -- Set dial-extension container's Security Context seccomp profile
+  seccompProfile:
+    type: "RuntimeDefault"
 
 # -- Override default dial-extension command (useful when using custom images)
 command: []

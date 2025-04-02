@@ -3,11 +3,14 @@ global:
   # -- Global Docker image registry
   imageRegistry: ""
   # -- Global Docker registry secret names as an array
-  imagePullSecrets:
-    []
-    # - myRegistryKeySecretName
+  imagePullSecrets: []
   # -- Global StorageClass for Persistent Volume(s)
   storageClass: ""
+  # -- Compatibility adaptations for Openshift
+  compatibility:
+    openshift:
+      ## -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
+      adaptSecurityContext: disabled
 
 # -- String to partially override common.names.name
 nameOverride: ""
@@ -108,6 +111,12 @@ resources: {}
 podSecurityContext:
   # -- Enabled dial-core pod's Security Context
   enabled: true
+  # -- Set filesystem group change policy
+  fsGroupChangePolicy: Always
+  # -- Set kernel settings using the sysctl interface
+  sysctls: []
+  # -- Set filesystem extra groups
+  supplementalGroups: []
   # -- Set dial-core pod's Security Context fsGroup
   fsGroup: 1001
 
@@ -116,12 +125,26 @@ podSecurityContext:
 containerSecurityContext:
   # -- Enabled dial-core container's Security Context
   enabled: true
+  # -- Set dial-core SELinux options in container
+  seLinuxOptions: {}
   # -- Set dial-core container's Security Context runAsUser
   runAsUser: 1001
+  # -- Set dial-core container's Security Context runAsGroup
+  runAsGroup: 1001
   # -- Set dial-core containers' Security Context runAsNonRoot
   runAsNonRoot: true
+  # -- Set dial-core container's Security Context privileged
+  privileged: false
   # -- Set dial-core containers' Security Context runAsNonRoot
   readOnlyRootFilesystem: false
+  # -- Set dial-core container's Security Context allowPrivilegeEscalation
+  allowPrivilegeEscalation: false
+  # -- Set dial-core container's Security Context capabilities
+  capabilities:
+    drop: ["ALL"]
+  # -- Set dial-core container's Security Context seccomp profile
+  seccompProfile:
+    type: "RuntimeDefault"
 
 # -- Override default dial-core command (useful when using custom images)
 command: []
@@ -475,10 +498,28 @@ logger:
     - "mkdir -p /var/tmp/vector && exec vector --config /etc/vector/vector.yaml"
 
   containerSecurityContext:
+    # -- Enabled logger container's Security Context
     enabled: true
+    # -- Set logger SELinux options in container
+    seLinuxOptions: {}
+    # -- Set logger container's Security Context runAsUser
     runAsUser: 1001
+    # -- Set logger container's Security Context runAsGroup
     runAsGroup: 1001
+    # -- Set logger containers' Security Context runAsNonRoot
     runAsNonRoot: true
+    # -- Set logger container's Security Context privileged
+    privileged: false
+    # -- Set logger containers' Security Context runAsNonRoot
+    readOnlyRootFilesystem: false
+    # -- Set logger container's Security Context allowPrivilegeEscalation
+    allowPrivilegeEscalation: false
+    # -- Set logger container's Security Context capabilities
+    capabilities:
+      drop: ["ALL"]
+    # -- Set logger container's Security Context seccomp profile
+    seccompProfile:
+      type: "RuntimeDefault"
 
   config: |
     data_dir: "/var/tmp/vector"
