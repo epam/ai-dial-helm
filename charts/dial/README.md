@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.4.0](https://img.shields.io/badge/Version-5.4.0-informational?style=flat-square) ![AppVersion: 1.25.0](https://img.shields.io/badge/AppVersion-1.25.0-informational?style=flat-square)
+![Version: 5.5.0](https://img.shields.io/badge/Version-5.5.0-informational?style=flat-square) ![AppVersion: 1.25.0](https://img.shields.io/badge/AppVersion-1.25.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -17,15 +17,15 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
-| https://charts.epam-rail.com | core(dial-core) | 4.1.2 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.2.1 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.2.1 |
+| https://charts.epam-rail.com | core(dial-core) | 4.2.1 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.3.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
 
 ## Installing the Chart
@@ -152,6 +152,25 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 
 ## Upgrading
+
+### To 5.4.0
+
+> [!TIP]
+> If you don't use custom Core logger configuration, disregard the information below and proceed with Helm upgrade as usual.
+
+> [!CAUTION]
+> The upgrade require Core logger configuration update.
+
+Add `data_dir: "/var/tmp/vector"` to `core.logger.config` if custom vector config is used. This is required to run vector without root privileges.
+
+**Example:**
+
+```
+core:
+  logger:
+    config: |
+      data_dir: "/var/tmp/vector"
+```
 
 ### To 5.0.0
 
