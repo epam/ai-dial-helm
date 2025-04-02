@@ -42,6 +42,7 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ template "dialCore.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       {{- include "common.images.renderPullSecrets" (dict "images" (list .Values.image) "context" $) | nindent 6 }}
       {{- if .Values.hostAliases }}
       hostAliases: {{- include "common.tplvalues.render" (dict "value" .Values.hostAliases "context" $) | nindent 8 }}

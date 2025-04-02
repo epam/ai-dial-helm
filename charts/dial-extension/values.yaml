@@ -151,6 +151,8 @@ containerSecurityContext:
 command: []
 # -- Override default dial-extension args (useful when using custom images)
 args: []
+# -- Mount Service Account token in pods
+automountServiceAccountToken: false
 # -- dial-extension pods host aliases
 # https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
 hostAliases: []
@@ -305,7 +307,7 @@ serviceAccount:
   # -- Additional Service Account annotations (evaluated as a template)
   annotations: {}
   # -- Automount service account token for the server service account
-  automountServiceAccountToken: true
+  automountServiceAccountToken: false
 
 ### Prometheus metrics configuration ###
 metrics:

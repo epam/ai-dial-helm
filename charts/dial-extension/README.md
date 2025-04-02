@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -77,6 +77,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | affinity | object | `{}` | Affinity for dial-extension pods assignment |
 | annotations | object | `{}` | Annotations to add to dial-extension deployed objects |
 | args | list | `[]` | Override default dial-extension args (useful when using custom images) |
+| automountServiceAccountToken | bool | `false` | Mount Service Account token in pods |
 | autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
 | autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
 | autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
@@ -207,7 +208,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | service.sessionAffinityConfig | object | `{}` | Additional settings for the sessionAffinity |
 | service.type | string | `"ClusterIP"` | dial-extension service type |
 | serviceAccount.annotations | object | `{}` | Additional Service Account annotations (evaluated as a template) |
-| serviceAccount.automountServiceAccountToken | bool | `true` | Automount service account token for the server service account |
+| serviceAccount.automountServiceAccountToken | bool | `false` | Automount service account token for the server service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the common.names.fullname template |
 | sidecars | list | `[]` | Add additional sidecar containers to the dial-extension pod(s) |
