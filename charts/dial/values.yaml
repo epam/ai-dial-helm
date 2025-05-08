@@ -39,7 +39,7 @@ authhelper:
     app.kubernetes.io/component: "authentication"
   image:
     repository: epam/ai-dial-auth-helper
-    tag: 0.3.0
+    tag: 0.4.0
   containerPorts:
     http: 4088
   # env:
