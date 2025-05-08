@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.7.0](https://img.shields.io/badge/Version-5.7.0-informational?style=flat-square) ![AppVersion: 1.27.0](https://img.shields.io/badge/AppVersion-1.27.0-informational?style=flat-square)
+![Version: 5.8.0](https://img.shields.io/badge/Version-5.8.0-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -93,11 +93,11 @@ helm install my-release dial/dial -f values.yaml
 | authhelper.containerPorts.http | int | `4088` |  |
 | authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
 | authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
-| authhelper.image.tag | string | `"0.3.0"` |  |
+| authhelper.image.tag | string | `"0.4.0"` |  |
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.26.0"` |  |
+| bedrock.image.tag | string | `"0.27.0"` |  |
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.enabled | bool | `true` |  |
 | bedrock.secrets | object | `{}` |  |
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.29.1"` |  |
+| chat.image.tag | string | `"0.30.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -147,7 +147,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
-| vertexai.image.tag | string | `"0.20.0"` |  |
+| vertexai.image.tag | string | `"0.21.0"` |  |
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 
