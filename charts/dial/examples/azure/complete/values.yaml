@@ -24,7 +24,7 @@ core:
     aidial.identityProviders.azure.rolePath: "groups"
     aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
     aidial.redis.singleServerConfig.address: "%%AZURE_CACHE_REDIS_ADDRESS%%"
-    aidial.redis.singleServerConfig.password: "%%AZURE_CACHE_REDIS_PASSWORD%%"
+    aidial.redis.provider.name: "azure-redis-cache"
 
   podLabels:
     azure.workload.identity/use: "true"
