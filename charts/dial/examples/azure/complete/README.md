@@ -22,6 +22,7 @@
 - [Application Gateway Ingress Controller](https://github.com/Azure/application-gateway-kubernetes-ingress) installed and configured
 - [Azure Blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Azure Cache for redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/quickstart-create-redis)
+  - [Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)  `gpt-35-turbo` model deployed:
   - [OpenAI Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
