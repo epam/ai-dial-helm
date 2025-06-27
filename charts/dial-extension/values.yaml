@@ -6,7 +6,6 @@ global:
   imagePullSecrets: []
   # -- Global StorageClass for Persistent Volume(s)
   storageClass: ""
-  # -- Compatibility adaptations for Openshift
   compatibility:
     openshift:
       ## -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
@@ -64,9 +63,10 @@ containerPorts:
   # -- dial-extension HTTP container port for metrics
   metrics: 9464
 
-# -- Probes configuration
-# @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+# -- Liveness Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
+  # -- Enable/disable livenessProbe
   enabled: false
   httpGet:
     path: /health
@@ -76,7 +76,11 @@ livenessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 3
+
+# -- Readiness Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 readinessProbe:
+  # -- Enable/disable readinessProbe
   enabled: false
   httpGet:
     path: /health
@@ -86,7 +90,11 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 3
+
+# -- Startup Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 startupProbe:
+  # -- Enable/disable startupProbe
   enabled: false
   httpGet:
     path: /health
@@ -108,7 +116,7 @@ customStartupProbe: {}
 resources: {}
 
 # -- Pods Security Context Configuration
-# @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext:
   # -- Enabled dial-extension pod's Security Context
   enabled: true
@@ -122,7 +130,7 @@ podSecurityContext:
   fsGroup: 1001
 
 # -- Container Security Context Configuration
-# @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
 containerSecurityContext:
   # -- Enabled dial-extension container's Security Context
   enabled: true
@@ -164,16 +172,17 @@ podLabels: {}
 podAnnotations: {}
 
 # -- Pod Disruption Budget configuration
-# @default [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb)
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb)
 pdb:
   # -- Enable/disable a Pod Disruption Budget creation
   create: false
 
 ### Autoscaling configuration ###
 autoscaling:
+  # -- Horizontal Pod Autoscaler (HPA) settings
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
   hpa:
     # -- Enable HPA
-    # @default [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
     enabled: false
     # -- Annotations for HPA resource
     annotations: {}

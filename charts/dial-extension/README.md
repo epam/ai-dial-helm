@@ -78,10 +78,11 @@ helm install my-release dial/dial-extension -f values.yaml
 | annotations | object | `{}` | Annotations to add to dial-extension deployed objects |
 | args | list | `[]` | Override default args (useful when using custom images) |
 | automountServiceAccountToken | bool | `false` | Mount Service Account token in pods |
+| autoscaling.hpa | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) | Horizontal Pod Autoscaler (HPA) settings |
 | autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
 | autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
 | autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
-| autoscaling.hpa.enabled | bool | `false` | Enable HPA @default [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| autoscaling.hpa.enabled | bool | `false` | Enable HPA |
 | autoscaling.hpa.maxReplicas | int | `3` | Maximum number of replicas |
 | autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas |
 | autoscaling.hpa.targetCPU | string | `""` | Target CPU utilization percentage |
@@ -91,7 +92,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
 | containerPorts.http | int | `5000` | dial-extension HTTP container port |
 | containerPorts.metrics | int | `9464` | dial-extension HTTP container port for metrics |
-| containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":false,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001,"seLinuxOptions":{},"seccompProfile":{"type":"RuntimeDefault"}}` | Container Security Context Configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
+| containerSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | Container Security Context Configuration |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set dial-extension container's Security Context allowPrivilegeEscalation |
 | containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Set dial-extension container's Security Context capabilities |
 | containerSecurityContext.enabled | bool | `true` | Enabled dial-extension container's Security Context |
@@ -112,7 +113,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-extension pod(s) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
-| global.compatibility | object | `{"openshift":{"adaptSecurityContext":"disabled"}}` | Compatibility adaptations for Openshift |
+| global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` |  |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
@@ -139,7 +140,8 @@ helm install my-release dial/dial-extension -f values.yaml
 | initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | labels | object | `{}` | Labels to add to dial-extension deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-extension container(s) to automate configuration before or after startup |
-| livenessProbe | object | `{"enabled":false,"failureThreshold":3,"httpGet":{"path":"/health","port":"http"},"initialDelaySeconds":30,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":3}` | Probes configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) |
+| livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
+| livenessProbe.enabled | bool | `false` | Enable/disable livenessProbe |
 | metrics | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md) | Configuration resources for prometheus metrics |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
 | metrics.service | object | - | Dedicated Kubernetes Service for dial-extension metrics configuration |
@@ -176,21 +178,15 @@ helm install my-release dial/dial-extension -f values.yaml
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
 | podAnnotations | object | `{}` | Annotations for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | podLabels | object | `{}` | Extra labels for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
-| podSecurityContext | object | `{"enabled":true,"fsGroup":1001,"fsGroupChangePolicy":"Always","supplementalGroups":[],"sysctls":[]}` | Pods Security Context Configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| podSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | Pods Security Context Configuration |
 | podSecurityContext.enabled | bool | `true` | Enabled dial-extension pod's Security Context |
 | podSecurityContext.fsGroup | int | `1001` | Set dial-extension pod's Security Context fsGroup |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Set filesystem group change policy |
 | podSecurityContext.supplementalGroups | list | `[]` | Set filesystem extra groups |
 | podSecurityContext.sysctls | list | `[]` | Set kernel settings using the sysctl interface |
 | priorityClassName | string | `""` | dial-extension pods' priorityClassName |
-| readinessProbe.enabled | bool | `false` |  |
-| readinessProbe.failureThreshold | int | `3` |  |
-| readinessProbe.httpGet.path | string | `"/health"` |  |
-| readinessProbe.httpGet.port | string | `"http"` |  |
-| readinessProbe.initialDelaySeconds | int | `15` |  |
-| readinessProbe.periodSeconds | int | `10` |  |
-| readinessProbe.successThreshold | int | `1` |  |
-| readinessProbe.timeoutSeconds | int | `3` |  |
+| readinessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Readiness Probes configuration |
+| readinessProbe.enabled | bool | `false` | Enable/disable readinessProbe |
 | replicaCount | int | `1` | Number of dial-extension replicas to deploy |
 | resources | object | `{}` | Container resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
@@ -214,14 +210,8 @@ helm install my-release dial/dial-extension -f values.yaml
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `""` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the common.names.fullname template |
 | sidecars | list | `[]` | Add additional sidecar containers to the dial-extension pod(s) |
-| startupProbe.enabled | bool | `false` |  |
-| startupProbe.failureThreshold | int | `6` |  |
-| startupProbe.httpGet.path | string | `"/health"` |  |
-| startupProbe.httpGet.port | string | `"http"` |  |
-| startupProbe.initialDelaySeconds | int | `30` |  |
-| startupProbe.periodSeconds | int | `10` |  |
-| startupProbe.successThreshold | int | `1` |  |
-| startupProbe.timeoutSeconds | int | `5` |  |
+| startupProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) | Startup Probes configuration |
+| startupProbe.enabled | bool | `false` | Enable/disable startupProbe |
 | terminationGracePeriodSeconds | string | `""` | Seconds dial-extension pod needs to terminate gracefully [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods) |
 | tolerations | list | `[]` | Tolerations for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
