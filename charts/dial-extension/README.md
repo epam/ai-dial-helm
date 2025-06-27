@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.3.2](https://img.shields.io/badge/Version-1.3.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -76,21 +76,22 @@ helm install my-release dial/dial-extension -f values.yaml
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for dial-extension pods assignment |
 | annotations | object | `{}` | Annotations to add to dial-extension deployed objects |
-| args | list | `[]` | Override default dial-extension args (useful when using custom images) |
+| args | list | `[]` | Override default args (useful when using custom images) |
 | automountServiceAccountToken | bool | `false` | Mount Service Account token in pods |
 | autoscaling.hpa.annotations | object | `{}` | Annotations for HPA resource |
 | autoscaling.hpa.behavior | object | `{}` | HPA Behavior |
 | autoscaling.hpa.customRules | list | `[]` | HPA Custom rules |
-| autoscaling.hpa.enabled | bool | `false` | Enable HPA ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ |
+| autoscaling.hpa.enabled | bool | `false` | Enable HPA @default [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | autoscaling.hpa.maxReplicas | int | `3` | Maximum number of replicas |
 | autoscaling.hpa.minReplicas | int | `1` | Minimum number of replicas |
 | autoscaling.hpa.targetCPU | string | `""` | Target CPU utilization percentage |
 | autoscaling.hpa.targetMemory | string | `""` | Target Memory utilization percentage |
-| command | list | `[]` | Override default dial-extension command (useful when using custom images) |
+| command | list | `[]` | Override default command (useful when using custom images) |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
 | containerPorts.http | int | `5000` | dial-extension HTTP container port |
 | containerPorts.metrics | int | `9464` | dial-extension HTTP container port for metrics |
+| containerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":false,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001,"seLinuxOptions":{},"seccompProfile":{"type":"RuntimeDefault"}}` | Container Security Context Configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set dial-extension container's Security Context allowPrivilegeEscalation |
 | containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Set dial-extension container's Security Context capabilities |
 | containerSecurityContext.enabled | bool | `true` | Enabled dial-extension container's Security Context |
@@ -100,7 +101,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | containerSecurityContext.runAsNonRoot | bool | `true` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsUser | int | `1001` | Set dial-extension container's Security Context runAsUser |
 | containerSecurityContext.seLinuxOptions | object | `{}` | Set dial-extension SELinux options in container |
-| containerSecurityContext.seccompProfile | object | `{"type":"RuntimeDefault"}` | Set dial-extension container's Security Context seccomp profile |
+| containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Set dial-extension container's Security Context seccomp profile |
 | customLivenessProbe | object | `{}` | Custom livenessProbe that overrides the default one |
 | customReadinessProbe | object | `{}` | Custom readinessProbe that overrides the default one |
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
@@ -115,68 +116,67 @@ helm install my-release dial/dial-extension -f values.yaml
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
-| hostAliases | list | `[]` | dial-extension pods host aliases https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/ |
+| hostAliases | list | `[]` | dial-extension pods host aliases [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/) |
 | hostNetwork | bool | `false` | Enable Host Network If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet |
+| image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | image.digest | string | `""` | Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended) |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images |
-| image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | image.registry | string | `"docker.io"` | Image registry |
 | image.repository | string | `""` | Image repository e.g: epam/ai-dial-adapter-openai |
 | image.tag | string | `"latest"` | Image tag (immutable tags are recommended) |
-| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations. Use this parameter to set the required annotations for cert-manager, see ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations |
+| ingress | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/) | Ingress configuration |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations. Use this parameter to set the required annotations for [cert-manager](https://cert-manager.io/docs/usage/ingress/#supported-annotations) |
 | ingress.enabled | bool | `false` | Enable ingress record generation for container |
 | ingress.extraPaths | list | `[]` | An array with additional arbitrary paths that may need to be added to the ingress under the main host |
 | ingress.extraRules | list | `[]` | An array with additional hostname(s) to be covered with the ingress record |
 | ingress.hosts | list | `["dial-extension.local"]` | An array with hostname(s) to be covered with the ingress record |
-| ingress.ingressClassName | string | `""` | IngressClass that will be be used to implement the Ingress ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class |
+| ingress.ingressClassName | string | `""` | IngressClass that will be be used to implement the Ingress [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class) |
 | ingress.path | string | `"/"` | Default path for the ingress record NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers |
 | ingress.pathType | string | `"Prefix"` | Ingress path type |
 | ingress.serviceName | string | `""` | Change default name of service for the ingress record |
-| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |
-| initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ |
+| ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | labels | object | `{}` | Labels to add to dial-extension deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-extension container(s) to automate configuration before or after startup |
-| livenessProbe.enabled | bool | `false` |  |
-| livenessProbe.failureThreshold | int | `3` |  |
-| livenessProbe.httpGet.path | string | `"/health"` |  |
-| livenessProbe.httpGet.port | string | `"http"` |  |
-| livenessProbe.initialDelaySeconds | int | `30` |  |
-| livenessProbe.periodSeconds | int | `10` |  |
-| livenessProbe.successThreshold | int | `1` |  |
-| livenessProbe.timeoutSeconds | int | `3` |  |
+| livenessProbe | object | `{"enabled":false,"failureThreshold":3,"httpGet":{"path":"/health","port":"http"},"initialDelaySeconds":30,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":3}` | Probes configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) |
+| metrics | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md) | Configuration resources for prometheus metrics |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
+| metrics.service | object | - | Dedicated Kubernetes Service for dial-extension metrics configuration |
 | metrics.service.annotations | object | `{}` | Additional custom annotations for dial-extension metrics service |
-| metrics.service.clusterIP | string | `""` | dial-extension metrics service Cluster IP clusterIP: None |
-| metrics.service.externalTrafficPolicy | string | `"Cluster"` | dial-extension metrics service external traffic policy ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip |
+| metrics.service.clusterIP | string | `""` | metrics service Cluster IP clusterIP: None |
+| metrics.service.externalTrafficPolicy | string | `"Cluster"` | dial-extension metrics service external traffic policy [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) |
 | metrics.service.extraPorts | list | `[]` | Extra ports to expose in dial-extension metrics service (normally used with the `sidecars` value) |
-| metrics.service.loadBalancerIP | string | `""` | dial-extension metrics service Load Balancer IP ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer |
-| metrics.service.loadBalancerSourceRanges | list | `[]` | dial-extension metrics service Load Balancer sources ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service |
-| metrics.service.nodePorts | object | `{"http":""}` | Node ports to expose NOTE: choose port between <30000-32767> |
-| metrics.service.nodePorts.http | string | `""` | Node port for metrics |
+| metrics.service.loadBalancerIP | string | `""` | dial-extension metrics service Load Balancer IP |
+| metrics.service.loadBalancerSourceRanges | list | `[]` | dial-extension metrics service Load Balancer sources |
+| metrics.service.nodePorts.http | string | `""` | Node port for metrics NOTE: choose port between <30000-32767> |
 | metrics.service.ports | object | `{"http":9464}` | dial-extension metrics service port |
 | metrics.service.ports.http | int | `9464` | dial-extension metrics service port |
-| metrics.service.sessionAffinity | string | `"None"` | Control where client requests go, to the same pod or round-robin Values: ClientIP or None ref: https://kubernetes.io/docs/user-guide/services/ |
+| metrics.service.sessionAffinity | string | `"None"` | Control where client requests go, to the same pod or round-robin Values: ClientIP or None |
 | metrics.service.sessionAffinityConfig | object | `{}` | Additional settings for the sessionAffinity |
 | metrics.service.type | string | `"ClusterIP"` | dial-extension metrics service type |
+| metrics.serviceMonitor | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md#servicemonitor) | Prometheus Operator ServiceMonitor configuration |
 | metrics.serviceMonitor.annotations | object | `{}` | Additional custom annotations for the ServiceMonitor |
 | metrics.serviceMonitor.enabled | bool | `false` | if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`) |
 | metrics.serviceMonitor.honorLabels | bool | `false` | honorLabels chooses the metric's labels on collisions with target labels |
-| metrics.serviceMonitor.interval | string | `""` | Interval at which metrics should be scraped. ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint e.g: interval: 10s |
+| metrics.serviceMonitor.interval | string | `""` | Interval at which metrics should be scraped. e.g: interval: 10s |
 | metrics.serviceMonitor.jobLabel | string | `""` | The name of the label on the target service to use as the job name in Prometheus |
 | metrics.serviceMonitor.labels | object | `{}` | Extra labels for the ServiceMonitor |
 | metrics.serviceMonitor.metricRelabelings | list | `[]` | Specify additional relabeling of metrics |
 | metrics.serviceMonitor.namespace | string | `""` | Namespace in which Prometheus is running |
-| metrics.serviceMonitor.path | string | `"/metrics"` | Specify metrics path ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint |
-| metrics.serviceMonitor.port | string | `"http-metrics"` | Specify service metrics port ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint |
+| metrics.serviceMonitor.path | string | `"/metrics"` | Specify metrics path |
+| metrics.serviceMonitor.port | string | `"http-metrics"` | Specify service metrics port |
 | metrics.serviceMonitor.relabelings | list | `[]` | Specify general relabeling |
-| metrics.serviceMonitor.scrapeTimeout | string | `""` | Timeout after which the scrape is ended ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint e.g: scrapeTimeout: 10s |
-| metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration |
+| metrics.serviceMonitor.scrapeTimeout | string | `""` | Timeout after which the scrape is ended e.g: scrapeTimeout: 10s |
+| metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
-| nodeSelector | object | `{}` | Node labels for dial-extension pods assignment ref: https://kubernetes.io/docs/user-guide/node-selection/ |
+| nodeSelector | object | `{}` | Node labels for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
+| pdb | object | `{"create":false}` | Pod Disruption Budget configuration @default [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) |
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
-| podAnnotations | object | `{}` | Annotations for dial-extension pods ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ |
-| podLabels | object | `{}` | Extra labels for dial-extension pods ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
+| podAnnotations | object | `{}` | Annotations for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
+| podLabels | object | `{}` | Extra labels for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
+| podSecurityContext | object | `{"enabled":true,"fsGroup":1001,"fsGroupChangePolicy":"Always","supplementalGroups":[],"sysctls":[]}` | Pods Security Context Configuration @default [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | podSecurityContext.enabled | bool | `true` | Enabled dial-extension pod's Security Context |
 | podSecurityContext.fsGroup | int | `1001` | Set dial-extension pod's Security Context fsGroup |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Set filesystem group change policy |
@@ -192,21 +192,23 @@ helm install my-release dial/dial-extension -f values.yaml
 | readinessProbe.successThreshold | int | `1` |  |
 | readinessProbe.timeoutSeconds | int | `3` |  |
 | replicaCount | int | `1` | Number of dial-extension replicas to deploy |
-| resources | object | `{}` | dial-extension resource requests and limits ref: http://kubernetes.io/docs/user-guide/compute-resources/ |
-| schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/ |
+| resources | object | `{}` | Container resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
 | secrets | object | `{}` | Key-value pairs extra environment variables to add in environment variables from secrets to dial-extension |
+| service | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/) | Service configuration |
 | service.annotations | object | `{}` | Additional custom annotations for dial-extension service |
 | service.clusterIP | string | `""` | dial-extension service Cluster IP clusterIP: None |
-| service.externalTrafficPolicy | string | `"Cluster"` | dial-extension service external traffic policy ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip |
+| service.externalTrafficPolicy | string | `"Cluster"` | dial-extension service external traffic policy [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) |
 | service.extraPorts | list | `[]` | Extra ports to expose in dial-extension service (normally used with the `sidecars` value) |
-| service.loadBalancerIP | string | `""` | dial-extension service Load Balancer IP ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer |
-| service.loadBalancerSourceRanges | list | `[]` | dial-extension service Load Balancer sources ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service |
+| service.loadBalancerIP | string | `""` | dial-extension service Load Balancer IP. [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
+| service.loadBalancerSourceRanges | list | `[]` | dial-extension service Load Balancer sources |
 | service.nodePorts | object | `{"http":""}` | Node ports to expose NOTE: choose port between <30000-32767> |
 | service.nodePorts.http | string | `""` | Node port for HTTP |
 | service.ports.http | int | `80` | dial-extension service HTTP port |
-| service.sessionAffinity | string | `"None"` | Control where client requests go, to the same pod or round-robin Values: ClientIP or None ref: https://kubernetes.io/docs/user-guide/services/ |
+| service.sessionAffinity | string | `"None"` | Control where client requests go, to the same pod or round-robin Values: ClientIP or None |
 | service.sessionAffinityConfig | object | `{}` | Additional settings for the sessionAffinity |
 | service.type | string | `"ClusterIP"` | dial-extension service type |
+| serviceAccount | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) | ServiceAccount configuration |
 | serviceAccount.annotations | object | `{}` | Additional Service Account annotations (evaluated as a template) |
 | serviceAccount.automountServiceAccountToken | bool | `false` | Automount service account token for the server service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
@@ -220,7 +222,8 @@ helm install my-release dial/dial-extension -f values.yaml
 | startupProbe.periodSeconds | int | `10` |  |
 | startupProbe.successThreshold | int | `1` |  |
 | startupProbe.timeoutSeconds | int | `5` |  |
-| terminationGracePeriodSeconds | string | `""` | Seconds dial-extension pod needs to terminate gracefully ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods |
-| tolerations | list | `[]` | Tolerations for dial-extension pods assignment ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
-| topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods |
+| terminationGracePeriodSeconds | string | `""` | Seconds dial-extension pod needs to terminate gracefully [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods) |
+| tolerations | list | `[]` | Tolerations for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
+| updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
