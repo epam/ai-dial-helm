@@ -174,7 +174,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | nodeSelector | object | `{}` | Node labels for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
-| pdb | object | `{"create":false}` | Pod Disruption Budget configuration @default [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) |
+| pdb | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) | Pod Disruption Budget configuration |
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
 | podAnnotations | object | `{}` | Annotations for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | podLabels | object | `{}` | Extra labels for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
