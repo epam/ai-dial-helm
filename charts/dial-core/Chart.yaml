@@ -16,7 +16,7 @@ dependencies:
     version: 11.4.0
 description: Helm chart for dial core
 home: https://epam-rail.com
-icon: "https://docs.epam-rail.com/img/favicon.ico"
+icon: "https://docs.dialx.ai/img/favicon.ico"
 keywords:
   - ai-dial
 kubeVersion: ">=1.23.0-0"
@@ -26,4 +26,4 @@ maintainers:
 name: dial-core
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
-version: 4.2.1
+version: 4.2.2

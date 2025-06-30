@@ -6,7 +6,6 @@ global:
   imagePullSecrets: []
   # -- Global StorageClass for Persistent Volume(s)
   storageClass: ""
-  # -- Compatibility adaptations for Openshift
   compatibility:
     openshift:
       ## -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
@@ -30,6 +29,8 @@ diagnosticMode:
   # -- Enable diagnostic mode (all probes will be disabled)
   enabled: false
 
+# -- Section to configure the image.
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
 image:
   # -- Image registry
   registry: docker.io
@@ -41,11 +42,10 @@ image:
   # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
   digest: ""
   # -- Image pull policy
-  # ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
   pullPolicy: IfNotPresent
   # -- Optionally specify an array of imagePullSecrets.
   # Secrets must be manually created in the namespace.
-  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  # [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
   pullSecrets:
     []
     # - myRegistryKeySecretName
@@ -63,10 +63,10 @@ containerPorts:
   # -- dial-extension HTTP container port for metrics
   metrics: 9464
 
-### Probes configuration ###
-# Configure extra options for dial-extension container liveness and readiness probes
-# ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
+# -- Liveness Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
+  # -- Enable/disable livenessProbe
   enabled: false
   httpGet:
     path: /health
@@ -76,7 +76,11 @@ livenessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 3
+
+# -- Readiness Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 readinessProbe:
+  # -- Enable/disable readinessProbe
   enabled: false
   httpGet:
     path: /health
@@ -86,7 +90,11 @@ readinessProbe:
   timeoutSeconds: 3
   successThreshold: 1
   failureThreshold: 3
+
+# -- Startup Probes configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 startupProbe:
+  # -- Enable/disable startupProbe
   enabled: false
   httpGet:
     path: /health
@@ -103,12 +111,12 @@ customReadinessProbe: {}
 # -- Custom startupProbe that overrides the default one
 customStartupProbe: {}
 
-# -- dial-extension resource requests and limits
-# ref: http://kubernetes.io/docs/user-guide/compute-resources/
+# -- Container resource requests and limits
+# [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 resources: {}
 
-### Pods Security Context Configuration ###
-# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+# -- Pods Security Context Configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext:
   # -- Enabled dial-extension pod's Security Context
   enabled: true
@@ -121,8 +129,8 @@ podSecurityContext:
   # -- Set dial-extension pod's Security Context fsGroup
   fsGroup: 1001
 
-### Container Security Context Configuration ###
-# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+# -- Container Security Context Configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
 containerSecurityContext:
   # -- Enabled dial-extension container's Security Context
   enabled: true
@@ -143,37 +151,38 @@ containerSecurityContext:
   # -- Set dial-extension container's Security Context capabilities
   capabilities:
     drop: ["ALL"]
-  # -- Set dial-extension container's Security Context seccomp profile
   seccompProfile:
+    # -- Set dial-extension container's Security Context seccomp profile
     type: "RuntimeDefault"
 
-# -- Override default dial-extension command (useful when using custom images)
+# -- Override default command (useful when using custom images)
 command: []
-# -- Override default dial-extension args (useful when using custom images)
+# -- Override default args (useful when using custom images)
 args: []
 # -- Mount Service Account token in pods
 automountServiceAccountToken: false
 # -- dial-extension pods host aliases
-# https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
+# [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
 hostAliases: []
 # -- Extra labels for dial-extension pods
-# ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+# [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
 podLabels: {}
 # -- Annotations for dial-extension pods
-# ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+# [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
 podAnnotations: {}
 
-###  Pod Disruption Budget configuration ###
-# ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb
+# -- Pod Disruption Budget configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb)
 pdb:
   # -- Enable/disable a Pod Disruption Budget creation
   create: false
 
 ### Autoscaling configuration ###
 autoscaling:
+  # -- Horizontal Pod Autoscaler (HPA) settings
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
   hpa:
     # -- Enable HPA
-    # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
     enabled: false
     # -- Annotations for HPA resource
     annotations: {}
@@ -192,15 +201,15 @@ autoscaling:
 
 # -- Affinity for dial-extension pods assignment
 affinity: {}
-# -- Node labels for dial-extension pods assignment
-# ref: https://kubernetes.io/docs/user-guide/node-selection/
+# -- Node labels for dial-extension pods assignment.
+# [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
 nodeSelector: {}
-# -- Tolerations for dial-extension pods assignment
-# ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+# -- Tolerations for dial-extension pods assignment.
+# [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
-### Deployment strategy type ###
-# ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+# -- Deployment strategy type
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies)
 updateStrategy:
   # -- StrategyType
   # Can be set to RollingUpdate or OnDelete
@@ -209,13 +218,13 @@ updateStrategy:
 # -- dial-extension pods' priorityClassName
 priorityClassName: ""
 # -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
-# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods
+# [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods)
 topologySpreadConstraints: []
 # -- Name of the k8s scheduler (other than default) for dial-extension pods
-# ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+# [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/)
 schedulerName: ""
 # -- Seconds dial-extension pod needs to terminate gracefully
-# ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+# [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods)
 terminationGracePeriodSeconds: ""
 # -- for the dial-extension container(s) to automate configuration before or after startup
 lifecycleHooks: {}
@@ -245,7 +254,7 @@ sidecars:
   #     - name: your-port-name
   #       containerPort: 1234
 # -- Add additional init containers to the dial-extension pod(s)
-# ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+# [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
 initContainers:
   []
   # - name: your-image-name
@@ -257,7 +266,8 @@ initContainers:
 # If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet
 hostNetwork: false
 
-### Service configuration ###
+# -- Service configuration
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/)
 service:
   # -- dial-extension service type
   type: ClusterIP
@@ -272,16 +282,15 @@ service:
   # -- dial-extension service Cluster IP
   # clusterIP: None
   clusterIP: ""
-  # -- dial-extension service Load Balancer IP
-  # ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer
+  # -- dial-extension service Load Balancer IP.
+  # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
   loadBalancerIP: ""
   # -- dial-extension service Load Balancer sources
-  # ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
   loadBalancerSourceRanges:
     []
     # - 10.10.10.0/24
   # -- dial-extension service external traffic policy
-  # ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
   externalTrafficPolicy: Cluster
   # -- Additional custom annotations for dial-extension service
   annotations: {}
@@ -289,7 +298,6 @@ service:
   extraPorts: []
   # -- Control where client requests go, to the same pod or round-robin
   # Values: ClientIP or None
-  # ref: https://kubernetes.io/docs/user-guide/services/
   sessionAffinity: None
   # -- Additional settings for the sessionAffinity
   sessionAffinityConfig:
@@ -297,7 +305,8 @@ service:
     # clientIP:
     #   timeoutSeconds: 300
 
-### ServiceAccount configuration ###
+# -- ServiceAccount configuration
+# @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 serviceAccount:
   # -- Specifies whether a ServiceAccount should be created
   create: true
@@ -309,11 +318,13 @@ serviceAccount:
   # -- Automount service account token for the server service account
   automountServiceAccountToken: false
 
-### Prometheus metrics configuration ###
+# -- Configuration resources for prometheus metrics
+# @default -- [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md)
 metrics:
   # -- Enable the export of Prometheus metrics
   enabled: false
-  ### Dedicated Kubernetes Service for dial-extension metrics configuration ###
+  # -- Dedicated Kubernetes Service for dial-extension metrics configuration
+  # @default -- -
   service:
     # -- dial-extension metrics service type
     type: ClusterIP
@@ -321,24 +332,21 @@ metrics:
     ports:
       # -- dial-extension metrics service port
       http: 9464
-    # -- Node ports to expose
-    # NOTE: choose port between <30000-32767>
     nodePorts:
       # -- Node port for metrics
+      # NOTE: choose port between <30000-32767>
       http: ""
-    # -- dial-extension metrics service Cluster IP
+    # -- metrics service Cluster IP
     # clusterIP: None
     clusterIP: ""
     # -- dial-extension metrics service Load Balancer IP
-    # ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer
     loadBalancerIP: ""
     # -- dial-extension metrics service Load Balancer sources
-    # ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
     loadBalancerSourceRanges:
       []
       # - 10.10.10.0/24
     # -- dial-extension metrics service external traffic policy
-    # ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+    # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
     externalTrafficPolicy: Cluster
     # -- Additional custom annotations for dial-extension metrics service
     annotations:
@@ -349,14 +357,14 @@ metrics:
     extraPorts: []
     # -- Control where client requests go, to the same pod or round-robin
     # Values: ClientIP or None
-    # ref: https://kubernetes.io/docs/user-guide/services/
     sessionAffinity: None
     # -- Additional settings for the sessionAffinity
     sessionAffinityConfig:
       {}
       # clientIP:
       #   timeoutSeconds: 300
-  ### Prometheus Operator ServiceMonitor configuration ###
+  # -- Prometheus Operator ServiceMonitor configuration
+  # @default -- [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md#servicemonitor)
   serviceMonitor:
     # -- if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
     enabled: false
@@ -371,17 +379,13 @@ metrics:
     # -- honorLabels chooses the metric's labels on collisions with target labels
     honorLabels: false
     # -- Specify service metrics port
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     port: "http-metrics"
     # -- Specify metrics path
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     path: "/metrics"
     # -- Interval at which metrics should be scraped.
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     # e.g: interval: 10s
     interval: ""
     # -- Timeout after which the scrape is ended
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     # e.g: scrapeTimeout: 10s
     scrapeTimeout: ""
     # -- Specify additional relabeling of metrics
@@ -389,27 +393,25 @@ metrics:
     # -- Specify general relabeling
     relabelings: []
     # -- Prometheus instance selector labels
-    # ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
     selector:
       {}
       # prometheus: my-prometheus
 
-### Ingress configuration ###
-# ref: http://kubernetes.io/docs/user-guide/ingress/
+# -- Ingress configuration
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
   # -- Enable ingress record generation for container
   enabled: false
   # -- Ingress path type
   pathType: Prefix
   # -- IngressClass that will be be used to implement the Ingress
-  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class
+  # [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)
   ingressClassName: ""
   # -- Default path for the ingress record
   # NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers
   path: /
   # -- Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
-  # Use this parameter to set the required annotations for cert-manager, see
-  # ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+  # Use this parameter to set the required annotations for [cert-manager](https://cert-manager.io/docs/usage/ingress/#supported-annotations)
   annotations:
     {}
     # kubernetes.io/ingress.class: nginx
@@ -420,7 +422,7 @@ ingress:
   hosts:
     - dial-extension.local
   # -- TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template)
-  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+  # [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
   tls:
     []
     # - hosts:
