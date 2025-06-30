@@ -18,10 +18,10 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
 | https://charts.epam-rail.com | core(dial-core) | 4.2.2 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | chat(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | themes(dial-extension) | 1.3.2 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | bedrock(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | vertexai(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | dial(dial-extension) | 1.3.2 |
