@@ -18,14 +18,14 @@
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
-- [Amazon Cognito](https://docs.epam-rail.com/Deployment/idp-configuration/cognito)
+- [Amazon Cognito](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/cognito)
 - [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
-  - [Vertex AI Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
+  - [Vertex AI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
-  - [OpenAI Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
+  - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
 - [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
-  - [Bedrock Model Deployment Guide](https://docs.epam-rail.com/Deployment/Bedrock%20Model%20Deployment)
+  - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
 
@@ -66,7 +66,7 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%AWS_COGNITO_REGION%%` - aws region where resides Cognito pool e.g. `us-east-1`
     - Replace `%%AWS_COGNITO_ID%%` with AWS Cognito pool id e.g. `us-east-1_AbcD0efGh`
-    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint [link](https://docs.epam-rail.com/tutorials/quick-start-model#step-2-configuration)
+    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint from [prerequisites](#prerequisites)
     - Replace `%%AWS_CERTIFICATE_ARN%%` with associated ACM certificate arn e.g. `arn:aws:acm:us-east-1:123456789012:certificate/1234567a-b123-4567-8c9d-123456789012`
     - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
@@ -75,24 +75,25 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
-    ```
-        {
-            "type": "external_account",
-            "audience": "//iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/providers/$PROVIDER_ID",
-            "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
-            "service_account_impersonation_url": "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/$EMAIL:generateAccessToken",
-            "token_url": "https://sts.googleapis.com/v1/token",
-            "credential_source": {
-                "file": "/var/run/service-account/token",
-                "format": {
-                    "type": "text"
-                }
-            }
-        }
 
-    ```
+      ```json
+          {
+              "type": "external_account",
+              "audience": "//iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/providers/$PROVIDER_ID",
+              "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
+              "service_account_impersonation_url": "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/$EMAIL:generateAccessToken",
+              "token_url": "https://sts.googleapis.com/v1/token",
+              "credential_source": {
+                  "file": "/var/run/service-account/token",
+                  "format": {
+                      "type": "text"
+                  }
+              }
+          }
+    
+      ```
 
-    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
+    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
@@ -109,7 +110,7 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
-2. Install `dial` helm chart in created namespace, applying custom values file:
+1. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -134,7 +135,7 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     ** Please be patient while the chart is being deployed **
     ```
 
-3. Now you can access:
+1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value
@@ -171,4 +172,4 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)
