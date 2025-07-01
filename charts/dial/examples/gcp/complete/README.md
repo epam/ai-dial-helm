@@ -23,15 +23,15 @@
 - [Google-managed SSL certificates](https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs) issued for Chat and Core
 - [Google Storage bucket](https://cloud.google.com/storage/docs/buckets)
 - [Google MemoryStore RedisCluster](https://cloud.google.com/memorystore/docs/cluster)
-    - [Downloading the Certificate Authority](https://cloud.google.com/memorystore/docs/redis/manage-in-transit-encryption#downloading_the_certificate_authority)
-    - [Creating TrustStore](https://docs.oracle.com/cd/E19509-01/820-3503/ggfka/index.html)
-- [Google Identity](https://docs.epam-rail.com/Auth/Web/IDPs/google) as identity provider
+  - [Downloading the Certificate Authority](https://cloud.google.com/memorystore/docs/redis/manage-in-transit-encryption#downloading_the_certificate_authority)
+  - [Creating TrustStore](https://docs.oracle.com/cd/E19509-01/820-3503/ggfka/index.html)
+- [Google Identity](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/google) as identity provider
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
-  - [GCP Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
+  - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
-  - [OpenAI Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
+  - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
 - [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
-  - [Bedrock Model Deployment Guide](https://docs.epam-rail.com/Deployment/Bedrock%20Model%20Deployment)
+  - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
 
@@ -91,7 +91,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%AWS_ACCESS_KEY%%` with AWS access key from [prerequisites](#prerequisites)
     - Replace `%%AWS_SECRET_KEY%%` with AWS secret key from [prerequisites](#prerequisites)
-    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
+    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
@@ -155,4 +155,4 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)

@@ -17,7 +17,7 @@
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
-  - [Bedrock Model Deployment Guide](https://docs.epam-rail.com/Deployment/Bedrock%20Model%20Deployment)
+  - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
 
@@ -131,4 +131,4 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)

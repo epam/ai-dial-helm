@@ -18,7 +18,7 @@
 - [workload identity federation for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
 - [Google Storage bucket](https://cloud.google.com/storage/docs/buckets)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-pro` model deployed:
-  - [GCP Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
+  - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 
 ## Expected Outcome
 
@@ -71,7 +71,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
-2. Install `dial` helm chart in created namespace, applying custom values file:
+1. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -96,7 +96,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ** Please be patient while the chart is being deployed **
     ```
 
-3. Now you can access:
+1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value
@@ -133,4 +133,4 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)

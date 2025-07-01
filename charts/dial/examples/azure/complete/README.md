@@ -23,12 +23,12 @@
 - [Azure Blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Azure Cache for redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/quickstart-create-redis)
   - [Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
-- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)  `gpt-35-turbo` model deployed:
-  - [OpenAI Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
+  - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
-  - [GCP Model Deployment Guide](https://docs.epam-rail.com/Deployment/Vertex%20Model%20Deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v2:1` model deployed:
-  - [Bedrock Model Deployment Guide](https://docs.epam-rail.com/Deployment/Bedrock%20Model%20Deployment)
+  - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+  - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
 
@@ -73,8 +73,8 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
-    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
-    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint [link](https://docs.epam-rail.com/tutorials/quick-start-model#step-2-configuration)
+    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
+    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CLIENT_ID%%` with a unique identifier for the client application registered in Azure Active Directory (AD). It is used to authenticate the client application when accessing Azure AD resources.
     - Replace `%%AZURE_TENANT_ID%%` with a Tenant ID refers to a globally unique identifier (GUID) that represents a specific Azure AD tenant. It is used to identify and authenticate the Azure AD tenant that the client application belongs to.
     - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
@@ -88,11 +88,11 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_SERVICE_ACCOUNT_ID%%` with GCP service account id [link](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes)
     - Replace `%%AWS_ACCESS_KEY%%` with AWS access key from [prerequisites](#prerequisites)
     - Replace `%%AWS_SECRET_KEY%%` with AWS secret key from [prerequisites](#prerequisites)
-    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity [link](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment#use-kubernetes-service-account-assigned-to-azure-user-assigned-managed-identity)
+    - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
 
-    ```
+    ```json
         {
             "type": "external_account",
             "audience": "//iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/providers/$PROVIDER_ID",
@@ -106,7 +106,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
                 }
             }
         }
-
+     ```
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
@@ -170,4 +170,4 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)

@@ -18,7 +18,7 @@
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html)
 - [Azure Blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) `gpt-35-turbo` model deployed:
-  - [Azure Model Deployment Guide](https://docs.epam-rail.com/Deployment/OpenAI%20Model%20Deployment)
+  - [Azure Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
 
 ## Expected Outcome
 
@@ -71,7 +71,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
-2. Install `dial` helm chart in created namespace, applying custom values file:
+1. Install `dial` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -96,7 +96,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     ** Please be patient while the chart is being deployed **
     ```
 
-3. Now you can access:
+1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
       - Use previously generated `%%DIAL_API_KEY%%` value
@@ -133,4 +133,4 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 
 ## What's next?
 
-- [Configuration](https://docs.epam-rail.com/Deployment/configuration)
+- [Configuration](https://docs.dialx.ai/tutorials/devops/configuration/configuration-guide)
