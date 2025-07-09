@@ -6,7 +6,6 @@ global:
   imagePullSecrets: []
   # -- Global StorageClass for Persistent Volume(s)
   storageClass: ""
-  # -- Compatibility adaptations for Openshift
   compatibility:
     openshift:
       # -- Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
@@ -155,13 +154,13 @@ backend:
   args: []
   # -- Mount Service Account token in pods
   automountServiceAccountToken: false
-  # -- dial-extension pods host aliases
+  # -- dial-admin backend pods host aliases
   # [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
   hostAliases: []
-  # -- Extra labels for dial-extension pods
+  # -- Extra labels for dial-admin backend pods
   # [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
   podLabels: {}
-  # -- Annotations for dial-extension pods
+  # -- Annotations for dial-admin backend pods
   # [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
   podAnnotations: {}
 
@@ -198,12 +197,12 @@ backend:
   # -- Node labels for dial-admin backend pods assignment.
   # [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
   nodeSelector: {}
-  # -- Tolerations for dial-extension pods assignment.
+  # -- Tolerations for dial-admin backend pods assignment.
   # [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
   tolerations: []
 
   # -- Deployment strategy type
-  # @default -- [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies)
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
   updateStrategy:
     # -- StrategyType
     # Can be set to RollingUpdate or OnDelete
@@ -214,7 +213,7 @@ backend:
   # -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
   # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods)
   topologySpreadConstraints: []
-  # -- Name of the k8s scheduler (other than default) for dial-extension pods
+  # -- Name of the k8s scheduler (other than default) for dial-admin backend pods
   # [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/)
   schedulerName: ""
   # -- Seconds dial-admin backend pod needs to terminate gracefully
@@ -262,7 +261,7 @@ backend:
     #   ports:
     #     - name: your-port-name
     #       containerPort: 1234
-  # -- Add additional init containers to the dial-extension pod(s)
+  # -- Add additional init containers to the dial-admin backend pod(s)
   # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   initContainers:
     []
@@ -290,7 +289,7 @@ backend:
       http: ""
     # -- dial-admin backend service Cluster IP
     clusterIP: ""
-    # -- dial-extension service Load Balancer IP.
+    # -- dial-admin backend service Load Balancer IP.
     # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
     loadBalancerIP: ""
     # -- dial-admin backend service Load Balancer sources
@@ -412,7 +411,7 @@ backend:
   metrics:
     # -- Enable the export of Prometheus metrics
     enabled: false
-    # -- Dedicated Kubernetes Service for dial-extension metrics configuration
+    # -- Dedicated Kubernetes Service for dial-admin backend metrics configuration
     # @default -- -
     service:
       # -- dial-admin backend metrics service type
@@ -432,7 +431,7 @@ backend:
       loadBalancerSourceRanges:
         []
         # - 10.10.10.0/24
-      # -- dial-extension metrics service external traffic policy
+      # -- dial-admin backend metrics service external traffic policy
       # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
       externalTrafficPolicy: Cluster
       # -- Additional custom annotations for dial-admin backend metrics service

@@ -122,7 +122,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.extraVolumeClaimTemplates | list | `[]` | Optionally specify extra list of additional volumeClaimTemplates for the dial-admin backend container(s) |
 | backend.extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-admin backend container(s) |
 | backend.extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-admin backend pod(s) |
-| backend.hostAliases | list | `[]` | dial-extension pods host aliases [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/) |
+| backend.hostAliases | list | `[]` | dial-admin backend pods host aliases [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/) |
 | backend.hostNetwork | bool | `false` | Enable Host Network If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet |
 | backend.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | backend.image.digest | string | `""` | Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended) |
@@ -131,7 +131,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
 | backend.image.tag | string | `"0.4.0"` | Image tag (immutable tags are recommended) |
-| backend.initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
 | backend.livenessProbe.enabled | bool | `true` | Enable/disable livenessProbe |
@@ -141,10 +141,10 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.metrics.prometheusRule.labels | object | `{}` | Additional labels that can be used so prometheusRule will be discovered by Prometheus |
 | backend.metrics.prometheusRule.namespace | string | `""` | Namespace for the prometheusRule Resource (defaults to the Release Namespace) |
 | backend.metrics.prometheusRule.rules | list | `[]` | Prometheus Rule definitions |
-| backend.metrics.service | object | - | Dedicated Kubernetes Service for dial-extension metrics configuration |
+| backend.metrics.service | object | - | Dedicated Kubernetes Service for dial-admin backend metrics configuration |
 | backend.metrics.service.annotations | object | `{}` | Additional custom annotations for dial-admin backend metrics service |
 | backend.metrics.service.clusterIP | string | `""` | dial-admin backend metrics service Cluster IP |
-| backend.metrics.service.externalTrafficPolicy | string | `"Cluster"` | dial-extension metrics service external traffic policy [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) |
+| backend.metrics.service.externalTrafficPolicy | string | `"Cluster"` | dial-admin backend metrics service external traffic policy [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) |
 | backend.metrics.service.extraPorts | list | `[]` | Extra ports to expose in dial-admin backend metrics service (normally used with the `sidecars` value) |
 | backend.metrics.service.loadBalancerIP | string | `""` | dial-admin backend metrics service Load Balancer IP |
 | backend.metrics.service.loadBalancerSourceRanges | list | `[]` | dial-admin backend metrics service Load Balancer sources |
@@ -189,8 +189,8 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.persistence.size | string | `"8Gi"` | Size of data volume |
 | backend.persistence.storageClass | string | `""` | Storage class of backing PVC |
 | backend.persistence.subPath | string | `""` | The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services |
-| backend.podAnnotations | object | `{}` | Annotations for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
-| backend.podLabels | object | `{}` | Extra labels for dial-extension pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
+| backend.podAnnotations | object | `{}` | Annotations for dial-admin backend pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
+| backend.podLabels | object | `{}` | Extra labels for dial-admin backend pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
 | backend.podSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | Pods Security Context Configuration |
 | backend.podSecurityContext.enabled | bool | `true` | Enabled dial-admin backend pod's Security Context |
 | backend.podSecurityContext.fsGroup | int | `1001` | Set dial-admin backend pod's Security Context fsGroup |
@@ -202,14 +202,14 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.readinessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Readiness Probes configuration |
 | backend.replicaCount | int | `1` | Number of dial-admin backend replicas to deploy |
 | backend.resources | object | `{}` | Container resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
-| backend.schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
+| backend.schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-admin backend pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
 | backend.secrets | object | `{}` | Key-value pairs extra environment variables to add in environment variables from secrets to dial-admin backend |
 | backend.service | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/) | Service configuration |
 | backend.service.annotations | object | `{}` | Additional custom annotations for dial-admin backend service |
 | backend.service.clusterIP | string | `""` | dial-admin backend service Cluster IP |
 | backend.service.externalTrafficPolicy | string | `"Cluster"` | dial-admin backend service external traffic policy [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) |
 | backend.service.extraPorts | list | `[]` | Extra ports to expose in dial-admin backend service (normally used with the `sidecars` value) |
-| backend.service.loadBalancerIP | string | `""` | dial-extension service Load Balancer IP. [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
+| backend.service.loadBalancerIP | string | `""` | dial-admin backend service Load Balancer IP. [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
 | backend.service.loadBalancerSourceRanges | list | `[]` | dial-admin backend service Load Balancer sources |
 | backend.service.nodePorts | object | `{"http":""}` | Node ports to expose NOTE: choose port between <30000-32767> |
 | backend.service.nodePorts.http | string | `""` | Node port for HTTP |
@@ -232,9 +232,9 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.startupProbe.successThreshold | int | `1` |  |
 | backend.startupProbe.timeoutSeconds | int | `3` |  |
 | backend.terminationGracePeriodSeconds | string | `""` | Seconds dial-admin backend pod needs to terminate gracefully [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods) |
-| backend.tolerations | list | `[]` | Tolerations for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| backend.tolerations | list | `[]` | Tolerations for dial-admin backend pods assignment. [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | backend.topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
-| backend.updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
+| backend.updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) | Deployment strategy type |
 | backend.updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
@@ -253,7 +253,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
 | frontend.image.tag | string | `"0.4.0"` | Frontend image tag |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
-| global.compatibility | object | `{"openshift":{"adaptSecurityContext":"disabled"}}` | Compatibility adaptations for Openshift |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |

@@ -17,6 +17,18 @@ backend:
       names: ["core-config-secret"]
       key: "env.config.json"
 
+  containerSecurityContext:
+    automountServiceAccountToken: true
+
+  serviceAccount:
+    automountServiceAccountToken: true
+
+  updateStrategy:
+    type: Recreate
+
+  persistence:
+    enabled: true
+
 frontend:
   enabled: true
   env:

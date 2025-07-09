@@ -19,9 +19,8 @@
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL ADMIN system with export AI DIAL configuration features enabled\
-Please note that this guide **does not use a persistent disk** for data storage.\
-Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
+By following the instructions in this guide, you will successfully install the AI DIAL ADMIN system with export AI DIAL configuration features enabled.
+Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.
 Configuring authentication provider, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
