@@ -501,7 +501,7 @@ backend:
       create: true
       # -- Type of export resource
       # Possible values: secret or configmap
-      type: "secret" # secret or configmap
+      type: "secret"
       # -- Namespace for export resource
       namespace: ""
       # -- List of export resource names
