@@ -1,0 +1,20 @@
+{{- if and .Values.backend.metrics.prometheusRule.enabled .Values.backend.enabled .Values.backend.metrics.enabled}}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "dialAdmin.backend.fullname.namespace" . }}
+  namespace: {{ default .Release.Namespace .Values.backend.metrics.prometheusRule.namespace | quote }}
+    {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.backend.metrics.prometheusRule.labels .Values.commonLabels) "context" .) }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+    {{- if .Values.backend.metrics.prometheusRule.labels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.backend.metrics.prometheusRule.labels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  groups:
+  - name: {{ include "common.names.fullname" . }}
+    rules: {{- include "common.tplvalues.render" ( dict "value" .Values.backend.metrics.prometheusRule.rules "context" $ ) | nindent 6 }}
+{{- end }}
