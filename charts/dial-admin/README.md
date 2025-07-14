@@ -2,14 +2,7 @@
 
 ![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
-Helm chart for Dial Admin
-
-## TL;DR
-
-```console
-helm repo add dial https://charts.epam-rail.com
-helm install my-release dial/dial-admin
-```
+Helm chart for DIAL Admin
 
 ## Prerequisites
 
@@ -19,11 +12,11 @@ helm install my-release dial/dial-admin
 
 ## Requirements
 
-Kubernetes: `>=1.23.0-0`
+Kubernetes: `>=1.26.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.1 |
+| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.2 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -55,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
-helm install my-release dial/dial-admin --set backend.image.repository=epam/ai-dial-admin
+helm install my-release dial/dial-admin --set backend.image.tag=latest
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
@@ -64,7 +57,7 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 # values.yaml file content
 backend:
   image:
-    repository: epam/ai-dial-admin
+    tag: latest
 ```
 
 ```console

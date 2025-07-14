@@ -34,7 +34,7 @@ frontend:
   env:
     NEXTAUTH_URL: "https://dial-admin.%%DOMAIN%%"
     DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local" # DIAL core API endpoint
-    THEMES_CONFIG_HOST: "%%THEMES_PUBLIC_URL%%"
+    THEMES_CONFIG_HOST: "%%THEMES_URL%%"
 
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"

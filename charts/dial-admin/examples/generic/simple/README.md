@@ -1,6 +1,6 @@
-# AI DIAL ADMIN Generic Installation Simple Guide
+# AI DIAL Admin Generic Installation Simple Guide
 
-- [AI DIAL ADMIN Generic Installation Simple Guide](#ai-dial-admin-generic-installation-simple-guide)
+- [AI DIAL Admin Generic Installation Simple Guide](#ai-dial-admin-generic-installation-simple-guide)
   - [Prerequisites](#prerequisites)
   - [Expected Outcome](#expected-outcome)
   - [Install](#install)
@@ -15,11 +15,11 @@
 - [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- [H2 database credentional](https://github.com/epam/ai-dial-admin-backend/blob/development/secrets-utils/keys_generator.py) generate special keys for H2 database
+- [H2 database credential](https://github.com/epam/ai-dial-admin-backend/blob/development/secrets-utils/keys_generator.py) generate special keys for H2 database
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL ADMIN system with export AI DIAL configuration features enabled.
+By following the instructions in this guide, you will successfully install the AI DIAL Admin system with export AI DIAL configuration features enabled.
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.
 Configuring authentication provider, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
@@ -30,7 +30,7 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     **Command:**
 
     ```sh
-    kubectl create namespace dial admin
+    kubectl create namespace dial-admin
     ```
 
     **Output:**
@@ -40,7 +40,8 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     ```
 
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
-    - Replace `%%CONFIG_EXPORT_NAMESPACE%%` kubentes namespace where ai-dial installed
+    - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial-admin`
+    - Replace `%%CONFIG_EXPORT_NAMESPACE%%` kubernetes namespace where ai-dial installed
     - Replace `%%THEMES_URL%%` with public DIAL themes url
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
@@ -49,7 +50,7 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     - Replace `%%H2_DATASOURCE_MASTERKEY%%` with Base64 Encrypted Encryption Key from script output from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
-1. Install `dial admin` helm chart in created namespace, applying custom values file:
+2. Install `dial-admin` helm chart in created namespace, applying custom values file:
 
     **Command:**
 
@@ -74,7 +75,7 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     ** Please be patient while the chart is being deployed **
     ```
 
-1. Now you can access:
+3. Now you can access:
     - DIAL admin frontend by the following URL: `https://dial-admin.%%DOMAIN%%/`, e.g. `https://dial-admin.example.com/`
 
 ## Uninstall
