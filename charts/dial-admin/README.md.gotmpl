@@ -1,0 +1,63 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+## Prerequisites
+
+- Helm 3.8.0+
+- PV provisioner support in the underlying infrastructure (optional)
+- Ingress controller support in the underlying infrastructure (optional)
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+To install the chart with the release name `my-release`:
+
+```console
+helm repo add dial https://charts.epam-rail.com
+helm install my-release dial/dial-admin
+```
+
+The command deploys dial-admin on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+## Uninstalling the Chart
+
+To uninstall/delete the `my-release` deployment:
+
+```console
+helm delete my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+**NOTE**: Persistent Volumes created by StatefulSets won't be deleted automatically
+
+## Parameters
+
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
+
+```console
+helm install my-release dial/dial-admin --set backend.image.tag=latest
+```
+
+Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
+
+```yaml
+# values.yaml file content
+backend:
+  image:
+    tag: latest
+```
+
+```console
+helm install my-release dial/dial-admin -f values.yaml
+```
+
+**NOTE**: You can use the default [values.yaml](values.yaml)
+
+{{ template "chart.valuesSection" . }}

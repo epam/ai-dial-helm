@@ -1,0 +1,49 @@
+{{- if and .Values.backend.enabled .Values.backend.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-metrics" (include "dialAdmin.backend.fullname" .) | trunc 63 | trimSuffix "-" }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+  {{- if or .Values.backend.metrics.service.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.backend.metrics.service.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.backend.metrics.service.type }}
+  {{- if and .Values.backend.metrics.service.clusterIP (eq .Values.backend.metrics.service.type "ClusterIP") }}
+  clusterIP: {{ .Values.backend.metrics.service.clusterIP }}
+  {{- end }}
+  {{- if .Values.backend.metrics.service.sessionAffinity }}
+  sessionAffinity: {{ .Values.backend.metrics.service.sessionAffinity }}
+  {{- end }}
+  {{- if .Values.backend.metrics.service.sessionAffinityConfig }}
+  sessionAffinityConfig: {{- include "common.tplvalues.render" (dict "value" .Values.backend.metrics.service.sessionAffinityConfig "context" $) | nindent 4 }}
+  {{- end }}
+  {{- if or (eq .Values.backend.metrics.service.type "LoadBalancer") (eq .Values.backend.metrics.service.type "NodePort") }}
+  externalTrafficPolicy: {{ .Values.backend.metrics.service.externalTrafficPolicy | quote }}
+  {{- end }}
+  {{- if and (eq .Values.backend.metrics.service.type "LoadBalancer") (not (empty .Values.backend.metrics.service.loadBalancerSourceRanges)) }}
+  loadBalancerSourceRanges: {{ .Values.backend.metrics.service.loadBalancerSourceRanges }}
+  {{- end }}
+  {{- if and (eq .Values.backend.metrics.service.type "LoadBalancer") (not (empty .Values.backend.metrics.service.loadBalancerIP)) }}
+  loadBalancerIP: {{ .Values.backend.metrics.service.loadBalancerIP }}
+  {{- end }}
+  ports:
+    - name: http-metrics
+      targetPort: http-metrics
+      port: {{ .Values.backend.metrics.service.ports.http }}
+      protocol: TCP
+      {{- if (and (or (eq .Values.backend.metrics.service.type "NodePort") (eq .Values.backend.metrics.service.type "LoadBalancer")) (not (empty .Values.backend.metrics.service.nodePorts.http))) }}
+      nodePort: {{ .Values.backend.metrics.service.nodePorts.http }}
+      {{- else if eq .Values.backend.metrics.service.type "ClusterIP" }}
+      nodePort: null
+      {{- end }}
+    {{- if .Values.backend.metrics.service.extraPorts }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.backend.metrics.service.extraPorts "context" $) | nindent 4 }}
+    {{- end }}
+  {{- $podLabels := include "common.tplvalues.merge" (dict "values" (list .Values.backend.podLabels .Values.commonLabels) "context" .) | fromYaml }}
+  selector: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+{{- end }}

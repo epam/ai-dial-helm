@@ -1,0 +1,62 @@
+{{- if and .Values.backend.enabled .Values.backend.rbac.create .Values.backend.configuration.export.names }}
+apiVersion: rbac.authorization.k8s.io/v1
+{{- if eq (include "common.names.namespace" .) .Values.backend.configuration.export.namespace }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "dialAdmin.backend.fullname.namespace" . }}
+  {{- if eq (include "common.names.namespace" .) .Values.backend.configuration.export.namespace }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+    {{- if eq .Values.backend.configuration.export.type "configmap" }}
+      - configmaps
+    {{- end }}
+    {{- if eq .Values.backend.configuration.export.type "secret" }}
+      - secrets
+    {{- end }}  
+    verbs:
+    {{- if .Values.backend.configuration.export.create }}
+      - create
+    {{- end }}
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    {{- if not .Values.backend.configuration.export.create }}
+    resourceNames: {{- include "common.tplvalues.render" ( dict "value" .Values.backend.configuration.export.names "context" $ ) | nindent 6 }}
+    {{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.names.fullname.namespace" . }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+  namespace: {{ include "dialAdmin.export.namespace" . }}
+subjects:
+  - kind: ServiceAccount
+    name:  {{ include "dialAdmin.backend.serviceAccountName" . }}
+    namespace: {{ include "common.names.namespace" . | quote }}
+roleRef:
+  {{- if eq (include "common.names.namespace" .) .Values.backend.configuration.export.namespace }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "dialAdmin.backend.fullname.namespace" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

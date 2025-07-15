@@ -1,0 +1,55 @@
+backend:
+  enabled: true
+  env:
+    DIAL_ADMIN_CLIENT_ID: "dial-admin" # Security configuration
+    CONFIG_REST_SECURITY_MODE: basic # set basic auth 
+
+  secrets:
+    H2_DATASOURCE_MASTERKEY: "%%H2_DATASOURCE_MASTERKEY%%"
+    H2_DATASOURCE_ENCRYPTEDFILEKEY: "%%H2_DATASOURCE_ENCRYPTEDFILEKEY%%"
+    H2_DATASOURCE_PASSWORD: "%%H2_DATASOURCE_PASSWORD%%"
+
+  configuration:
+    datasourceVendor: "h2"
+    export:
+      namespace: "%%CONFIG_EXPORT_NAMESPACE%%"
+      type: "secret"
+      names: ["core-config-secret"]
+      key: "env.config.json"
+
+  containerSecurityContext:
+    automountServiceAccountToken: true
+
+  serviceAccount:
+    automountServiceAccountToken: true
+
+  updateStrategy:
+    type: Recreate
+
+  persistence:
+    enabled: true
+
+frontend:
+  enabled: true
+  env:
+    NEXTAUTH_URL: "https://dial-admin.%%DOMAIN%%"
+    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local" # DIAL core API endpoint
+    THEMES_CONFIG_HOST: "%%THEMES_URL%%"
+
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial-admin.%%DOMAIN%%
+    tls:
+      - secretName: "dial-admin-tls-secret"
+        hosts:
+          - dial-admin.%%DOMAIN%%
+
+postgresql:
+  enabled: false
