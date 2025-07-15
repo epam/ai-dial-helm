@@ -16,7 +16,6 @@ spec:
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 6 }}
       app.kubernetes.io/component: backend
-      app.kubernetes.io/part-of: metrics
       {{- if .Values.backend.metrics.serviceMonitor.selector }}
       {{- include "common.tplvalues.render" (dict "value" .Values.backend.metrics.serviceMonitor.selector "context" $) | nindent 6 }}
       {{- end }}
