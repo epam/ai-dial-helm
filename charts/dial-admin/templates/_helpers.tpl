@@ -1,16 +1,9 @@
 {{/*
-Return the proper hub image name
+Return name for DIAL Admin backend resources
 */}}
 {{- define "dialAdmin.backend.fullname" -}}
 {{- printf "%s-backend" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{/*
-Return the proper Docker Image Registry Secret Names
-*/}}
-{{- define "dialAdmin.backend.imagePullSecrets" -}}
-{{- include "common.images.renderPullSecrets" (dict "images" (list .Values.backend.image) "context" $) -}}
-{{- end }}
 
 {{/*
 Create the name of the service account to use
@@ -31,19 +24,11 @@ Create a fully qualified app name adding the installation's namespace.
 {{- end -}}
 
 {{/*
-Return the proper DIAL Admin backend image name
-*/}}
-{{- define "dialAdmin.backend.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.backend.image "global" .Values.global) }}
-{{- end -}}
-
-{{/*
 Return  the proper Storage Class
 */}}
 {{- define "dialAdmin.backend.storageClass" -}}
 {{- include "common.storage.class" (dict "persistence" .Values.backend.persistence "global" .Values.global) -}}
 {{- end -}}
-
 
 {{/*
 Return whether to use the external DB or the built-in subcharts
