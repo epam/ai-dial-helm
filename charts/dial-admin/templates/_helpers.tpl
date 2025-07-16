@@ -154,6 +154,8 @@ Add environment variables to configure database values
         {{- else -}}
             {{- print "password" -}}
         {{- end -}}
+    {{- else -}}
+        {{- print "password" -}}
     {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -163,43 +165,43 @@ Add environment variables to configure database values
 Return the name of the database secret with its credentials
 */}}
 {{- define "dialAdmin.backend.databaseEnv" -}}
-{{- if eq .Values.backend.configuration.datasourceVendor "postgresql" }}
-  - name: DATASOURCE_VENDOR
-    value: "POSTGRES"
-  - name: POSTGRES_HOST
-    value: {{ include "dialAdmin.database.host" . }}
-  - name: POSTGRES_PORT
-    value: {{ include "dialAdmin.database.port" . | quote }}
-  - name: POSTGRES_DATABASE
-    value: {{ include "dialAdmin.database.name" .  }}
-  - name: POSTGRES_DATASOURCE_USERNAME
-    value: {{ include "dialAdmin.database.user" . }}
-  - name: POSTGRES_DATASOURCE_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: {{ include "dialAdmin.database.secretName" . }}
-        key: {{ include "dialAdmin.database.secretKey" . }}
-{{- else if and (include "dialAdmin.useExternalDB" .) (eq .Values.backend.configuration.datasourceVendor "mssql") }}
-  - name: DATASOURCE_VENDOR
-    value: "MS_SQL_SERVER"
-  - name: MS_SQL_SERVER_HOST
-    value: {{ include "dialAdmin.database.host" . }}
-  - name: MS_SQL_SERVER_PORT
-    value: {{ include "dialAdmin.database.port" . | quote }}
-  - name: MS_SQL_SERVER_DATABASE
-    value: {{ include "dialAdmin.database.name" . }}
-  - name: MS_SQL_SERVER_DATASOURCE_USERNAME
-    value: {{ include "dialAdmin.database.user" . }}
-  - name: MS_SQL_SERVER_DATASOURCE_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: {{ include "dialAdmin.database.secretName" . }}
-        key: {{ include "dialAdmin.database.secretKey" . }}
-{{- else if eq .Values.backend.configuration.datasourceVendor "h2" }}
-  - name: DATASOURCE_VENDOR
-    value: "H2"
-  - name: H2_FILE
-    value: "{{ .Values.backend.persistence.mountPath }}/dial-admin.db"
+{{- if eq .Values.backend.configuration.datasourceVendor "postgresql" -}}
+- name: DATASOURCE_VENDOR
+  value: "POSTGRES"
+- name: POSTGRES_HOST
+  value: {{ include "dialAdmin.database.host" . }}
+- name: POSTGRES_PORT
+  value: {{ include "dialAdmin.database.port" . | quote }}
+- name: POSTGRES_DATABASE
+  value: {{ include "dialAdmin.database.name" .  }}
+- name: POSTGRES_DATASOURCE_USERNAME
+  value: {{ include "dialAdmin.database.user" . }}
+- name: POSTGRES_DATASOURCE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "dialAdmin.database.secretName" . }}
+      key: {{ include "dialAdmin.database.secretKey" . }}
+{{- else if and (include "dialAdmin.useExternalDB" .) (eq .Values.backend.configuration.datasourceVendor "mssql") -}}
+- name: DATASOURCE_VENDOR
+  value: "MS_SQL_SERVER"
+- name: MS_SQL_SERVER_HOST
+  value: {{ include "dialAdmin.database.host" . }}
+- name: MS_SQL_SERVER_PORT
+  value: {{ include "dialAdmin.database.port" . | quote }}
+- name: MS_SQL_SERVER_DATABASE
+  value: {{ include "dialAdmin.database.name" . }}
+- name: MS_SQL_SERVER_DATASOURCE_USERNAME
+  value: {{ include "dialAdmin.database.user" . }}
+- name: MS_SQL_SERVER_DATASOURCE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "dialAdmin.database.secretName" . }}
+      key: {{ include "dialAdmin.database.secretKey" . }}
+{{- else if eq .Values.backend.configuration.datasourceVendor "h2" -}}
+- name: DATASOURCE_VENDOR
+  value: "H2"
+- name: H2_FILE
+  value: "{{ .Values.backend.persistence.mountPath }}/dial-admin.db"
 {{- end -}}
 {{- end -}}
 
@@ -218,31 +220,31 @@ Return the namespace to the export resources
 Return the name of the database secret with its credentials
 */}}
 {{- define "dialAdmin.backend.configEnv" -}}
-{{- if and .Values.backend.configuration.export.names .Values.backend.configuration.export.key }}
-  - name: CONFIG_EXPORT_CREATE_RESOURCES
-    value: {{ .Values.backend.configuration.export.create | quote }}
-  - name: KUBERNETES_CONFIG_NAMESPACE
-    value: {{  include "dialAdmin.export.namespace" . }}
+{{- if and .Values.backend.configuration.export.names .Values.backend.configuration.export.key -}}
+- name: CONFIG_EXPORT_CREATE_RESOURCES
+  value: {{ .Values.backend.configuration.export.create | quote }}
+- name: KUBERNETES_CONFIG_NAMESPACE
+  value: {{  include "dialAdmin.export.namespace" . }}
   {{- if eq .Values.backend.configuration.export.type "configmap" }}
-  - name: CONFIG_EXPORT_STORAGETYPE
-    value: "CONFIG_MAP"
-  - name: CONFIG_EXPORT_CONFIGMAP_NAMES
-    value: {{ join "," .Values.backend.configuration.export.names | quote }}
-  - name: CONFIG_EXPORT_CONFIGMAP_KEY
-    value: {{ .Values.backend.configuration.export.key | quote }}
+- name: CONFIG_EXPORT_STORAGETYPE
+  value: "CONFIG_MAP"
+- name: CONFIG_EXPORT_CONFIGMAP_NAMES
+  value: {{ join "," .Values.backend.configuration.export.names | quote }}
+- name: CONFIG_EXPORT_CONFIGMAP_KEY
+  value: {{ .Values.backend.configuration.export.key | quote }}
   {{- else if eq .Values.backend.configuration.export.type "secret" }}
-  - name: CONFIG_EXPORT_STORAGETYPE
-    value: "KUBE_SECRET"
-  - name: CONFIG_EXPORT_KUBESECRET_NAMES
-    value: {{ join "," .Values.backend.configuration.export.names | quote }}
-  - name: CONFIG_EXPORT_KUBESECRET_KEY
-    value: {{ .Values.backend.configuration.export.key | quote }}
+- name: CONFIG_EXPORT_STORAGETYPE
+  value: "KUBE_SECRET"
+- name: CONFIG_EXPORT_KUBESECRET_NAMES
+  value: {{ join "," .Values.backend.configuration.export.names | quote }}
+- name: CONFIG_EXPORT_KUBESECRET_KEY
+  value: {{ .Values.backend.configuration.export.key | quote }}
   {{- end -}}
-{{- else }}
-  - name: CONFIG_EXPORT_STORAGETYPE
-    value: "LOCAL_FILE"
-  - name: CONFIG_EXPORT_OUTPUTFILE_PATH
-    value: "{{ .Values.backend.persistence.mountPath }}/core-config.json"
+{{- else -}}
+- name: CONFIG_EXPORT_STORAGETYPE
+  value: "LOCAL_FILE"
+- name: CONFIG_EXPORT_OUTPUTFILE_PATH
+  value: "{{ .Values.backend.persistence.mountPath }}/core-config.json"
 {{- end -}}
 {{- end -}}
 
