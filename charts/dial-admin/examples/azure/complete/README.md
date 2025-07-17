@@ -1,4 +1,4 @@
-# AI DIAL ADMIN Complete Installation Azure provider with keyvault export integration guide with 
+# AI DIAL ADMIN Complete Installation Azure provider with keyvault export integration guide with Azure MSSQL database and AGIC integration 
 
 - [AI DIAL Generic Installation Simple Guide](#ai-dial-generic-installation-simple-guide)
   - [Prerequisites](#prerequisites)
@@ -13,15 +13,15 @@
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
-- [Azure AKS CSI Addon](https://learn.microsoft.com/en-us/azure/aks/csi-storage-drivers) enabled
-- [Azure AKS blob storage](https://learn.microsoft.com/en-us/azure/aks/azure-blob-csi?tabs=NFS) configured
-- [Azure storage account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) with [asigned backend managed identity](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) and blob container for H2 database pre-created
 - [Azure keyvault](https://learn.microsoft.com/en-us/azure/key-vault/) configured
 - [2 Azure App registrations](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/azure_configuration.md)
-- [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
-- [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
+- [Static IP address](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses) reserved for Chat
+- [DNS records](https://learn.microsoft.com/en-us/azure/dns/public-dns-overview) configured for Chat
+- [Azure-managed SSL certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate) issued for Chat
+- [Application Gateway Ingress Controller](https://github.com/Azure/application-gateway-kubernetes-ingress) installed and configured
+- [Azure SQL database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?view=azuresql) configured with [user-password access](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-user-transact-sql?view=sql-server-ver16#azure_active_directory_principal) 
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- [H2 database credential](https://github.com/epam/ai-dial-admin-backend/blob/development/secrets-utils/keys_generator.py) generate special keys for H2 database and store them inside of Azure Keyvault service
+
 
 ## Expected Outcome
 
@@ -58,12 +58,9 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
     - Replace `%%AZURE_EXPOSE_CLIENT_ID%%` id with a unique identifier for the client application registered in Azure Active Directory (AD) which is used to expose an API .
     - Replace `%%MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
-    - Replace `%%AZURE_STORAGE_ACCOUNT_NAME%%` with the name of storage account for H2 database.
-    - Replace `%%AZURE_STORAGE_ACCOUNT_RESOURCE_GROUP%%` with storage account resource group.
-    - Replace `%%H2_DATASOURCE_PASSWORD%%` with DB Password Key from Azure Keyvault.
-    - Replace `%%H2_DATASOURCE_ENCRYPTEDFILEKEY%%` with Master Key with secret name from Azure Keyvault.
-    - Replace `%%H2_DATASOURCE_MASTERKEY%%` with Base64 Encrypted Encryption Key with secret name from Azure Keyvault.
-    - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
+    - Replace `%%AZURE_MSSQL_HOST%%` with MSSQL server database name
+    - Replace `%%AZURE_MSSQL_USER%%` with MSSQL login username
+    - Replace `%%AZURE_MSSQL_USER_PASSWORD%%` with MSSQL login password
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
@@ -86,8 +83,8 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     TEST SUITE: None
     NOTES:
     CHART NAME: dial-admin
-    CHART VERSION: 0.4.0
-    APP VERSION: 0.4.0
+    CHART VERSION: 0.4.1
+    APP VERSION: 0.4.1
     ** Please be patient while the chart is being deployed **
     ```
 

@@ -1,74 +1,3 @@
-extraDeploy:
-  - apiVersion: secrets-store.csi.x-k8s.io/v1
-    kind: SecretProviderClass
-    metadata:
-      name: admin-backend-config
-      namespace: '{{ template "common.names.namespace" . }}'
-    spec:
-      provider: azure
-      parameters:
-        keyvaultName: "%%KEY_VAULT_NAME%%"
-        objects: |
-            - |
-              objectName: "%%H2DataSourcePassword%%"
-              objectType: secret
-            - |
-              objectName: "%%H2DataSourceEncryptedFileKey%%"
-              objectType: secret
-            - |
-              objectName: "%%H2DataSourceMasterKey%%"
-              objectType: secret                            
-        tenantId: "%%AZURE_TENANT_ID%%"
-        useVMManagedIdentity: "true"
-        userAssignedIdentityID: "%%MANAGED_IDENTITY_CLIENT_ID%%"
-      secretObjects:
-        - data:
-            - key: H2_DATASOURCE_MASTER_KEY
-              objectName: "%%H2DataSourceMasterKey%%"
-            - key: H2_DATASOURCE_ENCRYPTED_FILE_KEY
-              objectName: "%%H2DataSourceEncryptedFileKey%%"
-            - key: H2_DATASOURCE_PASSWORD
-              objectName: "%%H2DataSourcePassword%%"
-          secretName: admin-backend-csi-secrets
-          type: Opaque
-
-  - kind: PersistentVolume
-    apiVersion: v1
-    metadata:
-      name: h2-admindb-storage
-    spec:
-      accessModes:
-        - "ReadWriteMany"
-      capacity:
-        storage: "5Gi"
-      csi:
-        driver: blob.csi.azure.com
-        volumeHandle: h2-admindb-storage
-        volumeAttributes:
-          AzureStorageAuthType: MSI
-          AzureStorageIdentityClientID: "%%MANAGED_IDENTITY_CLIENT_ID%%"
-          containerName: admindb
-          protocol: fuse
-          resourceGroup: "%%AZURE_STORAGE_ACCOUNT_RESOURCE_GROUP%%"
-          storageAccount: "%%AZURE_STORAGE_ACCOUNT_NAME%%"
-      storageClassName: azureblob-fuse-premium
-      mountOptions:
-        - '-o allow_other'
-        - '--file-cache-timeout-in-seconds=120'
-
-  - kind: PersistentVolumeClaim
-    apiVersion: v1
-    metadata:
-      name: h2-admindb-storage
-    spec:
-      accessModes:
-        - "ReadWriteMany"
-      storageClassName: "azureblob-fuse-premium"
-      volumeName: h2-admindb-storage
-      resources:
-        requests:
-          storage: "5Gi"
-
 backend:
   enabled: true
   env:
@@ -101,35 +30,23 @@ backend:
   persistence:
     enabled: false
 
-  extraVolumes:
-    - name: admin-backend-secret
-      csi:
-        driver: secrets-store.csi.k8s.io
-        readOnly: true
-        volumeAttributes:
-          secretProviderClass: admin-backend-config
-    - name: h2-admin-db
-      persistentVolumeClaim:
-        claimName: h2-admindb-storage
-
-
-  extraVolumeMounts:        
-    - name: admin-backend-csi-secret
-      readOnly: true
-      mountPath: /mnt/admin-secrets-store
-    - name: h2-admin-db
-      readOnly: false
-      mountPath: /app/data/db
-
-
   configuration:
-    datasourceVendor: "postgresql"
+    datasourceVendor: "MSSQL"
     export:
       namespace: "%%CONFIG_EXPORT_NAMESPACE%%"
       type: "configmap"
       names: ["core-config-configmap"]
       key: "env.config.json"
 
+postgresql:  
+  enabled: false
+
+externalDatabase:
+  host: "%%AZURE_MSSQL_HOST%%"
+  port: 1433
+  database: "dial-admin"
+  user: "%%AZURE_MSSQL_USER%%"
+  password: "%%AZURE_MSSQL_USER_PASSWORD%%"
 
 frontend:
   enabled: true
@@ -155,12 +72,13 @@ frontend:
 
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: azure-application-gateway
     annotations:
-      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+      appgw.ingress.kubernetes.io/backend-protocol: "http"
+      appgw.ingress.kubernetes.io/appgw-ssl-certificate: "ssl-cert"
+      appgw.ingress.kubernetes.io/ssl-redirect: "true"
+      appgw.ingress.kubernetes.io/backend-path-prefix: "/"
+      appgw.ingress.kubernetes.io/request-timeout: "30"
+      appgw.ingress.kubernetes.io/use-private-ip: "false"
     hosts:
       - dial-admin.%%DOMAIN%%
-    tls:
-      - secretName: "dial-admin-tls-secret"
-        hosts:
-          - dial-admin.%%DOMAIN%%
