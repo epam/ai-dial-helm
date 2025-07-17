@@ -13,12 +13,13 @@
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
+- [Azure AKS CSI Addon](https://learn.microsoft.com/en-us/azure/aks/csi-storage-drivers) enabled
 - [Azure keyvault](https://learn.microsoft.com/en-us/azure/key-vault/) configured
 - [2 Azure App registrations](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/azure_configuration.md)
 - [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) `gpt-35-turbo` model deployed:
+- [H2 database credential](https://github.com/epam/ai-dial-admin-backend/blob/development/secrets-utils/keys_generator.py) generate special keys for H2 database and store them inside of Azure Keyvault service
 
 
 ## Expected Outcome

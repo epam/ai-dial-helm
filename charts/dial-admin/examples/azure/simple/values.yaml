@@ -11,7 +11,7 @@ backend:
     CONFIG_EXPORT_KEYVAULT_TYPE : azure
     AZURE_KEY_VAULT_URL: "%%KEY_VAULT_URL%%"
     CONFIG_EXPORT_KEYVAULT_SECRET_NAMES: "%%KEYVAULT_SECRETS_ARRAY%%"
-  
+
   podLabels:
     azure.workload.identity/use: "true"
 
@@ -46,7 +46,7 @@ frontend:
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL admin frontend should be applied
     THEMES_CONFIG_HOST: "%%THEMES_PUBLIC_URL%%"
-    # -- External Azure provider configuration;
+    # -- External Azure provider configuration
     AUTH_AZURE_AD_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
     AUTH_AZURE_AD_TENANT_ID: "%%AZURE_TENANT_ID%%"
     AUTH_AZURE_AD_NAME: "%%AZURE_REGISTRATION_NAME%%"
