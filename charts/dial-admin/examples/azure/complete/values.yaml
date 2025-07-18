@@ -7,12 +7,12 @@ backend:
     SECURITY_JWT_JWKS_URI : "https://login.microsoftonline.com/common/discovery/v2.0/keys"     
     SECURITY_JWT_ACCEPTED_ISSUERS: "%%AZURE_TENANT_ID%%"
   # -- Export azure keyvault secret
+    DATASOURCE_AUTH_TYPE: azure
     AUTH_AZURE_TYPE: managed
+    AUTH_AZURE_CLIENT_ID: "%%MANAGED_IDENTITY_CLIENT_ID%%"
     CONFIG_EXPORT_KEYVAULT_TYPE : azure
     AZURE_KEY_VAULT_URL: "%%KEY_VAULT_URL%%"
     CONFIG_EXPORT_KEYVAULT_SECRET_NAMES: "%%KEYVAULT_SECRETS_ARRAY%%"
-  
-  extraEnvVarsSecret: admin-backend-csi-secrets  
   
   podLabels:
     azure.workload.identity/use: "true"
@@ -27,11 +27,8 @@ backend:
     annotations:
       azure.workload.identity/client-id: "%%MANAGED_IDENTITY_CLIENT_ID%%"
 
-  persistence:
-    enabled: false
-
   configuration:
-    datasourceVendor: "MSSQL"
+    datasourceVendor: "mssql"
     export:
       namespace: "%%CONFIG_EXPORT_NAMESPACE%%"
       type: "configmap"
@@ -46,7 +43,6 @@ externalDatabase:
   port: 1433
   database: "dial-admin"
   user: "%%AZURE_MSSQL_USER%%"
-  password: "%%AZURE_MSSQL_USER_PASSWORD%%"
 
 frontend:
   enabled: true
