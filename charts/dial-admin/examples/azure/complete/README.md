@@ -60,7 +60,6 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     - Replace `%%MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
     - Replace `%%AZURE_MSSQL_HOST%%` with MSSQL server database name
     - Replace `%%AZURE_MSSQL_USER%%` with MSSQL login username
-    - Replace `%%AZURE_MSSQL_USER_PASSWORD%%` with MSSQL login password
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
