@@ -24,7 +24,7 @@ icon: "https://docs.dialx.ai/img/favicon.ico"
 keywords:
   - ai-dial
   - ai-dial-admin
-kubeVersion: ">=1.26.0-0"
+kubeVersion: ">=1.25.0-0"
 maintainers:
   - name: EPAM Systems
     url: https://github.com/epam
