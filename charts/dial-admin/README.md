@@ -1,6 +1,9 @@
 # dial-admin
 
-![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+
+
+
+![Version: 0.4.2](https://img.shields.io/badge/Version-0.4.2-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square) 
 
 Helm chart for DIAL Admin
 
@@ -12,7 +15,7 @@ Helm chart for DIAL Admin
 
 ## Requirements
 
-Kubernetes: `>=1.26.0-0`
+Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
