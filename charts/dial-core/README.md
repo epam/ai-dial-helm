@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.2.2](https://img.shields.io/badge/Version-4.2.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.2.3](https://img.shields.io/badge/Version-4.2.3-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -223,6 +223,8 @@ helm install my-release dial/dial-core -f values.yaml
 | redis.cluster.update.currentNumberOfNodes | int | `3` |  |
 | redis.cluster.update.currentNumberOfReplicas | int | `0` |  |
 | redis.enabled | bool | `true` | Enable/disable Redis component |
+| redis.global.security.allowInsecureImages | bool | `true` |  |
+| redis.image.repository | string | `"bitnamilegacy/redis-cluster"` |  |
 | redis.redis.configmap | string | `"# Intentional gap from 2gb to 2Gi left\nmaxmemory 2gb\n# Evict using approximated LFU, only keys with an expire set\nmaxmemory-policy volatile-lfu"` |  |
 | redis.redis.resources.limits.memory | string | `"2Gi"` |  |
 | redis.redis.resources.requests.memory | string | `"2Gi"` |  |
