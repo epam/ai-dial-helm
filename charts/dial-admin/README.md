@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.4.2](https://img.shields.io/badge/Version-0.4.2-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -257,3 +257,5 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
+| postgresql.global.security.allowInsecureImages | bool | `true` |  |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
