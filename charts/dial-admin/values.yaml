@@ -528,6 +528,13 @@ frontend:
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
+  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
+  # ref: https://github.com/bitnami/charts/issues/35164
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/postgresql
   auth:
     # -- Password for the postgres user
     postgresPassword: ""
