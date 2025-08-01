@@ -9,6 +9,13 @@ extraDeploy: []
 keycloak:
   # -- Enable/disable keycloak
   enabled: false
+  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
+  # ref: https://github.com/bitnami/charts/issues/35164
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/keycloak
   proxy: edge
   # auth:
   #   adminUser: "admin"
@@ -18,11 +25,19 @@ keycloak:
       value: "token-exchange,admin-fine-grained-authz"
   postgresql:
     enabled: true
+    # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
+    # ref: https://github.com/bitnami/charts/issues/35164
+    image:
+      repository: bitnamilegacy/postgresql
     # auth:
     #   postgresPassword: "youReallyNeedToChangeThis"
     #   password: "youReallyNeedToChangeThis"
   keycloakConfigCli:
     enabled: true
+    # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
+    # ref: https://github.com/bitnami/charts/issues/35164
+    image:
+      repository: bitnamilegacy/keycloak-config-cli
     extraEnvVars:
       - name: IMPORT_VARSUBSTITUTION_ENABLED
         value: "true"
@@ -53,7 +68,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.32.0
+    tag: 0.33.0
 
 ### ai-dial-chat configuration ###
 chat:
@@ -63,7 +78,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.34.0
+    tag: 0.35.0
   containerPorts:
     http: 3000
   livenessProbe:
@@ -105,7 +120,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.29.0
+    tag: 0.30.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -122,7 +137,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.31.0
+    tag: 0.32.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets:
@@ -143,7 +158,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.25.0
+    tag: 0.26.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
@@ -159,7 +174,7 @@ dial:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-dial
-    tag: 0.7.0
+    tag: 0.8.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
