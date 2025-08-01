@@ -31,4 +31,4 @@ maintainers:
 name: dial-admin
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-admin
-version: 0.4.2
+version: 0.4.3
