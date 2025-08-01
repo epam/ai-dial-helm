@@ -17,7 +17,7 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
-| https://charts.epam-rail.com | core(dial-core) | 4.2.2 |
+| https://charts.epam-rail.com | core(dial-core) | 4.2.3 |
 | https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | chat(dial-extension) | 1.3.2 |
 | https://charts.epam-rail.com | themes(dial-extension) | 1.3.2 |
@@ -124,10 +124,14 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
+| keycloak.global.security.allowInsecureImages | bool | `true` |  |
+| keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
+| keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
+| keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | keycloak.proxy | string | `"edge"` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
