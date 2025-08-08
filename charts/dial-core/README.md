@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.2.3](https://img.shields.io/badge/Version-4.2.3-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.3.0](https://img.shields.io/badge/Version-4.3.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -149,7 +149,7 @@ helm install my-release dial/dial-core -f values.yaml
 | logger.args[0] | string | `"-c"` |  |
 | logger.args[1] | string | `"mkdir -p /var/tmp/vector && exec vector --config /etc/vector/vector.yaml"` |  |
 | logger.command[0] | string | `"/bin/sh"` |  |
-| logger.config | string | [Documentation](https://vector.dev/docs/reference/configuration/) | Configuration file for setting up the logger component |
+| logger.config | string | [Documentation](https://vector.dev/docs/reference/configuration/) | Configuration file for setting up the logger component (evaluated as a template) |
 | logger.containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Set logger container's Security Context allowPrivilegeEscalation |
 | logger.containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Set logger container's Security Context capabilities |
 | logger.containerSecurityContext.enabled | bool | `true` | Enabled logger container's Security Context |
@@ -256,7 +256,7 @@ helm install my-release dial/dial-core -f values.yaml
 | startupProbe.enabled | bool | `false` | Enable/disable startupProbe |
 | terminationGracePeriodSeconds | string | `""` | Seconds dial-core pod needs to terminate gracefully [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods) |
 | tolerations | list | `[]` | Tolerations for dial-core pods assignment [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-| topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
+| topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 

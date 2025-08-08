@@ -216,7 +216,7 @@ updateStrategy:
 
 # -- dial-core pods' priorityClassName
 priorityClassName: ""
-# -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
+# -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template)
 # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods)
 topologySpreadConstraints: []
 # -- Name of the k8s scheduler (other than default) for dial-core pods
@@ -529,7 +529,7 @@ logger:
     # -- Set logger container's Security Context seccomp profile
     seccompProfile:
       type: "RuntimeDefault"
-  # -- Configuration file for setting up the logger component
+  # -- Configuration file for setting up the logger component (evaluated as a template)
   # @default -- [Documentation](https://vector.dev/docs/reference/configuration/)
   config: |
     data_dir: "/var/tmp/vector"
