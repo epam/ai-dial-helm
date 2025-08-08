@@ -21,6 +21,6 @@ metadata:
     {{- end }}
   {{- end }}
 data:
-  vector.yaml: |
-    {{- .Values.logger.config | nindent 4 }}
+  vector.yaml: |-
+    {{- include "common.tplvalues.render" (dict "value" .Values.logger.config "context" $) | nindent 4 }}
 {{- end }}
