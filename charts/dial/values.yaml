@@ -4,7 +4,7 @@
 
 extraDeploy: []
 
-### keycloak configuration ##
+### keycloak configuration ###
 # ref: https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md
 keycloak:
   # -- Enable/disable keycloak
