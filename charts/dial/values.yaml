@@ -69,6 +69,10 @@ core:
   enabled: true
   image:
     tag: 0.34.0
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
 
 ### ai-dial-chat configuration ###
 chat:
