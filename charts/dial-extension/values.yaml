@@ -176,6 +176,12 @@ podAnnotations: {}
 pdb:
   # -- Enable/disable a Pod Disruption Budget creation
   create: false
+  # -- Min number of pods that must still be available after the eviction.
+  # You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0
+  minAvailable: ""
+  # -- Max number of pods that can be unavailable after the eviction.
+  # You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0. Defaults to `1` if both `pdb.minAvailable` and `pdb.maxUnavailable` are empty.
+  maxUnavailable: ""
 
 ### Autoscaling configuration ###
 autoscaling:
