@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,7 +16,7 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.2 |
+| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.3 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -171,6 +171,8 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.nodeSelector | object | `{}` | Node labels for dial-admin backend pods assignment. [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
 | backend.pdb | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) | Pod Disruption Budget configuration |
 | backend.pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
+| backend.pdb.maxUnavailable | string | `""` | Max number of pods that can be unavailable after the eviction. You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0. Defaults to `1` if both `pdb.minAvailable` and `pdb.maxUnavailable` are empty. |
+| backend.pdb.minAvailable | string | `""` | Min number of pods that must still be available after the eviction. You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0 |
 | backend.persistence | object | [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) | Section to configure persistence |
 | backend.persistence.accessModes | list | `["ReadWriteOnce"]` | Persistent Volume Access Modes |
 | backend.persistence.annotations | object | `{}` | Persistent Volume Claim annotations |
