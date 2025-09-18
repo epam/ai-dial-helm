@@ -31,7 +31,7 @@ backend:
 frontend:
   enabled: true
   env:
-    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local" # DIAL core API endpoint
+    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local./" # DIAL core API endpoint
     THEMES_CONFIG_HOST: "%%THEMES_URL%%"
 
   secrets:
