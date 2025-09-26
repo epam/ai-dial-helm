@@ -2,7 +2,7 @@ backend:
   enabled: true
   env:
     DIAL_ADMIN_CLIENT_ID: "dial-admin" # Security configuration
-    CONFIG_REST_SECURITY_MODE: basic # set basic auth 
+    CONFIG_REST_SECURITY_MODE: basic # set basic auth
 
   secrets:
     H2_DATASOURCE_MASTERKEY: "%%H2_DATASOURCE_MASTERKEY%%"
@@ -32,8 +32,7 @@ backend:
 frontend:
   enabled: true
   env:
-    NEXTAUTH_URL: "https://dial-admin.%%DOMAIN%%"
-    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local" # DIAL core API endpoint
+    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local./" # DIAL core API endpoint
     THEMES_CONFIG_HOST: "%%THEMES_URL%%"
 
   secrets:
