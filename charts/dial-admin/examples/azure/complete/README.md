@@ -19,7 +19,7 @@
 - [DNS records](https://learn.microsoft.com/en-us/azure/dns/public-dns-overview) configured for Chat
 - [Azure-managed SSL certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate) issued for Chat
 - [Application Gateway Ingress Controller](https://github.com/Azure/application-gateway-kubernetes-ingress) installed and configured
-- [Azure SQL database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?view=azuresql) configured with [user-password access](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-user-transact-sql?view=sql-server-ver16#azure_active_directory_principal) 
+- [Azure SQL database](https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?view=azuresql) configured with [managed identity access](https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-azure-ad-user-assigned-managed-identity?view=azuresql) 
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 
 
@@ -61,7 +61,6 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     - Replace `%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
     - Replace `%%AZURE_MSSQL_HOST%%` with MSSQL server database name
     - Replace `%%AZURE_MSSQL_USER%%` with MSSQL login username
-    - Replace `%%AZURE_MSSQL_PASSWORD%%` with MSSQL login password
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
