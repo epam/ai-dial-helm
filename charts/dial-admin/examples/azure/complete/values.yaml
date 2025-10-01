@@ -9,7 +9,7 @@ backend:
   # -- Export azure keyvault secret
     DATASOURCE_AUTH_TYPE: azure
     AUTH_AZURE_TYPE: managed
-    AUTH_AZURE_CLIENT_ID: "%%MANAGED_IDENTITY_CLIENT_ID%%"
+    AUTH_AZURE_CLIENT_ID: "%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%"
     CONFIG_EXPORT_KEYVAULT_TYPE : azure
     AZURE_KEY_VAULT_URL: "%%KEY_VAULT_URL%%"
     CONFIG_EXPORT_KEYVAULT_SECRET_NAMES: "%%KEYVAULT_SECRETS_ARRAY%%"
@@ -26,15 +26,15 @@ backend:
     create: true
     automountServiceAccountToken: true
     annotations:
-      azure.workload.identity/client-id: "%%MANAGED_IDENTITY_CLIENT_ID%%"
+      azure.workload.identity/client-id: "%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%"
 
   configuration:
     datasourceVendor: "mssql"
     export:
       namespace: "%%CONFIG_EXPORT_NAMESPACE%%"
       type: "configmap"
-      names: ["core-config-configmap"]
-      key: "env.config.json"
+      names: ["%%CONFIGMAP_EXPORT_NAMES%%"]
+      key: "%%CONFIGMAP_EXPORT_KEYS%%"
 
 postgresql:  
   enabled: false
@@ -44,7 +44,7 @@ externalDatabase:
   port: 1433
   database: "dial-admin"
   user: "%%AZURE_MSSQL_USER%%"
-  password: "%%MSSQL_USER_PASSWORD%%"
+  password: "none" 
 
 frontend:
   enabled: true
@@ -57,7 +57,7 @@ frontend:
     DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local"
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL admin frontend should be applied
-    THEMES_CONFIG_HOST: "%%THEMES_PUBLIC_URL%%"
+    THEMES_CONFIG_URL: "%%THEMES_URL%%"
     # -- External Azure provider configuration;
     AUTH_AZURE_AD_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
     AUTH_AZURE_AD_TENANT_ID: "%%AZURE_TENANT_ID%%"

@@ -46,7 +46,7 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
 
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%CONFIGMAP_EXPORT_NAMES%%` with kubernetes secret name which contains dial configuration json, e.g. `core-config-secret`
-    - Replace `%%SECRET_EXPORT_KEY%%` with kubernetes secret key with dial configuration, e.g. `env.config.json`
+    - Replace `%%CONFIGMAP_EXPORT_KEY%%` with kubernetes secret key with dial configuration, e.g. `env.config.json`
     - Replace `%%CONFIG_EXPORT_NAMESPACE%%` kubernetes namespace where ai-dial installed
     - Replace `%%THEMES_URL%%` with public DIAL themes url
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
@@ -57,7 +57,7 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     - Replace `%%AZURE_TENANT_ID%%` with a Tenant ID refers to a globally unique identifier (GUID) that represents a specific Azure AD tenant. It is used to identify and authenticate the Azure AD tenant that the client application belongs to.
     - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
     - Replace `%%AZURE_EXPOSE_CLIENT_ID%%` id with a unique identifier for the client application registered in Azure Active Directory (AD) which is used to expose an API .
-    - Replace `%%MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
+    - Replace `%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
