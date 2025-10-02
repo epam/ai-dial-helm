@@ -46,8 +46,8 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     ```
 
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
-    - Replace `%%CONFIGMAP_EXPORT_NAMES%%` with kubernetes secret names which contains dial configuration json, e.g. `core-config-secret`
-    - Replace `%%CONFIGMAP_EXPORT_KEYS%%` with kubernetes secret keys which contains dial configuration json, e.g. `env.config.json`
+    - Replace `%%CONFIGMAP_EXPORT_NAMES%%` with kubernetes configmap names which contains dial configuration json, e.g. `core-config-secret,dial-config`
+    - Replace `%%CONFIGMAP_EXPORT_KEYS%%` with kubernetes configmap keys which contains dial configuration json, e.g. `env.config.json,env2.config.json`
     - Replace `%%CONFIG_EXPORT_NAMESPACE%%` kubernetes namespace where ai-dial installed
     - Replace `%%THEMES_URL%%` with public DIAL themes url
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
