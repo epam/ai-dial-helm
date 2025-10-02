@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.15.0](https://img.shields.io/badge/Version-5.15.0-informational?style=flat-square) ![AppVersion: 1.35.0](https://img.shields.io/badge/AppVersion-1.35.0-informational?style=flat-square)
+![Version: 5.16.0](https://img.shields.io/badge/Version-5.16.0-informational?style=flat-square) ![AppVersion: 1.36.0](https://img.shields.io/badge/AppVersion-1.36.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.37.0"` |  |
+| chat.image.tag | string | `"0.38.0"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -113,7 +113,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.failureThreshold | int | `6` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.35.1"` |  |
+| core.image.tag | string | `"0.36.0"` |  |
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
