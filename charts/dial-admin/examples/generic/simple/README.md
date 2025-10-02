@@ -46,8 +46,8 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%H2_DATASOURCE_PASSWORD%%` with DB Password Key from script output from [prerequisites](#prerequisites)
-    - Replace `%%H2_DATASOURCE_ENCRYPTEDFILEKEY%%` with Master Key from script output from [prerequisites](#prerequisites)
-    - Replace `%%H2_DATASOURCE_MASTERKEY%%` with Base64 Encrypted Encryption Key from script output from [prerequisites](#prerequisites)
+    - Replace `%%H2_DATASOURCE_ENCRYPTEDFILEKEY%%` with Encrypted Encryption Key from script output from [prerequisites](#prerequisites)
+    - Replace `%%H2_DATASOURCE_MASTERKEY%%` with Master Key from script output from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
 2. Install `dial-admin` helm chart in created namespace, applying custom values file:
