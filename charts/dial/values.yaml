@@ -68,7 +68,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.35.1
+    tag: 0.36.1
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -82,7 +82,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.37.0
+    tag: 0.38.0
   containerPorts:
     http: 3000
   livenessProbe:
