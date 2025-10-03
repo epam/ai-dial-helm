@@ -1,0 +1,70 @@
+backend:
+  enabled: true
+  env:
+  # -- Security configuration  
+    DIAL_ADMIN_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
+    ## set oidc auth
+    SECURITY_JWT_JWKS_URI : "https://login.microsoftonline.com/common/discovery/v2.0/keys"     
+    SECURITY_JWT_ACCEPTED_ISSUERS: "%%AZURE_TENANT_ID%%"
+  # -- Export azure keyvault secret
+    AUTH_AZURE_TYPE: managed
+    AUTH_AZURE_CLIENT_ID: "%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%"
+    CONFIG_EXPORT_KEYVAULT_TYPE : azure
+    AZURE_KEY_VAULT_URL: "%%KEY_VAULT_URL%%"
+    CONFIG_EXPORT_KEYVAULT_SECRET_NAMES: "%%KEYVAULT_SECRETS_ARRAY%%"
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+  automountServiceAccountToken: true
+  
+  updateStrategy:
+    type: Recreate
+
+  serviceAccount:
+    create: true
+    automountServiceAccountToken: true
+    annotations:
+      azure.workload.identity/client-id: "%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%"
+
+  configuration:
+    datasourceVendor: "postgresql"
+    export:
+      namespace: "%%CONFIG_EXPORT_NAMESPACE%%"
+      type: "configmap"
+      names: ["%%CONFIGMAP_EXPORT_NAMES%%"]
+      key: "%%CONFIGMAP_EXPORT_KEYS%%"
+
+frontend:
+  enabled: true
+  env:
+    # -- Canonical URL of your site
+    # ref: https://next-auth.js.org/configuration/options#nextauth_url
+    NEXTAUTH_URL: "https://dial-admin.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL admin service
+    DIAL_ADMIN_API_URL: "http://dial-admin-backend.%%NAMESPACE%%.svc.cluster.local"
+    # -- External URL of DIAL themes;
+    # Same allowlist as for DIAL admin frontend should be applied
+    THEMES_CONFIG_URL: "%%THEMES_URL%%"
+    # -- External Azure provider configuration
+    AUTH_AZURE_AD_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
+    AUTH_AZURE_AD_TENANT_ID: "%%AZURE_TENANT_ID%%"
+    AUTH_AZURE_AD_NAME: "%%AZURE_REGISTRATION_NAME%%"
+    AUTH_AZURE_AD_SCOPE: "openid profile %%AZURE_EXPOSE_CLIENT_ID%%/.DialAdminLogin email offline_access"
+
+  secrets:
+    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
+    AUTH_AZURE_AD_SECRET: "%%AZURE_CLIENT_SECRET%%"
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial-admin.%%DOMAIN%%
+    tls:
+      - secretName: "dial-admin-tls-secret"
+        hosts:
+          - dial-admin.%%DOMAIN%%
