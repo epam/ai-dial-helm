@@ -68,7 +68,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.36.0
+    tag: 0.36.1
   livenessProbe:
     enabled: true
   readinessProbe:
