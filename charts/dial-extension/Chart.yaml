@@ -10,7 +10,7 @@ dependencies:
       - bitnami-common
     version: 2.31.4
 description: Helm chart for dial extensions
-home: https://epam-rail.com
+home: https://dialx.ai
 icon: "https://docs.dialx.ai/img/favicon.ico"
 keywords:
   - ai-dial
