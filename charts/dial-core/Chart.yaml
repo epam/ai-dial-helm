@@ -15,7 +15,7 @@ dependencies:
     condition: redis.enabled
     version: 13.0.4
 description: Helm chart for dial core
-home: https://epam-rail.com
+home: https://dialx.ai
 icon: "https://docs.dialx.ai/img/favicon.ico"
 keywords:
   - ai-dial
