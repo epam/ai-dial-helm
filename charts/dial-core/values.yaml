@@ -574,6 +574,7 @@ redis:
       allowInsecureImages: true
   image:
     repository: bitnamilegacy/redis-cluster
+  usePasswordFiles: false
   redis:
     resources:
       requests:

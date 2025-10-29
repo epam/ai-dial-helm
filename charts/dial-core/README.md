@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.3.1](https://img.shields.io/badge/Version-4.3.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 4.3.2](https://img.shields.io/badge/Version-4.3.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,8 +23,8 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 11.4.0 |
-| oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
+| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 13.0.4 |
+| oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
 
@@ -231,6 +231,7 @@ helm install my-release dial/dial-core -f values.yaml
 | redis.redis.resources.limits.memory | string | `"2Gi"` |  |
 | redis.redis.resources.requests.memory | string | `"2Gi"` |  |
 | redis.redis.useAOFPersistence | string | `"no"` | Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default) |
+| redis.usePasswordFiles | bool | `false` |  |
 | replicaCount | int | `1` | Number of dial-core replicas to deploy |
 | resources | object | `{}` | dial-core resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-core pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
