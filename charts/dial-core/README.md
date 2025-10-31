@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.3.1](https://img.shields.io/badge/Version-4.3.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 5.0.0](https://img.shields.io/badge/Version-5.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,8 +23,8 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 11.4.0 |
-| oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
+| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 13.0.4 |
+| oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
 
@@ -231,6 +231,7 @@ helm install my-release dial/dial-core -f values.yaml
 | redis.redis.resources.limits.memory | string | `"2Gi"` |  |
 | redis.redis.resources.requests.memory | string | `"2Gi"` |  |
 | redis.redis.useAOFPersistence | string | `"no"` | Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default) |
+| redis.usePasswordFiles | bool | `false` |  |
 | replicaCount | int | `1` | Number of dial-core replicas to deploy |
 | resources | object | `{}` | dial-core resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-core pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
@@ -263,6 +264,19 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 
 ## Upgrading
+
+### To 5.0.0
+> [!TIP]
+> Bumping the major version to highlight Redis `7.2.4` --> `8.2.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/8.2/00-RELEASENOTES) for specific details.
+
+The update may change the behavior of Redis when working with secrets. If you are using secrets as mounted files, you should enable support for this mode in values.yaml:
+
+**Example:**
+
+```
+redis:
+  usePasswordFiles: true
+```
 
 ### To 4.1.2
 

@@ -8,14 +8,14 @@ dependencies:
     repository: oci://registry-1.docker.io/bitnamicharts
     tags:
       - bitnami-common
-    version: 2.29.0
+    version: 2.31.4
   - name: redis-cluster
     repository: https://charts.bitnami.com/bitnami
     alias: redis
     condition: redis.enabled
-    version: 11.4.0
+    version: 13.0.4
 description: Helm chart for dial core
-home: https://epam-rail.com
+home: https://dialx.ai
 icon: "https://docs.dialx.ai/img/favicon.ico"
 keywords:
   - ai-dial
@@ -26,4 +26,4 @@ maintainers:
 name: dial-core
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
-version: 4.3.1
+version: 5.0.0
