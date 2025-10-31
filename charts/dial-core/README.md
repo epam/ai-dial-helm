@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 4.3.2](https://img.shields.io/badge/Version-4.3.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 5.0.0](https://img.shields.io/badge/Version-5.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -264,6 +264,19 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 
 ## Upgrading
+
+### To 5.0.0
+> [!TIP]
+> Bumping the major version to highlight Redis `7.2.4` --> `8.2.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/8.2/00-RELEASENOTES) for specific details.
+
+The update may change the behavior of Redis when working with secrets. If you are using secrets as mounted files, you should enable support for this mode in values.yaml:
+
+**Example:**
+
+```
+redis:
+  usePasswordFiles: true
+```
 
 ### To 4.1.2
 
