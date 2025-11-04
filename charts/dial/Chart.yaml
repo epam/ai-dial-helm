@@ -65,7 +65,7 @@ keywords:
   - ai-dial
 kubeVersion: ">=1.23.0-0"
 maintainers:
-  - name: EPAM Systems
+  - name: EPAM Systems LLC
     url: https://github.com/epam
 name: dial
 sources:
