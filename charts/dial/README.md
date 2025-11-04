@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.17.0](https://img.shields.io/badge/Version-5.17.0-informational?style=flat-square) ![AppVersion: 1.37.0](https://img.shields.io/badge/AppVersion-1.37.0-informational?style=flat-square)
+![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.37.1](https://img.shields.io/badge/AppVersion-1.37.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -16,17 +16,17 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
-| https://charts.epam-rail.com | core(dial-core) | 4.3.1 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.3.3 |
-| oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
+| https://charts.bitnami.com/bitnami | keycloak | 25.2.0 |
+| https://charts.epam-rail.com | core(dial-core) | 5.0.0 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.4.0 |
+| oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
 
@@ -127,6 +127,7 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
 | keycloak.global.security.allowInsecureImages | bool | `true` |  |
+| keycloak.hostnameStrict | bool | `true` |  |
 | keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
@@ -134,7 +135,9 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| keycloak.production | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
+| keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
