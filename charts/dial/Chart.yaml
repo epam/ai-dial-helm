@@ -70,4 +70,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 6.0.0
+version: 6.0.1

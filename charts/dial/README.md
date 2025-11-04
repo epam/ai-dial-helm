@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.37.1](https://img.shields.io/badge/AppVersion-1.37.1-informational?style=flat-square)
+![Version: 6.0.1](https://img.shields.io/badge/Version-6.0.1-informational?style=flat-square) ![AppVersion: 1.37.1](https://img.shields.io/badge/AppVersion-1.37.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -127,7 +127,6 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
 | keycloak.global.security.allowInsecureImages | bool | `true` |  |
-| keycloak.hostnameStrict | bool | `true` |  |
 | keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
@@ -135,7 +134,6 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
-| keycloak.production | bool | `true` |  |
 | keycloak.proxy | string | `"edge"` |  |
 | keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |

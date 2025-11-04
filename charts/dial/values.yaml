@@ -12,8 +12,6 @@ keycloak:
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
   # ref: https://github.com/bitnami/charts/issues/35164
   usePasswordFiles: false
-  production: true
-  hostnameStrict: true
   global:
     security:
       allowInsecureImages: true
