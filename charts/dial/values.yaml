@@ -4,6 +4,16 @@
 
 extraDeploy: []
 
+defaultInitContainers:
+  prepareWriteDirs:
+    resourcesPreset: small
+
+usePasswordFiles: false
+
+postgresql:
+  auth:
+    usePasswordFiles: false
+
 ### keycloak configuration ##
 # ref: https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md
 keycloak:
@@ -11,12 +21,12 @@ keycloak:
   enabled: false
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
   # ref: https://github.com/bitnami/charts/issues/35164
-  usePasswordFiles: false
   global:
     security:
       allowInsecureImages: true
   image:
     repository: bitnamilegacy/keycloak
+    tag: 26.3.3-debian-12-r0
   proxy: edge
   # auth:
   #   adminUser: "admin"
@@ -30,6 +40,7 @@ keycloak:
     # ref: https://github.com/bitnami/charts/issues/35164
     image:
       repository: bitnamilegacy/postgresql
+      tag: 17.6.0-debian-12-r0
     # auth:
     #   postgresPassword: "youReallyNeedToChangeThis"
     #   password: "youReallyNeedToChangeThis"
@@ -39,6 +50,7 @@ keycloak:
     # ref: https://github.com/bitnami/charts/issues/35164
     image:
       repository: bitnamilegacy/keycloak-config-cli
+      tag: 6.4.0-debian-12-r11
     extraEnvVars:
       - name: IMPORT_VARSUBSTITUTION_ENABLED
         value: "true"
