@@ -4,21 +4,12 @@
 
 extraDeploy: []
 
-defaultInitContainers:
-  prepareWriteDirs:
-    resourcesPreset: small
-
-usePasswordFiles: false
-
-postgresql:
-  auth:
-    usePasswordFiles: false
-
 ### keycloak configuration ##
 # ref: https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md
 keycloak:
   # -- Enable/disable keycloak
   enabled: false
+  usePasswordFiles: false
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
   # ref: https://github.com/bitnami/charts/issues/35164
   global:
@@ -41,6 +32,18 @@ keycloak:
     image:
       repository: bitnamilegacy/postgresql
       tag: 17.6.0-debian-12-r0
+    auth:
+    usePasswordFiles: false
+    metrics:
+      enabled: false
+      image:
+        repository: bitnamilegacy/postgres-exporter
+        tag: 0.17.1-debian-12-r15
+    volumePermissions:
+      enabled: false
+      image:
+        repository: bitnamilegacy/os-shell
+        tag: 12-debian-12-r50
     # auth:
     #   postgresPassword: "youReallyNeedToChangeThis"
     #   password: "youReallyNeedToChangeThis"

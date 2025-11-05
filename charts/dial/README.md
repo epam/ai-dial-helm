@@ -116,7 +116,6 @@ helm install my-release dial/dial -f values.yaml
 | core.image.tag | string | `"0.37.0"` |  |
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
-| defaultInitContainers.prepareWriteDirs.resourcesPreset | string | `"small"` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
@@ -135,17 +134,25 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
 | keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
 | keycloak.keycloakConfigCli.image.tag | string | `"6.4.0-debian-12-r11"` |  |
+| keycloak.postgresql.auth | string | `nil` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | keycloak.postgresql.image.tag | string | `"17.6.0-debian-12-r0"` |  |
+| keycloak.postgresql.metrics.enabled | bool | `false` |  |
+| keycloak.postgresql.metrics.image.repository | string | `"bitnamilegacy/postgres-exporter"` |  |
+| keycloak.postgresql.metrics.image.tag | string | `"0.17.1-debian-12-r15"` |  |
+| keycloak.postgresql.usePasswordFiles | bool | `false` |  |
+| keycloak.postgresql.volumePermissions.enabled | bool | `false` |  |
+| keycloak.postgresql.volumePermissions.image.repository | string | `"bitnamilegacy/os-shell"` |  |
+| keycloak.postgresql.volumePermissions.image.tag | string | `"12-debian-12-r50"` |  |
 | keycloak.proxy | string | `"edge"` |  |
+| keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.33.0"` |  |
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.enabled | bool | `true` |  |
-| postgresql.auth.usePasswordFiles | bool | `false` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
@@ -155,7 +162,6 @@ helm install my-release dial/dial -f values.yaml
 | themes.livenessProbe.enabled | bool | `true` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
-| usePasswordFiles | bool | `false` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
