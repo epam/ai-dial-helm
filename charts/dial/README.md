@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.0.2](https://img.shields.io/badge/Version-6.0.2-informational?style=flat-square) ![AppVersion: 1.37.2](https://img.shields.io/badge/AppVersion-1.37.2-informational?style=flat-square)
+![Version: 6.0.3](https://img.shields.io/badge/Version-6.0.3-informational?style=flat-square) ![AppVersion: 1.37.3](https://img.shields.io/badge/AppVersion-1.37.3-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -134,15 +134,12 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
 | keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
 | keycloak.keycloakConfigCli.image.tag | string | `"6.4.0-debian-12-r11"` |  |
-| keycloak.postgresql.auth | string | `nil` |  |
+| keycloak.postgresql.auth.usePasswordFiles | bool | `false` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | keycloak.postgresql.image.tag | string | `"17.6.0-debian-12-r0"` |  |
-| keycloak.postgresql.metrics.enabled | bool | `false` |  |
 | keycloak.postgresql.metrics.image.repository | string | `"bitnamilegacy/postgres-exporter"` |  |
 | keycloak.postgresql.metrics.image.tag | string | `"0.17.1-debian-12-r15"` |  |
-| keycloak.postgresql.usePasswordFiles | bool | `false` |  |
-| keycloak.postgresql.volumePermissions.enabled | bool | `false` |  |
 | keycloak.postgresql.volumePermissions.image.repository | string | `"bitnamilegacy/os-shell"` |  |
 | keycloak.postgresql.volumePermissions.image.tag | string | `"12-debian-12-r50"` |  |
 | keycloak.proxy | string | `"edge"` |  |

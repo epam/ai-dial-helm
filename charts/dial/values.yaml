@@ -33,14 +33,12 @@ keycloak:
       repository: bitnamilegacy/postgresql
       tag: 17.6.0-debian-12-r0
     auth:
-    usePasswordFiles: false
+      usePasswordFiles: false
     metrics:
-      enabled: false
       image:
         repository: bitnamilegacy/postgres-exporter
         tag: 0.17.1-debian-12-r15
     volumePermissions:
-      enabled: false
       image:
         repository: bitnamilegacy/os-shell
         tag: 12-debian-12-r50
