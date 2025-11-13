@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.17.2](https://img.shields.io/badge/Version-5.17.2-informational?style=flat-square) ![AppVersion: 1.37.2](https://img.shields.io/badge/AppVersion-1.37.2-informational?style=flat-square)
+![Version: 5.17.3](https://img.shields.io/badge/Version-5.17.3-informational?style=flat-square) ![AppVersion: 1.37.3](https://img.shields.io/badge/AppVersion-1.37.3-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -128,7 +128,6 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
 | keycloak.global.security.allowInsecureImages | bool | `true` |  |
 | keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
-| keycloak.image.tag | string | `"26.3.3-debian-12-r0"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
