@@ -1,7 +1,7 @@
 backend:
   enabled: true
   env:
-    DIAL_ADMIN_CLIENT_ID: "dial-admin" # Security configuration
+    providers.azure.audiences: "%%AZURE_CLIENT_ID%%" # Security configuration
     CONFIG_REST_SECURITY_MODE: basic # set basic auth
 
   secrets:
