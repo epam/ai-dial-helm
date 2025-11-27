@@ -246,11 +246,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-<<<<<<< HEAD
-| frontend.image.tag | string | `"0.11.0"` | Frontend image tag |
-=======
 | frontend.image.tag | string | `"0.11.2"` | Frontend image tag |
->>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
@@ -270,32 +266,15 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ### To 0.6.0
 
-<<<<<<< HEAD
 #### 1. Core Configuration Version
 
 - **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
 - **Upgrade Command**: When upgrading, use the following Helm command:
-=======
-> [!CAUTION]
-> The upgrade require dial-admin  configuration update.
-
-#### 1. Core Configuration Version
-
-- **Requirement**: 
-    The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
-- **Upgrade Command**: 
-    When upgrading, use the following Helm command:
->>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
   ```bash
   helm upgrade helm install dial-admin dial/dial-admin --set backend.env.CORE_CONFIG_VERSION="your_version"
   ```
 - **Recommendation**: It is recommended to set `CORE_CONFIG_VERSION` even if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is `true` to prevent failures due to changes in the core config JSON.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
 #### 2. Identity Providers Configuration
 
 - **Notice**: Changes have been made to the environment variables related to identity providers. All related variables have been updated.
@@ -303,63 +282,4 @@ helm install my-release dial/dial-admin -f values.yaml
 ##### Changes Made to Environment Variables
 
 Please refer to the official documentation for more details:
-<<<<<<< HEAD
-<<<<<<< HEAD
 - https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
-=======
-### 2. Identity Providers Configuration
-=======
-#### 2. Identity Providers Configuration
->>>>>>> 87a6e4a (update docs)
-
-- **Notice**: Changes have been made to the environment variables related to identity providers. All related variables have been updated.
-
-##### Changes Made to Environment Variables
-
-| Previous Variable Name                  | New Variable Name                             | Description                                                                 |
-|-----------------------------------------|-----------------------------------------------|-----------------------------------------------------------------------------|
-| `SECURITY_ALLOWED_ROLES`                | `providers.<your_provider_name>.allowed-roles`| Comma-separated list of roles with access permissions for the provider.     |
-| `SECURITY_JWT_JWKS_URI`                 | `providers.<your_provider_name>.jwk-set-uri`  | URI for JSON Web Key Set for the provider.                                  |
-| `SECURITY_JWT_ACCEPTED_ISSUERS`         | `providers.<your_provider_name>.issuer`       | List of accepted JWT token issuers for the provider.                        |
-| `SECURITY_JWT_ACCEPTED_ISSUERS_ALIAS`   | `providers.azure.aliases`                     | Aliases for accepted JWT token issuers (only applicable for Azure provider).|
-| `DIAL_ADMIN_CLIENT_ID`                  | `providers.<your_provider_name>.audiences`    | Previously used as a unique identifier for the DIAL Admin backend application. This env defined the same property as `SECURITY_JWT_ACCEPTED_AUDIENCES` and was removed. |
-| `SECURITY_JWT_ACCEPTED_AUDIENCES`       | `providers.<your_provider_name>.audiences`    | List of accepted JWT token audiences. Defines the intended recipients of the claim `aud` in JWT. |
-| `SECURITY_ROLES_CLAIM`                  | `providers.<your_provider_name>.role-claims`  | JWT claim name for user roles for the provider.                             |
-
-##### Added Support for Multiple Identity Providers
-
-The DIAL Admin application now supports the use of multiple authentication providers, allowing for greater flexibility and integration with various identity services.
-
-###### Example Configuration for Multiple Providers
-
-```yaml
-backend:
-  env:
-    providers.auth0.jwk-set-uri: "https://example-auth0.com/.well-known/jwks.json"
-    providers.auth0.issuer: "https://example-auth0.com"
-    providers.auth0.role-claims: "example\\_roles"
-    providers.auth0.audiences: "example-audience-id"
-    providers.keycloak.jwk-set-uri: "https://example-keycloak.com/realms/Example/protocol/openid-connect/certs"
-    providers.keycloak.issuer: "https://example-keycloak.com/realms/Example"
-    providers.keycloak.role-claims: "example\\_roles"
-    providers.keycloak.audiences: "example-ui, example-admin"
-    providers.azure.jwk-set-uri: "https://example.microsoft.com/common/discovery/v2.0/keys"
-    providers.azure.issuer: "example-issuer-id"
-    providers.azure.role-claims: "example\\_groups"
-    providers.azure.audiences: "example-audience-id"
-    providers.azure.aliases: "login.microsoftonline.com, login.windows.net, login.microsoft.com, sts.windows.net, login.partner.microsoftonline.cn, login.chinacloudapi.cn, login.microsoftonline.de, login.microsoftonline.us, login.usgovcloudapi.net, login-us.microsoftonline.com"
-    providers.azure.allowed-roles: "example-role-id"
-<<<<<<< HEAD
-```
-
----
->>>>>>> c041e60 (update docs)
-=======
-```
->>>>>>> 87a6e4a (update docs)
-=======
-- https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
->>>>>>> aef2862 (update versions)
-=======
-- https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
->>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
