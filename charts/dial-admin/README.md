@@ -266,20 +266,8 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ### To 0.6.0
 
-#### 1. Core Configuration Version
+> [!NOTE]
+> The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false` for DIAL Admin backend.
 
-- **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
-- **Upgrade Command**: When upgrading, use the following Helm command:
-  ```bash
-  helm upgrade helm install dial-admin dial/dial-admin --set backend.env.CORE_CONFIG_VERSION="your_version"
-  ```
-- **Recommendation**: It is recommended to set `CORE_CONFIG_VERSION` even if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is `true` to prevent failures due to changes in the core config JSON.
-
-#### 2. Identity Providers Configuration
-
-- **Notice**: Changes have been made to the environment variables related to identity providers. All related variables have been updated.
-
-##### Changes Made to Environment Variables
-
-Please refer to the official documentation for more details:
-- [ai-dial-admin-backend documentation](https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration)
+1. Specify the DIAL core version in `backend.env.CORE_CONFIG_VERSION`.
+1. Change all variables related to the identity provider configuration for the DIAL Admin backend according to the [new format](https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration).
