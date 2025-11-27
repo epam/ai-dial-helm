@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.2](https://img.shields.io/badge/AppVersion-0.11.2-informational?style=flat-square)
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -266,15 +266,10 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ### To 0.6.0
 
-> [!CAUTION]
-> The upgrade require dial-admin  configuration update.
-
 #### 1. Core Configuration Version
 
-- **Requirement**: 
-    The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
-- **Upgrade Command**: 
-    When upgrading, use the following Helm command:
+- **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
+- **Upgrade Command**: When upgrading, use the following Helm command:
   ```bash
   helm upgrade helm install dial-admin dial/dial-admin --set backend.env.CORE_CONFIG_VERSION="your_version"
   ```
