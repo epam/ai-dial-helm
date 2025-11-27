@@ -3,6 +3,7 @@ backend:
   env:
     providers.azure.audiences: "%%AZURE_CLIENT_ID%%" # Security configuration
     CONFIG_REST_SECURITY_MODE: basic # set basic auth
+    CORE_CONFIG_VERSION: "%%CORE_CONFIG_VERSION%%"
 
   secrets:
     H2_DATASOURCE_MASTERKEY: "%%H2_DATASOURCE_MASTERKEY%%"
