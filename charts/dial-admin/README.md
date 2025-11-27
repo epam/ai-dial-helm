@@ -1,9 +1,6 @@
 # dial-admin
 
-
-
-
-![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square) 
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -294,11 +291,11 @@ helm install my-release dial/dial-admin -f values.yaml
 | `SECURITY_JWT_ACCEPTED_AUDIENCES`       | `providers.<your_provider_name>.audiences`    | List of accepted JWT token audiences. Defines the intended recipients of the claim `aud` in JWT. |
 | `SECURITY_ROLES_CLAIM`                  | `providers.<your_provider_name>.role-claims`  | JWT claim name for user roles for the provider.                             |
 
-#### Added Support for Multiple Identity Providers
+##### Added Support for Multiple Identity Providers
 
 The DIAL Admin application now supports the use of multiple authentication providers, allowing for greater flexibility and integration with various identity services.
 
-##### Example Configuration for Multiple Providers
+###### Example Configuration for Multiple Providers
 
 ```yaml
 backend:
