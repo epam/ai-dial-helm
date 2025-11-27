@@ -246,7 +246,11 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
+<<<<<<< HEAD
 | frontend.image.tag | string | `"0.11.0"` | Frontend image tag |
+=======
+| frontend.image.tag | string | `"0.11.2"` | Frontend image tag |
+>>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
@@ -266,10 +270,22 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ### To 0.6.0
 
+<<<<<<< HEAD
 #### 1. Core Configuration Version
 
 - **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
 - **Upgrade Command**: When upgrading, use the following Helm command:
+=======
+> [!CAUTION]
+> The upgrade require dial-admin  configuration update.
+
+#### 1. Core Configuration Version
+
+- **Requirement**: 
+    The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
+- **Upgrade Command**: 
+    When upgrading, use the following Helm command:
+>>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
   ```bash
   helm upgrade helm install dial-admin dial/dial-admin --set backend.env.CORE_CONFIG_VERSION="your_version"
   ```
@@ -277,6 +293,9 @@ helm install my-release dial/dial-admin -f values.yaml
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
 #### 2. Identity Providers Configuration
 
 - **Notice**: Changes have been made to the environment variables related to identity providers. All related variables have been updated.
@@ -284,6 +303,7 @@ helm install my-release dial/dial-admin -f values.yaml
 ##### Changes Made to Environment Variables
 
 Please refer to the official documentation for more details:
+<<<<<<< HEAD
 <<<<<<< HEAD
 - https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
 =======
@@ -340,3 +360,6 @@ backend:
 =======
 - https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
 >>>>>>> aef2862 (update versions)
+=======
+- https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
+>>>>>>> ca16b7a06f1425cc7c571856b225e2a2ac4b92cb
