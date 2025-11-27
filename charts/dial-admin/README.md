@@ -1,6 +1,9 @@
 # dial-admin
 
-![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
+
+
+
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square) 
 
 Helm chart for DIAL Admin
 
@@ -279,16 +282,9 @@ helm install my-release dial/dial-admin -f values.yaml
 =======
 ## Upgrade
 
+### Important Changes
 
-Here's a draft for the upgrade chart README based on the provided information:
-
----
-
-# Upgrade Chart README
-
-## Important Changes
-
-### 1. Core Configuration Version
+#### 1. Core Configuration Version
 
 - **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
 - **Upgrade Command**: When upgrading, use the following Helm command:
@@ -298,6 +294,7 @@ Here's a draft for the upgrade chart README based on the provided information:
   ```
 - **Recommendation**: It is recommended to set `CORE_CONFIG_VERSION` even if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is `true` to prevent failures due to changes in the core config JSON.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #### 2. Identity Providers Configuration
 
@@ -309,10 +306,13 @@ Please refer to the official documentation for more details:
 - https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
 =======
 ### 2. Identity Providers Configuration
+=======
+#### 2. Identity Providers Configuration
+>>>>>>> 87a6e4a (update docs)
 
 - **Notice**: Changes have been made to the environment variables related to identity providers. All related variables have been updated.
 
-#### Changes Made to Environment Variables
+##### Changes Made to Environment Variables
 
 | Previous Variable Name                  | New Variable Name                             | Description                                                                 |
 |-----------------------------------------|-----------------------------------------------|-----------------------------------------------------------------------------|
@@ -324,11 +324,11 @@ Please refer to the official documentation for more details:
 | `SECURITY_JWT_ACCEPTED_AUDIENCES`       | `providers.<your_provider_name>.audiences`    | List of accepted JWT token audiences. Defines the intended recipients of the claim `aud` in JWT. |
 | `SECURITY_ROLES_CLAIM`                  | `providers.<your_provider_name>.role-claims`  | JWT claim name for user roles for the provider.                             |
 
-### Added Support for Multiple Identity Providers
+#### Added Support for Multiple Identity Providers
 
 The DIAL Admin application now supports the use of multiple authentication providers, allowing for greater flexibility and integration with various identity services.
 
-#### Example Configuration for Multiple Providers
+##### Example Configuration for Multiple Providers
 
 ```yaml
 backend:
@@ -347,7 +347,11 @@ backend:
     providers.azure.audiences: "example-audience-id"
     providers.azure.aliases: "login.microsoftonline.com, login.windows.net, login.microsoft.com, sts.windows.net, login.partner.microsoftonline.cn, login.chinacloudapi.cn, login.microsoftonline.de, login.microsoftonline.us, login.usgovcloudapi.net, login-us.microsoftonline.com"
     providers.azure.allowed-roles: "example-role-id"
+<<<<<<< HEAD
 ```
 
 ---
 >>>>>>> c041e60 (update docs)
+=======
+```
+>>>>>>> 87a6e4a (update docs)
