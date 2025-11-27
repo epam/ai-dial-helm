@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![AppVersion: 0.10.0](https://img.shields.io/badge/AppVersion-0.10.0-informational?style=flat-square)
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -123,7 +123,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.10.0"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.11.2"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -246,7 +246,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.10.0"` | Frontend image tag |
+| frontend.image.tag | string | `"0.11.2"` | Frontend image tag |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
@@ -261,3 +261,13 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+
+## Upgrading
+
+### To 0.6.0
+
+> [!NOTE]
+> The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false` for DIAL Admin backend.
+
+1. Specify the DIAL core version in `backend.env.CORE_CONFIG_VERSION`.
+1. Change all variables related to the identity provider configuration for the DIAL Admin backend according to the [new format](https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration).

@@ -59,6 +59,7 @@ Configuring Ingress allowlisting and other security measures are **out of scope*
     - Replace `%%AZURE_EXPOSE_CLIENT_ID%%` id with a unique identifier for the client application registered in Azure Active Directory (AD) which is used to expose an API .
     - Replace `%%AZURE_MANAGED_IDENTITY_CLIENT_ID%%` id with a unique identifier for backend managed identity.
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
+    - Replace `%%CORE_CONFIG_VERSION%%` with version of DIAL Core configuration used in file export functionality
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 

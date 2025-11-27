@@ -61,3 +61,13 @@ helm install my-release dial/dial-admin -f values.yaml
 **NOTE**: You can use the default [values.yaml](values.yaml)
 
 {{ template "chart.valuesSection" . }}
+
+## Upgrading
+
+### To 0.6.0
+
+> [!NOTE]
+> The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false` for DIAL Admin backend.
+
+1. Specify the DIAL core version in `backend.env.CORE_CONFIG_VERSION`.
+1. Change all variables related to the identity provider configuration for the DIAL Admin backend according to the [new format](https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration).
