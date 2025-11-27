@@ -262,7 +262,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 
-<<<<<<< HEAD
 ## Upgrading
 
 ### To 0.6.0
@@ -276,16 +275,6 @@ helm install my-release dial/dial-admin -f values.yaml
     The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
 - **Upgrade Command**: 
     When upgrading, use the following Helm command:
-=======
-## Upgrade
-
-### Important Changes
-
-#### 1. Core Configuration Version
-
-- **Requirement**: The `CORE_CONFIG_VERSION` environment variable is now required if `ENABLE_CORE_CONFIG_VERSION_AUTO_DETECT` is set to `false`.
-- **Upgrade Command**: When upgrading, use the following Helm command:
->>>>>>> c041e60 (update docs)
   ```bash
   helm upgrade helm install dial-admin dial/dial-admin --set backend.env.CORE_CONFIG_VERSION="your_version"
   ```
@@ -300,6 +289,7 @@ helm install my-release dial/dial-admin -f values.yaml
 ##### Changes Made to Environment Variables
 
 Please refer to the official documentation for more details:
+<<<<<<< HEAD
 - https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
 =======
 ### 2. Identity Providers Configuration
@@ -352,3 +342,6 @@ backend:
 =======
 ```
 >>>>>>> 87a6e4a (update docs)
+=======
+- https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration
+>>>>>>> aef2862 (update versions)
