@@ -49,6 +49,7 @@ Configuring authentication provider, Ingress allowlisting and other security mea
     - Replace `%%H2_DATASOURCE_ENCRYPTEDFILEKEY%%` with Encrypted Encryption Key from script output from [prerequisites](#prerequisites)
     - Replace `%%H2_DATASOURCE_MASTERKEY%%` with Master Key from script output from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
+    - Replace `%%CORE_CONFIG_VERSION%%` with version of DIAL Core configuration used in file export functionality
 
 2. Install `dial-admin` helm chart in created namespace, applying custom values file:
 

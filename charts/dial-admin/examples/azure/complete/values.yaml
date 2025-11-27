@@ -14,6 +14,7 @@ backend:
     CONFIG_EXPORT_KEYVAULT_TYPE : azure
     AZURE_KEY_VAULT_URL: "%%KEY_VAULT_URL%%"
     CONFIG_EXPORT_KEYVAULT_SECRET_NAMES: "%%KEYVAULT_SECRETS_ARRAY%%"
+    CORE_CONFIG_VERSION: "%%CORE_CONFIG_VERSION%%"
   
   podLabels:
     azure.workload.identity/use: "true"
