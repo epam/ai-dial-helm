@@ -14,19 +14,19 @@ Umbrella chart for DIAL solution
 
 Kubernetes: `>=1.23.0-0`
 
-| Repository                               | Name                       | Version |
-| ---------------------------------------- | -------------------------- | ------- |
-| https://charts.bitnami.com/bitnami       | keycloak                   | 24.4.3  |
-| https://charts.epam-rail.com             | core(dial-core)            | 4.3.1   |
-| https://charts.epam-rail.com             | authhelper(dial-extension) | 1.3.3   |
-| https://charts.epam-rail.com             | chat(dial-extension)       | 1.3.3   |
-| https://charts.epam-rail.com             | themes(dial-extension)     | 1.3.3   |
-| https://charts.epam-rail.com             | openai(dial-extension)     | 1.3.3   |
-| https://charts.epam-rail.com             | bedrock(dial-extension)    | 1.3.3   |
-| https://charts.epam-rail.com             | vertexai(dial-extension)   | 1.3.3   |
-| https://charts.epam-rail.com             | dial(dial-extension)       | 1.3.3   |
-| https://charts.epam-rail.com             | assistant(dial-extension)  | 1.3.3   |
-| oci://registry-1.docker.io/bitnamicharts | common                     | 2.29.0  |
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
+| https://charts.epam-rail.com | core(dial-core) | 4.3.1 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | chat(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | themes(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | openai(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | dial(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 1.3.3 |
+| oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
 
 ## Installing the Chart
 
@@ -81,81 +81,81 @@ helm install my-release dial/dial -f values.yaml
 
 ## Values
 
-| Key                                                   | Type   | Default                                     | Description                                                                            |
-| ----------------------------------------------------- | ------ | ------------------------------------------- | -------------------------------------------------------------------------------------- |
-| assistant.commonLabels."app.kubernetes.io/component"  | string | `"application"`                             |                                                                                        |
-| assistant.enabled                                     | bool   | `false`                                     | Enable/disable ai-dial-assistant                                                       |
-| assistant.image.repository                            | string | `"epam/ai-dial-assistant"`                  |                                                                                        |
-| assistant.image.tag                                   | string | `"0.7.0"`                                   |                                                                                        |
-| assistant.livenessProbe.enabled                       | bool   | `true`                                      |                                                                                        |
-| assistant.readinessProbe.enabled                      | bool   | `true`                                      |                                                                                        |
-| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"`                          |                                                                                        |
-| authhelper.containerPorts.http                        | int    | `4088`                                      |                                                                                        |
-| authhelper.enabled                                    | bool   | `false`                                     | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
-| authhelper.image.repository                           | string | `"epam/ai-dial-auth-helper"`                |                                                                                        |
-| authhelper.image.tag                                  | string | `"0.4.0"`                                   |                                                                                        |
-| bedrock.commonLabels."app.kubernetes.io/component"    | string | `"adapter"`                                 |                                                                                        |
-| bedrock.enabled                                       | bool   | `false`                                     | Enable/disable ai-dial-adapter-bedrock                                                 |
-| bedrock.image.repository                              | string | `"epam/ai-dial-adapter-bedrock"`            |                                                                                        |
-| bedrock.image.tag                                     | string | `"0.35.0"`                                  |                                                                                        |
-| bedrock.livenessProbe.enabled                         | bool   | `true`                                      |                                                                                        |
-| bedrock.readinessProbe.enabled                        | bool   | `true`                                      |                                                                                        |
-| bedrock.secrets                                       | object | `{}`                                        |                                                                                        |
-| chat.commonLabels."app.kubernetes.io/component"       | string | `"application"`                             |                                                                                        |
-| chat.containerPorts.http                              | int    | `3000`                                      |                                                                                        |
-| chat.enabled                                          | bool   | `true`                                      | Enable/disable ai-dial-chat                                                            |
-| chat.image.repository                                 | string | `"epam/ai-dial-chat"`                       |                                                                                        |
-| chat.image.tag                                        | string | `"0.40.2"`                                  |                                                                                        |
-| chat.livenessProbe.enabled                            | bool   | `true`                                      |                                                                                        |
-| chat.livenessProbe.failureThreshold                   | int    | `6`                                         |                                                                                        |
-| chat.livenessProbe.httpGet.path                       | string | `"/api/health"`                             |                                                                                        |
-| chat.readinessProbe.enabled                           | bool   | `true`                                      |                                                                                        |
-| chat.readinessProbe.failureThreshold                  | int    | `6`                                         |                                                                                        |
-| chat.readinessProbe.httpGet.path                      | string | `"/api/health"`                             |                                                                                        |
-| core.enabled                                          | bool   | `true`                                      | Enable/disable ai-dial-core                                                            |
-| core.image.tag                                        | string | `"0.38.0"`                                  |                                                                                        |
-| core.livenessProbe.enabled                            | bool   | `true`                                      |                                                                                        |
-| core.readinessProbe.enabled                           | bool   | `true`                                      |                                                                                        |
-| dial.commonLabels."app.kubernetes.io/component"       | string | `"adapter"`                                 |                                                                                        |
-| dial.enabled                                          | bool   | `false`                                     | Enable/disable ai-dial-adapter-dial                                                    |
-| dial.image.repository                                 | string | `"epam/ai-dial-adapter-dial"`               |                                                                                        |
-| dial.image.tag                                        | string | `"0.10.0"`                                  |                                                                                        |
-| dial.livenessProbe.enabled                            | bool   | `true`                                      |                                                                                        |
-| dial.readinessProbe.enabled                           | bool   | `true`                                      |                                                                                        |
-| extraDeploy                                           | list   | `[]`                                        |                                                                                        |
-| keycloak.enabled                                      | bool   | `false`                                     | Enable/disable keycloak                                                                |
-| keycloak.extraEnvVars[0].name                         | string | `"KC_FEATURES"`                             |                                                                                        |
-| keycloak.extraEnvVars[0].value                        | string | `"token-exchange,admin-fine-grained-authz"` |                                                                                        |
-| keycloak.global.security.allowInsecureImages          | bool   | `true`                                      |                                                                                        |
-| keycloak.image.repository                             | string | `"bitnamilegacy/keycloak"`                  |                                                                                        |
-| keycloak.keycloakConfigCli.enabled                    | bool   | `true`                                      |                                                                                        |
-| keycloak.keycloakConfigCli.extraEnvVars[0].name       | string | `"IMPORT_VARSUBSTITUTION_ENABLED"`          |                                                                                        |
-| keycloak.keycloakConfigCli.extraEnvVars[0].value      | string | `"true"`                                    |                                                                                        |
-| keycloak.keycloakConfigCli.image.repository           | string | `"bitnamilegacy/keycloak-config-cli"`       |                                                                                        |
-| keycloak.postgresql.enabled                           | bool   | `true`                                      |                                                                                        |
-| keycloak.postgresql.image.repository                  | string | `"bitnamilegacy/postgresql"`                |                                                                                        |
-| keycloak.proxy                                        | string | `"edge"`                                    |                                                                                        |
-| openai.commonLabels."app.kubernetes.io/component"     | string | `"adapter"`                                 |                                                                                        |
-| openai.enabled                                        | bool   | `false`                                     | Enable/disable ai-dial-adapter-openai                                                  |
-| openai.image.repository                               | string | `"epam/ai-dial-adapter-openai"`             |                                                                                        |
-| openai.image.tag                                      | string | `"0.34.0"`                                  |                                                                                        |
-| openai.livenessProbe.enabled                          | bool   | `true`                                      |                                                                                        |
-| openai.readinessProbe.enabled                         | bool   | `true`                                      |                                                                                        |
-| themes.commonLabels."app.kubernetes.io/component"     | string | `"webserver"`                               |                                                                                        |
-| themes.containerPorts.http                            | int    | `8080`                                      |                                                                                        |
-| themes.containerSecurityContext.runAsUser             | int    | `101`                                       |                                                                                        |
-| themes.enabled                                        | bool   | `true`                                      | Enable/disable ai-dial-chat-themes                                                     |
-| themes.image.repository                               | string | `"epam/ai-dial-chat-themes"`                |                                                                                        |
-| themes.image.tag                                      | string | `"0.12.0"`                                  |                                                                                        |
-| themes.livenessProbe.enabled                          | bool   | `true`                                      |                                                                                        |
-| themes.podSecurityContext.fsGroup                     | int    | `101`                                       |                                                                                        |
-| themes.readinessProbe.enabled                         | bool   | `true`                                      |                                                                                        |
-| vertexai.commonLabels."app.kubernetes.io/component"   | string | `"adapter"`                                 |                                                                                        |
-| vertexai.enabled                                      | bool   | `false`                                     | Enable/disable ai-dial-adapter-vertexai                                                |
-| vertexai.image.repository                             | string | `"epam/ai-dial-adapter-vertexai"`           |                                                                                        |
-| vertexai.image.tag                                    | string | `"0.29.0"`                                  |                                                                                        |
-| vertexai.livenessProbe.enabled                        | bool   | `true`                                      |                                                                                        |
-| vertexai.readinessProbe.enabled                       | bool   | `true`                                      |                                                                                        |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
+| assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
+| assistant.image.tag | string | `"0.7.0"` |  |
+| assistant.livenessProbe.enabled | bool | `true` |  |
+| assistant.readinessProbe.enabled | bool | `true` |  |
+| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
+| authhelper.containerPorts.http | int | `4088` |  |
+| authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
+| authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
+| authhelper.image.tag | string | `"0.4.0"` |  |
+| bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
+| bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
+| bedrock.image.tag | string | `"0.35.0"` |  |
+| bedrock.livenessProbe.enabled | bool | `true` |  |
+| bedrock.readinessProbe.enabled | bool | `true` |  |
+| bedrock.secrets | object | `{}` |  |
+| chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
+| chat.containerPorts.http | int | `3000` |  |
+| chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
+| chat.image.repository | string | `"epam/ai-dial-chat"` |  |
+| chat.image.tag | string | `"0.40.2"` |  |
+| chat.livenessProbe.enabled | bool | `true` |  |
+| chat.livenessProbe.failureThreshold | int | `6` |  |
+| chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
+| chat.readinessProbe.enabled | bool | `true` |  |
+| chat.readinessProbe.failureThreshold | int | `6` |  |
+| chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
+| core.enabled | bool | `true` | Enable/disable ai-dial-core |
+| core.image.tag | string | `"0.38.0"` |  |
+| core.livenessProbe.enabled | bool | `true` |  |
+| core.readinessProbe.enabled | bool | `true` |  |
+| dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
+| dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
+| dial.image.tag | string | `"0.10.0"` |  |
+| dial.livenessProbe.enabled | bool | `true` |  |
+| dial.readinessProbe.enabled | bool | `true` |  |
+| extraDeploy | list | `[]` |  |
+| keycloak.enabled | bool | `false` | Enable/disable keycloak |
+| keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
+| keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
+| keycloak.global.security.allowInsecureImages | bool | `true` |  |
+| keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
+| keycloak.keycloakConfigCli.enabled | bool | `true` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
+| keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
+| keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
+| keycloak.postgresql.enabled | bool | `true` |  |
+| keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| keycloak.proxy | string | `"edge"` |  |
+| openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
+| openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
+| openai.image.tag | string | `"0.34.0"` |  |
+| openai.livenessProbe.enabled | bool | `true` |  |
+| openai.readinessProbe.enabled | bool | `true` |  |
+| themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
+| themes.containerPorts.http | int | `8080` |  |
+| themes.containerSecurityContext.runAsUser | int | `101` |  |
+| themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
+| themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
+| themes.image.tag | string | `"0.12.0"` |  |
+| themes.livenessProbe.enabled | bool | `true` |  |
+| themes.podSecurityContext.fsGroup | int | `101` |  |
+| themes.readinessProbe.enabled | bool | `true` |  |
+| vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
+| vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
+| vertexai.image.tag | string | `"0.29.0"` |  |
+| vertexai.livenessProbe.enabled | bool | `true` |  |
+| vertexai.readinessProbe.enabled | bool | `true` |  |
 
 ## Upgrading
 
@@ -204,87 +204,84 @@ Please refer to the official documentation for more details:
 1. Stop Keycloak
 1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
 
-   ```bash
-   export PGUSER=postgres
-   export PGPASSWORD=YouShouldReallyChangeThis
-   export PGDUMP_DIR=/bitnami/postgresql
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
 
-   pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
-   ```
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
 
 1. Run `helm upgrade` command with usual arguments and **new** `5.X.X` chart version, with addition of special values:
+    - add values
 
-   - add values
+      ```yaml
+      keycloak:
+        diagnosticMode:
+          enabled: true
+        keycloakConfigCli:
+          enabled: false
+        postgresql:
+          diagnosticMode:
+            enabled: true
+      ```
 
-     ```yaml
-     keycloak:
-       diagnosticMode:
-         enabled: true
-       keycloakConfigCli:
-         enabled: false
-       postgresql:
-         diagnosticMode:
-           enabled: true
-     ```
+    - delete `declarative-user-profile` from `keycloak.extraEnvVars.*.KC_FEATURES` if it's present
+    - delete all occurrences of `bruteForceProtected` option from `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used
+    - add `"basic"` to all occurrences of `defaultClientScopes` option usage in `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used, e.g.
 
-   - delete `declarative-user-profile` from `keycloak.extraEnvVars.*.KC_FEATURES` if it's present
-   - delete all occurrences of `bruteForceProtected` option from `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used
-   - add `"basic"` to all occurrences of `defaultClientScopes` option usage in `keycloak.keycloakConfigCli.configuration` or `realm.yaml` file if it's present/used, e.g.
+        ```diff
+        ...
+        clientId: chatbot-ui
+          name: chatbot-ui
+          defaultClientScopes:
+        +   - basic
+            - web-origins
+            - acr
+            - profile
+            - roles
+            - email
+            - dial
+          optionalClientScopes:
+            - address
+            - phone
+            - offline_access
+            - microprofile-jwt
+          ...
+        ```
 
-     ```diff
-     ...
-     clientId: chatbot-ui
-       name: chatbot-ui
-       defaultClientScopes:
-     +   - basic
-         - web-origins
-         - acr
-         - profile
-         - roles
-         - email
-         - dial
-       optionalClientScopes:
-         - address
-         - phone
-         - offline_access
-         - microprofile-jwt
-       ...
-     ```
-
-     > [!tip]
-     > Find detailed information about this change in keycloak-config-cli [migration guide](https://github.com/adorsys/keycloak-config-cli/blob/b2ebdfc26c6ba289d18579295d087ec9003d553e/docs/FEATURES.md#keycloak-version-2501).
-
+        > [!tip]
+        > Find detailed information about this change in keycloak-config-cli [migration guide](https://github.com/adorsys/keycloak-config-cli/blob/b2ebdfc26c6ba289d18579295d087ec9003d553e/docs/FEATURES.md#keycloak-version-2501).
 1. After `helm upgrade` is finished, open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
 
-   ```bash
-   # rename old data dir
-   mv /bitnami/postgresql/data /bitnami/postgresql/data_old
+    ```bash
+    # rename old data dir
+    mv /bitnami/postgresql/data /bitnami/postgresql/data_old
 
-   # run postgres manually
-   nohup /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh > /dev/null 2>&1 &
+    # run postgres manually
+    nohup /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh > /dev/null 2>&1 &
 
-   # restore databases from dump (replace `PGPASSWORD` with the actual password)
-   export PGUSER=postgres
-   export PGPASSWORD=PASSWORD_PLACEHOLDER
-   export PGDUMP_DIR=/bitnami/postgresql
+    # restore databases from dump (replace `PGPASSWORD` with the actual password)
+    export PGUSER=postgres
+    export PGPASSWORD=PASSWORD_PLACEHOLDER
+    export PGDUMP_DIR=/bitnami/postgresql
 
-   psql -d postgres -f ${PGDUMP_DIR}/pg_dumpall-YYYY-MM-DD-HH-MM.pgdump
-   ```
+    psql -d postgres -f ${PGDUMP_DIR}/pg_dumpall-YYYY-MM-DD-HH-MM.pgdump
+    ```
 
 1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, but without special values
+    - delete values
 
-   - delete values
-
-     ```yaml
-     keycloak:
-       diagnosticMode:
-         enabled: true
-       keycloakConfigCli:
-         enabled: false
-       postgresql:
-         diagnosticMode:
-           enabled: true
-     ```
+      ```yaml
+      keycloak:
+        diagnosticMode:
+          enabled: true
+        keycloakConfigCli:
+          enabled: false
+        postgresql:
+          diagnosticMode:
+            enabled: true
+      ```
 
 1. Verify DIAL is up and running correctly
 
@@ -304,35 +301,35 @@ In this version we have to reflect `ai-dial-core` [application configuration par
 a) If using encryption Kubernetes secret created by the chart:
 
 1. Update the parameters you have in your current deployment values (e.g. `values.yaml` file or set via `--set`) according to the changes below:
-   - `core.configuration.encryption.password` --> `core.configuration.encryption.secret`
-   - `core.configuration.encryption.salt` --> `core.configuration.encryption.key`
+     - `core.configuration.encryption.password` --> `core.configuration.encryption.secret`
+     - `core.configuration.encryption.salt` --> `core.configuration.encryption.key`
 1. Delete the `*-encryption` secret, e.g. (replace `my-release` with the actual release name):
 
-   ```console
-   kubectl delete secret my-release-dial-core-encryption
-   ```
+    ```console
+    kubectl delete secret my-release-dial-core-encryption
+    ```
 
 1. Proceed with the helm upgrade as usual, e.g.:
 
-   ```console
-   helm upgrade my-release dial/dial -f values.yaml
-   ```
+    ```console
+    helm upgrade my-release dial/dial -f values.yaml
+    ```
 
 b) If using your own managed Kubernetes secret (`core.configuration.encryption.existingSecret` is set):
 
 1. Rename keys in your existing secret:
 
-   - `aidial.encryption.password` --> `aidial.encryption.secret`
-   - `aidial.encryption.salt` --> `aidial.encryption.key`
+    - `aidial.encryption.password` --> `aidial.encryption.secret`
+    - `aidial.encryption.salt` --> `aidial.encryption.key`
 
-   You can update your existing secret to rename or move the keys using the following one-liner command (replace `<your-existing-secret-name>` and `<namespace>` with the actual values):
+    You can update your existing secret to rename or move the keys using the following one-liner command (replace `<your-existing-secret-name>` and `<namespace>` with the actual values):
 
-   ```console
-     kubectl get secret <your-existing-secret-name> -o yaml -n <namespace> | jq '.data["aidial.encryption.secret"] = .data["aidial.encryption.password"] | .data["aidial.encryption.key"] = .data["aidial.encryption.salt"] | del(.data["aidial.encryption.password"], .data["aidial.encryption.salt"])' | kubectl replace -f -
-   ```
+    ```console
+      kubectl get secret <your-existing-secret-name> -o yaml -n <namespace> | jq '.data["aidial.encryption.secret"] = .data["aidial.encryption.password"] | .data["aidial.encryption.key"] = .data["aidial.encryption.salt"] | del(.data["aidial.encryption.password"], .data["aidial.encryption.salt"])' | kubectl replace -f -
+    ```
 
 1. Proceed with the helm upgrade as usual, e.g.:
 
-   ```console
-   helm upgrade my-release dial/dial -f values.yaml
-   ```
+    ```console
+    helm upgrade my-release dial/dial -f values.yaml
+    ```
