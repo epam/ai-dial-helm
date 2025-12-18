@@ -217,3 +217,13 @@ helm install my-release dial/dial-extension -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
+
+## Upgrading
+
+### To 2.0.0
+
+> [!IMPORTANT]
+> Duplicate values for **labels** and **annotations** have been removed.
+
+- Move the values from the **labels** section to the **commonLabels** section during the update.
+- Move the values from the **annotations** section to the **commonAnnotations** section during the update.
