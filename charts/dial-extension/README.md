@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -75,7 +75,6 @@ helm install my-release dial/dial-extension -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for dial-extension pods assignment |
-| annotations | object | `{}` | Annotations to add to dial-extension deployed objects |
 | args | list | `[]` | Override default args (useful when using custom images) |
 | automountServiceAccountToken | bool | `false` | Mount Service Account token in pods |
 | autoscaling.hpa | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) | Horizontal Pod Autoscaler (HPA) settings |
@@ -138,7 +137,6 @@ helm install my-release dial/dial-extension -f values.yaml
 | ingress.serviceName | string | `""` | Change default name of service for the ingress record |
 | ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
 | initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| labels | object | `{}` | Labels to add to dial-extension deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-extension container(s) to automate configuration before or after startup |
 | livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
 | livenessProbe.enabled | bool | `false` | Enable/disable livenessProbe |
@@ -219,3 +217,13 @@ helm install my-release dial/dial-extension -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
+
+## Upgrading
+
+### To 2.0.0
+
+> [!IMPORTANT]
+> Duplicate values for **labels** and **annotations** have been removed.
+
+- Move the values from the **labels** section to the **commonLabels** section during the update.
+- Move the values from the **annotations** section to the **commonAnnotations** section during the update.

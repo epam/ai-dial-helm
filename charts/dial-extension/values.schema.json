@@ -28,6 +28,16 @@
         "fullnameOverride": {
             "type": "string"
         },
+        "commonLabels": {
+            "type": "object",
+            "description": "Labels to add to all deployed objects",
+            "default": {}
+        },
+        "commonAnnotations": {
+            "type": "object",
+            "description": "Annotations to add to all deployed objects",
+            "default": {}
+        },
         "namespaceOverride": {
             "type": "string"
         },
