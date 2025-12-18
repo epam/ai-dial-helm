@@ -50,10 +50,6 @@ image:
     []
     # - myRegistryKeySecretName
 
-# -- Annotations to add to dial-extension deployed objects
-annotations: {}
-# -- Labels to add to dial-extension deployed objects
-labels: {}
 # -- Number of dial-extension replicas to deploy
 replicaCount: 1
 
