@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -107,6 +107,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
+| extraContainerPorts | list | `[]` | Optionally specify extra list of additional ports for dial-extension containers |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-extension containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
@@ -171,6 +172,15 @@ helm install my-release dial/dial-extension -f values.yaml
 | metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
+| networkPolicy | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/) | Network Policy configuration |
+| networkPolicy.allowExternal | bool | `true` | When true, server will accept connections from any source |
+| networkPolicy.allowExternalEgress | bool | `true` | Allow the pod to access any range of port and all destinations. |
+| networkPolicy.enabled | bool | `true` | Specifies whether a NetworkPolicy should be created |
+| networkPolicy.extraEgress | list | `[]` | Add extra ingress rules to the NetworkPolicy |
+| networkPolicy.extraIngress | list | `[]` | Add extra ingress rules to the NetworkPolicy |
+| networkPolicy.ingressNSMatchLabels | object | `{}` | Labels to match to allow traffic from other namespaces |
+| networkPolicy.ingressNSPodMatchLabels | object | `{}` | Pod labels to match to allow traffic from other namespaces |
+| networkPolicy.ingressPodMatchLabels | object | `{}` | Labels to match to allow traffic from other pods. Ignored if `networkPolicy.allowExternal` is true. |
 | nodeSelector | object | `{}` | Node labels for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
 | pdb | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) | Pod Disruption Budget configuration |
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
