@@ -48,8 +48,7 @@ spec:
             matchLabels: {{- include "common.tplvalues.render" (dict "value" .Values.networkPolicy.ingressNSMatchLabels "context" $ ) | nindent 14 }}
           {{- if .Values.networkPolicy.ingressNSPodMatchLabels }}
           podSelector:
-            matchLabels:
-              matchLabels: {{- include "common.tplvalues.render" (dict "value" .Values.networkPolicy.ingressNSPodMatchLabels "context" $ ) | nindent 14 }}
+            matchLabels: {{- include "common.tplvalues.render" (dict "value" .Values.networkPolicy.ingressNSPodMatchLabels "context" $ ) | nindent 14 }}
           {{- end }}
         {{- end }}
       {{- end }}
@@ -62,11 +61,11 @@ spec:
         - namespaceSelector:
             matchLabels:
               {{- if .Values.networkPolicy.metrics.ingressNSMatchLabels }}
-                {{- range $key, $value := .Values.networkPolicy.metrics.ingressNSMatchLabels }}
-                {{ $key | quote }}: {{ $value | quote }}
-                {{- end }}
-              {{ else }}
-                {}
+              {{- range $key, $value := .Values.networkPolicy.metrics.ingressNSMatchLabels }}
+              {{ $key | quote }}: {{ $value | quote }}
+              {{- end }}
+              {{- else }}
+              {}
               {{- end }}
           {{- if .Values.networkPolicy.metrics.ingressNSPodMatchLabels }}
           podSelector:
