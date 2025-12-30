@@ -55,7 +55,7 @@ spec:
       {{- end }}
     {{- if .Values.metrics.enabled }}
     - ports:
-        - port: {{ .Values.metrics.containerPorts.http }}
+        - port: {{ .Values.containerPorts.metrics }}
       {{- if not .Values.networkPolicy.metrics.allowExternal }}
       from:
         {{- if or .Values.networkPolicy.metrics.ingressNSMatchLabels .Values.networkPolicy.metrics.ingressNSPodMatchLabels }}
