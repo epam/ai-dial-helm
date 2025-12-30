@@ -181,6 +181,9 @@ helm install my-release dial/dial-extension -f values.yaml
 | networkPolicy.ingressNSMatchLabels | object | `{}` | Labels to match to allow traffic from other namespaces |
 | networkPolicy.ingressNSPodMatchLabels | object | `{}` | Pod labels to match to allow traffic from other namespaces |
 | networkPolicy.ingressPodMatchLabels | object | `{}` | Labels to match to allow traffic from other pods. Ignored if `networkPolicy.allowExternal` is true. |
+| networkPolicy.metrics.allowExternal | bool | `true` | When true, server will accept connections to the metrics port from any source |
+| networkPolicy.metrics.ingressNSMatchLabels | object | `{}` | Labels to match to allow traffic from other namespaces to metrics endpoint    |
+| networkPolicy.metrics.ingressNSPodMatchLabels | object | `{}` | Pod labels to match to allow traffic from other namespaces to metrics endpoint |
 | nodeSelector | object | `{}` | Node labels for dial-extension pods assignment. [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
 | pdb | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) | Pod Disruption Budget configuration |
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |

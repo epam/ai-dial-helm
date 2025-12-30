@@ -486,3 +486,11 @@ networkPolicy:
   ingressNSMatchLabels: {}
   # -- Pod labels to match to allow traffic from other namespaces
   ingressNSPodMatchLabels: {}
+
+  metrics:
+    # -- When true, server will accept connections to the metrics port from any source
+    allowExternal: true
+    # -- Labels to match to allow traffic from other namespaces to metrics endpoint   
+    ingressNSMatchLabels: {}
+    # -- Pod labels to match to allow traffic from other namespaces to metrics endpoint
+    ingressNSPodMatchLabels: {}

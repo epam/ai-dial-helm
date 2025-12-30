@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
     "properties": {
         "global": {
             "properties": {
@@ -708,9 +709,29 @@
                     "type": "object",
                     "description": "Pod labels to match to allow traffic from other namespaces",
                     "default": {}
+                },
+                "metrics": {
+                    "type": "object",
+                    "description": "Network Policy configuration for metrics endpoint",
+                    "properties": {
+                        "allowExternal": {
+                            "type": "boolean",
+                            "description": "When true, server will accept connections to the metrics port from any source",
+                            "default": true
+                        },
+                        "ingressNSMatchLabels": {
+                            "type": "object",
+                            "description": "Labels to match to allow traffic from other namespaces to metrics endpoint",
+                            "default": {}
+                        },
+                        "ingressNSPodMatchLabels": {
+                            "type": "object",
+                            "description": "Pod labels to match to allow traffic from other namespaces to metrics endpoint",
+                            "default": {}
+                        }
+                    }
                 }
             }
         }
-    },
-    "type": "object"
+    }
 }
