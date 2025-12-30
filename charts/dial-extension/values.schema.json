@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
     "properties": {
         "global": {
             "properties": {
@@ -664,7 +665,73 @@
                 }
             },
             "type": "object"
+        },
+        "networkPolicy": {
+            "type": "object",
+            "description": "Network Policy configuration",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Specifies whether a NetworkPolicy should be created",
+                    "default": true
+                },
+                "allowExternal": {
+                    "type": "boolean",
+                    "description": "When true, server will accept connections from any source",
+                    "default": true
+                },
+                "allowExternalEgress": {
+                    "type": "boolean",
+                    "description": "Allow the pod to access any range of port and all destinations",
+                    "default": true
+                },
+                "extraIngress": {
+                    "type": "array",
+                    "description": "Add extra ingress rules to the NetworkPolicy",
+                    "default": []
+                },
+                "extraEgress": {
+                    "type": "array",
+                    "description": "Add extra egress rules to the NetworkPolicy",
+                    "default": []
+                },
+                "ingressPodMatchLabels": {
+                    "type": "object",
+                    "description": "Labels to match to allow traffic from other pods",
+                    "default": {}
+                },
+                "ingressNSMatchLabels": {
+                    "type": "object",
+                    "description": "Labels to match to allow traffic from other namespaces",
+                    "default": {}
+                },
+                "ingressNSPodMatchLabels": {
+                    "type": "object",
+                    "description": "Pod labels to match to allow traffic from other namespaces",
+                    "default": {}
+                },
+                "metrics": {
+                    "type": "object",
+                    "description": "Network Policy configuration for metrics endpoint",
+                    "properties": {
+                        "allowExternal": {
+                            "type": "boolean",
+                            "description": "When true, server will accept connections to the metrics port from any source",
+                            "default": true
+                        },
+                        "ingressNSMatchLabels": {
+                            "type": "object",
+                            "description": "Labels to match to allow traffic from other namespaces to metrics endpoint",
+                            "default": {}
+                        },
+                        "ingressNSPodMatchLabels": {
+                            "type": "object",
+                            "description": "Pod labels to match to allow traffic from other namespaces to metrics endpoint",
+                            "default": {}
+                        }
+                    }
+                }
+            }
         }
-    },
-    "type": "object"
+    }
 }
