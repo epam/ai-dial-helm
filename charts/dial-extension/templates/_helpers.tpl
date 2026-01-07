@@ -6,20 +6,6 @@ Return name for backend resources
 {{- end -}}
 
 {{/*
-Create the labels to use
-*/}}
-{{- define "dialExtension.labels.standard" -}}
-{{- include "common.labels.standard" . }}
-{{- end -}}
-
-{{/*
-Create the matchLabels to use
-*/}}
-{{- define "dialExtension.labels.matchLabels" -}}
-{{- include "common.labels.matchLabels" . }}
-{{- end -}}
-
-{{/*
 Create the name of the service account to use
 */}}
 {{- define "dialExtension.serviceAccountName" -}}

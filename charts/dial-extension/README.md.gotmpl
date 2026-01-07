@@ -67,3 +67,13 @@ helm install my-release dial/dial-extension -f values.yaml
 **NOTE**: You can use the default [values.yaml](values.yaml)
 
 {{ template "chart.valuesSection" . }}
+
+## Upgrading
+
+### To 2.0.0
+
+> [!IMPORTANT]
+> Duplicate values for **labels** and **annotations** have been removed.
+
+- Move the values from the **labels** section to the **commonLabels** section during the update.
+- Move the values from the **annotations** section to the **commonAnnotations** section during the update.

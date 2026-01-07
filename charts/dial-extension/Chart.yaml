@@ -21,4 +21,4 @@ maintainers:
 name: dial-extension
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-extension
-version: 1.4.0
+version: 2.1.0
