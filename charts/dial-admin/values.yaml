@@ -36,7 +36,7 @@ backend:
     # -- Image repository
     repository: epam/ai-dial-admin-backend
     # -- Image tag (immutable tags are recommended)
-    tag: 0.11.2
+    tag: 0.12.0
     # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
     digest: ""
     # -- Image pull policy
@@ -523,7 +523,7 @@ frontend:
     # -- Frontend image repository
     repository: epam/ai-dial-admin-frontend
     # -- Frontend image tag
-    tag: 0.11.2
+    tag: 0.12.4
     # -- Frontend image pull policy
     pullPolicy: Always
 

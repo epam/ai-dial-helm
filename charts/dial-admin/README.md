@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
+![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -123,7 +123,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.11.2"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.12.0"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -246,7 +246,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.11.2"` | Frontend image tag |
+| frontend.image.tag | string | `"0.12.4"` | Frontend image tag |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
