@@ -394,7 +394,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deployment_manager.updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
-| externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB of deployment manager password |
+| externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"deployment-manager-password"` | Password key for the existing secret containing the external DB of deployment manager password |
 | externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
 | externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database  |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
