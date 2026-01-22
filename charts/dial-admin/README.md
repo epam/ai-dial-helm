@@ -250,6 +250,10 @@ helm install my-release dial/dial-admin -f values.yaml
 | deployment_manager.configuration.datasource | object | `{"database":"deployment_manager","datasourceVendor":"postgresql","password":"","user":"deployment_manager"}` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
 | deployment_manager.configuration.deploy.knative.enabled | bool | `true` |  |
 | deployment_manager.configuration.deploy.knative.namespace | string | `""` |  |
+| deployment_manager.configuration.deploy.kserve.enabled | bool | `false` |  |
+| deployment_manager.configuration.deploy.kserve.namespace | string | `""` |  |
+| deployment_manager.configuration.deploy.nim.enabled | bool | `false` |  |
+| deployment_manager.configuration.deploy.nim.namespace | string | `""` |  |
 | deployment_manager.containerPorts.http | int | `8080` | dial-admin deployment_manager HTTP container port |
 | deployment_manager.containerPorts.metrics | int | `9464` | dial-admin deployment_manager HTTP container port for metrics |
 | deployment_manager.containerSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | Container Security Context Configuration |
@@ -396,7 +400,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
 | externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"deployment-manager-password"` | Password key for the existing secret containing the external DB of deployment manager password |
 | externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
-| externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database  |
+| externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
 | externalDatabase.existingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB password |
 | externalDatabase.host | string | `""` | Host of the external database |
