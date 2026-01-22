@@ -1089,4 +1089,4 @@ externalDatabase:
   # -- Password for the above username
   deploymentManagerPassword: ""
   # -- Password key for the existing secret containing the external DB of deployment manager password
-  deploymentManagerExistingSecretPasswordKey: "password"
+  deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"

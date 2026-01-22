@@ -6,7 +6,7 @@ metadata:
   namespace: {{ default .Release.Namespace .Values.deployment_manager.metrics.prometheusRule.namespace | quote }}
     {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.metrics.prometheusRule.labels .Values.commonLabels) "context" .) }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
-    app.kubernetes.io/component: backend
+    app.kubernetes.io/component: deployment-manager
     {{- if .Values.deployment_manager.metrics.prometheusRule.labels }}
     {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.metrics.prometheusRule.labels "context" $ ) | nindent 4 }}
     {{- end }}

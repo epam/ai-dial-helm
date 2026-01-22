@@ -16,7 +16,7 @@ spec:
   {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment_manager.podLabels .Values.commonLabels ) "context" . ) }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
-      app.kubernetes.io/component: backend
+      app.kubernetes.io/component: deployment-manager
   {{- if .Values.deployment_manager.updateStrategy }}
   strategy: {{ include "common.tplvalues.render" (dict "value" .Values.deployment_manager.updateStrategy "context" $) | nindent 4 }}
   {{- end }}
@@ -26,7 +26,7 @@ spec:
       annotations: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
       labels: {{- include "common.labels.standard" ( dict "customLabels" $podLabels "context" $ ) | nindent 8 }}
-        app.kubernetes.io/component: backend
+        app.kubernetes.io/component: deployment-manager
     spec:
       serviceAccountName: {{ template "dialAdmin.deployment_manager.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.deployment_manager.automountServiceAccountToken }}

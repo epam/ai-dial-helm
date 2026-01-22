@@ -6,7 +6,7 @@ metadata:
   namespace: {{ default (include "common.names.namespace" .) .Values.deployment_manager.metrics.serviceMonitor.namespace | quote }}
   {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.metrics.serviceMonitor.labels .Values.commonLabels) "context" .) }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
-    app.kubernetes.io/component: backend
+    app.kubernetes.io/component: deployment-manager
   {{- if or .Values.deployment_manager.metrics.serviceMonitor.annotations .Values.commonAnnotations }}
   {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.metrics.serviceMonitor.annotations .Values.commonAnnotations) "context" .) }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
@@ -15,7 +15,7 @@ spec:
   jobLabel: {{ .Values.deployment_manager.metrics.serviceMonitor.jobLabel | quote }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 6 }}
-      app.kubernetes.io/component: backend
+      app.kubernetes.io/component: deployment-manager
       {{- if .Values.deployment_manager.metrics.serviceMonitor.selector }}
       {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.metrics.serviceMonitor.selector "context" $) | nindent 6 }}
       {{- end }}
