@@ -1,0 +1,164 @@
+{{- if .Values.deployment_manager.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "dialAdmin.deployment_manager.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: deployment_manager
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if not .Values.deployment_manager.autoscaling.hpa.enabled }}
+  replicas: {{ .Values.deployment_manager.replicaCount }}
+  {{- end }}
+  {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment_manager.podLabels .Values.commonLabels ) "context" . ) }}
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: backend
+  {{- if .Values.deployment_manager.updateStrategy }}
+  strategy: {{ include "common.tplvalues.render" (dict "value" .Values.deployment_manager.updateStrategy "context" $) | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      {{- if .Values.deployment_manager.podAnnotations }}
+      annotations: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.podAnnotations "context" $) | nindent 8 }}
+      {{- end }}
+      labels: {{- include "common.labels.standard" ( dict "customLabels" $podLabels "context" $ ) | nindent 8 }}
+        app.kubernetes.io/component: backend
+    spec:
+      serviceAccountName: {{ template "dialAdmin.deployment_manager.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.deployment_manager.automountServiceAccountToken }}
+      {{- include "common.images.renderPullSecrets" (dict "images" (list .Values.deployment_manager.image) "context" $) | nindent 6 }}
+      {{- if .Values.deployment_manager.hostAliases }}
+      hostAliases: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.hostAliases "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.affinity "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.priorityClassName }}
+      priorityClassName: {{ .Values.deployment_manager.priorityClassName | quote }}
+      {{- end }}
+      {{- if .Values.deployment_manager.schedulerName }}
+      schedulerName: {{ .Values.deployment_manager.schedulerName | quote }}
+      {{- end }}
+      {{- if .Values.deployment_manager.topologySpreadConstraints }}
+      topologySpreadConstraints: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.topologySpreadConstraints "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.podSecurityContext.enabled }}
+      securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.deployment_manager.podSecurityContext "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.deployment_manager.terminationGracePeriodSeconds }}
+      {{- end }}
+      enableServiceLinks: {{ .Values.deployment_manager.enableServiceLinks }}
+      {{- if .Values.deployment_manager.initContainers }}
+      initContainers: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.initContainers "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      containers:
+        - name: deployment_manager
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.deployment_manager.image "global" .Values.global) | quote }}
+          imagePullPolicy: {{ .Values.deployment_manager.image.pullPolicy | quote }}
+          {{- if .Values.deployment_manager.containerSecurityContext.enabled }}
+          securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.deployment_manager.containerSecurityContext "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deployment_manager.command }}
+          command: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.command "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deployment_manager.args }}
+          args: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.args "context" $) | nindent 12 }}
+          {{- end }}
+          env:
+            {{- include "dialAdmin.deployment_manager.databaseEnv" . | nindent 12 }}
+            {{- range $key, $value := .Values.deployment_manager.env }}
+            - name: {{ $key }}
+              value: {{ tpl $value $ | quote }}
+            {{- end }}
+            {{- if .Values.deployment_manager.extraEnvVars }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          envFrom:
+            {{- if .Values.deployment_manager.secrets }}
+            - secretRef:
+                name: {{ template "dialAdmin.deployment_manager.fullname" . }}
+            {{- end }}
+            {{- if .Values.deployment_manager.extraEnvVarsCM }}
+            - configMapRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.deployment_manager.extraEnvVarsCM "context" $) }}
+            {{- end }}
+            {{- if .Values.deployment_manager.extraEnvVarsSecret }}
+            - secretRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.deployment_manager.extraEnvVarsSecret "context" $) }}
+            {{- end }}
+          {{- if .Values.deployment_manager.resources }}
+          resources: {{- toYaml .Values.deployment_manager.resources | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment_manager.containerPorts.http }}
+            {{- if .Values.deployment_manager.metrics.enabled }}
+            - name: http-metrics
+              containerPort: {{ .Values.deployment_manager.containerPorts.metrics }}
+            {{- end }}
+          {{- if not .Values.deployment_manager.diagnosticMode.enabled }}
+          {{- if .Values.deployment_manager.customLivenessProbe }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.customLivenessProbe "context" $) | nindent 12 }}
+          {{- else if .Values.deployment_manager.livenessProbe.enabled }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" (omit .Values.deployment_manager.livenessProbe "enabled") "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deployment_manager.customReadinessProbe }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.customReadinessProbe "context" $) | nindent 12 }}
+          {{- else if .Values.deployment_manager.readinessProbe.enabled }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" (omit .Values.deployment_manager.readinessProbe "enabled") "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deployment_manager.customStartupProbe }}
+          startupProbe: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.customStartupProbe "context" $) | nindent 12 }}
+          {{- else if .Values.deployment_manager.startupProbe.enabled }}
+          startupProbe: {{- include "common.tplvalues.render" (dict "value" (omit .Values.deployment_manager.startupProbe "enabled") "context" $) | nindent 12 }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.deployment_manager.lifecycleHooks }}
+          lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.lifecycleHooks "context" $) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          {{- if or .Values.deployment_manager.persistence.enabled .Values.deployment_manager.extraVolumeMounts (eq .Values.deployment_manager.configuration.datasourceVendor "h2") }}
+            {{- if or .Values.deployment_manager.persistence.enabled (eq .Values.deployment_manager.configuration.datasourceVendor "h2")}}
+            - name: data
+              mountPath: {{ .Values.deployment_manager.persistence.mountPath }}
+            {{- end }}
+            {{- if .Values.deployment_manager.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.extraVolumeMounts "context" $) | nindent 12 }}
+            {{- end }}
+          {{- end }}
+        {{- if .Values.deployment_manager.sidecars }}
+        {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.sidecars "context" $) | nindent 8 }}
+        {{- end }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        {{- if or .Values.deployment_manager.persistence.enabled (eq .Values.deployment_manager.configuration.datasourceVendor "h2") }}
+        - name: data
+        {{- if .Values.deployment_manager.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.persistence.existingClaim "context" $) | default (include "dialAdmin.deployment_manager.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.deployment_manager.extraVolumes }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.extraVolumes "context" $) | nindent 8 }}
+        {{- end }}
+{{- end }}

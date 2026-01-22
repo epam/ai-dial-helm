@@ -1,0 +1,43 @@
+{{- if and .Values.deployment_manager.enabled .Values.deployment_manager.metrics.enabled .Values.deployment_manager.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "dialAdmin.deployment_manager.fullname.namespace" . }}
+  namespace: {{ default (include "common.names.namespace" .) .Values.deployment_manager.metrics.serviceMonitor.namespace | quote }}
+  {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.metrics.serviceMonitor.labels .Values.commonLabels) "context" .) }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+  {{- if or .Values.deployment_manager.metrics.serviceMonitor.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.metrics.serviceMonitor.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  jobLabel: {{ .Values.deployment_manager.metrics.serviceMonitor.jobLabel | quote }}
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: backend
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.selector }}
+      {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.metrics.serviceMonitor.selector "context" $) | nindent 6 }}
+      {{- end }}
+  endpoints:
+    - port: {{ .Values.deployment_manager.metrics.serviceMonitor.port }}
+      path: {{ .Values.deployment_manager.metrics.serviceMonitor.path }}
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.interval }}
+      interval: {{ .Values.deployment_manager.metrics.serviceMonitor.interval }}
+      {{- end }}
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ .Values.deployment_manager.metrics.serviceMonitor.scrapeTimeout }}
+      {{- end }}
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.honorLabels }}
+      honorLabels: {{ .Values.deployment_manager.metrics.serviceMonitor.honorLabels }}
+      {{- end }}
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.metricRelabelings }}
+      metricRelabelings: {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.metrics.serviceMonitor.metricRelabelings "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment_manager.metrics.serviceMonitor.relabelings }}
+      relabelings: {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.metrics.serviceMonitor.relabelings "context" $) | nindent 8 }}
+      {{- end }}
+  namespaceSelector:
+    matchNames:
+    - {{ include "common.names.namespace" . | quote }}
+{{- end }}
