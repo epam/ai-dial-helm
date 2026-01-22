@@ -1015,12 +1015,12 @@ deployment_manager:
       knative:
         enabled: true
         namespace: ""
-#      nim:
-#        enabled: false
-#        namespace: ""
-#      kserve:
-#        enabled: false
-#        namespace: ""
+      nim:
+        enabled: false
+        namespace: ""
+      kserve:
+        enabled: false
+        namespace: ""
     build:
       namespace: ""
 

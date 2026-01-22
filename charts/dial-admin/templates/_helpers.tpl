@@ -431,3 +431,36 @@ Deployment manager secret name used in initdb charts
 {{- define "dialAdmin.deployment_manager.scriptSecret" -}}
 {{- printf "%s-script-secret" (include "dialAdmin.deployment_manager.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Return the name of deployment-manager configuration variables
+*/}}
+{{- define "dialAdmin.deployment_manager.configEnv" -}}
+{{- if and .Values.deployment_manager.configuration.deploy.knative.enabled -}}
+- name: K8S_KNATIVE_ENABLED
+  value: "true"
+- name: K8S_KNATIVE_DEPLOYMENT_NAMESPACE
+  value: {{  include "dialAdmin.knative.namespace" . }}
+{{- else -}}
+- name: K8S_KNATIVE_ENABLED
+  value: "false"
+{{- end -}}
+{{- if and .Values.deployment_manager.configuration.deploy.nim.enabled -}}
+- name: K8S_NIM_ENABLED
+  value: "true"
+- name: K8S_NIM_DEPLOYMENT_NAMESPACE
+  value: {{  include "dialAdmin.nim.namespace" . }}
+{{- else -}}
+- name: K8S_NIM_ENABLED
+  value: "false"
+{{- end -}}
+{{- if and .Values.deployment_manager.configuration.deploy.kserve.enabled -}}
+- name: K8S_KSERVE_ENABLED
+  value: "true"
+- name: K8S_KSERVE_DEPLOYMENT_NAMESPACE
+  value: {{  include "dialAdmin.kserve.namespace" . }}
+{{- else -}}
+- name: K8S_KSERVE_ENABLED
+  value: "false"
+{{- end -}}
+{{- end -}}
