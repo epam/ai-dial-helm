@@ -436,31 +436,31 @@ Deployment manager secret name used in initdb charts
 Return the name of deployment-manager configuration variables
 */}}
 {{- define "dialAdmin.deployment_manager.configEnv" -}}
-{{- if and .Values.deployment_manager.configuration.deploy.knative.enabled -}}
+{{- if .Values.deployment_manager.configuration.deploy.knative.enabled }}
 - name: K8S_KNATIVE_ENABLED
-  value: "true"
+  value: {{ .Values.deployment_manager.configuration.deploy.knative.enabled | quote }}
 - name: K8S_KNATIVE_DEPLOYMENT_NAMESPACE
-  value: {{  include "dialAdmin.knative.namespace" . }}
-{{- else -}}
+  value: {{ include "dialAdmin.knative.namespace" . }}
+{{- else }}
 - name: K8S_KNATIVE_ENABLED
-  value: "false"
-{{- end -}}
-{{- if and .Values.deployment_manager.configuration.deploy.nim.enabled -}}
+  value: {{ .Values.deployment_manager.configuration.deploy.knative.enabled | quote }}
+{{- end }}
+{{- if .Values.deployment_manager.configuration.deploy.nim.enabled }}
 - name: K8S_NIM_ENABLED
-  value: "true"
+  value: {{ .Values.deployment_manager.configuration.deploy.nim.enabled | quote }}
 - name: K8S_NIM_DEPLOYMENT_NAMESPACE
-  value: {{  include "dialAdmin.nim.namespace" . }}
-{{- else -}}
+  value: {{ include "dialAdmin.nim.namespace" . }}
+{{- else }}
 - name: K8S_NIM_ENABLED
-  value: "false"
-{{- end -}}
-{{- if and .Values.deployment_manager.configuration.deploy.kserve.enabled -}}
+  value: {{ .Values.deployment_manager.configuration.deploy.nim.enabled | quote }}
+{{- end }}
+{{- if .Values.deployment_manager.configuration.deploy.kserve.enabled }}
 - name: K8S_KSERVE_ENABLED
-  value: "true"
+  value: {{ .Values.deployment_manager.configuration.deploy.kserve.enabled | quote }}
 - name: K8S_KSERVE_DEPLOYMENT_NAMESPACE
-  value: {{  include "dialAdmin.kserve.namespace" . }}
-{{- else -}}
+  value: {{ include "dialAdmin.kserve.namespace" . }}
+{{- else }}
 - name: K8S_KSERVE_ENABLED
-  value: "false"
-{{- end -}}
+  value: {{ .Values.deployment_manager.configuration.deploy.kserve.enabled | quote }}
+{{- end }}
 {{- end -}}
