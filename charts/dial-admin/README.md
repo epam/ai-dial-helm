@@ -246,14 +246,10 @@ helm install my-release dial/dial-admin -f values.yaml
 | deployment_manager.autoscaling.hpa.targetCPU | string | `""` | Target CPU utilization percentage |
 | deployment_manager.autoscaling.hpa.targetMemory | string | `""` | Target Memory utilization percentage |
 | deployment_manager.command | list | `[]` | Override default dial-admin deployment_manager command (useful when using custom images) |
-| deployment_manager.configuration.build.namespace | string | `""` |  |
-| deployment_manager.configuration.datasource | object | `{"database":"deployment_manager","datasourceVendor":"postgresql","password":"","user":"deployment_manager"}` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
-| deployment_manager.configuration.deploy.knative.enabled | bool | `true` |  |
-| deployment_manager.configuration.deploy.knative.namespace | string | `""` |  |
-| deployment_manager.configuration.deploy.kserve.enabled | bool | `false` |  |
-| deployment_manager.configuration.deploy.kserve.namespace | string | `""` |  |
-| deployment_manager.configuration.deploy.nim.enabled | bool | `false` |  |
-| deployment_manager.configuration.deploy.nim.namespace | string | `""` |  |
+| deployment_manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
+| deployment_manager.configuration.datasource | object | `{"database":"deployment_manager","datasourceVendor":"postgresql","password":"","user":"deployment_manager"}` | Database specific variables |
+| deployment_manager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
+| deployment_manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deployment_manager.containerPorts.http | int | `8080` | dial-admin deployment_manager HTTP container port |
 | deployment_manager.containerPorts.metrics | int | `9464` | dial-admin deployment_manager HTTP container port for metrics |
 | deployment_manager.containerSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | Container Security Context Configuration |
@@ -272,7 +268,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deployment_manager.customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | deployment_manager.diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | deployment_manager.enableServiceLinks | bool | `true` | If set to false, disable Kubernetes service links in the pod spec [Documentation](https://kubernetes.io/docs/tutorials/services/connect-applications-service/#accessing-the-service) |
-| deployment_manager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
+| deployment_manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
 | deployment_manager.env | object | `{}` | Key-value pairs extra environment variables to add |
 | deployment_manager.extraEnvVars | list | `[]` | Array containing extra env vars to configure the credential |
 | deployment_manager.extraEnvVarsCM | string | `""` | ConfigMap containing extra env vars to configure the credential |
@@ -425,7 +421,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.password | string | `""` | Password for the application database user |
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
-| postgresql.deployment_manager.enabled | bool | `true` |  |
+| postgresql.deployment_manager | object | `{"enabled":false}` | Name of the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |

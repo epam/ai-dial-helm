@@ -533,7 +533,7 @@ frontend:
 
 deployment_manager:
   # -- Enable dial-admin deployment_manager deployment
-  enabled: true
+  enabled: false
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -1004,13 +1004,15 @@ deployment_manager:
 
   ## Application-specific configuration values
   configuration:
+    # -- Database specific variables
+    datasource:
     # -- Database vendor for the datasource.
     # Possible values: postgresql, mssql, h2
-    datasource:
       datasourceVendor: "postgresql"
       database: deployment_manager
       user: deployment_manager
       password: ""
+    # -- Deploy mcp containers specific variables
     deploy:
       knative:
         enabled: true
@@ -1021,6 +1023,7 @@ deployment_manager:
       kserve:
         enabled: false
         namespace: ""
+    # -- Build images for mcp containers specific variables
     build:
       namespace: ""
 
@@ -1043,8 +1046,11 @@ postgresql:
     password: ""
     # -- Name of the application database
     database: "dial_admin"
+
+  # -- Name of the application database
   deployment_manager:
-    enabled: true
+    enabled: false
+
   primary:
     initdb:
       scripts:

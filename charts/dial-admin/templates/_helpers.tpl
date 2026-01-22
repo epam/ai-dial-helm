@@ -252,7 +252,7 @@ Return the name of the database secret with its credentials
 Return name for DIAL Admin deployment_manager resources
 */}}
 {{- define "dialAdmin.deployment_manager.fullname" -}}
-{{- printf "%s-deployment_manager" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-deployment-manager" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
