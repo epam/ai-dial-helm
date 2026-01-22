@@ -421,7 +421,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.password | string | `""` | Password for the application database user |
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
-| postgresql.deployment_manager | object | `{"enabled":false}` | Name of the application database |
+| postgresql.deployment_manager | object | `{"enabled":true}` | Name of the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |

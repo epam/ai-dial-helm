@@ -1049,7 +1049,7 @@ postgresql:
 
   # -- Name of the application database
   deployment_manager:
-    enabled: false
+    enabled: true
 
   primary:
     initdb:
