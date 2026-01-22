@@ -1011,7 +1011,7 @@ deployment_manager:
       database: deployment_manager
       user: deployment_manager
       password: ""
-    deploy: 
+    deploy:
       knative:
         enabled: true
         namespace: ""
@@ -1045,7 +1045,7 @@ postgresql:
     database: "dial_admin"
   deployment_manager:
     enabled: true
-  primary:  
+  primary:
     initdb:
       scripts:
         create-multiple-dbs.sh: |
@@ -1084,7 +1084,7 @@ externalDatabase:
   existingSecretPasswordKey: "password"
   # -- Name of the external database for deployment manager
   deploymentManagerDatabase: deployment_manager
-  # -- non-root Username for deployment manager Database 
+  # -- non-root Username for deployment manager Database
   deploymentManagerUser: deployment_manager
   # -- Password for the above username
   deploymentManagerPassword: ""
