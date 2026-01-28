@@ -531,6 +531,502 @@ frontend:
     # -- dial-admin frontend HTTP container port
     http: 3000
 
+deployment_manager:
+  # -- Enable dial-admin deployment_manager deployment
+  enabled: false
+  # -- Section to configure the image.
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
+  image:
+    # -- Image registry
+    registry: docker.io
+    # -- Image repository
+    repository: epam/ai-dial-admin-deployment_manager-backend
+    # -- Image tag (immutable tags are recommended)
+    tag: 0.12.0
+    # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
+    digest: ""
+    # -- Image pull policy
+    pullPolicy: IfNotPresent
+    # -- Optionally specify an array of imagePullSecrets.
+    # Secrets must be manually created in the namespace.
+    # [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+    pullSecrets:
+      []
+      # - myRegistryKeySecretName
+
+  # -- Number of dial-admin deployment_manager replicas to deploy
+  replicaCount: 1
+
+  containerPorts:
+    # -- dial-admin deployment_manager HTTP container port
+    http: 8080
+    # -- dial-admin deployment_manager HTTP container port for metrics
+    metrics: 9464
+  diagnosticMode:
+    # -- Enable diagnostic mode (all probes will be disabled)
+    enabled: false
+
+  # -- Liveness Probes configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+  livenessProbe:
+    # -- Enable/disable livenessProbe
+    enabled: true
+    httpGet:
+      path: /api/v1/health
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 12
+
+  # -- Readiness Probes configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /api/v1/health
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 6
+  startupProbe:
+    # -- Enable/disable startupProbe
+    enabled: false
+    httpGet:
+      path: /api/v1/health
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 6
+    successThreshold: 1
+  # -- Custom livenessProbe that overrides the default one
+  customLivenessProbe: {}
+  # -- Custom readinessProbe that overrides the default one
+  customReadinessProbe: {}
+  # -- Custom startupProbe that overrides the default one
+  customStartupProbe: {}
+
+  # -- Container resource requests and limits
+  # [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  resources: {}
+
+  # -- Pods Security Context Configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+  podSecurityContext:
+    # -- Enabled dial-admin deployment_manager pod's Security Context
+    enabled: true
+    # -- Set filesystem group change policy
+    fsGroupChangePolicy: Always
+    # -- Set kernel settings using the sysctl interface
+    sysctls: []
+    # -- Set filesystem extra groups
+    supplementalGroups: []
+    # -- Set dial-admin deployment_manager pod's Security Context fsGroup
+    fsGroup: 1001
+
+  # -- Container Security Context Configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
+  containerSecurityContext:
+    # -- Enabled dial-admin deployment_manager container's Security Context
+    enabled: true
+    # -- Set dial-admin deployment_manager SELinux options in container
+    seLinuxOptions: {}
+    # -- Set dial-admin deployment_manager container's Security Context runAsUser
+    runAsUser: 1001
+    # -- Set dial-admin deployment_manager container's Security Context runAsGroup
+    runAsGroup: 1001
+    # -- Set dial-admin deployment_manager containers' Security Context runAsNonRoot
+    runAsNonRoot: true
+    # -- Set dial-admin deployment_manager container's Security Context privileged
+    privileged: false
+    # -- Set dial-admin deployment_manager containers' Security Context runAsNonRoot
+    readOnlyRootFilesystem: true
+    # -- Set dial-admin deployment_manager container's Security Context allowPrivilegeEscalation
+    allowPrivilegeEscalation: false
+    # -- Set dial-admin deployment_manager container's Security Context capabilities
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      # -- Set dial-admin deployment_manager container's Security Context seccomp profile type
+      type: "RuntimeDefault"
+
+  # -- Override default dial-admin deployment_manager command (useful when using custom images)
+  command: []
+  # -- Override default dial-admin deployment_manager args (useful when using custom images)
+  args: []
+  # -- Mount Service Account token in pods
+  automountServiceAccountToken: false
+  # -- dial-admin deployment_manager pods host aliases
+  # [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
+  hostAliases: []
+  # -- Extra labels for dial-admin deployment_manager pods
+  # [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
+  podLabels: {}
+  # -- Annotations for dial-admin deployment_manager pods
+  # [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+  podAnnotations: {}
+
+  # -- Pod Disruption Budget configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb)
+  pdb:
+    # -- Enable/disable a Pod Disruption Budget creation
+    create: false
+    # -- Min number of pods that must still be available after the eviction.
+    # You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0
+    minAvailable: ""
+    # -- Max number of pods that can be unavailable after the eviction.
+    # You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0. Defaults to `1` if both `pdb.minAvailable` and `pdb.maxUnavailable` are empty.
+    maxUnavailable: ""
+
+  ### Autoscaling configuration ###
+  autoscaling:
+    # -- Horizontal Pod Autoscaler (HPA) settings
+    # @default -- [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+    hpa:
+      # -- Enable HPA
+      enabled: false
+      # -- Annotations for HPA resource
+      annotations: {}
+      # -- HPA Behavior
+      behavior: {}
+      # -- Minimum number of replicas
+      minReplicas: 1
+      # -- Maximum number of replicas
+      maxReplicas: 3
+      # -- Target CPU utilization percentage
+      targetCPU: ""
+      # -- Target Memory utilization percentage
+      targetMemory: ""
+      # -- HPA Custom rules
+      customRules: []
+
+  # -- Affinity for dial-admin deployment_manager pods assignment
+  affinity: {}
+  # -- Node labels for dial-admin deployment_manager pods assignment.
+  # [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+  nodeSelector: {}
+  # -- Tolerations for dial-admin deployment_manager pods assignment.
+  # [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+  tolerations: []
+
+  # -- Deployment strategy type
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+  updateStrategy:
+    # -- StrategyType
+    # Can be set to RollingUpdate or OnDelete
+    type: RollingUpdate
+
+  # -- dial-admin deployment_manager pods' priorityClassName
+  priorityClassName: ""
+  # -- Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
+  # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods)
+  topologySpreadConstraints: []
+  # -- Name of the k8s scheduler (other than default) for dial-admin deployment_manager pods
+  # [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/)
+  schedulerName: ""
+  # -- Seconds dial-admin deployment_manager pod needs to terminate gracefully
+  # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods)
+  terminationGracePeriodSeconds: ""
+  # -- for the dial-admin deployment_manager container(s) to automate configuration before or after startup
+  lifecycleHooks: {}
+  # -- Key-value pairs extra environment variables to add
+  env:
+    {}
+    # key1: "value1"
+    # key2: "value2"
+  # -- Array containing extra env vars to configure the credential
+  extraEnvVars: []
+  # extraEnvVars:
+  #  - name: GF_DEFAULT_INSTANCE_NAME
+  #    value: my-instance
+
+  # -- ConfigMap containing extra env vars to configure the credential
+  extraEnvVarsCM: ""
+
+  # -- Name of existing Secret containing extra env vars for dial-admin deployment_manager containers
+  extraEnvVarsSecret: ""
+
+  # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-admin deployment_manager
+  secrets:
+    {}
+    # key1: "value1"
+    # key2: "value2"
+
+  # -- Optionally specify extra list of additional volumes for the dial-admin deployment_manager pod(s)
+  extraVolumes: []
+
+  # -- Optionally specify extra list of additional volumeMounts for the dial-admin deployment_manager container(s)
+  extraVolumeMounts: []
+
+  # -- Optionally specify extra list of additional volumeClaimTemplates for the dial-admin deployment_manager container(s)
+  extraVolumeClaimTemplates: []
+  # -- Add additional sidecar containers to the dial-admin deployment_manager pod(s)
+  sidecars:
+    []
+    # - name: your-image-name
+    #   image: your-image
+    #   imagePullPolicy: Always
+    #   ports:
+    #     - name: your-port-name
+    #       containerPort: 1234
+  # -- Add additional init containers to the dial-admin deployment_manager pod(s)
+  # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  initContainers:
+    []
+    # - name: your-image-name
+    #   image: your-image
+    #   imagePullPolicy: Always
+    #   command: ["sh", "-c", 'echo "hello world"']
+
+  # -- Enable Host Network
+  # If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet
+  hostNetwork: false
+
+  # -- Service configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/)
+  service:
+    # -- dial-admin deployment_manager service type
+    type: ClusterIP
+    ports:
+      # -- dial-admin deployment_manager service HTTP port
+      http: 80
+    # -- Node ports to expose
+    # NOTE: choose port between <30000-32767>
+    nodePorts:
+      # -- Node port for HTTP
+      http: ""
+    # -- dial-admin deployment_manager service Cluster IP
+    clusterIP: ""
+    # -- dial-admin deployment_manager service Load Balancer IP.
+    # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
+    loadBalancerIP: ""
+    # -- dial-admin deployment_manager service Load Balancer sources
+    loadBalancerSourceRanges:
+      []
+      # - 10.10.10.0/24
+    # -- dial-admin deployment_manager service external traffic policy
+    # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
+    externalTrafficPolicy: Cluster
+    # -- Additional custom annotations for dial-admin deployment_manager service
+    annotations: {}
+    # -- Extra ports to expose in dial-admin deployment_manager service (normally used with the `sidecars` value)
+    extraPorts: []
+    # -- Control where client requests go, to the same pod or round-robin
+    # Values: ClientIP or None
+    sessionAffinity: None
+    # -- Additional settings for the sessionAffinity
+    sessionAffinityConfig:
+      {}
+      # clientIP:
+      #   timeoutSeconds: 300
+
+  # -- ServiceAccount configuration
+  # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
+  serviceAccount:
+    # -- Specifies whether a ServiceAccount should be created
+    create: true
+    # -- The name of the ServiceAccount to use.
+    # If not set and create is true, a name is generated using the common.names.fullname template
+    name: ""
+    # -- Additional Service Account annotations (evaluated as a template)
+    annotations: {}
+    # -- Automount service account token for the server service account
+    automountServiceAccountToken: false
+
+  # -- If set to false, disable Kubernetes service links in the pod spec
+  # [Documentation](https://kubernetes.io/docs/tutorials/services/connect-applications-service/#accessing-the-service)
+  enableServiceLinks: true
+
+  # -- Section to configure persistence
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  persistence:
+    # -- Enable persistence using Persistent Volume Claims
+    enabled: false
+    # -- Path to mount the volume at.
+    mountPath: /data
+    # -- The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services
+    subPath: ""
+    # -- Storage class of backing PVC
+    storageClass: ""
+    # -- Persistent Volume Claim annotations
+    annotations: {}
+    # -- Custom PVC data source
+    dataSource: {}
+    # -- Persistent Volume Access Modes
+    accessModes:
+      - ReadWriteOnce
+    # -- Size of data volume
+    size: 8Gi
+    # -- The name of an existing PVC to use for persistence
+    existingClaim: ""
+    # -- Selector to match an existing Persistent Volume for dial-admin data PVC
+    ## If set, the PVC can't have a PV dynamically provisioned for it
+    selector: {}
+    # selector:
+    #   matchLabels:
+    #     app: my-app
+
+  rbac:
+    # -- Binding dial-admin deployment_manager ServiceAccount to a role that allows dial-admin deployment_manager pods querying the K8s API
+    create: true
+
+  # -- Section to configure Network Policy parameters
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+  networkPolicy:
+    # -- Enable creation of NetworkPolicy resources
+    enabled: true
+    # -- Don't require client label for connections
+    allowExternal: true
+    # -- Allow the pod to access any range of port and all destinations.
+    allowExternalEgress: true
+    # -- Add extra ingress rules to the NetworkPolicy
+    extraIngress: []
+    # extraIngress:
+    #   - ports:
+    #       - port: 1234
+    #     from:
+    #       - podSelector:
+    #           - matchLabels:
+    #               - role: frontend
+    #       - podSelector:
+    #           - matchExpressions:
+    #               - key: role
+    #                 operator: In
+    #                 values:
+    #                   - frontend
+    # -- Add extra ingress rules to the NetworkPolicy
+    extraEgress: []
+    # extraEgress:
+    #   - ports:
+    #       - port: 1234
+    #     to:
+    #       - podSelector:
+    #           - matchLabels:
+    #               - role: frontend
+    #       - podSelector:
+    #           - matchExpressions:
+    #               - key: role
+    #                 operator: In
+    #                 values:
+    #                   - frontend
+    # -- Labels to match to allow traffic from other namespaces
+    ingressNSMatchLabels: {}
+    # -- Pod labels to match to allow traffic from other namespaces
+    ingressNSPodMatchLabels: {}
+
+  # -- Configuration resources for prometheus metrics
+  # @default -- [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md)
+  metrics:
+    # -- Enable the export of Prometheus metrics
+    enabled: false
+    # -- Dedicated Kubernetes Service for dial-admin deployment_manager metrics configuration
+    # @default -- -
+    service:
+      # -- dial-admin deployment_manager metrics service type
+      type: ClusterIP
+      ports:
+        # -- dial-admin deployment_manager metrics service port
+        http: 9464
+      nodePorts:
+        # -- Node port for metrics
+        # NOTE: choose port between <30000-32767>
+        http: ""
+      # -- dial-admin deployment_manager metrics service Cluster IP
+      clusterIP: ""
+      # -- dial-admin deployment_manager metrics service Load Balancer IP
+      loadBalancerIP: ""
+      # -- dial-admin deployment_manager metrics service Load Balancer sources
+      loadBalancerSourceRanges:
+        []
+        # - 10.10.10.0/24
+      # -- dial-admin deployment_manager metrics service external traffic policy
+      # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
+      externalTrafficPolicy: Cluster
+      # -- Additional custom annotations for dial-admin deployment_manager metrics service
+      annotations:
+        {}
+        # prometheus.io/scrape: "true"
+        # prometheus.io/port: "{{ .Values.metrics.service.port }}"
+      # -- Extra ports to expose in dial-admin deployment_manager metrics service (normally used with the `sidecars` value)
+      extraPorts: []
+      # -- Control where client requests go, to the same pod or round-robin
+      # Values: ClientIP or None
+      sessionAffinity: None
+      # -- Additional settings for the sessionAffinity
+      sessionAffinityConfig:
+        {}
+        # clientIP:
+        #   timeoutSeconds: 300
+    # -- Prometheus Operator ServiceMonitor configuration
+    # @default -- [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md#servicemonitor)
+    serviceMonitor:
+      # -- if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
+      enabled: false
+      # -- Namespace in which Prometheus is running
+      namespace: ""
+      # -- Additional custom annotations for the ServiceMonitor
+      annotations: {}
+      # -- Extra labels for the ServiceMonitor
+      labels: {}
+      # -- The name of the label on the target service to use as the job name in Prometheus
+      jobLabel: ""
+      # -- honorLabels chooses the metric's labels on collisions with target labels
+      honorLabels: false
+      # -- Specify service metrics port
+      port: "http-metrics"
+      # -- Specify metrics path
+      path: "/metrics"
+      # -- Interval at which metrics should be scraped.
+      interval: ""
+      # -- Timeout after which the scrape is ended
+      scrapeTimeout: ""
+      # -- Specify additional relabeling of metrics
+      metricRelabelings: []
+      # -- Specify general relabeling
+      relabelings: []
+      # -- Prometheus instance selector labels
+      selector:
+        {}
+        # prometheus: my-prometheus
+    prometheusRule:
+      # -- Creates a Prometheus Operator prometheusRule
+      enabled: false
+      # -- Namespace for the prometheusRule Resource (defaults to the Release Namespace)
+      namespace: ""
+      # -- Additional labels that can be used so prometheusRule will be discovered by Prometheus
+      labels: {}
+      # -- Prometheus Rule definitions
+      rules: []
+
+  ## Application-specific configuration values
+  configuration:
+    # -- Database specific variables
+    datasource:
+    # -- Database vendor for the datasource.
+    # Possible values: postgresql, mssql, h2
+      datasourceVendor: "postgresql"
+      database: deployment_manager
+      user: deployment_manager
+      password: ""
+    # -- Deploy mcp containers specific variables
+    deploy:
+      knative:
+        enabled: true
+        namespace: ""
+      nim:
+        enabled: false
+        namespace: ""
+      kserve:
+        enabled: false
+        namespace: ""
+    # -- Build images for mcp containers specific variables
+    build:
+      namespace: ""
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -551,6 +1047,31 @@ postgresql:
     # -- Name of the application database
     database: "dial_admin"
 
+  # -- Name of the application database
+  deployment_manager:
+    enabled: true
+
+  primary:
+    initdb:
+      scripts:
+        create-multiple-dbs.sh: |
+          #!/bin/bash
+          set -e
+          echo "Creating multiple databases..."
+
+          # Check if any of the required environment variables are empty
+          if [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z "$DEPLOYMENT_MANAGER_USER" ] || [ -z "$DEPLOYMENT_MANAGER_PASSWORD" ]; then
+            echo "Skipping database creation due to missing environment variables."
+          else
+            echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE"" with user: "$DEPLOYMENT_MANAGER_USER""
+            psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+                CREATE DATABASE "$DEPLOYMENT_MANAGER_DATABASE";
+                CREATE USER "$DEPLOYMENT_MANAGER_USER" WITH ENCRYPTED PASSWORD "$DEPLOYMENT_MANAGER_PASSWORD"";
+                GRANT ALL PRIVILEGES ON DATABASE "$DEPLOYMENT_MANAGER_DATABASE" TO "$DEPLOYMENT_MANAGER_USER";
+          EOSQL
+          fi
+          echo "Multiple databases created."
+      scriptsSecret: '{{ include "dialAdmin.deployment_manager.scriptSecret" . }}'
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database
@@ -567,3 +1088,11 @@ externalDatabase:
   existingSecret: ""
   # -- Password key for the existing secret containing the external DB password
   existingSecretPasswordKey: "password"
+  # -- Name of the external database for deployment manager
+  deploymentManagerDatabase: deployment_manager
+  # -- non-root Username for deployment manager Database
+  deploymentManagerUser: deployment_manager
+  # -- Password for the above username
+  deploymentManagerPassword: ""
+  # -- Password key for the existing secret containing the external DB of deployment manager password
+  deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"

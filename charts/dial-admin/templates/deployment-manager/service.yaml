@@ -1,0 +1,49 @@
+{{- if .Values.deployment_manager.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "dialAdmin.deployment_manager.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: deployment-manager
+  {{- if or .Values.deployment_manager.service.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.service.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.deployment_manager.service.type }}
+  {{- if and .Values.deployment_manager.service.clusterIP (eq .Values.deployment_manager.service.type "ClusterIP") }}
+  clusterIP: {{ .Values.deployment_manager.service.clusterIP }}
+  {{- end }}
+  {{- if .Values.deployment_manager.service.sessionAffinity }}
+  sessionAffinity: {{ .Values.deployment_manager.service.sessionAffinity }}
+  {{- end }}
+  {{- if .Values.deployment_manager.service.sessionAffinityConfig }}
+  sessionAffinityConfig: {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.service.sessionAffinityConfig "context" $) | nindent 4 }}
+  {{- end }}
+  {{- if or (eq .Values.deployment_manager.service.type "LoadBalancer") (eq .Values.deployment_manager.service.type "NodePort") }}
+  externalTrafficPolicy: {{ .Values.deployment_manager.service.externalTrafficPolicy | quote }}
+  {{- end }}
+  {{- if and (eq .Values.deployment_manager.service.type "LoadBalancer") (not (empty .Values.deployment_manager.service.loadBalancerSourceRanges)) }}
+  loadBalancerSourceRanges: {{ .Values.deployment_manager.service.loadBalancerSourceRanges }}
+  {{- end }}
+  {{- if and (eq .Values.deployment_manager.service.type "LoadBalancer") (not (empty .Values.deployment_manager.service.loadBalancerIP)) }}
+  loadBalancerIP: {{ .Values.deployment_manager.service.loadBalancerIP }}
+  {{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.deployment_manager.service.ports.http }}
+      targetPort: http
+      protocol: TCP
+      {{- if and (or (eq .Values.deployment_manager.service.type "NodePort") (eq .Values.deployment_manager.service.type "LoadBalancer")) (not (empty .Values.deployment_manager.service.nodePorts.http)) }}
+      nodePort: {{ .Values.deployment_manager.service.nodePorts.http }}
+      {{- else if eq .Values.deployment_manager.service.type "ClusterIP" }}
+      nodePort: null
+      {{- end }}
+    {{- if .Values.deployment_manager.service.extraPorts }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.deployment_manager.service.extraPorts "context" $) | nindent 4 }}
+    {{- end }}
+  {{- $podLabels := include "common.tplvalues.merge" (dict "values" (list .Values.deployment_manager.podLabels .Values.commonLabels) "context" .) | fromYaml }}
+  selector: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: deployment-manager
+{{- end }}
