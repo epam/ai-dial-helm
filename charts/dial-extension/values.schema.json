@@ -590,7 +590,8 @@
                             "type": "array",
                             "default": []
                         }
-                    }
+                    },
+                    "type": "object"
                 }
             },
             "type": "object"
