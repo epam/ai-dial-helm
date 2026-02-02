@@ -242,7 +242,7 @@ env: {}
 secrets: {}
   # key1: "value1"
   # key2: "value2"
-## -- Name of existing ConfigMap containing extra env vars for dial-extension containers
+# -- Name of existing ConfigMap containing extra env vars for dial-extension containers
 extraEnvVarsCM: ""
 # -- Name of existing Secret containing extra env vars for dial-extension containers
 extraEnvVarsSecret: ""

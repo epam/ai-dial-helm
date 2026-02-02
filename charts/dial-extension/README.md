@@ -109,7 +109,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
 | extraContainerPorts | list | `[]` | Optionally specify extra list of additional ports for dial-extension containers |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
-| extraEnvVarsCM | string | `""` |  |
+| extraEnvVarsCM | string | `""` | Name of existing ConfigMap containing extra env vars for dial-extension containers |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-extension containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-extension pod(s) |
