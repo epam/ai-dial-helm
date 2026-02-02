@@ -393,6 +393,18 @@ metrics:
     selector: {}
       # prometheus: my-prometheus
 
+  prometheusRule:
+    # -- Creates a Prometheus Operator prometheusRule
+    enabled: false
+    # -- Namespace for the prometheusRule Resource (defaults to the Release Namespace)
+    namespace: ""
+    # -- Additional custom annotations for the prometheusRule
+    annotations: {}
+    # -- Additional labels that can be used so prometheusRule will be discovered by Prometheus
+    labels: {}
+    # -- Prometheus Rule definitions
+    rules: []
+
 # -- Ingress configuration
 # @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
