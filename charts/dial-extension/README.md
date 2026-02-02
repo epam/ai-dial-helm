@@ -143,6 +143,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | livenessProbe.enabled | bool | `false` | Enable/disable livenessProbe |
 | metrics | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md) | Configuration resources for prometheus metrics |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
+| metrics.prometheusRule.annotations | object | `{}` | Additional custom annotations for the prometheusRule |
 | metrics.prometheusRule.enabled | bool | `false` | Creates a Prometheus Operator prometheusRule |
 | metrics.prometheusRule.labels | object | `{}` | Additional labels that can be used so prometheusRule will be discovered by Prometheus |
 | metrics.prometheusRule.namespace | string | `""` | Namespace for the prometheusRule Resource (defaults to the Release Namespace) |

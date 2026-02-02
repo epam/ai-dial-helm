@@ -578,6 +578,10 @@
                             "type": "string",
                             "default": ""
                         },
+                        "annotations": {
+                            "type": "object",
+                            "default": {}
+                        },
                         "labels": {
                             "type": "object",
                             "default": {}

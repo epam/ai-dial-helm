@@ -398,6 +398,8 @@ metrics:
     enabled: false
     # -- Namespace for the prometheusRule Resource (defaults to the Release Namespace)
     namespace: ""
+    # -- Additional custom annotations for the prometheusRule
+    annotations: {}
     # -- Additional labels that can be used so prometheusRule will be discovered by Prometheus
     labels: {}
     # -- Prometheus Rule definitions
