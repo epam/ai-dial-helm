@@ -1,5 +1,5 @@
 {{/*
-Return name for backend resources
+Return name for extension resources
 */}}
 {{- define "dialExtension.names.fullname" -}}
 {{- template "common.names.fullname" . -}}
