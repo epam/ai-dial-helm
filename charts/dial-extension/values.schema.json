@@ -568,6 +568,25 @@
                         }
                     },
                     "type": "object"
+                },
+                "prometheusRule": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string",
+                            "default": ""
+                        },
+                        "labels": {
+                            "type": "object",
+                            "default": {}
+                        },
+                        "rules": {
+                            "type": "array",
+                            "default": []
+                        }
+                    }
                 }
             },
             "type": "object"

@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.1.1](https://img.shields.io/badge/Version-2.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -143,6 +143,10 @@ helm install my-release dial/dial-extension -f values.yaml
 | livenessProbe.enabled | bool | `false` | Enable/disable livenessProbe |
 | metrics | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md) | Configuration resources for prometheus metrics |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
+| metrics.prometheusRule.enabled | bool | `false` | Creates a Prometheus Operator prometheusRule |
+| metrics.prometheusRule.labels | object | `{}` | Additional labels that can be used so prometheusRule will be discovered by Prometheus |
+| metrics.prometheusRule.namespace | string | `""` | Namespace for the prometheusRule Resource (defaults to the Release Namespace) |
+| metrics.prometheusRule.rules | list | `[]` | Prometheus Rule definitions |
 | metrics.service | object | - | Dedicated Kubernetes Service for dial-extension metrics configuration |
 | metrics.service.annotations | object | `{}` | Additional custom annotations for dial-extension metrics service |
 | metrics.service.clusterIP | string | `""` | metrics service Cluster IP clusterIP: None |
