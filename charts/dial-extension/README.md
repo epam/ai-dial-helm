@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 2.1.1](https://img.shields.io/badge/Version-2.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 2.1.2](https://img.shields.io/badge/Version-2.1.2-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -109,6 +109,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-extension |
 | extraContainerPorts | list | `[]` | Optionally specify extra list of additional ports for dial-extension containers |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
+| extraEnvVarsCM | string | `""` |  |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-extension containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-extension container(s) |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-extension pod(s) |
