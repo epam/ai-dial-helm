@@ -81,8 +81,12 @@ spec:
               value: {{ tpl $value $ | quote }}
             {{- end }}
           {{- end }}
-          {{- if or .Values.secrets .Values.extraEnvVarsSecret }}
+          {{- if or .Values.secrets .Values.extraEnvVarsSecret .Values.extraEnvVarsCM }}
           envFrom:
+            {{- if .Values.extraEnvVarsCM }}
+            - configMapRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsCM "context" $) }}
+            {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
                 name: {{ template "dialExtension.names.fullname" . }}
