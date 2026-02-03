@@ -1,0 +1,24 @@
+{{- if .Values.deployment_manager.enabled }}
+{{- if and .Values.deployment_manager.persistence.enabled (not .Values.deployment_manager.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "dialAdmin.deployment_manager.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: deployment-manager
+  {{- if or .Values.deployment_manager.persistence.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment_manager.persistence.annotations .Values.commonAnnotations ) "context" . ) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+  {{- range .Values.deployment_manager.persistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.deployment_manager.persistence.size | quote }}
+  {{ include "dialAdmin.deployment_manager.storageClass" . }}
+{{- end -}}
+{{- end -}}

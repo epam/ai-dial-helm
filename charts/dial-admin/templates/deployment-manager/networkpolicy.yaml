@@ -1,0 +1,73 @@
+{{- if and .Values.deployment_manager.enabled .Values.deployment_manager.networkPolicy.enabled }}
+kind: NetworkPolicy
+apiVersion: {{ template "common.capabilities.networkPolicy.apiVersion" . }}
+metadata:
+  name: {{ template "dialAdmin.deployment_manager.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: deployment-manager
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment_manager.podLabels .Values.commonLabels ) "context" . ) }}
+  podSelector:
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: deployment-manager
+  policyTypes:
+    - Ingress
+    - Egress
+  {{- if .Values.deployment_manager.networkPolicy.allowExternalEgress }}
+  egress:
+    - {}
+  {{- else }}
+  egress:
+    # Allow dns resolution
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    # Allow outbound connections to other cluster pods
+    - ports:
+        - port: {{ .Values.deployment_manager.containerPorts.http }}
+      to:
+        - podSelector: 
+            matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 14 }}
+              app.kubernetes.io/component: deployment-manager
+    {{- if .Values.deployment_manager.networkPolicy.extraEgress }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.networkPolicy.extraEgress "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- end }}
+  ingress:
+    # Allow inbound connections
+    - ports:
+        - port: {{ .Values.deployment_manager.containerPorts.http }}
+      {{- if not .Values.deployment_manager.networkPolicy.allowExternal }}
+      from:
+        - podSelector:
+            matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 14 }}
+        {{- if .Values.deployment_manager.networkPolicy.ingressNSMatchLabels }}
+        - namespaceSelector:
+            matchLabels:
+              {{- range $key, $value := .Values.deployment_manager.networkPolicy.ingressNSMatchLabels }}
+              {{ $key | quote }}: {{ $value | quote }}
+              {{- end }}
+          {{- if .Values.deployment_manager.networkPolicy.ingressNSPodMatchLabels }}
+          podSelector:
+            matchLabels:
+              {{- range $key, $value := .Values.deployment_manager.networkPolicy.ingressNSPodMatchLabels }}
+              {{ $key | quote }}: {{ $value | quote }}
+              {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- if .Values.deployment_manager.metrics.enabled }}
+    # Allow prometheus scrapes for metrics
+    - ports:
+        - port: {{ .Values.deployment_manager.containerPorts.metrics }}
+    {{- end }}
+    {{- if .Values.deployment_manager.networkPolicy.extraIngress }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.deployment_manager.networkPolicy.extraIngress "context" $ ) | nindent 4 }}
+    {{- end }}
+{{- end }}
