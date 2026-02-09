@@ -690,6 +690,13 @@
             },
             "type": "object"
         },
+        "env": {
+            "type": "object"
+        },
+        "extraEnvVars": {
+            "type": "array",
+            "description": "Array containing extra env vars to configure the credential"
+        },
         "networkPolicy": {
             "type": "object",
             "description": "Network Policy configuration",
