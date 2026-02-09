@@ -134,14 +134,43 @@ spec:
           {{- if .Values.lifecycleHooks }}
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" $) | nindent 12 }}
           {{- end }}
-          {{- if .Values.extraVolumeMounts }}
           volumeMounts:
+            - name: tmp
+              mountPath: {{ .Values.temporary.mountPath }}
+              {{- if .Values.temporary.subPath }}
+              subPath: {{ .Values.temporary.subPath }}
+              {{- end }}
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+            {{- end }}
+          {{- if .Values.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
           {{- end }}
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
-        {{- if .Values.extraVolumes }}
       volumes:
+        - name: tmp
+          {{- if or .Values.temporary.medium .Values.temporary.sizeLimit }}
+          emptyDir:
+            {{- if .Values.temporary.medium }}
+            medium: {{ .Values.temporary.medium }}
+            {{- end }}
+            {{- if .Values.temporary.sizeLimit }}
+            sizeLimit: {{ .Values.temporary.sizeLimit }}
+            {{- end }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ default (include "dialExtension.names.fullname" .) .Values.persistence.existingClaim }}
+        {{- end }}
+        {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
         {{- end }}
