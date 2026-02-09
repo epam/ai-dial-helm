@@ -238,6 +238,11 @@ lifecycleHooks: {}
 env: {}
   # key1: "value1"
   # key2: "value2"
+# -- Array containing extra env vars to configure the credential
+extraEnvVars: []
+# extraEnvVars:
+#  - name: GF_DEFAULT_INSTANCE_NAME
+#    value: my-instance
 # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-extension
 secrets: {}
   # key1: "value1"
