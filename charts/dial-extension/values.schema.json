@@ -690,6 +690,89 @@
             },
             "type": "object"
         },
+        "env": {
+            "type": "object"
+        },
+        "extraEnvVars": {
+            "type": "array",
+            "description": "Array containing extra env vars to configure the credential"
+        },
+        "persistence": {
+            "type": "object",
+            "description": "Section to configure persistence",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable persistence using Persistent Volume Claims"
+                },
+                "mountPath": {
+                    "type": "string",
+                    "description": "Path to mount the volume at"
+                },
+                "subPath": {
+                    "type": "string",
+                    "description": "The subdirectory of the volume to mount to"
+                },
+                "storageClass": {
+                    "type": "string",
+                    "description": "Storage class of backing PVC"
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "Persistent Volume Claim annotations"
+                },
+                "dataSource": {
+                    "type": "object",
+                    "description": "Custom PVC data source"
+                },
+                "accessModes": {
+                    "type": "array",
+                    "description": "Persistent Volume Access Modes",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "size": {
+                    "type": "string",
+                    "description": "Size of data volume",
+                    "pattern": "^[1-9][0-9]*[m]?$|^[0-9]+(?:\\.[0-9]+)?(?:[KMGTP]i?)?$"
+                },
+                "existingClaim": {
+                    "type": "string",
+                    "description": "The name of an existing PVC to use for persistence"
+                },
+                "selector": {
+                    "type": "object",
+                    "description": "Selector to match an existing Persistent Volume for data PVC"
+                }
+            }
+        },
+        "temporary": {
+            "type": "object",
+            "description": "Section to configure emptyDir",
+            "properties": {
+                "mountPath": {
+                    "type": "string",
+                    "description": "Path to mount emptyDir volumes"
+                },
+                "subPath": {
+                    "type": "string",
+                    "description": "The subdirectory of the emptyDir volume to mount to"
+                },
+                "sizeLimit": {
+                    "type": "string",
+                    "description": "Set this to enable a size limit for emptyDir volumes",
+                    "pattern": "^($|[1-9][0-9]*(\\.[0-9]+)?(E|P|T|G|M|k|Ei|Pi|Ti|Gi|Mi|Ki)+$)"
+                },
+                "medium": {
+                    "enum": [
+                        "",
+                        "Memory"
+                    ],
+                    "description": "Provide a medium for emptyDir volumes"
+                }
+            }
+        },
         "networkPolicy": {
             "type": "object",
             "description": "Network Policy configuration",
