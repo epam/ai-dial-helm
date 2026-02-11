@@ -111,6 +111,9 @@ customReadinessProbe: {}
 # -- Custom startupProbe that overrides the default one
 customStartupProbe: {}
 
+# -- Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge).
+resourcesPreset: "nano"
+
 # -- Container resource requests and limits
 # [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 resources: {}
@@ -145,7 +148,7 @@ containerSecurityContext:
   # -- Set dial-extension container's Security Context privileged
   privileged: false
   # -- Set dial-extension containers' Security Context runAsNonRoot
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   # -- Set dial-extension container's Security Context allowPrivilegeEscalation
   allowPrivilegeEscalation: false
   # -- Set dial-extension container's Security Context capabilities

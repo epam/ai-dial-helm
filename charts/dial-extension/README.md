@@ -1,6 +1,6 @@
 # dial-extension
 
-![Version: 2.2.0](https://img.shields.io/badge/Version-2.2.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
@@ -96,7 +96,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Set dial-extension container's Security Context capabilities |
 | containerSecurityContext.enabled | bool | `true` | Enabled dial-extension container's Security Context |
 | containerSecurityContext.privileged | bool | `false` | Set dial-extension container's Security Context privileged |
-| containerSecurityContext.readOnlyRootFilesystem | bool | `false` | Set dial-extension containers' Security Context runAsNonRoot |
+| containerSecurityContext.readOnlyRootFilesystem | bool | `true` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsGroup | int | `1001` | Set dial-extension container's Security Context runAsGroup |
 | containerSecurityContext.runAsNonRoot | bool | `true` | Set dial-extension containers' Security Context runAsNonRoot |
 | containerSecurityContext.runAsUser | int | `1001` | Set dial-extension container's Security Context runAsUser |
@@ -220,6 +220,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | readinessProbe.enabled | bool | `false` | Enable/disable readinessProbe |
 | replicaCount | int | `1` | Number of dial-extension replicas to deploy |
 | resources | object | `{}` | Container resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| resourcesPreset | string | `"nano"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-extension pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
 | secrets | object | `{}` | Key-value pairs extra environment variables to add in environment variables from secrets to dial-extension |
 | service | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/) | Service configuration |
