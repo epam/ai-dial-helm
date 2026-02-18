@@ -484,6 +484,47 @@ ingress:
     #   serviceName: foo
     #   servicePort: 80
 
+# -- Section to configure persistence
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+persistence:
+  # -- Enable persistence using Persistent Volume Claims
+  enabled: false
+  # -- Path to mount the volume at.
+  mountPath: /data
+  # -- The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services
+  subPath: ""
+  # -- Storage class of backing PVC
+  storageClass: ""
+  # -- Persistent Volume Claim annotations
+  annotations: {}
+  # -- Custom PVC data source
+  dataSource: {}
+  # -- Persistent Volume Access Modes
+  accessModes:
+    - ReadWriteOnce
+  # -- Size of data volume
+  size: 8Gi
+  # -- The name of an existing PVC to use for persistence
+  existingClaim: ""
+  # -- Selector to match an existing Persistent Volume for data PVC
+  selector: {}
+  # selector:
+  #   matchLabels:
+  #     app: my-app
+
+# -- Section to configure emptyDir
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
+temporary:
+  # -- Path to mount `emptyDir` volumes
+  mountPath: /tmp
+  # -- The subdirectory of the `emptyDir` volume to mount to
+  subPath: ""
+  # -- Set this to enable a size limit for `emptyDir` volumes
+  sizeLimit: ""
+  # -- Provide a medium for `emptyDir` volumes
+  medium: ""
+  # medium: "Memory"
+
 # -- Network Policy configuration
 # @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
 networkPolicy:
