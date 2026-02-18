@@ -76,7 +76,6 @@ helm install my-release dial/dial-core -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for dial-core pods assignment |
-| annotations | object | `{}` | Annotations to add to dial-core deployed objects |
 | args | list | `[]` | Override default dial-core args (useful when using custom images) |
 | automountServiceAccountToken | bool | `false` | Mount Service Account token in pods |
 | autoscaling.hpa | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) | Horizontal Pod Autoscaler (HPA) settings |
@@ -112,7 +111,10 @@ helm install my-release dial/dial-core -f values.yaml
 | customStartupProbe | object | `{}` | Custom startupProbe that overrides the default one |
 | diagnosticMode.enabled | bool | `false` | Enable diagnostic mode (all probes will be disabled) |
 | env | object | `{}` | Key-value pairs extra environment variables to add to dial-core |
+| extraContainerPorts | list | `[]` | Optionally specify extra list of additional ports for dial-core containers |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
+| extraEnvVars | list | `[]` | Array containing extra env vars to add to the dial-core application container |
+| extraEnvVarsCM | string | `""` | Name of existing ConfigMap containing extra env vars for dial-core containers |
 | extraEnvVarsSecret | string | `""` | Name of existing Secret containing extra env vars for dial-core containers |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts for the dial-core container(s) |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-core pod(s) |
@@ -142,7 +144,6 @@ helm install my-release dial/dial-core -f values.yaml
 | ingress.serviceName | string | `""` | Change default name of service for the ingress record |
 | ingress.tls | list | `[]` | TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
 | initContainers | list | `[]` | Add additional init containers to the dial-extension pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| labels | object | `{}` | Labels to add to dial-core deployed objects |
 | lifecycleHooks | object | `{}` | for the dial-core container(s) to automate configuration before or after startup |
 | livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
 | livenessProbe.enabled | bool | `false` | Enable/disable livenessProbe |
@@ -175,6 +176,11 @@ helm install my-release dial/dial-core -f values.yaml
 | logger.secrets | object | `{}` | Key-value pairs extra environment variables to add in environment variables from secrets to dial-extension |
 | metrics | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md) | Configuration resources for prometheus metrics |
 | metrics.enabled | bool | `false` | Enable the export of Prometheus metrics |
+| metrics.prometheusRule.annotations | object | `{}` | Additional custom annotations for the prometheusRule |
+| metrics.prometheusRule.enabled | bool | `false` | Creates a Prometheus Operator prometheusRule |
+| metrics.prometheusRule.labels | object | `{}` | Additional labels that can be used so prometheusRule will be discovered by Prometheus |
+| metrics.prometheusRule.namespace | string | `""` | Namespace for the prometheusRule Resource (defaults to the Release Namespace) |
+| metrics.prometheusRule.rules | list | `[]` | Prometheus Rule definitions |
 | metrics.service | object | - | Dedicated Kubernetes Service for dial-core metrics configuration |
 | metrics.service.annotations | object | `{}` | Additional custom annotations for dial-core metrics service |
 | metrics.service.clusterIP | string | `""` | dial-core metrics service Cluster IP clusterIP: None |
@@ -204,11 +210,34 @@ helm install my-release dial/dial-core -f values.yaml
 | metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
+| networkPolicy | object | [Documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/) | Network Policy configuration |
+| networkPolicy.allowExternal | bool | `true` | When true, server will accept connections from any source |
+| networkPolicy.allowExternalEgress | bool | `true` | Allow the pod to access any range of port and all destinations. |
+| networkPolicy.enabled | bool | `false` | Specifies whether a NetworkPolicy should be created |
+| networkPolicy.extraEgress | list | `[]` | Add extra ingress rules to the NetworkPolicy |
+| networkPolicy.extraIngress | list | `[]` | Add extra ingress rules to the NetworkPolicy |
+| networkPolicy.ingressNSMatchLabels | object | `{}` | Labels to match to allow traffic from other namespaces |
+| networkPolicy.ingressNSPodMatchLabels | object | `{}` | Pod labels to match to allow traffic from other namespaces |
+| networkPolicy.ingressPodMatchLabels | object | `{}` | Labels to match to allow traffic from other pods. Ignored if `networkPolicy.allowExternal` is true. |
+| networkPolicy.metrics.allowExternal | bool | `true` | When true, server will accept connections to the metrics port from any source |
+| networkPolicy.metrics.ingressNSMatchLabels | object | `{}` | Labels to match to allow traffic from other namespaces to metrics endpoint |
+| networkPolicy.metrics.ingressNSPodMatchLabels | object | `{}` | Pod labels to match to allow traffic from other namespaces to metrics endpoint |
 | nodeSelector | object | `{}` | Node labels for dial-core pods assignment [Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
 | pdb | object | [Documentation](https://kubernetes.io/docs/tasks/run-application/configure-pdb) | Pod Disruption Budget configuration |
 | pdb.create | bool | `false` | Enable/disable a Pod Disruption Budget creation |
 | pdb.maxUnavailable | string | `""` | Max number of pods that can be unavailable after the eviction. You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0. Defaults to `1` if both `pdb.minAvailable` and `pdb.maxUnavailable` are empty. |
 | pdb.minAvailable | string | `""` | Min number of pods that must still be available after the eviction. You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0 |
+| persistence | object | [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) | Section to configure persistence |
+| persistence.accessModes | list | `["ReadWriteOnce"]` | Persistent Volume Access Modes |
+| persistence.annotations | object | `{}` | Persistent Volume Claim annotations |
+| persistence.dataSource | object | `{}` | Custom PVC data source |
+| persistence.enabled | bool | `false` | Enable persistence using Persistent Volume Claims |
+| persistence.existingClaim | string | `""` | The name of an existing PVC to use for persistence |
+| persistence.mountPath | string | `"/data"` | Path to mount the volume at. |
+| persistence.selector | object | `{}` | Selector to match an existing Persistent Volume for data PVC |
+| persistence.size | string | `"8Gi"` | Size of data volume |
+| persistence.storageClass | string | `""` | Storage class of backing PVC |
+| persistence.subPath | string | `""` | The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services |
 | podAnnotations | object | `{}` | Annotations for dial-core pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | podLabels | object | `{}` | Extra labels for dial-core pods [Documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
 | podSecurityContext | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | Pods Security Context Configuration |
@@ -257,6 +286,11 @@ helm install my-release dial/dial-core -f values.yaml
 | sidecars | list | `[]` | Add additional sidecar containers to the dial-core pod(s) |
 | startupProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) | Startup Probes configuration |
 | startupProbe.enabled | bool | `false` | Enable/disable startupProbe |
+| temporary | object | [Documentation](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) | Section to configure emptyDir |
+| temporary.medium | string | `""` | Provide a medium for `emptyDir` volumes |
+| temporary.mountPath | string | `"/tmp"` | Path to mount `emptyDir` volumes |
+| temporary.sizeLimit | string | `""` | Set this to enable a size limit for `emptyDir` volumes |
+| temporary.subPath | string | `""` | The subdirectory of the `emptyDir` volume to mount to |
 | terminationGracePeriodSeconds | string | `""` | Seconds dial-core pod needs to terminate gracefully [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods) |
 | tolerations | list | `[]` | Tolerations for dial-core pods assignment [Documentation](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |

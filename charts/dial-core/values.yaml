@@ -45,14 +45,9 @@ image:
   # -- Optionally specify an array of imagePullSecrets.
   # Secrets must be manually created in the namespace.
   # [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-  pullSecrets:
-    []
+  pullSecrets: []
     # - myRegistryKeySecretName
 
-# -- Annotations to add to dial-core deployed objects
-annotations: {}
-# -- Labels to add to dial-core deployed objects
-labels: {}
 # -- Number of dial-core replicas to deploy
 replicaCount: 1
 
@@ -259,8 +254,7 @@ configuration:
     # WARNING: Changing this value in the middle of environment lifecycle WILL cause access loss to already encrypted data.
     existingSecret: ""
 # -- Key-value pairs extra environment variables to add to dial-core
-env:
-  {}
+env: {}
   # key1: "value1"
   # key2: "value2"
 # -- Array containing extra env vars to add to the dial-core application container
@@ -269,8 +263,7 @@ extraEnvVars: []
 #  - name: DIAL_CORE_LOG_LEVEL
 #    value: debug
 # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-core
-secrets:
-  {}
+secrets: {}
   # key1: "value1"
   # key2: "value2"
 # -- Name of existing ConfigMap containing extra env vars for dial-core containers
@@ -282,8 +275,7 @@ extraVolumes: []
 # -- Optionally specify extra list of additional volumeMounts for the dial-core container(s)
 extraVolumeMounts: []
 # -- Add additional sidecar containers to the dial-core pod(s)
-sidecars:
-  []
+sidecars: []
   # - name: your-image-name
   #   image: your-image
   #   imagePullPolicy: Always
@@ -292,8 +284,7 @@ sidecars:
   #       containerPort: 1234
 # -- Add additional init containers to the dial-extension pod(s)
 # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
-initContainers:
-  []
+initContainers: []
   # - name: your-image-name
   #   image: your-image
   #   imagePullPolicy: Always
@@ -323,8 +314,7 @@ service:
   # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
   loadBalancerIP: ""
   # -- dial-core service Load Balancer sources
-  loadBalancerSourceRanges:
-    []
+  loadBalancerSourceRanges: []
     # - 10.10.10.0/24
   # -- dial-core service external traffic policy
   # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
@@ -337,8 +327,7 @@ service:
   # Values: ClientIP or None
   sessionAffinity: None
   # -- Additional settings for the sessionAffinity
-  sessionAffinityConfig:
-    {}
+  sessionAffinityConfig: {}
     # clientIP:
     #   timeoutSeconds: 300
 
@@ -379,15 +368,13 @@ metrics:
     # -- dial-core metrics service Load Balancer IP
     loadBalancerIP: ""
     # -- dial-core metrics service Load Balancer sources
-    loadBalancerSourceRanges:
-      []
+    loadBalancerSourceRanges: []
       # - 10.10.10.0/24
     # -- dial-core metrics service external traffic policy
     # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
     externalTrafficPolicy: Cluster
     # -- Additional custom annotations for dial-core metrics service
-    annotations:
-      {}
+    annotations: {}
       # prometheus.io/scrape: "true"
       # prometheus.io/port: "{{ .Values.metrics.service.port }}"
     # -- Extra ports to expose in dial-core metrics service (normally used with the `sidecars` value)
@@ -396,8 +383,7 @@ metrics:
     # Values: ClientIP or None
     sessionAffinity: None
     # -- Additional settings for the sessionAffinity
-    sessionAffinityConfig:
-      {}
+    sessionAffinityConfig: {}
       # clientIP:
       #   timeoutSeconds: 300
   # -- Prometheus Operator ServiceMonitor configuration
@@ -430,8 +416,7 @@ metrics:
     # -- Specify general relabeling
     relabelings: []
     # -- Prometheus instance selector labels
-    selector:
-      {}
+    selector: {}
       # prometheus: my-prometheus
 
   prometheusRule:
@@ -461,8 +446,7 @@ ingress:
   path: /
   # -- Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
   # Use this parameter to set the required annotations for [cert-manager](https://cert-manager.io/docs/usage/ingress/#supported-annotations)
-  annotations:
-    {}
+  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # cert-manager.io/cluster-issuer: cluster-issuer-name
   # -- Change default name of service for the ingress record
@@ -472,14 +456,12 @@ ingress:
     - dial-core.local
   # -- TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template)
   # [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
-  tls:
-    []
+  tls: []
     # - hosts:
     #     - dial-core.local
     #   secretName: dial-core.local-tls
   # -- An array with additional arbitrary paths that may need to be added to the ingress under the main host
-  extraPaths:
-    []
+  extraPaths: []
     # - path: /*
     #   pathType: ImplementationSpecific
     #   backend:
@@ -488,8 +470,7 @@ ingress:
     #       port:
     #         name: use-annotation
   # -- An array with additional hostname(s) to be covered with the ingress record
-  extraRules:
-    []
+  extraRules: []
     # - name: dial-core-tmp.local
     #   path: "/foo"                       # Optional, default - "/"
     #   pathType: ImplementationSpecific   # Optional, default - Prefix
@@ -612,8 +593,7 @@ logger:
     pullPolicy: IfNotPresent
     # -- Optionally specify an array of imagePullSecrets.
     # Secrets must be manually created in the namespace.
-    pullSecrets:
-      []
+    pullSecrets: []
       # - myRegistryKeySecretName
 
   # -- Container resource requests and limits for logger component.
@@ -677,8 +657,7 @@ logger:
         target: "stdout"
         encoding:
           codec: "text"
-  extraVolumeMounts:
-    []
+  extraVolumeMounts: []
     # - name: logger
     #   mountPath: /var/log/nginx
     # - name: logger-config

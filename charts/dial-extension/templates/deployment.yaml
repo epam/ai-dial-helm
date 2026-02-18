@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "dialExtension.names.fullname" . }}
+  name: {{ template "dialCore.names.fullname" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: core
   {{- if .Values.commonAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
@@ -17,6 +18,7 @@ spec:
   {{- $podLabels := include "common.tplvalues.merge" (dict "values" (list .Values.podLabels .Values.commonLabels) "context" .) }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: core
   template:
     metadata:
       {{- if .Values.podAnnotations }}
@@ -24,9 +26,9 @@ spec:
       {{- end }}
       labels: {{- include "common.labels.standard" ( dict "customLabels" $podLabels "context" $ ) | nindent 8 }}
     spec:
-      {{- include "common.images.renderPullSecrets" (dict "images" (list .Values.image) "context" $) | nindent 6 }}
-      serviceAccountName: {{ template "dialExtension.serviceAccountName" . }}
+      serviceAccountName: {{ template "dialCore.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+      {{- include "common.images.renderPullSecrets" (dict "images" (list .Values.image) "context" $) | nindent 6 }}
       {{- if .Values.hostAliases }}
       hostAliases: {{- include "common.tplvalues.render" (dict "value" .Values.hostAliases "context" $) | nindent 8 }}
       {{- end }}
@@ -74,8 +76,9 @@ spec:
           {{- if .Values.args }}
           args: {{- include "common.tplvalues.render" (dict "value" .Values.args "context" $) | nindent 12 }}
           {{- end }}
-          {{- if or .Values.env .Values.extraEnvVars }}
+          {{- if or .Values.env .Values.redis.enabled .Values.extraEnvVars }}
           env:
+            {{- include "dialCore.redisSettings" . | nindent 12 }}
             {{- if .Values.env }}
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
@@ -86,7 +89,7 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
           {{- end }}
-          {{- if or .Values.secrets .Values.extraEnvVarsSecret .Values.extraEnvVarsCM }}
+          {{- if or .Values.secrets .Values.extraEnvVarsSecret .Values.extraEnvVarsCM .Values.configuration.encryption.existingSecret }}
           envFrom:
             {{- if .Values.extraEnvVarsCM }}
             - configMapRef:
@@ -94,7 +97,14 @@ spec:
             {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
-                name: {{ template "dialExtension.names.fullname" . }}
+                name: {{ template "dialCore.names.fullname" . }}
+            {{- end }}
+            {{- if .Values.configuration.encryption.existingSecret }}
+            - secretRef:
+                name: {{ .Values.configuration.encryption.existingSecret }}
+            {{- else }}
+            - secretRef:
+                name: {{ template "dialCore.encryptionSecretName" . }}
             {{- end }}
             {{- if .Values.extraEnvVarsSecret }}
             - secretRef:
@@ -134,6 +144,7 @@ spec:
           {{- if .Values.lifecycleHooks }}
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" $) | nindent 12 }}
           {{- end }}
+        {{- if or .Values.logger.enabled .Values.persistence.enabled .Values.extraVolumeMounts }}
           volumeMounts:
             - name: tmp
               mountPath: {{ .Values.temporary.mountPath }}
@@ -147,12 +158,60 @@ spec:
               subPath: {{ .Values.persistence.subPath }}
               {{- end }}
             {{- end }}
+            {{- if .Values.logger.enabled }}
+            - name: logs
+              mountPath: /app/log
+            {{- end }}
           {{- if .Values.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
           {{- end }}
+        {{- end }}
+        {{- if .Values.logger.enabled }}
+        - name: logger
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.logger.image "global" .Values.global) | quote }}
+          imagePullPolicy: {{ .Values.logger.image.pullPolicy | quote }}
+          {{- if .Values.logger.command }}
+          command: {{- include "common.tplvalues.render" (dict "value" .Values.logger.command "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.logger.args }}
+          args: {{- include "common.tplvalues.render" (dict "value" .Values.logger.args "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.logger.containerSecurityContext.enabled }}
+          securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.logger.containerSecurityContext "context" $) | nindent 12 }}
+          {{- end }}
+          resources: {{ toYaml .Values.logger.resources | nindent 12 }}
+          {{ if .Values.logger.env }}
+          env:
+            {{- range $key, $value := .Values.logger.env }}
+            - name: {{ $key }}
+              value: {{ tpl $value $ | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if or .Values.logger.secrets .Values.logger.extraEnvVarsSecret }}
+          envFrom:
+            {{- if .Values.logger.secrets }}
+            - secretRef:
+                name: {{ template "dialCoreLogger.names.fullname" . }}
+            {{- end }}
+            {{- if .Values.logger.extraEnvVarsSecret }}
+            - secretRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.logger.extraEnvVarsSecret "context" $) }}
+            {{- end }}
+          {{- end }}
+          volumeMounts:
+            - name: logs
+              mountPath: /app/log/
+            - name: logger-config
+              mountPath: /etc/vector/vector.yaml
+              subPath: vector.yaml
+          {{- if .Values.logger.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.logger.extraVolumeMounts "context" $) | nindent 12 }}
+          {{- end }}
+        {{- end }}
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
+      {{- if or .Values.logger.enabled .Values.extraVolumes .Values.persistence.enabled }}
       volumes:
         - name: tmp
           {{- if or .Values.temporary.medium .Values.temporary.sizeLimit }}
@@ -169,8 +228,22 @@ spec:
         {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ default (include "dialExtension.names.fullname" .) .Values.persistence.existingClaim }}
+            claimName: {{ default (include "dialCore.names.fullname" .) .Values.persistence.existingClaim }}
+        {{- end }}
+        {{- if .Values.logger.enabled }}
+        - name: logs
+          emptyDir: {}
+        {{- end }}
+        {{- if and .Values.logger.enabled .Values.logger.config }}
+        - name: logger-config
+          configMap:
+            name: {{ template "dialCoreLogger.names.fullname" . }}
+            items:
+              - key: vector.yaml
+                path: vector.yaml
+                mode: 292 # 0444
         {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
+        {{- end }}
         {{- end }}
