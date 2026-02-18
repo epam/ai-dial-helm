@@ -91,15 +91,25 @@ spec:
           {{- if .Values.args }}
           args: {{- include "common.tplvalues.render" (dict "value" .Values.args "context" $) | nindent 12 }}
           {{- end }}
-          {{- if or .Values.env .Values.redis.enabled }}
+          {{- if or .Values.env .Values.redis.enabled .Values.extraEnvVars }}
           env:
             {{- include "dialCore.redisSettings" . | nindent 12 }}
+            {{- if .Values.env }}
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ tpl $value $ | quote }}
             {{- end }}
+            {{- end }}
+            {{- if .Values.extraEnvVars }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
           {{- end }}
+          {{- if or .Values.secrets .Values.extraEnvVarsSecret .Values.extraEnvVarsCM .Values.configuration.encryption.existingSecret }}
           envFrom:
+            {{- if .Values.extraEnvVarsCM }}
+            - configMapRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsCM "context" $) }}
+            {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
                 name: {{ template "dialCore.names.fullname" . }}
@@ -115,6 +125,7 @@ spec:
             - secretRef:
                 name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
             {{- end }}
+          {{- end }}
           {{- if .Values.resources }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
@@ -124,6 +135,9 @@ spec:
             {{- if .Values.metrics.enabled }}
             - name: http-metrics
               containerPort: {{ .Values.containerPorts.metrics }}
+            {{- end }}
+            {{- if .Values.extraContainerPorts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraContainerPorts "context" $) | nindent 12 }}
             {{- end }}
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customLivenessProbe }}

@@ -62,6 +62,11 @@ containerPorts:
   # -- dial-core HTTP container port for metrics
   metrics: 9464
 
+# -- Optionally specify extra list of additional ports for dial-core containers
+extraContainerPorts: []
+#  - name: myservice
+#    containerPort: 9090
+
 # -- Liveness Probes configuration
 # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
@@ -258,11 +263,18 @@ env:
   {}
   # key1: "value1"
   # key2: "value2"
+# -- Array containing extra env vars to add to the dial-core application container
+extraEnvVars: []
+# extraEnvVars:
+#  - name: DIAL_CORE_LOG_LEVEL
+#    value: debug
 # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-core
 secrets:
   {}
   # key1: "value1"
   # key2: "value2"
+# -- Name of existing ConfigMap containing extra env vars for dial-core containers
+extraEnvVarsCM: ""
 # -- Name of existing Secret containing extra env vars for dial-core containers
 extraEnvVarsSecret: ""
 # -- Optionally specify extra list of additional volumes for the dial-core pod(s)
