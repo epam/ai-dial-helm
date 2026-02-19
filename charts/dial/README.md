@@ -205,33 +205,6 @@ Please refer to the official documentation for more details:
 
     pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
     ```
-1. Update values.yaml
-
-    ```yaml
-    keycloakConfigCli:
-      enabled: true
-      image:
-        registry: docker.io
-        repository: adorsys/keycloak-config-cli
-        tag: 6.4.0-26.1.0
-      command:
-        - java
-        - -jar
-        - /app/keycloak-config-cli.jar
-    ```
-1. Disable mount credentials as files instead of using environment variables. Add the following line to the corresponding sections of your values.yaml, as shown in the example below. The rest of the yaml file is hidden for clarity.
-
-    ```yaml
-    keycloak:
-      ...
-      usePasswordFiles: false
-      ...
-      postgresql:
-        ...
-        auth:
-          usePasswordFiles: false
-        ...
-    ```
 1. Update `redirectUris:` for each client in realm
 
     From
