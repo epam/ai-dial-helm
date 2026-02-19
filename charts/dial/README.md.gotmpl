@@ -141,9 +141,7 @@ Please refer to the official documentation for more details:
 ```yaml
 adminPermissionsEnabled: true
 ```
-
 Please refer to the official documentation for more details:
-
 - [upgrade notes](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings)
 1. Delete this client `realm-management` from your realm file.
 1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, and with both modified files, `values.yaml` and `realm.yaml`
