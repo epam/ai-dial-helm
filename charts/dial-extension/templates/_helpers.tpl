@@ -1,22 +1,8 @@
 {{/*
-Return name for backend resources
+Return name for extension resources
 */}}
 {{- define "dialExtension.names.fullname" -}}
 {{- template "common.names.fullname" . -}}
-{{- end -}}
-
-{{/*
-Create the labels to use
-*/}}
-{{- define "dialExtension.labels.standard" -}}
-{{- include "common.labels.standard" . }}
-{{- end -}}
-
-{{/*
-Create the matchLabels to use
-*/}}
-{{- define "dialExtension.labels.matchLabels" -}}
-{{- include "common.labels.matchLabels" . }}
 {{- end -}}
 
 {{/*
