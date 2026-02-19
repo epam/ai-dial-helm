@@ -171,6 +171,112 @@ helm install my-release dial/dial -f values.yaml
 
 ## Upgrading
 
+### To 5.5.0
+> [!TIP]
+> If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+> The previous Keycloak custom themes not supported. To update your custom Keycloak themes to support the Keycloak version after the upgrade, please refer to the official guide on writing custom themes.
+
+In this version, we've updated the following underlying dependencies which require manual actions:
+
+- `bitnami/keycloak` Helm chart version bumped from to `24.4.3` to `24.9.0`
+  - `keycloak` version bumped from `26.0.8` to `26.3.2`
+  - `keycloakCli` version changed to `adorsys/keycloak-config-cli:6.4.0-26.1.0`
+  - `bitnami/postgresql` Helm chart from `16.4.3` to `16.6.6`
+    - `postgresql` version bumped from `17.2.0` to `17.6.0`
+
+Please refer to the official documentation for more details:
+
+- [bitnami/keycloak helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md#upgrading)
+- [bitnami/postgresql helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/README.md#upgrading)
+
+> [!IMPORTANT]
+> We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
+
+1. Stop Keycloak
+1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
+1. Update values.yaml
+
+    ```yaml
+    keycloakConfigCli:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: adorsys/keycloak-config-cli
+        tag: 6.4.0-26.1.0
+      command:
+        - java
+        - -jar
+        - /app/keycloak-config-cli.jar
+    ```
+1. Disable mount credentials as files instead of using environment variables. Add the following line to the corresponding sections of your values.yaml, as shown in the example below. The rest of the yaml file is hidden for clarity.
+
+    ```yaml
+    keycloak:
+      ...
+      usePasswordFiles: false
+      ...
+      postgresql:
+        ...
+        auth:
+          usePasswordFiles: false
+        ...
+    ```
+1. Update `redirectUris:` for each client in realm
+
+    From
+    ```yaml
+    redirectUris:
+      - https://example.com/*
+    webOrigins:
+      - https://example.com
+    ```
+
+    To
+    ```yaml
+    redirectUris:
+      - https://example.com/api/auth/callback/keycloak
+    webOrigins:
+      - https://example.com/
+    ```
+1. Update all Applications auth configuration for the updated Keycloak interractions
+
+    From
+    ```yaml
+    env:
+      ...
+      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com"
+      ...
+    ```
+
+    To
+    ```yaml
+    env:
+      ...
+      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
+      ...
+    ```
+1. Enable `FGAP:V2` with the adding this line (Details: ). Suggestion place for it - bottom of your realm file
+```yaml
+adminPermissionsEnabled: true
+```
+
+Please refer to the official documentation for more details:
+
+- [upgrade notes](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings)
+1. Delete this client `realm-management` from your realm file.
+1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, and with both modified files, `values.yaml` and `realm.yaml`
+
 ### To 5.4.0
 
 > [!TIP]
