@@ -239,11 +239,13 @@ Please refer to the official documentation for more details:
       AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
       ...
     ```
-1. Enable `FGAP:V2` with the adding this line (Details: ). Suggestion place for it - bottom of your realm file
+1. Enable `FGAP:V2` with the adding next line:
 
     ```yaml
     adminPermissionsEnabled: true
     ```
+    Please refer to the official documentation for more details:
+    - [adminPermissionsEnabled](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
 1. Delete this client `realm-management` from your realm file.
 1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, but with the modified `realm.yaml`
 
