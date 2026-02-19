@@ -80,17 +80,14 @@ spec:
           {{- if or .Values.env .Values.redis.enabled .Values.extraEnvVars }}
           env:
             {{- include "dialCore.redisSettings" . | nindent 12 }}
-            {{- if .Values.env }}
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ tpl $value $ | quote }}
-            {{- end }}
             {{- end }}
             {{- if .Values.extraEnvVars }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
           {{- end }}
-          {{- if or .Values.secrets .Values.extraEnvVarsSecret .Values.extraEnvVarsCM .Values.configuration.encryption.existingSecret }}
           envFrom:
             {{- if .Values.extraEnvVarsCM }}
             - configMapRef:
@@ -111,7 +108,6 @@ spec:
             - secretRef:
                 name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
             {{- end }}
-          {{- end }}
           {{- if .Values.resources }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
@@ -145,7 +141,6 @@ spec:
           {{- if .Values.lifecycleHooks }}
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" $) | nindent 12 }}
           {{- end }}
-        {{- if or .Values.logger.enabled .Values.persistence.enabled .Values.extraVolumeMounts }}
           volumeMounts:
             - name: tmp
               mountPath: {{ .Values.temporary.mountPath }}
@@ -166,7 +161,6 @@ spec:
           {{- if .Values.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
           {{- end }}
-        {{- end }}
         {{- if .Values.logger.enabled }}
         - name: logger
           image: {{ include "common.images.image" (dict "imageRoot" .Values.logger.image "global" .Values.global) | quote }}
@@ -212,7 +206,6 @@ spec:
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
-      {{- if or .Values.logger.enabled .Values.extraVolumes .Values.persistence.enabled }}
       volumes:
         - name: tmp
           {{- if or .Values.temporary.medium .Values.temporary.sizeLimit }}
@@ -234,8 +227,6 @@ spec:
         {{- if .Values.logger.enabled }}
         - name: logs
           emptyDir: {}
-        {{- end }}
-        {{- if and .Values.logger.enabled .Values.logger.config }}
         - name: logger-config
           configMap:
             name: {{ template "dialCoreLogger.names.fullname" . }}
@@ -246,5 +237,4 @@ spec:
         {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
-        {{- end }}
         {{- end }}
