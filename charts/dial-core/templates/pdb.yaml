@@ -4,21 +4,10 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ template "dialCore.names.fullname" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
-  labels: {{ include "dialCore.labels.standard" . | nindent 4 }}
-    {{- if .Values.commonLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.labels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.labels "context" $ ) | nindent 4 }}
-    {{- end }}
-  {{- if or .Values.annotations .Values.commonAnnotations }}
-  annotations:
-    {{- if .Values.annotations }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.annotations "context" $ ) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.commonAnnotations }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
-    {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: core
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 spec:
   {{- if .Values.pdb.minAvailable }}
@@ -27,6 +16,8 @@ spec:
   {{- if or .Values.pdb.maxUnavailable ( not .Values.pdb.minAvailable ) }}
   maxUnavailable: {{ .Values.pdb.maxUnavailable | default 1 }}
   {{- end }}
+  {{- $podLabels := merge .Values.podLabels .Values.commonLabels }}
   selector:
-    matchLabels: {{- include "dialCore.labels.matchLabels" . | nindent 6 }}
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: core
 {{- end }}
