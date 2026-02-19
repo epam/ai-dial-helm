@@ -138,11 +138,12 @@ Please refer to the official documentation for more details:
       ...
     ```
 1. Enable `FGAP:V2` with the adding this line (Details: ). Suggestion place for it - bottom of your realm file
-```yaml
-adminPermissionsEnabled: true
-```
+
+    ```yaml
+    adminPermissionsEnabled: true
+    ```
 1. Delete this client `realm-management` from your realm file.
-1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, and with both modified files, `values.yaml` and `realm.yaml`
+1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, but with the modified `realm.yaml`
 
 ### To 5.4.0
 
