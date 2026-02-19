@@ -128,20 +128,25 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
 | keycloak.global.security.allowInsecureImages | bool | `true` |  |
 | keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
+| keycloak.keycloakConfigCli.command[0] | string | `"java"` |  |
+| keycloak.keycloakConfigCli.command[1] | string | `"-jar"` |  |
+| keycloak.keycloakConfigCli.command[2] | string | `"/app/keycloak-config-cli.jar"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
-| keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
-| keycloak.keycloakConfigCli.image.tag | string | `"6.4.0-debian-12-r11"` |  |
+| keycloak.keycloakConfigCli.image.repository | string | `"adorsys/keycloak-config-cli"` |  |
+| keycloak.keycloakConfigCli.image.tag | string | `"6.4.0-26.1.0"` |  |
 | keycloak.postgresql.auth.usePasswordFiles | bool | `false` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | keycloak.postgresql.image.tag | string | `"17.6.0-debian-12-r0"` |  |
 | keycloak.postgresql.metrics.image.repository | string | `"bitnamilegacy/postgres-exporter"` |  |
 | keycloak.postgresql.metrics.image.tag | string | `"0.17.1-debian-12-r15"` |  |
+| keycloak.postgresql.usePasswordFiles | bool | `false` |  |
 | keycloak.postgresql.volumePermissions.image.repository | string | `"bitnamilegacy/os-shell"` |  |
 | keycloak.postgresql.volumePermissions.image.tag | string | `"12-debian-12-r50"` |  |
 | keycloak.proxy | string | `"edge"` |  |
+| keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
