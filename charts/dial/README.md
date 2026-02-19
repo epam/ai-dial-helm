@@ -18,14 +18,14 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
 | https://charts.epam-rail.com | core(dial-core) | 5.0.0 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.4.0 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.4.0 |
+| https://charts.epam-rail.com | authhelper(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | chat(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | themes(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | openai(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | dial(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | assistant(dial-extension) | 2.1.0 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
