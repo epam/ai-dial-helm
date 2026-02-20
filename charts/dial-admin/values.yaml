@@ -583,6 +583,7 @@ deploymentManager:
   containerPorts:
     http: 8080
 
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -648,3 +649,6 @@ externalDatabase:
   deploymentManagerUser: deployment_manager
   # -- Password for the above username
   deploymentManagerPassword: ""
+  # -- Password key for the existing secret containing the external DB of deployment manager password
+  deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"
+
