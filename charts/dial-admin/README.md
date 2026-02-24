@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -240,6 +240,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
 | deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
+| deploymentManager.extraEnvVars | string | `"{{include \"dialAdmin.deploymentManager.configEnv\" . | toYaml |  nindent 12}}"` |  |
 | deploymentManager.extraEnvVarsSecret | string | `"{{ $.Release.Name }}-deployment-manager-database-secret"` |  |
 | deploymentManager.fullnameOverride | string | `"deployment-manager"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
@@ -250,6 +251,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
+| externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"deployment-manager-password"` | Password key for the existing secret containing the external DB of deployment manager password |
 | externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
 | externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
@@ -277,6 +279,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.usePasswordFiles | bool | `false` |  |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
+| postgresql.deployment_manager | object | `{"enabled":true}` | Name of the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
