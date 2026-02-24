@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,7 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | frontend(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | deploymentManager(dial-extension) | 2.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -233,7 +234,25 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
+| deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
+| deploymentManager.configuration.datasource | object | `{"database":"deploymentManager","datasourceVendor":"postgresql","password":"","user":"deployment_manager"}` | Database specific variables |
+| deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
+| deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| deploymentManager.containerPorts.http | int | `8080` |  |
+| deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
+| deploymentManager.extraEnvVars | string | `"{{include \"dialAdmin.deploymentManager.configEnv\" . | toYaml |  nindent 12}}"` |  |
+| deploymentManager.extraEnvVarsSecret | string | `"{{ $.Release.Name }}-deployment-manager-database-secret"` |  |
+| deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
+| deploymentManager.image.registry | string | `"docker.io"` | Image registry |
+| deploymentManager.image.repository | string | `"epam/ai-dial-admin-deployment_manager-backend"` | Image repository |
+| deploymentManager.image.tag | string | `"0.13.0"` | Image tag (immutable tags are recommended) |
+| deploymentManager.rbac.create | bool | `true` |  |
+| deploymentManager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
+| externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
+| externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"deployment-manager-password"` | Password key for the existing secret containing the external DB of deployment manager password |
+| externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
+| externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
 | externalDatabase.existingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB password |
 | externalDatabase.host | string | `""` | Host of the external database |
@@ -258,9 +277,12 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.password | string | `""` | Password for the application database user |
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
+| postgresql.deployment_manager | object | `{"enabled":true}` | Name of the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| postgresql.primary.extraEnvVarsSecret | string | `"deployment-manager-postgresql-secret"` |  |
+| postgresql.primary.initdb.scripts."create-multiple-dbs.sh" | string | `"#!/bin/bash\nset -e\n\necho \"Creating multiple databases...\"\n\n# Check if any of the required environment variables are empty\nif [ -z \"${DEPLOYMENT_MANAGER_DATABASE:-}\" ] || [ -z \"${DEPLOYMENT_MANAGER_USER:-}\" ] || [ -z \"${DEPLOYMENT_MANAGER_PASSWORD:-}\" ]; then\n  echo \"Skipping database creation due to missing environment variables.\"\nelse\n  echo \"Creating database: ${DEPLOYMENT_MANAGER_DATABASE} with user: ${DEPLOYMENT_MANAGER_USER}\"\n  DB_SUPERUSER=\"${POSTGRES_USER}\"\n  DB_SUPERPASS=\"${POSTGRES_PASSWORD}\"\n  if [ -z \"${DB_SUPERPASS:-}\" ]; then\n    echo \"Skipping database creation because superuser password is not set.\"\n  else\n    PGPASSWORD=\"${DB_SUPERPASS}\" psql -v ON_ERROR_STOP=1 --username \"${DB_SUPERUSER}\" <<-EOSQL\n        CREATE DATABASE \"${DEPLOYMENT_MANAGER_DATABASE}\";\n        CREATE USER \"${DEPLOYMENT_MANAGER_USER}\" WITH ENCRYPTED PASSWORD '${DEPLOYMENT_MANAGER_PASSWORD}';\n        GRANT ALL PRIVILEGES ON DATABASE \"${DEPLOYMENT_MANAGER_DATABASE}\" TO \"${DEPLOYMENT_MANAGER_USER}\";\nEOSQL\n  fi\nfi\n\necho \"Multiple databases created.\"\n"` |  |
 
 ## Upgrading
 
