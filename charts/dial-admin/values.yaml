@@ -575,7 +575,7 @@ deploymentManager:
         namespace: ""
     # -- Build images for mcp containers specific variables
     build:
-     namespace: ""
+      namespace: ""
 
   extraEnvVarsSecret: '{{ $.Release.Name }}-deployment-manager-database-secret'
 
