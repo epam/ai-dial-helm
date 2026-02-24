@@ -240,7 +240,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
 | deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
-| deploymentManager.extraEnvVars | string | `"{{include \"dialAdmin.deploymentManager.configEnv\" . | toYaml |  nindent 12}}"` |  |
 | deploymentManager.extraEnvVarsSecret | string | `"{{ $.Release.Name }}-deployment-manager-database-secret"` |  |
 | deploymentManager.fullnameOverride | string | `"deployment-manager"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
@@ -279,7 +278,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.usePasswordFiles | bool | `false` |  |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
-| postgresql.deployment_manager | object | `{"enabled":true}` | Name of the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |

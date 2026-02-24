@@ -548,7 +548,6 @@ deploymentManager:
     tag: 0.13.1
 
 
-  extraEnvVars: '{{include "dialAdmin.deploymentManager.configEnv" . | toYaml |  nindent 12}}'
 
   rbac:
     create: true
