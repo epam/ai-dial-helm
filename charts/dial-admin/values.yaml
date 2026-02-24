@@ -545,7 +545,6 @@ deploymentManager:
     # -- Image tag (immutable tags are recommended)
     tag: 0.13.0
 
-  extraEnvVars: '{{include "dialAdmin.deploymentManager.configEnv" . | toYaml |  nindent 12}}'
 
   rbac:
     create: true
@@ -601,10 +600,6 @@ postgresql:
     password: ""
     # -- Name of the application database
     database: "dial_admin"
-
-  # -- Name of the application database
-  deployment_manager:
-    enabled: true
 
   primary:
     extraEnvVarsSecret: "deployment-manager-postgresql-secret"
