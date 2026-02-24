@@ -551,6 +551,7 @@ deploymentManager:
   rbac:
     create: true
 
+
   serviceAccount:
     create: true
   ## Application-specific configuration values
@@ -616,7 +617,7 @@ postgresql:
           echo "Creating multiple databases..."
 
           # Check if any of the required environment variables are empty
-          if [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z "$DEPLOYMENT_MANAGER_USER" ] || [ -z "$DEPLOYMENT_MANAGER_PASSWORD" ]; then
+          if [ -z "${DEPLOYMENT_MANAGER_DATABASE:-}" ] || [ -z "${DEPLOYMENT_MANAGER_USER:-}" ] || [ -z "${DEPLOYMENT_MANAGER_PASSWORD:-}" ]; then
             echo "Skipping database creation due to missing environment variables."
           else
             echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE" with user: "$DEPLOYMENT_MANAGER_USER" "
@@ -625,6 +626,7 @@ postgresql:
               CREATE DATABASE $DEPLOYMENT_MANAGER_DATABASE WITH OWNER $DEPLOYMENT_MANAGER_USER;
           EOSQL
           fi
+
           echo "Multiple databases created."
 
 ## External Database Configuration

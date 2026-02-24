@@ -290,7 +290,7 @@ Return the Database user
 */}}
 {{- define "dialAdmin.deploymentManager.database.user" -}}
 {{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
+    {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
 {{- else }}
     {{- .Values.externalDatabase.deploymentManagerUser | quote }}
 {{- end -}}
@@ -392,4 +392,44 @@ Return the namespace to build mcp
   {{- else -}}
   {{- include "common.names.namespace" . | quote -}}
   {{- end -}}
+{{- end -}}
+
+{{/*
+Deployment manager secret name used in initdb charts
+*/}}
+{{- define "dialAdmin.deploymentManager.scriptSecret" -}}
+{{- printf "%s-script-secret" (include "dialAdmin.deploymentManager.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Return the name of deploymentManager configuration variables
+*/}}
+{{- define "dialAdmin.deploymentManager.configEnv" -}}
+{{- if .Values.deploymentManager.configuration.deploy.knative.enabled }}
+- name: K8S_KNATIVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
+- name: K8S_KNATIVE_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.knative.namespace" . }}
+{{- else }}
+- name: K8S_KNATIVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
+{{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.nim.enabled }}
+- name: K8S_NIM_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
+- name: K8S_NIM_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.nim.namespace" . }}
+{{- else }}
+- name: K8S_NIM_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
+{{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.kserve.enabled }}
+- name: K8S_KSERVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
+- name: K8S_KSERVE_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.kserve.namespace" . }}
+{{- else }}
+- name: K8S_KSERVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
+{{- end }}
 {{- end -}}
