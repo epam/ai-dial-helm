@@ -248,3 +248,192 @@ Return the name of the database secret with its credentials
 {{- end -}}
 {{- end -}}
 
+{{/*
+Return name for DIAL Admin deploymentManager resources
+*/}}
+{{- define "dialAdmin.deploymentManager.fullname" -}}
+{{- printf "%s-deploymentManager" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create a fully qualified app name adding the installation's namespace.
+*/}}
+{{- define "dialAdmin.deploymentManager.fullname.namespace" -}}
+{{- printf "%s-%s" (include "dialAdmin.deploymentManager.fullname" .) (include "common.names.namespace" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "dialAdmin.deploymentManager.serviceAccountName" -}}
+{{- if .Values.deploymentManager.serviceAccount.create -}}
+    {{ default (include "dialAdmin.deploymentManager.fullname" .) .Values.deploymentManager.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.deploymentManager.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the database name for DIAL Admin deployment manager
+*/}}
+{{- define "dialAdmin.deploymentManager.database.name" -}}
+{{- if .Values.postgresql.enabled -}}
+    {{- .Values.deploymentManager.configuration.datasource.database | quote -}}
+{{- else }}
+    {{- .Values.externalDatabase.deploymentManagerDatabase | quote }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the Database user
+*/}}
+{{- define "dialAdmin.deploymentManager.database.user" -}}
+{{- if .Values.postgresql.enabled -}}
+    {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
+{{- else }}
+    {{- .Values.externalDatabase.deploymentManagerUser | quote }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the name of the database secret with its credentials
+*/}}
+{{- define "dialAdmin.deploymentManager.database.password" -}}
+{{- if .Values.postgresql.enabled -}}
+    {{- printf "%s-%s-%s-%s-%s" (include "common.names.fullname" .) "deployment" "manager" "postgres" "secret" -}}
+{{- else -}}
+    {{- if .Values.externalDatabase.existingSecret -}}
+        {{- printf "%s" .Values.externalDatabase.existingSecret -}}
+    {{- else -}}
+        {{- printf "%s-%s" (include "common.names.fullname" .) "externaldb" -}}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "dialAdmin.deploymentManager.database.secretKey" -}}
+{{- if .Values.postgresql.enabled -}}
+    {{- print "password" -}}
+{{- else -}}
+    {{- if .Values.externalDatabase.existingSecret -}}
+        {{- if .Values.externalDatabase.deploymentManagerExistingSecretPasswordKey -}}
+            {{- printf "%s" .Values.externalDatabase.deploymentManagerExistingSecretPasswordKey -}}
+        {{- else -}}
+            {{- print "password" -}}
+        {{- end -}}
+    {{- else -}}
+        {{- print "password" -}}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the name of the database secret with its credentials
+*/}}
+{{- define "dialAdmin.deploymentManager.databaseEnv" -}}
+{{- if eq .Values.deploymentManager.configuration.datasource.datasourceVendor "postgresql" -}}
+  DATASOURCE_VENDOR: "POSTGRES"
+  POSTGRES_HOST:{{ include "dialAdmin.database.host" . }}
+  POSTGRES_PORT: {{ include "dialAdmin.database.port" . | quote }}
+  POSTGRES_DATABASE: {{ include "dialAdmin.deploymentManager.database.name" .  }}
+  POSTGRES_DATASOURCE_USERNAME: {{ include "dialAdmin.deploymentManager.database.user" . }}
+  POSTGRES_DATASOURCE_PASSWORD: {{ include "dialAdmin.deploymentManager.database.password" . }}
+{{- else if and (include "dialAdmin.useExternalDB" .) (eq .Values.deploymentManager.configuration.datasource.datasourceVendor "mssql") -}}
+  DATASOURCE_VENDOR: "MS_SQL_SERVER"
+  MS_SQL_SERVER_HOST: {{ include "dialAdmin.database.host" . }}
+  MS_SQL_SERVER_PORT: {{ include "dialAdmin.database.port" . | quote }}
+  MS_SQL_SERVER_DATABASE: {{ include "dialAdmin.deploymentManager.database.name" . }}
+  MS_SQL_SERVER_DATASOURCE_USERNAME: {{ include "dialAdmin.deploymentManager.database.user" . }}
+  MS_SQL_SERVER_DATASOURCE_PASSWORD: {{ include "dialAdmin.deploymentManager.database.password" . }}
+{{- else if eq .Values.deploymentManager.configuration.datasource.datasourceVendor "h2" -}}
+  DATASOURCE_VENDOR: "H2"
+  H2_FILE: "{{ .Values.deploymentManager.persistence.mountPath }}/deploymentManager"
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the namespace to deploy knative resources
+*/}}
+{{- define "dialAdmin.knative.namespace" -}}
+  {{- if .Values.deploymentManager.configuration.deploy.knative.enabled -}}
+  {{- .Values.deploymentManager.configuration.deploy.knative.namespace | quote -}}
+  {{- else -}}
+  {{- include "common.names.namespace" . | quote -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Return the namespace to deploy nim resources
+*/}}
+{{- define "dialAdmin.nim.namespace" -}}
+  {{- if .Values.deploymentManager.configuration.deploy.nim.enabled -}}
+  {{- .Values.deploymentManager.configuration.deploy.nim.namespace | quote -}}
+  {{- else -}}
+  {{- include "common.names.namespace" . | quote -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Return the namespace to deploy kserve resources
+*/}}
+{{- define "dialAdmin.kserve.namespace" -}}
+  {{- if .Values.deploymentManager.configuration.deploy.kserve.enabled -}}
+  {{- .Values.deploymentManager.configuration.deploy.kserve.namespace | quote -}}
+  {{- else -}}
+  {{- include "common.names.namespace" . | quote -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Return the namespace to build mcp
+*/}}
+{{- define "dialAdmin.deploymentManager.build.namespace" -}}
+  {{- if .Values.deploymentManager.configuration.build.namespace -}}
+  {{- .Values.deploymentManager.configuration.build.namespace | quote -}}
+  {{- else -}}
+  {{- include "common.names.namespace" . | quote -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Deployment manager secret name used in initdb charts
+*/}}
+{{- define "dialAdmin.deploymentManager.scriptSecret" -}}
+{{- printf "%s-script-secret" (include "dialAdmin.deploymentManager.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Return the name of deploymentManager configuration variables
+*/}}
+{{- define "dialAdmin.deploymentManager.configEnv" -}}
+{{- if .Values.deploymentManager.configuration.deploy.knative.enabled }}
+- name: K8S_KNATIVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
+- name: K8S_KNATIVE_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.knative.namespace" . }}
+{{- else }}
+- name: K8S_KNATIVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
+{{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.nim.enabled }}
+- name: K8S_NIM_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
+- name: K8S_NIM_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.nim.namespace" . }}
+{{- else }}
+- name: K8S_NIM_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
+{{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.kserve.enabled }}
+- name: K8S_KSERVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
+- name: K8S_KSERVE_DEPLOYMENT_NAMESPACE
+  value: {{ include "dialAdmin.kserve.namespace" . }}
+{{- else }}
+- name: K8S_KSERVE_ENABLED
+  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
+{{- end }}
+{{- end -}}
