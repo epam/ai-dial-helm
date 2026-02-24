@@ -546,10 +546,10 @@ deploymentManager:
     tag: 0.13.0
 
   extraEnvVars: '{{include "dialAdmin.deploymentManager.configEnv" . | toYaml |  nindent 12}}'
-  
+
   rbac:
     create: true
-  
+
   serviceAccount:
     create: true
   ## Application-specific configuration values
@@ -581,6 +581,7 @@ deploymentManager:
 
   containerPorts:
     http: 8080
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -606,7 +607,7 @@ postgresql:
     enabled: true
 
   primary:
-    extraEnvVarsSecret: "deployment-manager-postgresql-secret" #template ?
+    extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
       scripts:
         create-multiple-dbs.sh: |
@@ -660,4 +661,3 @@ externalDatabase:
   deploymentManagerPassword: ""
   # -- Password key for the existing secret containing the external DB of deployment manager password
   deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"
-
