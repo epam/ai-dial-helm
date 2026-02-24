@@ -241,6 +241,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.containerPorts.http | int | `8080` |  |
 | deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
 | deploymentManager.extraEnvVarsSecret | string | `"{{ $.Release.Name }}-deployment-manager-database-secret"` |  |
+| deploymentManager.fullnameOverride | string | `"deployment-manager"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | deploymentManager.image.registry | string | `"docker.io"` | Image registry |
 | deploymentManager.image.repository | string | `"epam/ai-dial-admin-deployment_manager-backend"` | Image repository |
