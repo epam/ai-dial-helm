@@ -3,21 +3,10 @@ kind: Deployment
 metadata:
   name: {{ template "dialCore.names.fullname" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
-  labels: {{ include "dialCore.labels.standard" . | nindent 4 }}
-    {{- if .Values.commonLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.labels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.labels "context" $ ) | nindent 4 }}
-    {{- end }}
-  {{- if or .Values.annotations .Values.commonAnnotations }}
-  annotations:
-    {{- if .Values.annotations }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.annotations "context" $ ) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.commonAnnotations }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
-    {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: core
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 spec:
   {{- if not .Values.autoscaling.hpa.enabled }}
@@ -26,20 +15,17 @@ spec:
   {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
+  {{- $podLabels := include "common.tplvalues.merge" (dict "values" (list .Values.podLabels .Values.commonLabels) "context" .) }}
   selector:
-    matchLabels: {{- include "dialCore.labels.matchLabels" . | nindent 6 }}
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: core
   template:
     metadata:
       {{- if .Values.podAnnotations }}
       annotations: {{- include "common.tplvalues.render" (dict "value" .Values.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
-      labels: {{ include "dialCore.labels.matchLabels" . | nindent 8 }}
-        {{- if .Values.podLabels }}
-        {{- include "common.tplvalues.render" (dict "value" .Values.podLabels "context" $) | nindent 8 }}
-        {{- end }}
-        {{- if .Values.commonLabels }}
-        {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 8 }}
-        {{- end }}
+      labels: {{- include "common.labels.standard" ( dict "customLabels" $podLabels "context" $ ) | nindent 8 }}
+        app.kubernetes.io/component: core
     spec:
       serviceAccountName: {{ template "dialCore.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
@@ -81,7 +67,7 @@ spec:
       containers:
         - name: application
           image: {{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) | quote }}
-          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.containerSecurityContext "context" $) | nindent 12 }}
           {{- end }}
@@ -91,15 +77,22 @@ spec:
           {{- if .Values.args }}
           args: {{- include "common.tplvalues.render" (dict "value" .Values.args "context" $) | nindent 12 }}
           {{- end }}
-          {{- if or .Values.env .Values.redis.enabled }}
+          {{- if or .Values.env .Values.redis.enabled .Values.extraEnvVars }}
           env:
             {{- include "dialCore.redisSettings" . | nindent 12 }}
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ tpl $value $ | quote }}
             {{- end }}
+            {{- if .Values.extraEnvVars }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
           {{- end }}
           envFrom:
+            {{- if .Values.extraEnvVarsCM }}
+            - configMapRef:
+                name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsCM "context" $) }}
+            {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
                 name: {{ template "dialCore.names.fullname" . }}
@@ -125,6 +118,9 @@ spec:
             - name: http-metrics
               containerPort: {{ .Values.containerPorts.metrics }}
             {{- end }}
+            {{- if .Values.extraContainerPorts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraContainerPorts "context" $) | nindent 12 }}
+            {{- end }}
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
@@ -145,16 +141,26 @@ spec:
           {{- if .Values.lifecycleHooks }}
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" $) | nindent 12 }}
           {{- end }}
-        {{- if or .Values.logger.enabled .Values.extraVolumeMounts }}
           volumeMounts:
-          {{- if .Values.logger.enabled }}
+            - name: tmp
+              mountPath: {{ .Values.temporary.mountPath }}
+              {{- if .Values.temporary.subPath }}
+              subPath: {{ .Values.temporary.subPath }}
+              {{- end }}
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.logger.enabled }}
             - name: logs
               mountPath: /app/log
-          {{- end }}
+            {{- end }}
           {{- if .Values.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
           {{- end }}
-        {{- end }}
         {{- if .Values.logger.enabled }}
         - name: logger
           image: {{ include "common.images.image" (dict "imageRoot" .Values.logger.image "global" .Values.global) | quote }}
@@ -200,13 +206,27 @@ spec:
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
-      {{- if or .Values.logger.enabled .Values.extraVolumes }}
       volumes:
+        - name: tmp
+          {{- if or .Values.temporary.medium .Values.temporary.sizeLimit }}
+          emptyDir:
+            {{- if .Values.temporary.medium }}
+            medium: {{ .Values.temporary.medium }}
+            {{- end }}
+            {{- if .Values.temporary.sizeLimit }}
+            sizeLimit: {{ .Values.temporary.sizeLimit }}
+            {{- end }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ default (include "dialCore.names.fullname" .) .Values.persistence.existingClaim }}
+        {{- end }}
         {{- if .Values.logger.enabled }}
         - name: logs
           emptyDir: {}
-        {{- end }}
-        {{- if and .Values.logger.enabled .Values.logger.config }}
         - name: logger-config
           configMap:
             name: {{ template "dialCoreLogger.names.fullname" . }}
@@ -217,5 +237,4 @@ spec:
         {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
-        {{- end }}
         {{- end }}
