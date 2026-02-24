@@ -549,10 +549,9 @@ deploymentManager:
 
 
   extraEnvVars: '{{include "dialAdmin.deploymentManager.configEnv" . | toYaml |  nindent 12}}'
-  
+
   rbac:
     create: true
-
 
   serviceAccount:
     create: true
@@ -608,7 +607,7 @@ postgresql:
 
     usePasswordFiles: false
   primary:
-    extraEnvVarsSecret: "deployment-manager-postgresql-secret" #template ?
+    extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
       scripts:
         create-multiple-dbs.sh: |
@@ -655,4 +654,3 @@ externalDatabase:
   deploymentManagerPassword: ""
   # -- Password key for the existing secret containing the external DB of deployment manager password
   deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"
-
