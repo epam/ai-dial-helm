@@ -533,7 +533,6 @@ frontend:
 
 
 deploymentManager:
-
   fullnameOverride: deployment-manager
   # -- Enable dial-admin deployment_manager deployment
   enabled: true
