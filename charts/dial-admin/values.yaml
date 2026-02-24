@@ -533,6 +533,7 @@ frontend:
 
 
 deploymentManager:
+
   fullnameOverride: deployment-manager
   # -- Enable dial-admin deployment_manager deployment
   enabled: true
@@ -542,9 +543,9 @@ deploymentManager:
     # -- Image registry
     registry: docker.io
     # -- Image repository
-    repository: epam/ai-dial-admin-deployment_manager-backend
+    repository: epam/ai-dial-admin-deployment-manager-backend
     # -- Image tag (immutable tags are recommended)
-    tag: 0.13.0
+    tag: 0.13.1
 
 
   rbac:
@@ -586,7 +587,7 @@ postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164
+  # ref: https://github.com/bitnami/charts/issues/35164 
   global:
     security:
       allowInsecureImages: true
@@ -601,7 +602,8 @@ postgresql:
     password: ""
     # -- Name of the application database
     database: "dial_admin"
-
+    
+    usePasswordFiles: false
   primary:
     extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
