@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.20.0](https://img.shields.io/badge/Version-5.20.0-informational?style=flat-square) ![AppVersion: 1.40.0](https://img.shields.io/badge/AppVersion-1.40.0-informational?style=flat-square)
+![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.40.0](https://img.shields.io/badge/AppVersion-1.40.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -18,7 +18,6 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
 | https://charts.epam-rail.com | core(dial-core) | 5.0.0 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 2.1.0 |
 | https://charts.epam-rail.com | chat(dial-extension) | 2.1.0 |
 | https://charts.epam-rail.com | themes(dial-extension) | 2.1.0 |
 | https://charts.epam-rail.com | openai(dial-extension) | 2.1.0 |
@@ -89,11 +88,6 @@ helm install my-release dial/dial -f values.yaml
 | assistant.image.tag | string | `"0.7.0"` |  |
 | assistant.livenessProbe.enabled | bool | `true` |  |
 | assistant.readinessProbe.enabled | bool | `true` |  |
-| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
-| authhelper.containerPorts.http | int | `4088` |  |
-| authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
-| authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
-| authhelper.image.tag | string | `"0.4.0"` |  |
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
@@ -171,13 +165,14 @@ helm install my-release dial/dial -f values.yaml
 
 ## Upgrading
 
-### To 5.5.0
+### To 6.0.0
 > [!TIP]
 > If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
 
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
-> The previous Keycloak custom themes not supported. To update your custom Keycloak themes to support the Keycloak version after the upgrade, please refer to the official guide on writing custom themes.
+
+> The **auth-helper** will be deprecated.
 
 In this version, we've updated the following underlying dependencies which require manual actions:
 
@@ -197,6 +192,8 @@ Please refer to the official documentation for more details:
 
 1. Stop Keycloak
 1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+Please refer to the official documentation for more details:
+- [bitnami/postgresql backup and restore](https://docs.bitnami.com/aws/infrastructure/postgresql/administration/backup-restore-postgresql/)
 
     ```bash
     export PGUSER=postgres
@@ -205,6 +202,10 @@ Please refer to the official documentation for more details:
 
     pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
     ```
+
+> [!TIP]
+> If you don't use Auth Helper, disregard the information below and proceed next step.
+
 1. Update `redirectUris:` for each client in realm
 
     From
@@ -246,8 +247,15 @@ Please refer to the official documentation for more details:
     ```
     Please refer to the official documentation for more details:
     - [adminPermissionsEnabled](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
+
+> [!TIP]
+> If you don't use Keycloak Cli, disregard the information below and proceed next step with Helm upgrade.
+
 1. Delete this client `realm-management` from your realm file.
-1. Run `helm upgrade` command with usual arguments, **new** `5.X.X` chart version, but with the modified `realm.yaml`
+Please refer to the official documentation for more details:
+- [Config CLI - Keycloak Version Compability: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
+
+1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version, but with the modified `realm.yaml`
 
 ### To 5.4.0
 

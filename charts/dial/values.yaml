@@ -61,24 +61,6 @@ keycloak:
     #   realm.yaml: |
     #     yourRealmConfig
 
-### ai-dial-auth-helper configuration ###
-authhelper:
-  # -- Enable/disable ai-dial-auth-helper.
-  # Set `keycloak.enabled: true` before enabling this.
-  enabled: false
-  commonLabels:
-    app.kubernetes.io/component: "authentication"
-  image:
-    repository: epam/ai-dial-auth-helper
-    tag: 0.4.0
-  containerPorts:
-    http: 4088
-  # env:
-  #   SERVER_HOSTURL: ""
-  #   OAUTH2_PROVIDERURI: ""
-  # secrets:
-  #   OAUTH2_CLIENTSECRET: ""
-
 ### ai-dial-core configuration ###
 core:
   # -- Enable/disable ai-dial-core
