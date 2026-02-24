@@ -45,24 +45,6 @@ keycloak:
     #   realm.yaml: |
     #     yourRealmConfig
 
-### ai-dial-auth-helper configuration ###
-authhelper:
-  # -- Enable/disable ai-dial-auth-helper.
-  # Set `keycloak.enabled: true` before enabling this.
-  enabled: false
-  commonLabels:
-    app.kubernetes.io/component: "authentication"
-  image:
-    repository: epam/ai-dial-auth-helper
-    tag: 0.4.0
-  containerPorts:
-    http: 4088
-  # env:
-  #   SERVER_HOSTURL: ""
-  #   OAUTH2_PROVIDERURI: ""
-  # secrets:
-  #   OAUTH2_CLIENTSECRET: ""
-
 ### ai-dial-core configuration ###
 core:
   # -- Enable/disable ai-dial-core
@@ -144,8 +126,7 @@ bedrock:
     tag: 0.36.3
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
-  secrets:
-    {}
+  secrets: {}
     # AWS_DEFAULT_REGION: "us-east-1"
     # AWS_ACCESS_KEY_ID: ""
     # AWS_SECRET_ACCESS_KEY: ""
@@ -181,23 +162,6 @@ dial:
     tag: 0.11.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
-  livenessProbe:
-    enabled: true
-  readinessProbe:
-    enabled: true
-
-### ai-dial-assistant configuration ###
-assistant:
-  # -- Enable/disable ai-dial-assistant
-  enabled: false
-  commonLabels:
-    app.kubernetes.io/component: "application"
-  image:
-    repository: epam/ai-dial-assistant
-    tag: 0.7.0
-  # env:
-  #   OPENAI_API_BASE: "http://{{ .Release.Name }}-core"
-  #   TOOLS_SUPPORTING_DEPLOYMENTS: "gpt-4-turbo"
   livenessProbe:
     enabled: true
   readinessProbe:
