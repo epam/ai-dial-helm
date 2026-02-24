@@ -533,6 +533,7 @@ frontend:
 
 
 deploymentManager:
+  fullnameOverride: deployment-manager
   # -- Enable dial-admin deployment_manager deployment
   enabled: true
   # -- Section to configure the image.
