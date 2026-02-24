@@ -397,36 +397,3 @@ Return the namespace to build mcp
   {{- include "common.names.namespace" . | quote -}}
   {{- end -}}
 {{- end -}}
-
-{{/*
-Return the name of deploymentManager configuration variables
-*/}}
-{{- define "dialAdmin.deploymentManager.configEnv" -}}
-{{- if .Values.deploymentManager.configuration.deploy.knative.enabled }}
-- name: K8S_KNATIVE_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
-- name: K8S_KNATIVE_DEPLOYMENT_NAMESPACE
-  value: {{ include "dialAdmin.knative.namespace" . }}
-{{- else }}
-- name: K8S_KNATIVE_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.knative.enabled | quote }}
-{{- end }}
-{{- if .Values.deploymentManager.configuration.deploy.nim.enabled }}
-- name: K8S_NIM_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
-- name: K8S_NIM_DEPLOYMENT_NAMESPACE
-  value: {{ include "dialAdmin.nim.namespace" . }}
-{{- else }}
-- name: K8S_NIM_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.nim.enabled | quote }}
-{{- end }}
-{{- if .Values.deploymentManager.configuration.deploy.kserve.enabled }}
-- name: K8S_KSERVE_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
-- name: K8S_KSERVE_DEPLOYMENT_NAMESPACE
-  value: {{ include "dialAdmin.kserve.namespace" . }}
-{{- else }}
-- name: K8S_KSERVE_ENABLED
-  value: {{ .Values.deploymentManager.configuration.deploy.kserve.enabled | quote }}
-{{- end }}
-{{- end -}}
