@@ -235,7 +235,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
 | deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| deploymentManager.configuration.datasource | object | `{"database":"deploymentManager","datasourceVendor":"postgresql","password":"","user":"deployment_manager"}` | Database specific variables |
+| deploymentManager.configuration.datasource | object | `{"database":"deploymentManager","datasourceVendor":"postgresql","password":"password","user":"deployment_manager"}` | Database specific variables |
 | deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
@@ -250,7 +250,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
-| externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
+| externalDatabase.deploymentManagerPassword | string | `"password"` | Password for the above username |
 | externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
 | externalDatabase.existingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB password |
