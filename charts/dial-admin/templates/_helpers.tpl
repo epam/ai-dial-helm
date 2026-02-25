@@ -290,24 +290,20 @@ Return the Database user
 */}}
 {{- define "dialAdmin.deploymentManager.database.user" -}}
 {{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
+    {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
 {{- else }}
     {{- .Values.externalDatabase.deploymentManagerUser | quote }}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Return the name of the database secret with its credentials
+Return database password
 */}}
 {{- define "dialAdmin.deploymentManager.database.password" -}}
 {{- if .Values.postgresql.enabled -}}
-    {{- printf "%s-%s-%s-%s-%s" (include "common.names.fullname" .) "deployment" "manager" "postgres" "secret" -}}
+    {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
 {{- else -}}
-    {{- if .Values.externalDatabase.existingSecret -}}
-        {{- printf "%s" .Values.externalDatabase.existingSecret -}}
-    {{- else -}}
-        {{- printf "%s-%s" (include "common.names.fullname" .) "externaldb" -}}
-    {{- end -}}
+    {{- .Values.externalDatabase.deploymentManagerPassword | quote -}}
 {{- end -}}
 {{- end -}}
 

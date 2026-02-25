@@ -587,7 +587,7 @@ postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164 
+  # ref: https://github.com/bitnami/charts/issues/35164
   global:
     security:
       allowInsecureImages: true
@@ -595,15 +595,15 @@ postgresql:
     repository: bitnamilegacy/postgresql
   auth:
     # -- Password for the postgres user
-    postgresPassword: "lol3l4la"
+    postgresPassword: ""
     # -- Username for the application database
     username: "dial_admin"
     # -- Password for the application database user
-    password: "HSY9skala9auaja"
+    password: ""
     # -- Name of the application database
     database: "dial_admin"
-    
-    #usePasswordFiles: false
+
+    usePasswordFiles: false
   primary:
     extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
@@ -619,17 +619,12 @@ postgresql:
             echo "Skipping database creation due to missing environment variables."
           else
             echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE" with user: "$DEPLOYMENT_MANAGER_USER" "
-            PGPASSWORD="${POSTGRES_PASSWORD}" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
-              CREATE USER "$DEPLOYMENT_MANAGER_USER" WITH ENCRYPTED PASSWORD "$DEPLOYMENT_MANAGER_PASSWORD";
-              CREATE DATABASE "$DEPLOYMENT_MANAGER_DATABASE" WITH OWNER "$DEPLOYMENT_MANAGER_USER";
+            PGPASSWORD="${POSTGRES_POSTGRES_PASSWORD}" psql -v ON_ERROR_STOP=1 --username "postgres" <<-EOSQL
+              CREATE USER $DEPLOYMENT_MANAGER_USER WITH ENCRYPTED PASSWORD '$DEPLOYMENT_MANAGER_PASSWORD';
+              CREATE DATABASE $DEPLOYMENT_MANAGER_DATABASE WITH OWNER $DEPLOYMENT_MANAGER_USER;
           EOSQL
           fi
           echo "Multiple databases created."
-
-
-
-
-
 
 ## External Database Configuration
 externalDatabase:
@@ -653,5 +648,3 @@ externalDatabase:
   deploymentManagerUser: deployment_manager
   # -- Password for the above username
   deploymentManagerPassword: ""
-  # -- Password key for the existing secret containing the external DB of deployment manager password
-  deploymentManagerExistingSecretPasswordKey: "deployment-manager-password"
