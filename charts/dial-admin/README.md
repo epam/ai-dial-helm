@@ -250,7 +250,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.deploymentManagerDatabase | string | `"deployment_manager"` | Name of the external database for deployment manager |
-| externalDatabase.deploymentManagerExistingSecretPasswordKey | string | `"deployment-manager-password"` | Password key for the existing secret containing the external DB of deployment manager password |
 | externalDatabase.deploymentManagerPassword | string | `""` | Password for the above username |
 | externalDatabase.deploymentManagerUser | string | `"deployment_manager"` | non-root Username for deployment manager Database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
@@ -274,8 +273,9 @@ helm install my-release dial/dial-admin -f values.yaml
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | postgresql.auth.database | string | `"dial_admin"` | Name of the application database |
-| postgresql.auth.password | string | `"HSY9skala9auaja"` | Password for the application database user |
-| postgresql.auth.postgresPassword | string | `"lol3l4la"` | Password for the postgres user |
+| postgresql.auth.password | string | `""` | Password for the application database user |
+| postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
+| postgresql.auth.usePasswordFiles | bool | `false` |  |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
