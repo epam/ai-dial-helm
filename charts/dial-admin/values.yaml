@@ -595,15 +595,15 @@ postgresql:
     repository: bitnamilegacy/postgresql
   auth:
     # -- Password for the postgres user
-    postgresPassword: ""
+    postgresPassword: "lol3l4la"
     # -- Username for the application database
     username: "dial_admin"
     # -- Password for the application database user
-    password: ""
+    password: "HSY9skala9auaja"
     # -- Name of the application database
     database: "dial_admin"
     
-    usePasswordFiles: false
+    #usePasswordFiles: false
   primary:
     extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
@@ -615,24 +615,20 @@ postgresql:
           echo "Creating multiple databases..."
 
           # Check if any of the required environment variables are empty
-          if [ -z "${DEPLOYMENT_MANAGER_DATABASE:-}" ] || [ -z "${DEPLOYMENT_MANAGER_USER:-}" ] || [ -z "${DEPLOYMENT_MANAGER_PASSWORD:-}" ]; then
+          if [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z "$DEPLOYMENT_MANAGER_USER" ] || [ -z "$DEPLOYMENT_MANAGER_PASSWORD" ]; then
             echo "Skipping database creation due to missing environment variables."
           else
-            echo "Creating database: ${DEPLOYMENT_MANAGER_DATABASE} with user: ${DEPLOYMENT_MANAGER_USER}"
-            DB_SUPERUSER="${POSTGRES_USER}"
-            DB_SUPERPASS="${POSTGRES_PASSWORD}"
-            if [ -z "${DB_SUPERPASS:-}" ]; then
-              echo "Skipping database creation because superuser password is not set."
-            else
-              PGPASSWORD="${DB_SUPERPASS}" psql -v ON_ERROR_STOP=1 --username "${DB_SUPERUSER}" <<-EOSQL
-                  CREATE DATABASE "${DEPLOYMENT_MANAGER_DATABASE}";
-                  CREATE USER "${DEPLOYMENT_MANAGER_USER}" WITH ENCRYPTED PASSWORD '${DEPLOYMENT_MANAGER_PASSWORD}';
-                  GRANT ALL PRIVILEGES ON DATABASE "${DEPLOYMENT_MANAGER_DATABASE}" TO "${DEPLOYMENT_MANAGER_USER}";
+            echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE" with user: "$DEPLOYMENT_MANAGER_USER" "
+            PGPASSWORD="${POSTGRES_PASSWORD}" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+              CREATE USER "$DEPLOYMENT_MANAGER_USER" WITH ENCRYPTED PASSWORD "$DEPLOYMENT_MANAGER_PASSWORD";
+              CREATE DATABASE "$DEPLOYMENT_MANAGER_DATABASE" WITH OWNER "$DEPLOYMENT_MANAGER_USER";
           EOSQL
-            fi
           fi
-
           echo "Multiple databases created."
+
+
+
+
 
 
 ## External Database Configuration
