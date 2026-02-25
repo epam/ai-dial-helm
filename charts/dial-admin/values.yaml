@@ -562,7 +562,7 @@ deploymentManager:
       datasourceVendor: "postgresql"
       database: deploymentManager
       user: deployment_manager
-      password: ""
+      password: "password"
     # -- Deploy mcp containers specific variables
     deploy:
       knative:
@@ -647,4 +647,4 @@ externalDatabase:
   # -- non-root Username for deployment manager Database
   deploymentManagerUser: deployment_manager
   # -- Password for the above username
-  deploymentManagerPassword: ""
+  deploymentManagerPassword: "password"
