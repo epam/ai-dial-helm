@@ -274,9 +274,8 @@ helm install my-release dial/dial-admin -f values.yaml
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | postgresql.auth.database | string | `"dial_admin"` | Name of the application database |
-| postgresql.auth.password | string | `""` | Password for the application database user |
-| postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
-| postgresql.auth.usePasswordFiles | bool | `false` |  |
+| postgresql.auth.password | string | `"HSY9skala9auaja"` | Password for the application database user |
+| postgresql.auth.postgresPassword | string | `"lol3l4la"` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
