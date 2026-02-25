@@ -274,15 +274,14 @@ helm install my-release dial/dial-admin -f values.yaml
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | postgresql.auth.database | string | `"dial_admin"` | Name of the application database |
-| postgresql.auth.password | string | `""` | Password for the application database user |
-| postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
-| postgresql.auth.usePasswordFiles | bool | `false` |  |
+| postgresql.auth.password | string | `"HSY9skala9auaja"` | Password for the application database user |
+| postgresql.auth.postgresPassword | string | `"lol3l4la"` | Password for the postgres user |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | postgresql.primary.extraEnvVarsSecret | string | `"deployment-manager-postgresql-secret"` |  |
-| postgresql.primary.initdb.scripts."create-multiple-dbs.sh" | string | `"#!/bin/bash\nset -e\n\necho \"Creating multiple databases...\"\n\n# Check if any of the required environment variables are empty\nif [ -z \"${DEPLOYMENT_MANAGER_DATABASE:-}\" ] || [ -z \"${DEPLOYMENT_MANAGER_USER:-}\" ] || [ -z \"${DEPLOYMENT_MANAGER_PASSWORD:-}\" ]; then\n  echo \"Skipping database creation due to missing environment variables.\"\nelse\n  echo \"Creating database: ${DEPLOYMENT_MANAGER_DATABASE} with user: ${DEPLOYMENT_MANAGER_USER}\"\n  DB_SUPERUSER=\"postgres\"\n  DB_SUPERPASS=\"${POSTGRESQL_POSTGRES_PASSWORD:-$POSTGRESQL_PASSWORD}\"\n  if [ -z \"${DB_SUPERPASS:-}\" ]; then\n    echo \"Skipping database creation because superuser password is not set.\"\n  else\n    PGPASSWORD=\"${DB_SUPERPASS}\" psql -v ON_ERROR_STOP=1 --username \"${DB_SUPERUSER}\" <<-EOSQL\n        CREATE DATABASE \"${DEPLOYMENT_MANAGER_DATABASE}\";\n        CREATE USER \"${DEPLOYMENT_MANAGER_USER}\" WITH ENCRYPTED PASSWORD '${DEPLOYMENT_MANAGER_PASSWORD}';\n        GRANT ALL PRIVILEGES ON DATABASE \"${DEPLOYMENT_MANAGER_DATABASE}\" TO \"${DEPLOYMENT_MANAGER_USER}\";\nEOSQL\n  fi\nfi\n\necho \"Multiple databases created.\"\n"` |  |
+| postgresql.primary.initdb.scripts."create-multiple-dbs.sh" | string | `"#!/bin/bash\nset -e\n\necho \"Creating multiple databases...\"\n\n# Check if any of the required environment variables are empty\nif [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z \"$DEPLOYMENT_MANAGER_USER\" ] || [ -z \"$DEPLOYMENT_MANAGER_PASSWORD\" ]; then\n  echo \"Skipping database creation due to missing environment variables.\"\nelse\n  echo \"Creating database: \"$DEPLOYMENT_MANAGER_DATABASE\" with user: \"$DEPLOYMENT_MANAGER_USER\" \"\n  PGPASSWORD=\"${POSTGRES_PASSWORD}\" psql -v ON_ERROR_STOP=1 --username \"$POSTGRES_USER\" <<-EOSQL\n    CREATE USER \"$DEPLOYMENT_MANAGER_USER\" WITH ENCRYPTED PASSWORD \"$DEPLOYMENT_MANAGER_PASSWORD\";\n    CREATE DATABASE \"$DEPLOYMENT_MANAGER_DATABASE\" WITH OWNER \"$DEPLOYMENT_MANAGER_USER\";\nEOSQL\nfi\necho \"Multiple databases created.\"\n"` |  |
 
 ## Upgrading
 
