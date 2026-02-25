@@ -531,6 +531,58 @@ frontend:
     # -- dial-admin frontend HTTP container port
     http: 3000
 
+
+deploymentManager:
+
+  fullnameOverride: deployment-manager
+  # -- Enable dial-admin deployment_manager deployment
+  enabled: true
+  # -- Section to configure the image.
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
+  image:
+    # -- Image registry
+    registry: docker.io
+    # -- Image repository
+    repository: epam/ai-dial-admin-deployment-manager-backend
+    # -- Image tag (immutable tags are recommended)
+    tag: 0.13.1
+
+
+  rbac:
+    create: true
+
+  serviceAccount:
+    create: true
+  ## Application-specific configuration values
+  configuration:
+    # -- Database specific variables
+    datasource:
+    # -- Database vendor for the datasource.
+    # Possible values: postgresql, mssql, h2
+      datasourceVendor: "postgresql"
+      database: deploymentManager
+      user: deployment_manager
+      password: "password"
+    # -- Deploy mcp containers specific variables
+    deploy:
+      knative:
+        enabled: true
+        namespace: ""
+      nim:
+        enabled: false
+        namespace: ""
+      kserve:
+        enabled: false
+        namespace: ""
+    # -- Build images for mcp containers specific variables
+    build:
+      namespace: ""
+
+  extraEnvVarsSecret: '{{ $.Release.Name }}-dial-admin-deployment-manager-secret'
+
+  containerPorts:
+    http: 8080
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -551,6 +603,29 @@ postgresql:
     # -- Name of the application database
     database: "dial_admin"
 
+    usePasswordFiles: false
+  primary:
+    extraEnvVarsSecret: "deployment-manager-postgresql-secret"
+    initdb:
+      scripts:
+        create-multiple-dbs.sh: |
+          #!/bin/bash
+          set -e
+
+          echo "Creating multiple databases..."
+
+          # Check if any of the required environment variables are empty
+          if [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z "$DEPLOYMENT_MANAGER_USER" ] || [ -z "$DEPLOYMENT_MANAGER_PASSWORD" ]; then
+            echo "Skipping database creation due to missing environment variables."
+          else
+            echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE" with user: "$DEPLOYMENT_MANAGER_USER" "
+            PGPASSWORD="${POSTGRES_POSTGRES_PASSWORD}" psql -v ON_ERROR_STOP=1 --username "postgres" <<-EOSQL
+              CREATE USER $DEPLOYMENT_MANAGER_USER WITH ENCRYPTED PASSWORD '$DEPLOYMENT_MANAGER_PASSWORD';
+              CREATE DATABASE $DEPLOYMENT_MANAGER_DATABASE WITH OWNER $DEPLOYMENT_MANAGER_USER;
+          EOSQL
+          fi
+          echo "Multiple databases created."
+
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database
@@ -567,3 +642,9 @@ externalDatabase:
   existingSecret: ""
   # -- Password key for the existing secret containing the external DB password
   existingSecretPasswordKey: "password"
+  # -- Name of the external database for deployment manager
+  deploymentManagerDatabase: deployment_manager
+  # -- non-root Username for deployment manager Database
+  deploymentManagerUser: deployment_manager
+  # -- Password for the above username
+  deploymentManagerPassword: "password"
