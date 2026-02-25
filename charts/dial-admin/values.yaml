@@ -578,7 +578,7 @@ deploymentManager:
     build:
       namespace: ""
 
-  extraEnvVarsSecret: '{{ $.Release.Name }}-deployment-manager-database-secret'
+  extraEnvVarsSecret: '{{ $.Release.Name }}-dial-admin-deployment-manager-secret'
 
   containerPorts:
     http: 8080
