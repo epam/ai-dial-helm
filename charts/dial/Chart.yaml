@@ -8,11 +8,11 @@ dependencies:
     repository: oci://registry-1.docker.io/bitnamicharts
     tags:
       - bitnami-common
-    version: 2.29.0
+    version: 2.31.4
   - name: keycloak
     repository: https://charts.bitnami.com/bitnami
     condition: keycloak.enabled
-    version: 24.4.3
+    version: 24.9.0
   - name: dial-core
     repository: https://charts.epam-rail.com
     alias: core
@@ -60,4 +60,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 5.20.0
+version: 6.0.0
