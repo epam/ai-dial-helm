@@ -290,7 +290,7 @@ Return the Database user
 */}}
 {{- define "dialAdmin.deploymentManager.database.user" -}}
 {{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
+    {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
 {{- else }}
     {{- .Values.externalDatabase.deploymentManagerUser | quote }}
 {{- end -}}
