@@ -17,42 +17,37 @@ dependencies:
     repository: https://charts.epam-rail.com
     alias: core
     condition: core.enabled
-    version: 5.0.0
+    version: 5.1.0
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: chat
     condition: chat.enabled
-    version: 2.1.0
+    version: 2.2.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: themes
     condition: themes.enabled
-    version: 2.1.0
+    version: 2.2.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: openai
     condition: openai.enabled
-    version: 2.1.0
+    version: 2.2.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: bedrock
     condition: bedrock.enabled
-    version: 2.1.0
+    version: 2.2.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: vertexai
     condition: vertexai.enabled
-    version: 2.1.0
+    version: 2.2.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: dial
     condition: dial.enabled
-    version: 2.1.0
-  - name: dial-extension
-    repository: https://charts.epam-rail.com
-    alias: assistant
-    condition: assistant.enabled
-    version: 2.1.0
+    version: 2.2.1
 description: Umbrella chart for DIAL solution
 home: https://dialx.ai/
 icon: "https://docs.dialx.ai/img/favicon.ico"

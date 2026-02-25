@@ -6,22 +6,6 @@ Return name for backend resources
 {{- end -}}
 
 {{/*
-Create the labels to use
-*/}}
-{{- define "dialCore.labels.standard" -}}
-{{- include "common.labels.standard" . }}
-app.kubernetes.io/component: core
-{{- end -}}
-
-{{/*
-Create the matchLabels to use
-*/}}
-{{- define "dialCore.labels.matchLabels" -}}
-{{- include "common.labels.matchLabels" . }}
-app.kubernetes.io/component: core
-{{- end -}}
-
-{{/*
 Create the name of the service account to use
 */}}
 {{- define "dialCore.serviceAccountName" -}}

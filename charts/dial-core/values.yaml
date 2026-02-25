@@ -45,14 +45,9 @@ image:
   # -- Optionally specify an array of imagePullSecrets.
   # Secrets must be manually created in the namespace.
   # [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-  pullSecrets:
-    []
+  pullSecrets: []
     # - myRegistryKeySecretName
 
-# -- Annotations to add to dial-core deployed objects
-annotations: {}
-# -- Labels to add to dial-core deployed objects
-labels: {}
 # -- Number of dial-core replicas to deploy
 replicaCount: 1
 
@@ -61,6 +56,11 @@ containerPorts:
   http: 8080
   # -- dial-core HTTP container port for metrics
   metrics: 9464
+
+# -- Optionally specify extra list of additional ports for dial-core containers
+extraContainerPorts: []
+#  - name: myservice
+#    containerPort: 9090
 
 # -- Liveness Probes configuration
 # @default -- [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
@@ -254,15 +254,20 @@ configuration:
     # WARNING: Changing this value in the middle of environment lifecycle WILL cause access loss to already encrypted data.
     existingSecret: ""
 # -- Key-value pairs extra environment variables to add to dial-core
-env:
-  {}
+env: {}
   # key1: "value1"
   # key2: "value2"
+# -- Array containing extra env vars to add to the dial-core application container
+extraEnvVars: []
+# extraEnvVars:
+#  - name: DIAL_CORE_LOG_LEVEL
+#    value: debug
 # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-core
-secrets:
-  {}
+secrets: {}
   # key1: "value1"
   # key2: "value2"
+# -- Name of existing ConfigMap containing extra env vars for dial-core containers
+extraEnvVarsCM: ""
 # -- Name of existing Secret containing extra env vars for dial-core containers
 extraEnvVarsSecret: ""
 # -- Optionally specify extra list of additional volumes for the dial-core pod(s)
@@ -270,8 +275,7 @@ extraVolumes: []
 # -- Optionally specify extra list of additional volumeMounts for the dial-core container(s)
 extraVolumeMounts: []
 # -- Add additional sidecar containers to the dial-core pod(s)
-sidecars:
-  []
+sidecars: []
   # - name: your-image-name
   #   image: your-image
   #   imagePullPolicy: Always
@@ -280,8 +284,7 @@ sidecars:
   #       containerPort: 1234
 # -- Add additional init containers to the dial-extension pod(s)
 # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
-initContainers:
-  []
+initContainers: []
   # - name: your-image-name
   #   image: your-image
   #   imagePullPolicy: Always
@@ -311,8 +314,7 @@ service:
   # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
   loadBalancerIP: ""
   # -- dial-core service Load Balancer sources
-  loadBalancerSourceRanges:
-    []
+  loadBalancerSourceRanges: []
     # - 10.10.10.0/24
   # -- dial-core service external traffic policy
   # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
@@ -325,8 +327,7 @@ service:
   # Values: ClientIP or None
   sessionAffinity: None
   # -- Additional settings for the sessionAffinity
-  sessionAffinityConfig:
-    {}
+  sessionAffinityConfig: {}
     # clientIP:
     #   timeoutSeconds: 300
 
@@ -367,15 +368,13 @@ metrics:
     # -- dial-core metrics service Load Balancer IP
     loadBalancerIP: ""
     # -- dial-core metrics service Load Balancer sources
-    loadBalancerSourceRanges:
-      []
+    loadBalancerSourceRanges: []
       # - 10.10.10.0/24
     # -- dial-core metrics service external traffic policy
     # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
     externalTrafficPolicy: Cluster
     # -- Additional custom annotations for dial-core metrics service
-    annotations:
-      {}
+    annotations: {}
       # prometheus.io/scrape: "true"
       # prometheus.io/port: "{{ .Values.metrics.service.port }}"
     # -- Extra ports to expose in dial-core metrics service (normally used with the `sidecars` value)
@@ -384,8 +383,7 @@ metrics:
     # Values: ClientIP or None
     sessionAffinity: None
     # -- Additional settings for the sessionAffinity
-    sessionAffinityConfig:
-      {}
+    sessionAffinityConfig: {}
       # clientIP:
       #   timeoutSeconds: 300
   # -- Prometheus Operator ServiceMonitor configuration
@@ -418,9 +416,20 @@ metrics:
     # -- Specify general relabeling
     relabelings: []
     # -- Prometheus instance selector labels
-    selector:
-      {}
+    selector: {}
       # prometheus: my-prometheus
+
+  prometheusRule:
+    # -- Creates a Prometheus Operator prometheusRule
+    enabled: false
+    # -- Namespace for the prometheusRule Resource (defaults to the Release Namespace)
+    namespace: ""
+    # -- Additional custom annotations for the prometheusRule
+    annotations: {}
+    # -- Additional labels that can be used so prometheusRule will be discovered by Prometheus
+    labels: {}
+    # -- Prometheus Rule definitions
+    rules: []
 
 # -- Ingress configuration
 # @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/)
@@ -437,8 +446,7 @@ ingress:
   path: /
   # -- Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
   # Use this parameter to set the required annotations for [cert-manager](https://cert-manager.io/docs/usage/ingress/#supported-annotations)
-  annotations:
-    {}
+  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # cert-manager.io/cluster-issuer: cluster-issuer-name
   # -- Change default name of service for the ingress record
@@ -448,14 +456,12 @@ ingress:
     - dial-core.local
   # -- TLS configuration for additional hostname(s) to be covered with this ingress record (evaluated as a template)
   # [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
-  tls:
-    []
+  tls: []
     # - hosts:
     #     - dial-core.local
     #   secretName: dial-core.local-tls
   # -- An array with additional arbitrary paths that may need to be added to the ingress under the main host
-  extraPaths:
-    []
+  extraPaths: []
     # - path: /*
     #   pathType: ImplementationSpecific
     #   backend:
@@ -464,13 +470,109 @@ ingress:
     #       port:
     #         name: use-annotation
   # -- An array with additional hostname(s) to be covered with the ingress record
-  extraRules:
-    []
+  extraRules: []
     # - name: dial-core-tmp.local
     #   path: "/foo"                       # Optional, default - "/"
     #   pathType: ImplementationSpecific   # Optional, default - Prefix
     #   serviceName: foo
     #   servicePort: 80
+
+# -- Section to configure persistence
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+persistence:
+  # -- Enable persistence using Persistent Volume Claims
+  enabled: false
+  # -- Path to mount the volume at.
+  mountPath: /data
+  # -- The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services
+  subPath: ""
+  # -- Storage class of backing PVC
+  storageClass: ""
+  # -- Persistent Volume Claim annotations
+  annotations: {}
+  # -- Custom PVC data source
+  dataSource: {}
+  # -- Persistent Volume Access Modes
+  accessModes:
+    - ReadWriteOnce
+  # -- Size of data volume
+  size: 8Gi
+  # -- The name of an existing PVC to use for persistence
+  existingClaim: ""
+  # -- Selector to match an existing Persistent Volume for data PVC
+  selector: {}
+  # selector:
+  #   matchLabels:
+  #     app: my-app
+
+# -- Section to configure emptyDir
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
+temporary:
+  # -- Path to mount `emptyDir` volumes
+  mountPath: /tmp
+  # -- The subdirectory of the `emptyDir` volume to mount to
+  subPath: ""
+  # -- Set this to enable a size limit for `emptyDir` volumes
+  sizeLimit: ""
+  # -- Provide a medium for `emptyDir` volumes
+  medium: ""
+  # medium: "Memory"
+
+# -- Network Policy configuration
+# @default -- [Documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+networkPolicy:
+  # -- Specifies whether a NetworkPolicy should be created
+  enabled: false
+  # -- When true, server will accept connections from any source
+  allowExternal: true
+  # -- Allow the pod to access any range of port and all destinations.
+  allowExternalEgress: true
+  # -- Add extra ingress rules to the NetworkPolicy
+  extraIngress: []
+  # - ports:
+  #     - port: 1234
+  #   from:
+  #     - podSelector:
+  #         - matchLabels:
+  #             - role: frontend
+  #     - podSelector:
+  #         - matchExpressions:
+  #             - key: role
+  #               operator: In
+  #               values:
+  #                 - frontend
+
+  # -- Add extra ingress rules to the NetworkPolicy
+  extraEgress: []
+  # - ports:
+  #     - port: 1234
+  #   to:
+  #     - podSelector:
+  #         - matchLabels:
+  #             - role: frontend
+  #     - podSelector:
+  #         - matchExpressions:
+  #             - key: role
+  #               operator: In
+  #               values:
+  #                 - frontend
+
+  # -- Labels to match to allow traffic from other pods.
+  # Ignored if `networkPolicy.allowExternal` is true.
+  ingressPodMatchLabels: {}
+
+  # -- Labels to match to allow traffic from other namespaces
+  ingressNSMatchLabels: {}
+  # -- Pod labels to match to allow traffic from other namespaces
+  ingressNSPodMatchLabels: {}
+
+  metrics:
+    # -- When true, server will accept connections to the metrics port from any source
+    allowExternal: true
+    # -- Labels to match to allow traffic from other namespaces to metrics endpoint
+    ingressNSMatchLabels: {}
+    # -- Pod labels to match to allow traffic from other namespaces to metrics endpoint
+    ingressNSPodMatchLabels: {}
 
 ### Logger configuration ###
 logger:
@@ -491,8 +593,7 @@ logger:
     pullPolicy: IfNotPresent
     # -- Optionally specify an array of imagePullSecrets.
     # Secrets must be manually created in the namespace.
-    pullSecrets:
-      []
+    pullSecrets: []
       # - myRegistryKeySecretName
 
   # -- Container resource requests and limits for logger component.
@@ -556,8 +657,7 @@ logger:
         target: "stdout"
         encoding:
           codec: "text"
-  extraVolumeMounts:
-    []
+  extraVolumeMounts: []
     # - name: logger
     #   mountPath: /var/log/nginx
     # - name: logger-config
