@@ -533,10 +533,8 @@ frontend:
 
 
 deploymentManager:
-
-  fullnameOverride: deployment-manager
   # -- Enable dial-admin deployment_manager deployment
-  enabled: true
+  enabled: false
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -547,6 +545,9 @@ deploymentManager:
     # -- Image tag (immutable tags are recommended)
     tag: 0.13.1
 
+  commonAnnotations: {}
+  commonLabels:
+    app.kubernetes.io/component: "deploymentManager"
 
   rbac:
     create: true
@@ -578,7 +579,7 @@ deploymentManager:
     build:
       namespace: ""
 
-  extraEnvVarsSecret: '{{ $.Release.Name }}-dial-admin-deployment-manager-secret'
+  extraEnvVarsSecret: '{{ .Release.Name }}-manger-db'
 
   containerPorts:
     http: 8080
@@ -605,8 +606,8 @@ postgresql:
 
     usePasswordFiles: false
   primary:
-    extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
+      scriptsSecret: '{{ .Release.Name }}-pg-init'
       scripts:
         create-multiple-dbs.sh: |
           #!/bin/bash

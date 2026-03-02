@@ -234,14 +234,15 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
+| deploymentManager.commonAnnotations | object | `{}` |  |
+| deploymentManager.commonLabels."app.kubernetes.io/component" | string | `"deploymentManager"` |  |
 | deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
 | deploymentManager.configuration.datasource | object | `{"database":"deploymentManager","datasourceVendor":"postgresql","password":"password","user":"deployment_manager"}` | Database specific variables |
 | deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
-| deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
-| deploymentManager.extraEnvVarsSecret | string | `"{{ $.Release.Name }}-dial-admin-deployment-manager-secret"` |  |
-| deploymentManager.fullnameOverride | string | `"deployment-manager"` |  |
+| deploymentManager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
+| deploymentManager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manger-db"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | deploymentManager.image.registry | string | `"docker.io"` | Image registry |
 | deploymentManager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
@@ -280,8 +281,8 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
-| postgresql.primary.extraEnvVarsSecret | string | `"deployment-manager-postgresql-secret"` |  |
 | postgresql.primary.initdb.scripts."create-multiple-dbs.sh" | string | `"#!/bin/bash\nset -e\n\necho \"Creating multiple databases...\"\n\n# Check if any of the required environment variables are empty\nif [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z \"$DEPLOYMENT_MANAGER_USER\" ] || [ -z \"$DEPLOYMENT_MANAGER_PASSWORD\" ]; then\n  echo \"Skipping database creation due to missing environment variables.\"\nelse\n  echo \"Creating database: \"$DEPLOYMENT_MANAGER_DATABASE\" with user: \"$DEPLOYMENT_MANAGER_USER\" \"\n  PGPASSWORD=\"${POSTGRES_POSTGRES_PASSWORD}\" psql -v ON_ERROR_STOP=1 --username \"postgres\" <<-EOSQL\n    CREATE USER $DEPLOYMENT_MANAGER_USER WITH ENCRYPTED PASSWORD '$DEPLOYMENT_MANAGER_PASSWORD';\n    CREATE DATABASE $DEPLOYMENT_MANAGER_DATABASE WITH OWNER $DEPLOYMENT_MANAGER_USER;\nEOSQL\nfi\necho \"Multiple databases created.\"\n"` |  |
+| postgresql.primary.initdb.scriptsSecret | string | `"{{ .Release.Name }}-pg-init"` |  |
 
 ## Upgrading
 
