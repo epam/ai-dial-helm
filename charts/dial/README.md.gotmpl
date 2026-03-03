@@ -96,31 +96,24 @@ Please refer to the official documentation for more details:
 > We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
 
 1. Stop Keycloak
-1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
-Please refer to the official documentation for more details:
-- [bitnami/postgresql backup and restore](https://docs.bitnami.com/aws/infrastructure/postgresql/administration/backup-restore-postgresql/)
+1. Backup Postgres database.
+   See [bitnami/postgresql backup and restore](https://docs.bitnami.com/aws/infrastructure/postgresql/administration/backup-restore-postgresql/)
 
-    ```bash
-    export PGUSER=postgres
-    export PGPASSWORD=YouShouldReallyChangeThis
-    export PGDUMP_DIR=/bitnami/postgresql
-
-    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
-    ```
 #### Keycloak config cli
 
 > [!TIP]
 > If you don't use Keycloak Cli, disregard the information below and proceed next step with Helm upgrade.
 
-1. Enable `FGAP:V2` with the adding next line:
+1. Enable `FGAP:V2` with the adding next line in realm file.
 
     ```yaml
     adminPermissionsEnabled: true
     ```
-    Please refer to the official documentation for more details. [adminPermissionsEnabled](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
+
+    See [adminPermissionsEnabled documentation](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
 
 1. Delete this client `realm-management` from your realm file.
-Please refer to the official documentation for more details. [Config CLI - Keycloak Version Compability: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
+   See [Config CLI - Keycloak Version Compatibility: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
 
 #### Auth helper
 
@@ -131,13 +124,15 @@ Auth helper will be deprecated in this release.
 
 1. Update all Applications auth configuration for the updated Keycloak interractions
 
-    From 
+    From
+
     ```yaml
     env:
       AUTH_KEYCLOAK_HOST: "https://example.keycloak.com"
     ```
 
     To
+
     ```yaml
     env:
       AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
@@ -155,9 +150,16 @@ Due to the decommissioning of entities such as DIAL assistants, we are removing 
 
 1. Delete section `assistant` from values.
 
-#### Final
+#### Helm Upgrade
 
 1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version
+1. Verify DIAL is up and running correctly:
+
+    ```bash
+    helm list
+    kubectl get pods
+    kubectl logs -l app=dial-core --tail=50
+    ```
 
 ### To 5.4.0
 
