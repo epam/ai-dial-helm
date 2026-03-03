@@ -549,6 +549,15 @@ deploymentManager:
   commonLabels:
     app.kubernetes.io/component: "deploymentManager"
 
+  env:
+    # subcharts path
+    K8S_KNATIVE_ENABLED: '{{ .Values.configuration.deploy.knative.enabled }}'
+    K8S_KNATIVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.knative.namespace }}'
+    K8S_NIM_ENABLED: '{{ .Values.configuration.deploy.nim.enabled }}'
+    K8S_NIM_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.nim.namespace }}'
+    K8S_KSERVE_ENABLED: '{{ .Values.configuration.deploy.kserve.enabled }}'
+    K8S_KSERVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.kserve.namespace }}'
+
   rbac:
     create: true
 
@@ -568,7 +577,7 @@ deploymentManager:
     deploy:
       knative:
         enabled: true
-        namespace: ""
+        namespace: "dddd"
       nim:
         enabled: false
         namespace: ""
