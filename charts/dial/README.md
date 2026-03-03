@@ -17,14 +17,13 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
-| https://charts.epam-rail.com | core(dial-core) | 5.0.0 |
-| https://charts.epam-rail.com | chat(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | themes(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | openai(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | dial(dial-extension) | 2.1.0 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 2.1.0 |
+| https://charts.epam-rail.com | core(dial-core) | 5.1.0 |
+| https://charts.epam-rail.com | chat(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | themes(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | openai(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | bedrock(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | vertexai(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | dial(dial-extension) | 2.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
@@ -82,12 +81,6 @@ helm install my-release dial/dial -f values.yaml
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
-| assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
-| assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
-| assistant.image.tag | string | `"0.7.0"` |  |
-| assistant.livenessProbe.enabled | bool | `true` |  |
-| assistant.readinessProbe.enabled | bool | `true` |  |
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
@@ -166,15 +159,16 @@ helm install my-release dial/dial -f values.yaml
 ## Upgrading
 
 ### To 6.0.0
-> [!TIP]
-> If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
 
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
 
-> The **auth-helper** will be deprecated.
+#### Keycloak
 
-In this version, we've updated the following underlying dependencies which require manual actions:
+> [!TIP]
+> If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
+
+In this version, we've updated the following underlying dependencies, some of which require manual actions:
 
 - `bitnami/keycloak` Helm chart version bumped from to `24.4.3` to `24.9.0`
   - `keycloak` version bumped from `26.0.8` to `26.3.2`
@@ -202,60 +196,57 @@ Please refer to the official documentation for more details:
 
     pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
     ```
+#### Keycloak config cli
 
 > [!TIP]
-> If you don't use Auth Helper, disregard the information below and proceed next step.
+> If you don't use Keycloak Cli, disregard the information below and proceed next step with Helm upgrade.
 
-1. Update `redirectUris:` for each client in realm
-
-    From
-    ```yaml
-    redirectUris:
-      - https://example.com/*
-    webOrigins:
-      - https://example.com
-    ```
-
-    To
-    ```yaml
-    redirectUris:
-      - https://example.com/api/auth/callback/keycloak
-    webOrigins:
-      - https://example.com/
-    ```
-1. Update all Applications auth configuration for the updated Keycloak interractions
-
-    From
-    ```yaml
-    env:
-      ...
-      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com"
-      ...
-    ```
-
-    To
-    ```yaml
-    env:
-      ...
-      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
-      ...
-    ```
 1. Enable `FGAP:V2` with the adding next line:
 
     ```yaml
     adminPermissionsEnabled: true
     ```
-    Please refer to the official documentation for more details:
-    - [adminPermissionsEnabled](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
-
-> [!TIP]
-> If you don't use Keycloak Cli, disregard the information below and proceed next step with Helm upgrade.
+    Please refer to the official documentation for more details. [adminPermissionsEnabled](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
 
 1. Delete this client `realm-management` from your realm file.
-Please refer to the official documentation for more details:
-- [Config CLI - Keycloak Version Compability: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
+Please refer to the official documentation for more details. [Config CLI - Keycloak Version Compability: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
 
-1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version, but with the modified `realm.yaml`
+#### Auth helper
+
+> [!TIP]
+> If you don't use Auth Helper, disregard the information below and proceed next step.
+
+Auth helper will be deprecated in this release.
+
+1. Update all Applications auth configuration for the updated Keycloak interractions
+
+    From
+    ```yaml
+    env:
+      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com"
+    ```
+
+    To
+    ```yaml
+    env:
+      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
+    ```
+
+1. If you used auth-helper to add additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
+1. Delete section `authhelper` from values.
+
+#### DIAL assistant
+
+> [!TIP]
+> If you don't use DIAL assistant disregard the information below and proceed next step.
+
+Due to the decommissioning of entities such as DIAL assistants, we are removing the ability to install them from this section.
+
+1. Delete section `assistant` from values.
+
+#### Final
+
+1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version
 
 ### To 5.4.0
 
