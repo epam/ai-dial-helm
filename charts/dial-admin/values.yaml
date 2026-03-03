@@ -577,7 +577,7 @@ deploymentManager:
     deploy:
       knative:
         enabled: true
-        namespace: "dddd"
+        namespace: ""
       nim:
         enabled: false
         namespace: ""
