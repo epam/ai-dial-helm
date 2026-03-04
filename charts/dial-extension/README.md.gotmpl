@@ -77,3 +77,12 @@ helm install my-release dial/dial-extension -f values.yaml
 
 - Move the values from the **labels** section to the **commonLabels** section during the update.
 - Move the values from the **annotations** section to the **commonAnnotations** section during the update.
+
+### To 3.0.0
+
+> [!IMPORTANT]
+> **Breaking changes**: Security improvements have been applied by default.
+
+- **readOnlyRootFilesystem** is now set to `true` by default for enhanced security. If your application requires write access to the root filesystem, you must explicitly set `containerSecurityContext.readOnlyRootFilesystem: false` in your values.
+- **resourcesPreset** is now supported. The chart applies a default preset of `nano`. You can override this using the `resourcesPreset` parameter or by setting `resources` directly if needed.
+
