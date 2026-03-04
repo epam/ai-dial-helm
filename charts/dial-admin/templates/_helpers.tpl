@@ -280,9 +280,6 @@ Return the database name for DIAL Admin deployment manager
 {{- define "dialAdmin.deploymentManager.database.name" -}}
 {{- if .Values.postgresql.enabled -}}
     {{- .Values.deploymentManager.configuration.datasource.database | quote -}}
-{{- else }}
-    {{- .Values.externalDatabase.deploymentManagerDatabase | quote }}
-{{- end -}}
 {{- end -}}
 
 {{/*
@@ -291,9 +288,6 @@ Return the Database user
 {{- define "dialAdmin.deploymentManager.database.user" -}}
 {{- if .Values.postgresql.enabled -}}
     {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
-{{- else }}
-    {{- .Values.externalDatabase.deploymentManagerUser | quote }}
-{{- end -}}
 {{- end -}}
 
 {{/*
@@ -302,9 +296,6 @@ Return database password
 {{- define "dialAdmin.deploymentManager.database.password" -}}
 {{- if .Values.postgresql.enabled -}}
     {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
-{{- else -}}
-    {{- .Values.externalDatabase.deploymentManagerPassword | quote -}}
-{{- end -}}
 {{- end -}}
 
 {{/*
@@ -313,16 +304,6 @@ Add environment variables to configure database values
 {{- define "dialAdmin.deploymentManager.database.secretKey" -}}
 {{- if .Values.postgresql.enabled -}}
     {{- print "password" -}}
-{{- else -}}
-    {{- if .Values.externalDatabase.existingSecret -}}
-        {{- if .Values.externalDatabase.deploymentManagerExistingSecretPasswordKey -}}
-            {{- printf "%s" .Values.externalDatabase.deploymentManagerExistingSecretPasswordKey -}}
-        {{- else -}}
-            {{- print "password" -}}
-        {{- end -}}
-    {{- else -}}
-        {{- print "password" -}}
-    {{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -337,17 +318,6 @@ Return the name of the database secret with its credentials
   POSTGRES_DATABASE: {{ include "dialAdmin.deploymentManager.database.name" .  }}
   POSTGRES_DATASOURCE_USERNAME: {{ include "dialAdmin.deploymentManager.database.user" . }}
   POSTGRES_DATASOURCE_PASSWORD: {{ include "dialAdmin.deploymentManager.database.password" . }}
-{{- else if and (include "dialAdmin.useExternalDB" .) (eq .Values.deploymentManager.configuration.datasource.datasourceVendor "mssql") -}}
-  DATASOURCE_VENDOR: "MS_SQL_SERVER"
-  MS_SQL_SERVER_HOST: {{ include "dialAdmin.database.host" . }}
-  MS_SQL_SERVER_PORT: {{ include "dialAdmin.database.port" . | quote }}
-  MS_SQL_SERVER_DATABASE: {{ include "dialAdmin.deploymentManager.database.name" . }}
-  MS_SQL_SERVER_DATASOURCE_USERNAME: {{ include "dialAdmin.deploymentManager.database.user" . }}
-  MS_SQL_SERVER_DATASOURCE_PASSWORD: {{ include "dialAdmin.deploymentManager.database.password" . }}
-{{- else if eq .Values.deploymentManager.configuration.datasource.datasourceVendor "h2" -}}
-  DATASOURCE_VENDOR: "H2"
-  H2_FILE: "{{ .Values.deploymentManager.persistence.mountPath }}/deploymentManager"
-{{- end -}}
 {{- end -}}
 
 {{/*

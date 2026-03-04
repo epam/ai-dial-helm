@@ -536,7 +536,7 @@ deploymentManager:
 
   fullnameOverride: deployment-manager
   # -- Enable dial-admin deployment_manager deployment
-  enabled: true
+  enabled: false
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -547,6 +547,18 @@ deploymentManager:
     # -- Image tag (immutable tags are recommended)
     tag: 0.13.1
 
+  commonAnnotations: {}
+
+  commonLabels:
+    app.kubernetes.io/component: "deploymentManager"
+
+  env:
+    K8S_KNATIVE_ENABLED: '{{ .Values.configuration.deploy.knative.enabled }}'
+    K8S_KNATIVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.knative.namespace }}'
+    K8S_NIM_ENABLED: '{{ .Values.configuration.deploy.nim.enabled }}'
+    K8S_NIM_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.nim.namespace }}'
+    K8S_KSERVE_ENABLED: '{{ .Values.configuration.deploy.kserve.enabled }}'
+    K8S_KSERVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.kserve.namespace }}'
 
   rbac:
     create: true
@@ -578,7 +590,7 @@ deploymentManager:
     build:
       namespace: ""
 
-  extraEnvVarsSecret: '{{ $.Release.Name }}-dial-admin-deployment-manager-secret'
+  extraEnvVarsSecret: '{{ .Release.Name }}-manger-db'
 
   containerPorts:
     http: 8080
@@ -604,28 +616,10 @@ postgresql:
     database: "dial_admin"
 
     usePasswordFiles: false
+    
   primary:
-    extraEnvVarsSecret: "deployment-manager-postgresql-secret"
     initdb:
-      scripts:
-        create-multiple-dbs.sh: |
-          #!/bin/bash
-          set -e
-
-          echo "Creating multiple databases..."
-
-          # Check if any of the required environment variables are empty
-          if [ -z '$DEPLOYMENT_MANAGER_DATABASE' ] || [ -z "$DEPLOYMENT_MANAGER_USER" ] || [ -z "$DEPLOYMENT_MANAGER_PASSWORD" ]; then
-            echo "Skipping database creation due to missing environment variables."
-          else
-            echo "Creating database: "$DEPLOYMENT_MANAGER_DATABASE" with user: "$DEPLOYMENT_MANAGER_USER" "
-            PGPASSWORD="${POSTGRES_POSTGRES_PASSWORD}" psql -v ON_ERROR_STOP=1 --username "postgres" <<-EOSQL
-              CREATE USER $DEPLOYMENT_MANAGER_USER WITH ENCRYPTED PASSWORD '$DEPLOYMENT_MANAGER_PASSWORD';
-              CREATE DATABASE $DEPLOYMENT_MANAGER_DATABASE WITH OWNER $DEPLOYMENT_MANAGER_USER;
-          EOSQL
-          fi
-          echo "Multiple databases created."
-
+      scriptsSecret: '{{ .Release.Name }}-pg-init' 
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database
@@ -640,11 +634,3 @@ externalDatabase:
   password: ""
   # -- Name of an existing secret resource containing the DB password
   existingSecret: ""
-  # -- Password key for the existing secret containing the external DB password
-  existingSecretPasswordKey: "password"
-  # -- Name of the external database for deployment manager
-  deploymentManagerDatabase: deployment_manager
-  # -- non-root Username for deployment manager Database
-  deploymentManagerUser: deployment_manager
-  # -- Password for the above username
-  deploymentManagerPassword: "password"
