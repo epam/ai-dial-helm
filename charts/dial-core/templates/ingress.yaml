@@ -9,14 +9,12 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ template "dialCore.names.fullname" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
-  labels: {{ include "dialCore.labels.standard" . | nindent 4 }}
-    {{- if .Values.commonLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.labels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.labels "context" $ ) | nindent 4 }}
-    {{- end }}
-  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.ingress.annotations "context" $ ) | nindent 4 }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: core
+  {{- if or .Values.ingress.annotations .Values.commonAnnotations }}
+  {{- $annotations := merge .Values.ingress.annotations .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
 spec:
 {{- if .Values.ingress.ingressClassName }}
   ingressClassName: {{ .Values.ingress.ingressClassName }}
