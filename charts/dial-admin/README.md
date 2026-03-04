@@ -241,7 +241,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
-| deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
+| deploymentManager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
 | deploymentManager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
 | deploymentManager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
 | deploymentManager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
