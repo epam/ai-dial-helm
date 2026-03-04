@@ -634,3 +634,5 @@ externalDatabase:
   password: ""
   # -- Name of an existing secret resource containing the DB password
   existingSecret: ""
+  # -- Password key for the existing secret containing the external DB password
+  existingSecretPasswordKey: "password"
