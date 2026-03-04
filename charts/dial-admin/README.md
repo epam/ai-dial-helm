@@ -258,6 +258,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
+| externalDatabase.existingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB password |
 | externalDatabase.host | string | `""` | Host of the external database |
 | externalDatabase.password | string | `""` | Password for the above username |
 | externalDatabase.port | int | `5432` | Database port number |
