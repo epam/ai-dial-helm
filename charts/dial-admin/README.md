@@ -234,26 +234,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | commonAnnotations | object | `{}` | Annotations to add to all deployed objects |
 | commonLabels | object | `{}` | Labels to add to all deployed objects |
-| manager.commonAnnotations | object | `{}` |  |
-| manager.commonLabels."app.kubernetes.io/component" | string | `"manager"` |  |
-| manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
-| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
-| manager.containerPorts.http | int | `8080` |  |
-| manager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
-| manager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
-| manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
-| manager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
-| manager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
-| manager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
-| manager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
-| manager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
-| manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
-| manager.image.registry | string | `"docker.io"` | Image registry |
-| manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
-| manager.image.tag | string | `"0.13.1"` | Image tag (immutable tags are recommended) |
-| manager.rbac.create | bool | `true` |  |
-| manager.serviceAccount.create | bool | `true` |  |
 | externalDatabase.database | string | `"dial_admin"` | Name of the external database |
 | externalDatabase.existingSecret | string | `""` | Name of an existing secret resource containing the DB password |
 | externalDatabase.existingSecretPasswordKey | string | `"password"` | Password key for the existing secret containing the external DB password |
@@ -273,6 +253,26 @@ helm install my-release dial/dial-admin -f values.yaml
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
+| manager.commonAnnotations | object | `{}` |  |
+| manager.commonLabels."app.kubernetes.io/component" | string | `"manager"` |  |
+| manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
+| manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
+| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| manager.containerPorts.http | int | `8080` |  |
+| manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
+| manager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
+| manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
+| manager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
+| manager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
+| manager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
+| manager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
+| manager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
+| manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
+| manager.image.registry | string | `"docker.io"` | Image registry |
+| manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
+| manager.image.tag | string | `"0.13.1"` | Image tag (immutable tags are recommended) |
+| manager.rbac.create | bool | `true` |  |
+| manager.serviceAccount.create | bool | `true` |  |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | postgresql.auth.database | string | `"dial_admin"` | Name of the application database |
