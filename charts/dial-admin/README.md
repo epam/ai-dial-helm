@@ -254,7 +254,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
 | manager.commonAnnotations | object | `{}` |  |
-| manager.commonLabels."app.kubernetes.io/component" | string | `"manager"` |  |
+| manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
 | manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
 | manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
