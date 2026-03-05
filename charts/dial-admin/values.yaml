@@ -533,7 +533,6 @@ frontend:
 
 
 deploymentManager:
-
   # -- Enable dial-admin deployment_manager deployment
   enabled: false
   # -- Section to configure the image.
@@ -568,7 +567,7 @@ deploymentManager:
 
   configuration:
     # -- Database specific variables
-    datasource:
+    database:
       name:   deployment_manager
       user: deployment_manager
       password: ""
@@ -587,7 +586,7 @@ deploymentManager:
     build:
       namespace: ""
 
-  extraEnvVarsSecret: '{{ .Release.Name }}-manger-db'
+  extraEnvVarsSecret: '{{ .Release.Name }}-manager-db'
 
   containerPorts:
     http: 8080
