@@ -247,30 +247,3 @@ Return the name of the database secret with its credentials
   value: "{{ .Values.backend.persistence.mountPath }}/core-config.json"
 {{- end -}}
 {{- end -}}
-
-{{/*
-Return name for DIAL Admin deploymentManager resources
-*/}}
-{{- define "dialAdmin.deploymentManager.fullname" -}}
-{{- printf "%s-deployment-manager" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Create a fully qualified app name adding the installation's namespace.
-*/}}
-{{- define "dialAdmin.deploymentManager.fullname.namespace" -}}
-{{- printf "%s-%s" (include "dialAdmin.deploymentManager.fullname" .) (include "common.names.namespace" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "dialAdmin.deploymentManager.serviceAccountName" -}}
-{{- if .Values.deploymentManager.serviceAccount.create -}}
-    {{ default (include "dialAdmin.deploymentManager.fullname" .) .Values.deploymentManager.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.deploymentManager.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-

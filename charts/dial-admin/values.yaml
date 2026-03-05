@@ -534,7 +534,7 @@ frontend:
 
 deploymentManager:
   # -- Enable dial-admin deployment_manager deployment
-  enabled: false
+  enabled: true
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
