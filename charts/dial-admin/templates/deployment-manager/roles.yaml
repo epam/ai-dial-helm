@@ -67,10 +67,8 @@ roleRef:
   {{- end }}
   name: {{ include "common.names.fullname.namespace" .Subcharts.deploymentManager }}
   apiGroup: rbac.authorization.k8s.io
-{{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.knative.enabled }}
 ---
-
-{{- if and (.Values.deploymentManager.enabled) (.Values.deploymentManager.rbac.create) (.Values.deploymentManager.configuration.deploy.knative.enabled) }}
 apiVersion: rbac.authorization.k8s.io/v1
 {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.knative.namespace }}
 kind: Role
@@ -141,9 +139,8 @@ roleRef:
   name: {{ include "common.names.fullname.namespace" .Subcharts.deploymentManager }}-knative
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.nim.enabled }}
 ---
-
-{{- if and (.Values.deploymentManager.enabled) (.Values.deploymentManager.rbac.create) (.Values.deploymentManager.configuration.deploy.nim.enabled) }}
 apiVersion: rbac.authorization.k8s.io/v1
 {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.nim.namespace }}
 kind: Role
@@ -214,9 +211,8 @@ roleRef:
   name: {{ include "common.names.fullname.namespace" .Subcharts.deploymentManager }}-nim
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
+{{- if .Values.deploymentManager.configuration.deploy.kserve.enabled }}
 ---
-
-{{- if and (.Values.deploymentManager.enabled) (.Values.deploymentManager.rbac.create) (.Values.deploymentManager.configuration.deploy.kserve.enabled) }}
 apiVersion: rbac.authorization.k8s.io/v1
 {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.kserve.namespace }}
 kind: Role
@@ -286,4 +282,5 @@ roleRef:
   {{- end }}
   name: {{ include "common.names.fullname.namespace" .Subcharts.deploymentManager }}-kserve
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
 {{- end }}
