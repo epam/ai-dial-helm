@@ -17,8 +17,8 @@ dependencies:
   - name: dial-extension
     version: 2.2.1
     repository: https://charts.epam-rail.com
-    alias: deploymentManager
-    condition: deploymentManager.enabled
+    alias: manager
+    condition: manager.enabled
   - name: postgresql
     version: 16.7.12
     repository: oci://registry-1.docker.io/bitnamicharts
