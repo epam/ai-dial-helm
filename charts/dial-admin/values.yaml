@@ -572,9 +572,9 @@ deploymentManager:
     # -- Database vendor for the datasource.
     # Possible values: postgresql, mssql, h2
       datasourceVendor: "postgresql"
-      database: deploymentManager
+      database:   deployment_manager
       user: deployment_manager
-      password: "password"
+      password: password
     # -- Deploy mcp containers specific variables
     deploy:
       knative:
@@ -616,10 +616,13 @@ postgresql:
     database: "dial_admin"
 
     usePasswordFiles: false
-    
+
   primary:
     initdb:
       scriptsSecret: '{{ .Release.Name }}-pg-init' 
+    service:
+      ports:
+        postgresql: "5432"
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database

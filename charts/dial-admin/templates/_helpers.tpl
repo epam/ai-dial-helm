@@ -274,51 +274,6 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
-{{/*
-Return the database name for DIAL Admin deployment manager
-*/}}
-{{- define "dialAdmin.deploymentManager.database.name" -}}
-{{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.database | quote -}}
-{{- end -}}
-
-{{/*
-Return the Database user
-*/}}
-{{- define "dialAdmin.deploymentManager.database.user" -}}
-{{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.user | quote -}}
-{{- end -}}
-
-{{/*
-Return database password
-*/}}
-{{- define "dialAdmin.deploymentManager.database.password" -}}
-{{- if .Values.postgresql.enabled -}}
-    {{- .Values.deploymentManager.configuration.datasource.password | quote -}}
-{{- end -}}
-
-{{/*
-Add environment variables to configure database values
-*/}}
-{{- define "dialAdmin.deploymentManager.database.secretKey" -}}
-{{- if .Values.postgresql.enabled -}}
-    {{- print "password" -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Return the name of the database secret with its credentials
-*/}}
-{{- define "dialAdmin.deploymentManager.databaseEnv" -}}
-{{- if eq .Values.deploymentManager.configuration.datasource.datasourceVendor "postgresql" -}}
-  DATASOURCE_VENDOR: "POSTGRES"
-  POSTGRES_HOST:{{ include "dialAdmin.database.host" . }}
-  POSTGRES_PORT: {{ include "dialAdmin.database.port" . | quote }}
-  POSTGRES_DATABASE: {{ include "dialAdmin.deploymentManager.database.name" .  }}
-  POSTGRES_DATASOURCE_USERNAME: {{ include "dialAdmin.deploymentManager.database.user" . }}
-  POSTGRES_DATASOURCE_PASSWORD: {{ include "dialAdmin.deploymentManager.database.password" . }}
-{{- end -}}
 
 {{/*
 Return the namespace to deploy knative resources
