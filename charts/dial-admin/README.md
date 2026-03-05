@@ -237,11 +237,10 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.commonAnnotations | object | `{}` |  |
 | deploymentManager.commonLabels."app.kubernetes.io/component" | string | `"deploymentManager"` |  |
 | deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| deploymentManager.configuration.datasource | object | `{"datasourceVendor":"postgresql","name":"deployment_manager","password":"password","user":"deployment_manager"}` | Database specific variables |
-| deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
+| deploymentManager.configuration.datasource | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
-| deploymentManager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
+| deploymentManager.enabled | bool | `true` | Enable dial-admin deployment_manager deployment |
 | deploymentManager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
 | deploymentManager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
 | deploymentManager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
@@ -249,7 +248,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
 | deploymentManager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
 | deploymentManager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manger-db"` |  |
-| deploymentManager.fullnameOverride | string | `"deployment-manager"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | deploymentManager.image.registry | string | `"docker.io"` | Image registry |
 | deploymentManager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
