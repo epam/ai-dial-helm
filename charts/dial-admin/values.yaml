@@ -548,7 +548,7 @@ manager:
   commonAnnotations: {}
 
   commonLabels:
-    app.kubernetes.io/component: "manager"
+    app.kubernetes.io/component: "deployment-manager"
 
   env:
     K8S_KNATIVE_ENABLED: '{{ .Values.configuration.deploy.knative.enabled }}'
