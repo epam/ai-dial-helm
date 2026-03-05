@@ -568,8 +568,8 @@ deploymentManager:
   configuration:
     # -- Database specific variables
     database:
-      name:   deployment_manager
-      user: deployment_manager
+      name: "deployment_manager"
+      user: "deployment_manager"
       password: ""
     # -- Deploy mcp containers specific variables
     deploy:
@@ -615,7 +615,7 @@ postgresql:
 
   primary:
     initdb:
-      scriptsSecret: '{{ .Release.Name }}-pg-init' 
+      scriptsSecret: '{{ .Release.Name }}-pg-init'
     service:
       ports:
         postgresql: "5432"
