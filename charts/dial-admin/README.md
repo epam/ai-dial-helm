@@ -237,7 +237,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.commonAnnotations | object | `{}` |  |
 | deploymentManager.commonLabels."app.kubernetes.io/component" | string | `"deploymentManager"` |  |
 | deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| deploymentManager.configuration.datasource | object | `{"database":"deployment_manager","datasourceVendor":"postgresql","password":"password","user":"deployment_manager"}` | Database specific variables |
+| deploymentManager.configuration.datasource | object | `{"datasourceVendor":"postgresql","name":"deployment_manager","password":"password","user":"deployment_manager"}` | Database specific variables |
 | deploymentManager.configuration.datasource.datasourceVendor | string | `"postgresql"` | Database vendor for the datasource. Possible values: postgresql, mssql, h2 |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |

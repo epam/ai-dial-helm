@@ -58,7 +58,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
-    namespace: {{ include "common.names.namespace" . | quote }}
+    namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.build.namespace }}
   kind: Role
@@ -129,7 +129,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
-    namespace: {{ include "common.names.namespace" . | quote }}
+    namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.knative.namespace }}
   kind: Role
@@ -201,7 +201,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
-    namespace: {{ include "common.names.namespace" . | quote }}
+    namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.nim.namespace }}
   kind: Role
@@ -273,7 +273,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
-    namespace: {{ include "common.names.namespace" . | quote }}
+    namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.kserve.namespace }}
   kind: Role
