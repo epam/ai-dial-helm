@@ -57,7 +57,7 @@ metadata:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
+    name:  {{ include "dialExtension.serviceAccountName" .Subcharts.deploymentManager }}
     namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.build.namespace }}
@@ -128,7 +128,7 @@ metadata:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
+    name:  {{ include "dialExtension.serviceAccountName" .Subcharts.deploymentManager }}
     namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.knative.namespace }}
@@ -200,7 +200,7 @@ metadata:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
+    name:  {{ include "dialExtension.serviceAccountName" .Subcharts.deploymentManager }}
     namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.nim.namespace }}
@@ -272,7 +272,7 @@ metadata:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name:  {{ include "dialAdmin.deploymentManager.serviceAccountName" . }}
+    name:  {{ include "dialExtension.serviceAccountName" .Subcharts.deploymentManager }}
     namespace: {{ include "common.names.namespace" .Subcharts.deploymentManager | quote }}
 roleRef:
   {{- if eq (include "common.names.namespace" .Subcharts.deploymentManager) .Values.deploymentManager.configuration.deploy.kserve.namespace }}

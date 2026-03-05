@@ -1,6 +1,9 @@
 # dial-admin
 
-![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
+
+
+
+![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square) 
 
 Helm chart for DIAL Admin
 
@@ -237,7 +240,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.commonAnnotations | object | `{}` |  |
 | deploymentManager.commonLabels."app.kubernetes.io/component" | string | `"deploymentManager"` |  |
 | deploymentManager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| deploymentManager.configuration.datasource | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
+| deploymentManager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
 | deploymentManager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | deploymentManager.containerPorts.http | int | `8080` |  |
 | deploymentManager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
@@ -247,7 +250,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | deploymentManager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
 | deploymentManager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
 | deploymentManager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
-| deploymentManager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manger-db"` |  |
+| deploymentManager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
 | deploymentManager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | deploymentManager.image.registry | string | `"docker.io"` | Image registry |
 | deploymentManager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
