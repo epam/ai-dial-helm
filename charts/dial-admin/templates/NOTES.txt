@@ -1,6 +1,6 @@
 {{- $passwordValueConfigs := list -}}
 {{- if and .Values.postgresql.enabled (not .Values.manager.configuration.database.password) -}}
-    {{- $secretName := include "manager.database.secretname" . -}}
+    {{- $secretName := include "common.tplvalues.render" (dict "value" .Values.manager.extraEnvVarsSecret "context" .Subcharts.manager) -}}
     {{- $managerPasswordConfig := dict "valueKey" "manager.configuration.database.password" "secret" $secretName "field" "POSTGRES_DATASOURCE_PASSWORD" "context" $ -}}
     {{- $passwordValueConfigs = append $passwordValueConfigs $managerPasswordConfig -}}
 {{- end -}}
