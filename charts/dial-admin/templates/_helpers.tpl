@@ -399,13 +399,6 @@ Return the namespace to build mcp
 {{- end -}}
 
 {{/*
-Deployment manager secret name used in initdb charts
-*/}}
-{{- define "dialAdmin.deploymentManager.scriptSecret" -}}
-{{- printf "%s-script-secret" (include "dialAdmin.deploymentManager.fullname" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
 Return the name of deploymentManager configuration variables
 */}}
 {{- define "dialAdmin.deploymentManager.configEnv" -}}
