@@ -566,7 +566,8 @@ manager:
   ## Application-specific configuration values
 
   configuration:
-    # -- Database specific variables
+    # -- Database specific variables. All fields are used ONLY when postgresql.enabled is true.
+    # -- For external PostgreSQL, MS SQL Server, or H2, supply credentials via manager.secrets, manager.env, or manager.extraEnvVarsSecret instead.
     database:
       name: "deployment_manager"
       user: "deployment_manager"
