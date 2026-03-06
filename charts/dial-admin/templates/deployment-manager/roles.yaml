@@ -1,0 +1,286 @@
+{{- if and .Values.manager.enabled .Values.manager.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+{{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.build.namespace }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.build.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups:
+      - "batch"
+    resources:
+      - jobs
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+      - configmaps
+    verbs:
+      - get
+      - create
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.build.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "dialExtension.serviceAccountName" .Subcharts.manager }}
+    namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+roleRef:
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.build.namespace }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}
+  apiGroup: rbac.authorization.k8s.io
+{{- if .Values.manager.configuration.deploy.knative.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+{{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.knative.namespace }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-knative
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.knative.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups:
+      - "serving.knative.dev"
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - create
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-knative
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.knative.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "dialExtension.serviceAccountName" .Subcharts.manager }}
+    namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+roleRef:
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.knative.namespace }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-knative
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- if .Values.manager.configuration.deploy.nim.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+{{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.nim.namespace }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-nim
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.nim.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups:
+      - "apps.nvidia.com"
+    resources:
+      - nimservices
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - create
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-nim
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.nim.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "dialExtension.serviceAccountName" .Subcharts.manager }}
+    namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+roleRef:
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.nim.namespace }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-nim
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- if .Values.manager.configuration.deploy.kserve.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+{{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.kserve.namespace }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-kserve
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.kserve.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups:
+      - "serving.kserve.io"
+    resources:
+      - inferenceservices
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - create
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-kserve
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- if .Values.manager.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.manager.commonAnnotations "context" $.Subcharts.manager ) | nindent 4 }}
+  {{- end }}
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.kserve.namespace }}
+  namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "dialExtension.serviceAccountName" .Subcharts.manager }}
+    namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+roleRef:
+  {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.kserve.namespace }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}-kserve
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- end }}

@@ -531,6 +531,66 @@ frontend:
     # -- dial-admin frontend HTTP container port
     http: 3000
 
+
+manager:
+  # -- Enable dial-admin deployment_manager deployment
+  enabled: false
+  # -- Section to configure the image.
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
+  image:
+    # -- Image registry
+    registry: docker.io
+    # -- Image repository
+    repository: epam/ai-dial-admin-deployment-manager-backend
+    # -- Image tag (immutable tags are recommended)
+    tag: 0.13.1
+
+  commonAnnotations: {}
+
+  commonLabels:
+    app.kubernetes.io/component: "deployment-manager"
+
+  env:
+    K8S_KNATIVE_ENABLED: '{{ .Values.configuration.deploy.knative.enabled }}'
+    K8S_KNATIVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.knative.namespace }}'
+    K8S_NIM_ENABLED: '{{ .Values.configuration.deploy.nim.enabled }}'
+    K8S_NIM_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.nim.namespace }}'
+    K8S_KSERVE_ENABLED: '{{ .Values.configuration.deploy.kserve.enabled }}'
+    K8S_KSERVE_DEPLOYMENT_NAMESPACE: '{{ .Values.configuration.deploy.kserve.namespace }}'
+
+  rbac:
+    create: true
+
+  serviceAccount:
+    create: true
+  ## Application-specific configuration values
+
+  configuration:
+    # -- Database specific variables
+    database:
+      name: "deployment_manager"
+      user: "deployment_manager"
+      password: ""
+    # -- Deploy mcp containers specific variables
+    deploy:
+      knative:
+        enabled: true
+        namespace: ""
+      nim:
+        enabled: false
+        namespace: ""
+      kserve:
+        enabled: false
+        namespace: ""
+    # -- Build images for mcp containers specific variables
+    build:
+      namespace: ""
+
+  extraEnvVarsSecret: '{{ .Release.Name }}-manager-db'
+
+  containerPorts:
+    http: 8080
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -551,6 +611,17 @@ postgresql:
     # -- Name of the application database
     database: "dial_admin"
 
+  usePasswordFiles: false
+
+  commonLabels: {}
+  commonAnnotations: {}
+
+  primary:
+    initdb:
+      scriptsSecret: '{{ .Release.Name }}-pg-init'
+    service:
+      ports:
+        postgresql: "5432"
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database

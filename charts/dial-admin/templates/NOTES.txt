@@ -1,0 +1,9 @@
+{{- $passwordValueConfigs := list -}}
+{{- if and .Values.postgresql.enabled (not .Values.manager.configuration.database.password) -}}
+    {{- $secretName := include "manager.database.secretname" . -}}
+    {{- $managerPasswordConfig := dict "valueKey" "manager.configuration.database.password" "secret" $secretName "field" "POSTGRES_DATASOURCE_PASSWORD" "context" $ -}}
+    {{- $passwordValueConfigs = append $passwordValueConfigs $managerPasswordConfig -}}
+{{- end -}}
+
+{{- $passwordValidationErrors := include "common.validations.values.multiple.empty" (dict "required" $passwordValueConfigs "context" $) -}}
+{{- include "common.errors.upgrade.passwords.empty" (dict "validationErrors" $passwordValidationErrors "context" $) -}}
