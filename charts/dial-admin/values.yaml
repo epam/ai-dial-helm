@@ -534,7 +534,7 @@ frontend:
 
 manager:
   # -- Enable dial-admin deployment_manager deployment
-  enabled: false
+  enabled: true
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -566,11 +566,11 @@ manager:
   ## Application-specific configuration values
 
   configuration:
-    # -- Database specific variables
+    # -- Database specific variables. Thi section used ONLY when postgresql.enabled is true. In ther cases use env and secret section or override extraEnvVarsSecret value.
     database:
       name: "deployment_manager"
       user: "deployment_manager"
-      password: ""
+      password: "hXRtKAt6QAsE6WsVLrRb"
     # -- Deploy mcp containers specific variables
     deploy:
       knative:

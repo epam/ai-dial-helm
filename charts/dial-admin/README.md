@@ -317,13 +317,13 @@ Both are driven by the following values:
 manager:
   configuration:
     database:
-      name: "deployment_manager"   # PostgreSQL database name
-      user: "deployment_manager"   # PostgreSQL user -- see naming note below
-      password: ""                 # PostgreSQL password -- used ONLY when postgresql.enabled is true
+      name: "deployment_manager"   # used ONLY when postgresql.enabled is true
+      user: "deployment_manager"   # used ONLY when postgresql.enabled is true -- see naming note below
+      password: ""                 # used ONLY when postgresql.enabled is true
 ```
 
 > [!NOTE]
-> `manager.configuration.database.password` is **only** consumed by the chart's auto-generated secrets when `postgresql.enabled: true`. For all other database setups (external PostgreSQL, MS SQL Server, H2) you must supply credentials yourself via `manager.secrets`, `manager.env`, or `manager.extraEnvVarsSecret`.
+> All three fields — `name`, `user`, and `password` — under `manager.configuration.database` are **only** consumed by the chart's auto-generated secrets when `postgresql.enabled: true`. For all other database setups (external PostgreSQL, MS SQL Server, H2) you must supply credentials yourself via `manager.secrets`, `manager.env`, or `manager.extraEnvVarsSecret`.
 
 > [!NOTE]
 > The PostgreSQL init Secret (`<release-name>-pg-init`) is **always** rendered when `postgresql.enabled: true`, even when `manager.enabled: false`. If any of `name`, `user`, or `password` is empty, the secret is created with an empty `stringData: {}` and no database or user will be initialised. Follow [PostgreSQL identifier naming rules](https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS) for the `name` and `user` values: use only lowercase letters, digits, and underscores; start with a letter or underscore; maximum 63 characters.
