@@ -613,6 +613,9 @@ postgresql:
 
     usePasswordFiles: false
 
+  commonLabels: {}
+  commonAnnotations: {}
+
   primary:
     initdb:
       scriptsSecret: '{{ .Release.Name }}-pg-init'
