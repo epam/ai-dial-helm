@@ -36,7 +36,7 @@ backend:
     # -- Image repository
     repository: epam/ai-dial-admin-backend
     # -- Image tag (immutable tags are recommended)
-    tag: 0.14.2
+    tag: 0.13.0
     # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
     digest: ""
     # -- Image pull policy
@@ -523,7 +523,7 @@ frontend:
     # -- Frontend image repository
     repository: epam/ai-dial-admin-frontend
     # -- Frontend image tag
-    tag: 0.14.2
+    tag: 0.13.4
     # -- Frontend image pull policy
     pullPolicy: Always
 
@@ -566,11 +566,11 @@ manager:
   ## Application-specific configuration values
 
   configuration:
-    # -- Database specific variables. Thi section used ONLY when postgresql.enabled is true. In ther cases use env and secret section or override extraEnvVarsSecret value.
+    # -- Database specific variables
     database:
       name: "deployment_manager"
       user: "deployment_manager"
-      password: "hXRtKAt6QAsE6WsVLrRb"
+      password: ""
     # -- Deploy mcp containers specific variables
     deploy:
       knative:
