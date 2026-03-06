@@ -256,7 +256,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.commonAnnotations | object | `{}` |  |
 | manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
 | manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
-| manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables |
+| manager.configuration.database | object | `{"name":"deployment_manager","password":"hXRtKAt6QAsE6WsVLrRb","user":"deployment_manager"}` | Database specific variables. Thi section used ONLY when postgresql.enabled is true. In ther cases use env and secret section or override extraEnvVarsSecret value. |
 | manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
@@ -280,6 +280,8 @@ helm install my-release dial/dial-admin -f values.yaml
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
 | postgresql.auth.usePasswordFiles | bool | `false` |  |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
+| postgresql.commonAnnotations | object | `{}` |  |
+| postgresql.commonLabels | object | `{}` |  |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
