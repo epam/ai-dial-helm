@@ -523,7 +523,7 @@ frontend:
     # -- Frontend image repository
     repository: epam/ai-dial-admin-frontend
     # -- Frontend image tag
-    tag: 0.14.2
+    tag: 0.14.5
     # -- Frontend image pull policy
     pullPolicy: Always
 
