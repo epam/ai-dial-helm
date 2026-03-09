@@ -36,7 +36,7 @@ backend:
     # -- Image repository
     repository: epam/ai-dial-admin-backend
     # -- Image tag (immutable tags are recommended)
-    tag: 0.14.2
+    tag: 0.13.0
     # -- Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended)
     digest: ""
     # -- Image pull policy
@@ -44,8 +44,7 @@ backend:
     # -- Optionally specify an array of imagePullSecrets.
     # Secrets must be manually created in the namespace.
     # [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-    pullSecrets:
-      []
+    pullSecrets: []
       # - myRegistryKeySecretName
 
   # -- Number of dial-admin backend replicas to deploy
@@ -228,8 +227,7 @@ backend:
   # -- for the dial-admin backend container(s) to automate configuration before or after startup
   lifecycleHooks: {}
   # -- Key-value pairs extra environment variables to add
-  env:
-    {}
+  env: {}
     # key1: "value1"
     # key2: "value2"
   # -- Array containing extra env vars to configure the credential
@@ -245,8 +243,7 @@ backend:
   extraEnvVarsSecret: ""
 
   # -- Key-value pairs extra environment variables to add in environment variables from secrets to dial-admin backend
-  secrets:
-    {}
+  secrets: {}
     # key1: "value1"
     # key2: "value2"
 
@@ -259,8 +256,7 @@ backend:
   # -- Optionally specify extra list of additional volumeClaimTemplates for the dial-admin backend container(s)
   extraVolumeClaimTemplates: []
   # -- Add additional sidecar containers to the dial-admin backend pod(s)
-  sidecars:
-    []
+  sidecars: []
     # - name: your-image-name
     #   image: your-image
     #   imagePullPolicy: Always
@@ -269,8 +265,7 @@ backend:
     #       containerPort: 1234
   # -- Add additional init containers to the dial-admin backend pod(s)
   # [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
-  initContainers:
-    []
+  initContainers: []
     # - name: your-image-name
     #   image: your-image
     #   imagePullPolicy: Always
@@ -299,8 +294,7 @@ backend:
     # [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
     loadBalancerIP: ""
     # -- dial-admin backend service Load Balancer sources
-    loadBalancerSourceRanges:
-      []
+    loadBalancerSourceRanges: []
       # - 10.10.10.0/24
     # -- dial-admin backend service external traffic policy
     # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
@@ -313,8 +307,7 @@ backend:
     # Values: ClientIP or None
     sessionAffinity: None
     # -- Additional settings for the sessionAffinity
-    sessionAffinityConfig:
-      {}
+    sessionAffinityConfig: {}
       # clientIP:
       #   timeoutSeconds: 300
 
@@ -434,15 +427,13 @@ backend:
       # -- dial-admin backend metrics service Load Balancer IP
       loadBalancerIP: ""
       # -- dial-admin backend metrics service Load Balancer sources
-      loadBalancerSourceRanges:
-        []
+      loadBalancerSourceRanges: []
         # - 10.10.10.0/24
       # -- dial-admin backend metrics service external traffic policy
       # [Documentation](http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip)
       externalTrafficPolicy: Cluster
       # -- Additional custom annotations for dial-admin backend metrics service
-      annotations:
-        {}
+      annotations: {}
         # prometheus.io/scrape: "true"
         # prometheus.io/port: "{{ .Values.metrics.service.port }}"
       # -- Extra ports to expose in dial-admin backend metrics service (normally used with the `sidecars` value)
@@ -451,8 +442,7 @@ backend:
       # Values: ClientIP or None
       sessionAffinity: None
       # -- Additional settings for the sessionAffinity
-      sessionAffinityConfig:
-        {}
+      sessionAffinityConfig: {}
         # clientIP:
         #   timeoutSeconds: 300
     # -- Prometheus Operator ServiceMonitor configuration
@@ -483,8 +473,7 @@ backend:
       # -- Specify general relabeling
       relabelings: []
       # -- Prometheus instance selector labels
-      selector:
-        {}
+      selector: {}
         # prometheus: my-prometheus
     prometheusRule:
       # -- Creates a Prometheus Operator prometheusRule
@@ -531,6 +520,65 @@ frontend:
     # -- dial-admin frontend HTTP container port
     http: 3000
 
+manager:
+  # -- Enable dial-admin deployment_manager deployment
+  enabled: false
+  # -- Section to configure the image.
+  # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
+  image:
+    # -- Image registry
+    registry: docker.io
+    # -- Image repository
+    repository: epam/ai-dial-admin-deployment-manager-backend
+    # -- Image tag (immutable tags are recommended)
+    tag: 0.14.2
+
+  commonAnnotations: {}
+
+  commonLabels:
+    app.kubernetes.io/component: "deployment-manager"
+
+  env:
+    K8S_KNATIVE_ENABLED: "{{ .Values.configuration.deploy.knative.enabled }}"
+    K8S_KNATIVE_DEPLOYMENT_NAMESPACE: "{{ .Values.configuration.deploy.knative.namespace }}"
+    K8S_NIM_ENABLED: "{{ .Values.configuration.deploy.nim.enabled }}"
+    K8S_NIM_DEPLOYMENT_NAMESPACE: "{{ .Values.configuration.deploy.nim.namespace }}"
+    K8S_KSERVE_ENABLED: "{{ .Values.configuration.deploy.kserve.enabled }}"
+    K8S_KSERVE_DEPLOYMENT_NAMESPACE: "{{ .Values.configuration.deploy.kserve.namespace }}"
+
+  rbac:
+    create: true
+
+  serviceAccount:
+    create: true
+  ## Application-specific configuration values
+
+  configuration:
+    # -- Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret.
+    database:
+      name: "deployment_manager"
+      user: "deployment_manager"
+      password: ""
+    # -- Deploy mcp containers specific variables
+    deploy:
+      knative:
+        enabled: true
+        namespace: ""
+      nim:
+        enabled: false
+        namespace: ""
+      kserve:
+        enabled: false
+        namespace: ""
+    # -- Build images for mcp containers specific variables
+    build:
+      namespace: ""
+
+  extraEnvVarsSecret: "{{ .Release.Name }}-manager-db"
+
+  containerPorts:
+    http: 8080
+
 postgresql:
   # -- Enable bundled PostgreSQL deployment
   enabled: true
@@ -551,6 +599,17 @@ postgresql:
     # -- Name of the application database
     database: "dial_admin"
 
+    usePasswordFiles: false
+
+  commonLabels: {}
+  commonAnnotations: {}
+
+  primary:
+    initdb:
+      scriptsSecret: "{{ .Release.Name }}-pg-init"
+    service:
+      ports:
+        postgresql: "5432"
 ## External Database Configuration
 externalDatabase:
   # -- Host of the external database
