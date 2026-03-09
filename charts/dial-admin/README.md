@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.9.1](https://img.shields.io/badge/Version-0.9.1-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
+![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -270,7 +270,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | manager.image.registry | string | `"docker.io"` | Image registry |
 | manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
-| manager.image.tag | string | `"0.13.1"` | Image tag (immutable tags are recommended) |
+| manager.image.tag | string | `"0.14.2"` | Image tag (immutable tags are recommended) |
 | manager.rbac.create | bool | `true` |  |
 | manager.serviceAccount.create | bool | `true` |  |
 | nameOverride | string | `""` | String to partially override common.names.name |

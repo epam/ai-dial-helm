@@ -531,7 +531,7 @@ manager:
     # -- Image repository
     repository: epam/ai-dial-admin-deployment-manager-backend
     # -- Image tag (immutable tags are recommended)
-    tag: 0.13.1
+    tag: 0.14.2
 
   commonAnnotations: {}
 
@@ -554,7 +554,7 @@ manager:
   ## Application-specific configuration values
 
   configuration:
-    # -- Database specific variables
+    # -- Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret.
     database:
       name: "deployment_manager"
       user: "deployment_manager"
