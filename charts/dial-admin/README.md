@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
+![Version: 0.9.1](https://img.shields.io/badge/Version-0.9.1-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -247,7 +247,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.13.4"` | Frontend image tag |
+| frontend.image.tag | string | `"0.14.5"` | Frontend image tag |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
