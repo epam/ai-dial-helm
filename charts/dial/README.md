@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.21.0](https://img.shields.io/badge/Version-5.21.0-informational?style=flat-square) ![AppVersion: 1.41.0](https://img.shields.io/badge/AppVersion-1.41.0-informational?style=flat-square)
+![Version: 5.21.1](https://img.shields.io/badge/Version-5.21.1-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -105,7 +105,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerPorts.http | int | `3000` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.43.1"` |  |
+| chat.image.tag | string | `"0.43.4"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
