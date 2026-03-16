@@ -248,3 +248,9 @@ Return the name of the database secret with its credentials
 {{- end -}}
 {{- end -}}
 
+{{/*
+Manager secret name used for connecting to the datasource (only for PostgreSQL from helm chart)
+*/}}
+{{- define "manager.database.secretname" -}}
+{{- include "common.tplvalues.render" (dict "value" .Values.manager.extraEnvVarsSecret "context" $.Subcharts.manager) -}}
+{{- end -}}

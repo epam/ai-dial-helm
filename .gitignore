@@ -19,6 +19,9 @@ bin/*
 # Vscode files
 .vscode
 
+# Cursor config
+.cursor/
+
 # Emacs save files
 *~
 \#*\#

@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
+![Version: 0.10.1](https://img.shields.io/badge/Version-0.10.1-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,7 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.epam-rail.com | frontend(dial-extension) | 1.3.3 |
+| https://charts.epam-rail.com | frontend(dial-extension) | 2.2.1 |
+| https://charts.epam-rail.com | manager(dial-extension) | 2.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -123,7 +124,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.13.0"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.14.3"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -246,21 +247,200 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.13.4"` | Frontend image tag |
+| frontend.image.tag | string | `"0.14.5"` | Frontend image tag |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
 | global.imageRegistry | string | `""` | Global Docker image registry |
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
+| manager.commonAnnotations | object | `{}` |  |
+| manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
+| manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
+| manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
+| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| manager.containerPorts.http | int | `8080` |  |
+| manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
+| manager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
+| manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
+| manager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
+| manager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
+| manager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
+| manager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
+| manager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
+| manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
+| manager.image.registry | string | `"docker.io"` | Image registry |
+| manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
+| manager.image.tag | string | `"0.14.3"` | Image tag (immutable tags are recommended) |
+| manager.rbac.create | bool | `true` |  |
+| manager.serviceAccount.create | bool | `true` |  |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
 | postgresql.auth.database | string | `"dial_admin"` | Name of the application database |
 | postgresql.auth.password | string | `""` | Password for the application database user |
 | postgresql.auth.postgresPassword | string | `""` | Password for the postgres user |
+| postgresql.auth.usePasswordFiles | bool | `false` |  |
 | postgresql.auth.username | string | `"dial_admin"` | Username for the application database |
+| postgresql.commonAnnotations | object | `{}` |  |
+| postgresql.commonLabels | object | `{}` |  |
 | postgresql.enabled | bool | `true` | Enable bundled PostgreSQL deployment |
 | postgresql.global.security.allowInsecureImages | bool | `true` |  |
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| postgresql.primary.initdb.scriptsSecret | string | `"{{ .Release.Name }}-pg-init"` |  |
+| postgresql.primary.service.ports.postgresql | string | `"5432"` |  |
+
+## Deployment Manager
+
+The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative, NIM, and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
+
+Enable the component with:
+
+```yaml
+manager:
+  enabled: true
+```
+
+### Database configuration
+
+The Deployment Manager supports three database vendors: **PostgreSQL**, **MS SQL Server**, and **H2** (in-memory/file-backed). The vendor is controlled by the `DATASOURCE_VENDOR` environment variable (`POSTGRES`, `MS_SQL_SERVER`, or `H2`).
+
+> [!IMPORTANT]
+> When `postgresql.enabled: true` and `manager.enabled: true`, the chart renders a Kubernetes Secret named `<release-name>-manager-db` (the default value of `manager.extraEnvVarsSecret`) that is pre-populated with PostgreSQL connection details. If you configure an alternative database (external PostgreSQL, MS SQL Server, or H2) **without** disabling the bundled PostgreSQL, the chart will still generate that same-named secret with PostgreSQL credentials, silently overwriting any external configuration supplied through `manager.extraEnvVarsSecret`. Always set `postgresql.enabled: false` when using a non-bundled database for the Deployment Manager.
+
+#### Bundled PostgreSQL (default)
+
+When `postgresql.enabled: true` the chart automatically:
+
+1. Generates a PostgreSQL init Secret (`<release-name>-pg-init`) that creates the Deployment Manager database and user on first start.
+2. Generates a connection Secret (`<release-name>-manager-db`) injected into the manager pod via `manager.extraEnvVarsSecret`.
+
+Both are driven by the following values:
+
+```yaml
+manager:
+  configuration:
+    database:
+      name: "deployment_manager"   # used ONLY when postgresql.enabled is true
+      user: "deployment_manager"   # used ONLY when postgresql.enabled is true -- see naming note below
+      password: ""                 # used ONLY when postgresql.enabled is true
+```
+
+> [!NOTE]
+> All three fields — `name`, `user`, and `password` — under `manager.configuration.database` are **only** consumed by the chart's auto-generated secrets when `postgresql.enabled: true`. For all other database setups (external PostgreSQL, MS SQL Server, H2) you must supply credentials yourself via `manager.secrets`, `manager.env`, or `manager.extraEnvVarsSecret`.
+
+> [!NOTE]
+> The PostgreSQL init Secret (`<release-name>-pg-init`) is **always** rendered when `postgresql.enabled: true`, even when `manager.enabled: false`. If any of `name`, `user`, or `password` is empty, the secret is created with an empty `stringData: {}` and no database or user will be initialised. Follow [PostgreSQL identifier naming rules](https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS) for the `name` and `user` values: use only lowercase letters, digits, and underscores; start with a letter or underscore; maximum 63 characters.
+
+#### External PostgreSQL
+
+Disable the bundled chart and supply the connection details via a pre-created Kubernetes Secret:
+
+```yaml
+postgresql:
+  enabled: false
+
+manager:
+  extraEnvVarsSecret: "my-manager-db-secret"
+```
+
+The Secret must contain:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-manager-db-secret
+type: Opaque
+stringData:
+  DATASOURCE_VENDOR: "POSTGRES"
+  POSTGRES_HOST: "pg.example.com"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DATABASE: "deployment_manager"
+  POSTGRES_DATASOURCE_USERNAME: "deployment_manager"
+  POSTGRES_DATASOURCE_PASSWORD: "changeme"
+```
+
+#### MS SQL Server
+
+Disable the bundled chart and supply credentials via the `manager.secrets` map (rendered as a chart-managed Secret):
+
+```yaml
+postgresql:
+  enabled: false
+
+manager:
+  secrets:
+    DATASOURCE_VENDOR: "MS_SQL_SERVER"
+    MS_SQL_SERVER_HOST: "mssql.example.com"
+    MS_SQL_SERVER_PORT: "1433"
+    MS_SQL_SERVER_DATABASE: "deployment_manager"
+    MS_SQL_SERVER_DATASOURCE_USERNAME: "dm_user"
+    MS_SQL_SERVER_DATASOURCE_PASSWORD: "StrongPassword1!"
+    # Optional — recommended for case-sensitive collation environments:
+    # MS_SQL_SERVER_OPS: "encrypt=true;trustServerCertificate=false;"
+```
+
+#### H2 (file-backed)
+
+H2 stores its data in a local file. Because the Deployment Manager container has a read-only root filesystem by default, you must mount a writable volume at the H2 file path and supply the required encryption keys.
+
+Generate the required keys with the upstream helper:
+
+```console
+bash <(curl -sSL https://raw.githubusercontent.com/epam/ai-dial-admin-backend/development/secrets-utils/generate_h2_secrets.sh)
+```
+
+Store the keys in a Kubernetes Secret:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-manager-h2-secret
+type: Opaque
+stringData:
+  DATASOURCE_VENDOR: "H2"
+  H2_FILE: "/data/deployment_manager"
+  H2_DATASOURCE_MASTERKEY: "<generated-master-key>"
+  H2_DATASOURCE_ENCRYPTEDFILEKEY: "<generated-encrypted-file-key>"
+  H2_DATASOURCE_PASSWORD: "<generated-password>"
+```
+
+Disable the bundled PostgreSQL, reference the Secret, and mount a persistent volume for the H2 file:
+
+```yaml
+postgresql:
+  enabled: false
+
+manager:
+  extraEnvVarsSecret: "my-manager-h2-secret"
+
+  extraVolumes:
+    - name: h2-data
+      persistentVolumeClaim:
+        claimName: manager-h2-pvc
+
+  extraVolumeMounts:
+    - name: h2-data
+      mountPath: /data
+```
+
+Create the PVC separately (or use `manager.extraVolumeClaimTemplates` if the manager is deployed as a StatefulSet):
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: manager-h2-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+```
+
+> [!WARNING]
+> H2 is suitable for development and single-replica setups only. For production, use PostgreSQL or MS SQL Server.
 
 ## Upgrading
 
@@ -271,3 +451,22 @@ helm install my-release dial/dial-admin -f values.yaml
 
 1. Specify the DIAL core version in `backend.env.CORE_CONFIG_VERSION`.
 1. Change all variables related to the identity provider configuration for the DIAL Admin backend according to the [new format](https://github.com/epam/ai-dial-admin-backend/blob/0.11.2/docs/configuration.md#identity-providers-configuration).
+
+### To 0.9.0
+
+> [!NOTE]
+> A new service `manager` (Deployment Manager) is now included and disabled by default.
+
+If `manager.enabled` is set to `true` and this is an upgrade from a previous version, the PostgreSQL init scripts will not run automatically (see [initdb.scriptsSecret](https://github.com/bitnami/charts/tree/main/bitnami/postgresql#initialize-a-fresh-instance) description). You must manually create the database and user for the Manager service.
+
+1. Exec into the PostgreSQL pod:
+
+    ```console
+    kubectl exec -it <release-name>-postgresql-0 -- bash
+    ```
+
+2. Run the initialization script:
+
+    ```console
+    bash /docker-entrypoint-initdb.d/secret/create-multiple-dbs.sh
+    ```
