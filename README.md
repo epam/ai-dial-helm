@@ -12,7 +12,7 @@
 Once Helm has been set up correctly, add the repo as follows:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 ```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages. You can then run `helm search repo dial` to see the charts.

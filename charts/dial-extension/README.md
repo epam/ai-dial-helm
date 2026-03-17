@@ -1,13 +1,13 @@
 # dial-extension
 
-![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 3.0.1](https://img.shields.io/badge/Version-3.0.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial extensions
 
 ## TL;DR
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial-extension --set image.repository=epam/ai-dial-adapter-openai
 ```
 
@@ -30,7 +30,7 @@ Kubernetes: `>=1.23.0-0`
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial-extension
 ```
 
