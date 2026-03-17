@@ -5,6 +5,26 @@
 [![GitHub Workflow Status (Release)](https://img.shields.io/github/actions/workflow/status/epam/ai-dial-helm/release.yaml?logo=github&label=Release%20Charts&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/actions/workflows/release.yaml)
 [![GitHub all releases](https://img.shields.io/github/downloads/epam/ai-dial-helm/total?logo=github&label=Chart%20Downloads&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/releases)
 
+## ⚠️ Registry Migration Notice
+
+The Helm chart repository has migrated from **charts.epam-rail.com** to **charts.dialx.ai**.
+
+**Action Required:**
+If you are using the old registry, please update your Helm repository configuration:
+
+```console
+# Remove the old repository
+helm repo remove dial
+
+# Add the new repository
+helm repo add dial https://charts.dialx.ai
+
+# Update your local charts cache
+helm repo update
+```
+
+The old registry (charts.epam-rail.com) will no longer receive updates. Please migrate to the new registry at your earliest convenience.
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.  Please refer to Helm's [documentation](https://helm.sh/docs) to get started.
