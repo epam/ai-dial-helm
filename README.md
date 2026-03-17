@@ -5,7 +5,7 @@
 [![GitHub Workflow Status (Release)](https://img.shields.io/github/actions/workflow/status/epam/ai-dial-helm/release.yaml?logo=github&label=Release%20Charts&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/actions/workflows/release.yaml)
 [![GitHub all releases](https://img.shields.io/github/downloads/epam/ai-dial-helm/total?logo=github&label=Chart%20Downloads&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/releases)
 
-> [!warning] Registry Address Change
+> [!warning]
 > The Helm chart repository address has been changed from `https://charts.epam-rail.com` to `https://charts.dialx.ai`.
 > Old registry will no longer receive updates and will be unavailable in the nearest future.
 
