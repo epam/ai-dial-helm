@@ -9,6 +9,7 @@ extraDeploy: []
 keycloak:
   # -- Enable/disable keycloak
   enabled: false
+  usePasswordFiles: false
   # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
   # ref: https://github.com/bitnami/charts/issues/35164
   global:
@@ -25,43 +26,40 @@ keycloak:
       value: "token-exchange,admin-fine-grained-authz"
   postgresql:
     enabled: true
+    usePasswordFiles: false
     # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
     # ref: https://github.com/bitnami/charts/issues/35164
     image:
       repository: bitnamilegacy/postgresql
+      tag: 17.6.0-debian-12-r0
+    auth:
+      usePasswordFiles: false
+    metrics:
+      image:
+        repository: bitnamilegacy/postgres-exporter
+        tag: 0.17.1-debian-12-r15
+    volumePermissions:
+      image:
+        repository: bitnamilegacy/os-shell
+        tag: 12-debian-12-r50
     # auth:
     #   postgresPassword: "youReallyNeedToChangeThis"
     #   password: "youReallyNeedToChangeThis"
   keycloakConfigCli:
     enabled: true
-    # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-    # ref: https://github.com/bitnami/charts/issues/35164
     image:
-      repository: bitnamilegacy/keycloak-config-cli
+      repository: adorsys/keycloak-config-cli
+      tag: 6.4.0-26.1.0
+    command:
+      - java
+      - -jar
+      - /app/keycloak-config-cli.jar
     extraEnvVars:
       - name: IMPORT_VARSUBSTITUTION_ENABLED
         value: "true"
     # configuration:
     #   realm.yaml: |
     #     yourRealmConfig
-
-### ai-dial-auth-helper configuration ###
-authhelper:
-  # -- Enable/disable ai-dial-auth-helper.
-  # Set `keycloak.enabled: true` before enabling this.
-  enabled: false
-  commonLabels:
-    app.kubernetes.io/component: "authentication"
-  image:
-    repository: epam/ai-dial-auth-helper
-    tag: 0.4.0
-  containerPorts:
-    http: 4088
-  # env:
-  #   SERVER_HOSTURL: ""
-  #   OAUTH2_PROVIDERURI: ""
-  # secrets:
-  #   OAUTH2_CLIENTSECRET: ""
 
 ### ai-dial-core configuration ###
 core:
@@ -96,6 +94,11 @@ chat:
       path: /api/health
     failureThreshold: 6
 
+  resourcesPreset: small
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-chat-themes configuration ###
 themes:
   # -- Enable/disable ai-dial-chat-themes
@@ -110,6 +113,7 @@ themes:
   podSecurityContext:
     fsGroup: 101
   containerSecurityContext:
+    enabled: false
     runAsUser: 101
   livenessProbe:
     enabled: true
@@ -133,6 +137,11 @@ openai:
   readinessProbe:
     enabled: true
 
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
   # -- Enable/disable ai-dial-adapter-bedrock
@@ -144,8 +153,7 @@ bedrock:
     tag: 0.37.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
-  secrets:
-    {}
+  secrets: {}
     # AWS_DEFAULT_REGION: "us-east-1"
     # AWS_ACCESS_KEY_ID: ""
     # AWS_SECRET_ACCESS_KEY: ""
@@ -153,6 +161,11 @@ bedrock:
     enabled: true
   readinessProbe:
     enabled: true
+
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -170,6 +183,11 @@ vertexai:
   readinessProbe:
     enabled: true
 
+  resourcesPreset: small
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-adapter-dial configuration ###
 dial:
   # -- Enable/disable ai-dial-adapter-dial
@@ -186,19 +204,7 @@ dial:
   readinessProbe:
     enabled: true
 
-### ai-dial-assistant configuration ###
-assistant:
-  # -- Enable/disable ai-dial-assistant
-  enabled: false
-  commonLabels:
-    app.kubernetes.io/component: "application"
-  image:
-    repository: epam/ai-dial-assistant
-    tag: 0.7.0
-  # env:
-  #   OPENAI_API_BASE: "http://{{ .Release.Name }}-core"
-  #   TOOLS_SUPPORTING_DEPLOYMENTS: "gpt-4-turbo"
-  livenessProbe:
-    enabled: true
-  readinessProbe:
-    enabled: true
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.

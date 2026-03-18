@@ -1,6 +1,6 @@
 # dial
 
-![Version: 5.21.1](https://img.shields.io/badge/Version-5.21.1-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
+![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -16,24 +16,22 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | keycloak | 24.4.3 |
-| https://charts.epam-rail.com | core(dial-core) | 4.3.1 |
-| https://charts.epam-rail.com | authhelper(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | chat(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | themes(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | openai(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | bedrock(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | vertexai(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | dial(dial-extension) | 1.3.3 |
-| https://charts.epam-rail.com | assistant(dial-extension) | 1.3.3 |
-| oci://registry-1.docker.io/bitnamicharts | common | 2.29.0 |
+| https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
+| https://charts.dialx.ai | core(dial-core) | 5.1.1 |
+| https://charts.dialx.ai | chat(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | themes(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | openai(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | bedrock(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | vertexai(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | dial(dial-extension) | 3.0.1 |
+| oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial
 ```
 
@@ -83,26 +81,18 @@ helm install my-release dial/dial -f values.yaml
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| assistant.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
-| assistant.enabled | bool | `false` | Enable/disable ai-dial-assistant |
-| assistant.image.repository | string | `"epam/ai-dial-assistant"` |  |
-| assistant.image.tag | string | `"0.7.0"` |  |
-| assistant.livenessProbe.enabled | bool | `true` |  |
-| assistant.readinessProbe.enabled | bool | `true` |  |
-| authhelper.commonLabels."app.kubernetes.io/component" | string | `"authentication"` |  |
-| authhelper.containerPorts.http | int | `4088` |  |
-| authhelper.enabled | bool | `false` | Enable/disable ai-dial-auth-helper. Set `keycloak.enabled: true` before enabling this. |
-| authhelper.image.repository | string | `"epam/ai-dial-auth-helper"` |  |
-| authhelper.image.tag | string | `"0.4.0"` |  |
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| bedrock.containerSecurityContext.enabled | bool | `false` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
 | bedrock.image.tag | string | `"0.37.0"` |  |
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.enabled | bool | `true` |  |
+| bedrock.resourcesPreset | string | `"micro"` |  |
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
+| chat.containerSecurityContext.enabled | bool | `false` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.43.4"` |  |
@@ -112,37 +102,55 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.enabled | bool | `true` |  |
 | chat.readinessProbe.failureThreshold | int | `6` |  |
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
+| chat.resourcesPreset | string | `"small"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
 | core.image.tag | string | `"0.41.0"` |  |
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| dial.containerSecurityContext.enabled | bool | `false` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
 | dial.image.tag | string | `"0.12.0"` |  |
 | dial.livenessProbe.enabled | bool | `true` |  |
 | dial.readinessProbe.enabled | bool | `true` |  |
+| dial.resourcesPreset | string | `"micro"` |  |
 | extraDeploy | list | `[]` |  |
 | keycloak.enabled | bool | `false` | Enable/disable keycloak |
 | keycloak.extraEnvVars[0].name | string | `"KC_FEATURES"` |  |
 | keycloak.extraEnvVars[0].value | string | `"token-exchange,admin-fine-grained-authz"` |  |
 | keycloak.global.security.allowInsecureImages | bool | `true` |  |
 | keycloak.image.repository | string | `"bitnamilegacy/keycloak"` |  |
+| keycloak.keycloakConfigCli.command[0] | string | `"java"` |  |
+| keycloak.keycloakConfigCli.command[1] | string | `"-jar"` |  |
+| keycloak.keycloakConfigCli.command[2] | string | `"/app/keycloak-config-cli.jar"` |  |
 | keycloak.keycloakConfigCli.enabled | bool | `true` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].name | string | `"IMPORT_VARSUBSTITUTION_ENABLED"` |  |
 | keycloak.keycloakConfigCli.extraEnvVars[0].value | string | `"true"` |  |
-| keycloak.keycloakConfigCli.image.repository | string | `"bitnamilegacy/keycloak-config-cli"` |  |
+| keycloak.keycloakConfigCli.image.repository | string | `"adorsys/keycloak-config-cli"` |  |
+| keycloak.keycloakConfigCli.image.tag | string | `"6.4.0-26.1.0"` |  |
+| keycloak.postgresql.auth.usePasswordFiles | bool | `false` |  |
 | keycloak.postgresql.enabled | bool | `true` |  |
 | keycloak.postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
+| keycloak.postgresql.image.tag | string | `"17.6.0-debian-12-r0"` |  |
+| keycloak.postgresql.metrics.image.repository | string | `"bitnamilegacy/postgres-exporter"` |  |
+| keycloak.postgresql.metrics.image.tag | string | `"0.17.1-debian-12-r15"` |  |
+| keycloak.postgresql.usePasswordFiles | bool | `false` |  |
+| keycloak.postgresql.volumePermissions.image.repository | string | `"bitnamilegacy/os-shell"` |  |
+| keycloak.postgresql.volumePermissions.image.tag | string | `"12-debian-12-r50"` |  |
 | keycloak.proxy | string | `"edge"` |  |
+| keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| openai.containerSecurityContext.enabled | bool | `false` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.37.0"` |  |
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.enabled | bool | `true` |  |
+| openai.resourcesPreset | string | `"micro"` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
+| themes.containerSecurityContext.enabled | bool | `false` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
@@ -151,13 +159,108 @@ helm install my-release dial/dial -f values.yaml
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
+| vertexai.containerSecurityContext.enabled | bool | `false` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.33.0"` |  |
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.enabled | bool | `true` |  |
+| vertexai.resourcesPreset | string | `"small"` |  |
 
 ## Upgrading
+
+### To 6.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've updated the following underlying dependencies, some of which require manual actions:
+
+- `bitnami/keycloak` Helm chart version bumped from to `24.4.3` to `24.9.0`
+  - `keycloak` version bumped from `26.0.8` to `26.3.2`
+  - `keycloakCli` version changed to `adorsys/keycloak-config-cli:6.4.0-26.1.0`
+  - `bitnami/postgresql` Helm chart from `16.4.3` to `16.6.6`
+    - `postgresql` version bumped from `17.2.0` to `17.6.0`
+- `dial/dial-core` Helm chart version bumped from to `4.3.1` to `5.1.1`
+  - `bitnami/redis-cluster` Helm chart version bumped from to `11.4.0` to `13.0.4`
+    - `redis` version bumped from `7.4.2` to `8.2.1`
+- `dial/dial-extension` Helm charts version bumped from to `1.3.3` to `2.2.1`
+- `bitnami/common` Helm chart version bumped from to `2.29.0` to `2.31.4`
+
+#### Keycloak
+
+> [!TIP]
+> If you don't use Keycloak, disregard the information below and proceed to the next step.
+
+Please refer to the official documentation for more details:
+
+- [bitnami/keycloak helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md#upgrading)
+- [bitnami/postgresql helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/README.md#upgrading)
+
+> [!IMPORTANT]
+> We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
+
+1. Stop Keycloak
+1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
+
+##### Keycloak Config CLI
+
+> [!TIP]
+> If you don't use Keycloak CLI, disregard the information below and proceed to the next step.
+
+1. Enable `FGAP:V2` with the adding next line in realm file.
+
+    ```yaml
+    adminPermissionsEnabled: true
+    ```
+
+    See [adminPermissionsEnabled documentation](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
+
+1. Delete the `realm-management` client from your realm file.
+   See [Config CLI - Keycloak Version Compatibility: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
+
+#### Auth helper
+
+> [!TIP]
+> If you don't use Auth Helper, disregard the information below and proceed to the next step.
+
+The Auth helper (a standalone application that works with Keycloak only) is replaced by [ai-dial-auth-helpers](https://github.com/epam/ai-dial-keycloak-helpers) - custom Keycloak mappers.
+
+1. Update Keycloak URL in all applications that use Keycloak authentication. The URL format has changed and now requires the realm path. **Example for dial-chat:**
+    ```yaml
+    env:
+      AUTH_KEYCLOAK_HOST: "https://keycloak.example.com/realms/dial"
+    ```
+1. To reconfigure additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
+1. Delete section `authhelper` from values.
+
+#### DIAL assistant
+
+> [!TIP]
+> If you don't use DIAL assistant disregard the information below and proceed next step.
+
+Due to the decommissioning of entities such as DIAL assistants, we are removing the ability to install them from this section.
+
+1. Delete section `assistant` from values.
+
+#### Helm Upgrade
+
+1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version
+1. Verify DIAL is up and running correctly:
+
+    ```bash
+    helm list
+    kubectl get pods
+    kubectl logs -l app=dial-core --tail=50
+    ```
 
 ### To 5.4.0
 

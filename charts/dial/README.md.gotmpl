@@ -19,7 +19,7 @@
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial
 ```
 
@@ -68,6 +68,99 @@ helm install my-release dial/dial -f values.yaml
 {{ template "chart.valuesSection" . }}
 
 ## Upgrading
+
+### To 6.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've updated the following underlying dependencies, some of which require manual actions:
+
+- `bitnami/keycloak` Helm chart version bumped from to `24.4.3` to `24.9.0`
+  - `keycloak` version bumped from `26.0.8` to `26.3.2`
+  - `keycloakCli` version changed to `adorsys/keycloak-config-cli:6.4.0-26.1.0`
+  - `bitnami/postgresql` Helm chart from `16.4.3` to `16.6.6`
+    - `postgresql` version bumped from `17.2.0` to `17.6.0`
+- `dial/dial-core` Helm chart version bumped from to `4.3.1` to `5.1.1`
+  - `bitnami/redis-cluster` Helm chart version bumped from to `11.4.0` to `13.0.4`
+    - `redis` version bumped from `7.4.2` to `8.2.1`
+- `dial/dial-extension` Helm charts version bumped from to `1.3.3` to `2.2.1`
+- `bitnami/common` Helm chart version bumped from to `2.29.0` to `2.31.4`
+
+#### Keycloak
+
+> [!TIP]
+> If you don't use Keycloak, disregard the information below and proceed to the next step.
+
+Please refer to the official documentation for more details:
+
+- [bitnami/keycloak helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md#upgrading)
+- [bitnami/postgresql helm chart changelog](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/CHANGELOG.md), [upgrade notes](https://github.com/bitnami/charts/blob/main/bitnami/postgresql/README.md#upgrading)
+
+> [!IMPORTANT]
+> We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
+
+1. Stop Keycloak
+1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
+
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
+
+##### Keycloak Config CLI
+
+> [!TIP]
+> If you don't use Keycloak CLI, disregard the information below and proceed to the next step.
+
+1. Enable `FGAP:V2` with the adding next line in realm file.
+
+    ```yaml
+    adminPermissionsEnabled: true
+    ```
+
+    See [adminPermissionsEnabled documentation](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
+
+1. Delete the `realm-management` client from your realm file.
+   See [Config CLI - Keycloak Version Compatibility: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
+
+#### Auth helper
+
+> [!TIP]
+> If you don't use Auth Helper, disregard the information below and proceed to the next step.
+
+The Auth helper (a standalone application that works with Keycloak only) is replaced by [ai-dial-auth-helpers](https://github.com/epam/ai-dial-keycloak-helpers) - custom Keycloak mappers.
+
+1. Update Keycloak URL in all applications that use Keycloak authentication. The URL format has changed and now requires the realm path. **Example for dial-chat:**
+    ```yaml
+    env:
+      AUTH_KEYCLOAK_HOST: "https://keycloak.example.com/realms/dial"
+    ```
+1. To reconfigure additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
+1. Delete section `authhelper` from values.
+
+#### DIAL assistant
+
+> [!TIP]
+> If you don't use DIAL assistant disregard the information below and proceed next step.
+
+Due to the decommissioning of entities such as DIAL assistants, we are removing the ability to install them from this section.
+
+1. Delete section `assistant` from values.
+
+#### Helm Upgrade
+
+1. Run `helm upgrade` command with usual arguments, **new** `6.X.X` chart version
+1. Verify DIAL is up and running correctly:
+
+    ```bash
+    helm list
+    kubectl get pods
+    kubectl logs -l app=dial-core --tail=50
+    ```
 
 ### To 5.4.0
 
