@@ -5,6 +5,23 @@
 [![GitHub Workflow Status (Release)](https://img.shields.io/github/actions/workflow/status/epam/ai-dial-helm/release.yaml?logo=github&label=Release%20Charts&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/actions/workflows/release.yaml)
 [![GitHub all releases](https://img.shields.io/github/downloads/epam/ai-dial-helm/total?logo=github&label=Chart%20Downloads&logoColor=959DA5&labelColor=2B3137&color=30C151)](https://github.com/epam/ai-dial-helm/releases)
 
+> [!warning]
+> The Helm chart repository address has been changed from `https://charts.epam-rail.com` to `https://charts.dialx.ai`.
+> Old registry will no longer receive updates and will be unavailable in the nearest future.
+
+Please update your Helm repository configuration, e.g.:
+
+```console
+# Remove the old repository (assuming name is 'dial')
+helm repo remove dial
+
+# Add the new repository
+helm repo add dial https://charts.dialx.ai
+
+# Update your local charts cache
+helm repo update
+```
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.  Please refer to Helm's [documentation](https://helm.sh/docs) to get started.
@@ -12,7 +29,7 @@
 Once Helm has been set up correctly, add the repo as follows:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 ```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages. You can then run `helm search repo dial` to see the charts.
