@@ -520,6 +520,14 @@ frontend:
     # -- dial-admin frontend HTTP container port
     http: 3000
 
+  # -- Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge).
+  # This is ignored if `resources` is set (recommended for production).
+  # [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15)
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false    # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 manager:
   # -- Enable dial-admin deployment_manager deployment
   enabled: false
@@ -578,6 +586,14 @@ manager:
 
   containerPorts:
     http: 8080
+
+  # -- Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge).
+  # This is ignored if `resources` is set (recommended for production).
+  # [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15)
+  resourcesPreset: small
+
+  containerSecurityContext:
+    enabled: false    # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 postgresql:
   # -- Enable bundled PostgreSQL deployment
