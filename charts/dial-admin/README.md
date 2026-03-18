@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.10.1](https://img.shields.io/badge/Version-0.10.1-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
+![Version: 0.11.0](https://img.shields.io/badge/Version-0.11.0-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,8 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.epam-rail.com | frontend(dial-extension) | 2.2.1 |
-| https://charts.epam-rail.com | manager(dial-extension) | 2.2.1 |
+| https://charts.dialx.ai | frontend(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | manager(dial-extension) | 3.0.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -26,7 +26,7 @@ Kubernetes: `>=1.25.0-0`
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial-admin
 ```
 
@@ -243,11 +243,13 @@ helm install my-release dial/dial-admin -f values.yaml
 | externalDatabase.user | string | `"dial_admin"` | non-root Username for Database |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | frontend.containerPorts.http | int | `3000` | dial-admin frontend HTTP container port |
+| frontend.containerSecurityContext.enabled | bool | `false` |  |
 | frontend.enabled | bool | `true` | Enable dial-admin frontend deployment |
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
 | frontend.image.tag | string | `"0.14.5"` | Frontend image tag |
+| frontend.resourcesPreset | string | `"small"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
 | global.imagePullSecrets | list | `[]` | Global Docker registry secret names as an array |
@@ -259,6 +261,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
 | manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
+| manager.containerSecurityContext.enabled | bool | `false` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
 | manager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
 | manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
@@ -272,6 +275,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
 | manager.image.tag | string | `"0.14.3"` | Image tag (immutable tags are recommended) |
 | manager.rbac.create | bool | `true` |  |
+| manager.resourcesPreset | string | `"small"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | manager.serviceAccount.create | bool | `true` |  |
 | nameOverride | string | `""` | String to partially override common.names.name |
 | namespaceOverride | string | `""` | String to fully override common.names.namespace |
