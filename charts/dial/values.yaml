@@ -94,6 +94,11 @@ chat:
       path: /api/health
     failureThreshold: 6
 
+  resourcesPreset: small
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-chat-themes configuration ###
 themes:
   # -- Enable/disable ai-dial-chat-themes
@@ -108,6 +113,7 @@ themes:
   podSecurityContext:
     fsGroup: 101
   containerSecurityContext:
+    enabled: false
     runAsUser: 101
   livenessProbe:
     enabled: true
@@ -131,6 +137,11 @@ openai:
   readinessProbe:
     enabled: true
 
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
   # -- Enable/disable ai-dial-adapter-bedrock
@@ -151,6 +162,11 @@ bedrock:
   readinessProbe:
     enabled: true
 
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
   # -- Enable/disable ai-dial-adapter-vertexai
@@ -167,6 +183,11 @@ vertexai:
   readinessProbe:
     enabled: true
 
+  resourcesPreset: small
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+
 ### ai-dial-adapter-dial configuration ###
 dial:
   # -- Enable/disable ai-dial-adapter-dial
@@ -182,3 +203,8 @@ dial:
     enabled: true
   readinessProbe:
     enabled: true
+
+  resourcesPreset: micro
+
+  containerSecurityContext:
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
