@@ -14,10 +14,10 @@ dependencies:
     condition: keycloak.enabled
     version: 24.9.0
   - name: dial-core
-    repository: https://charts.epam-rail.com
+    repository: https://charts.dialx.ai
     alias: core
     condition: core.enabled
-    version: 5.1.0
+    version: 5.1.1
   - name: dial-extension
     repository: https://charts.epam-rail.com
     alias: chat

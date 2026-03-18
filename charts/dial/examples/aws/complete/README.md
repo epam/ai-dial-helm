@@ -54,7 +54,7 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     **Command:**
 
     ```sh
-    helm repo add dial https://charts.epam-rail.com
+    helm repo add dial https://charts.dialx.ai
     ```
 
     **Output:**

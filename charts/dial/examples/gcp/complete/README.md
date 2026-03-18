@@ -60,7 +60,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     **Command:**
 
     ```sh
-    helm repo add dial https://charts.epam-rail.com
+    helm repo add dial https://charts.dialx.ai
     ```
 
     **Output:**

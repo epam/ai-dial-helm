@@ -17,7 +17,7 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
-| https://charts.epam-rail.com | core(dial-core) | 5.1.0 |
+| https://charts.dialx.ai | core(dial-core) | 5.1.1 |
 | https://charts.epam-rail.com | chat(dial-extension) | 2.2.1 |
 | https://charts.epam-rail.com | themes(dial-extension) | 2.2.1 |
 | https://charts.epam-rail.com | openai(dial-extension) | 2.2.1 |
@@ -31,7 +31,7 @@ Kubernetes: `>=1.23.0-0`
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add dial https://charts.epam-rail.com
+helm repo add dial https://charts.dialx.ai
 helm install my-release dial/dial
 ```
 
