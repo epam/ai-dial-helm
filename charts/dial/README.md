@@ -170,7 +170,7 @@ In this version, we've updated the following underlying dependencies, some of wh
   - `keycloakCli` version changed to `adorsys/keycloak-config-cli:6.4.0-26.1.0`
   - `bitnami/postgresql` Helm chart from `16.4.3` to `16.6.6`
     - `postgresql` version bumped from `17.2.0` to `17.6.0`
-- `dial/dial-core` Helm chart version bumped from to `4.3.1` to `5.1.0`
+- `dial/dial-core` Helm chart version bumped from to `4.3.1` to `5.1.1`
   - `bitnami/redis-cluster` Helm chart version bumped from to `11.4.0` to `13.0.4`
     - `redis` version bumped from `7.4.2` to `8.2.1`
 - `dial/dial-extension` Helm charts version bumped from to `1.3.3` to `2.2.1`
