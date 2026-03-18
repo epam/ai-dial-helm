@@ -526,7 +526,7 @@ frontend:
   resourcesPreset: micro
 
   containerSecurityContext:
-    enabled: false # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 manager:
   # -- Enable dial-admin deployment_manager deployment
@@ -593,7 +593,7 @@ manager:
   resourcesPreset: small
 
   containerSecurityContext:
-    enabled: false # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 postgresql:
   # -- Enable bundled PostgreSQL deployment
