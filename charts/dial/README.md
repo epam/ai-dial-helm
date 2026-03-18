@@ -190,7 +190,7 @@ In this version, we've updated the following underlying dependencies, some of wh
 #### Keycloak
 
 > [!TIP]
-> If you don't use Keycloak, disregard the information below and proceed with Helm upgrade as usual.
+> If you don't use Keycloak, disregard the information below and proceed to the next step.
 
 Please refer to the official documentation for more details:
 
@@ -201,13 +201,20 @@ Please refer to the official documentation for more details:
 > We'd prepared a brief generic upgrade guide below, however, we can not be sure it'll cover all the cases. The steps may vary depending on your configuration and deployment specifics.
 
 1. Stop Keycloak
-1. Backup Postgres database.
-   See [bitnami/postgresql backup and restore](https://docs.bitnami.com/aws/infrastructure/postgresql/administration/backup-restore-postgresql/)
+1. Backup Postgres database, e.g. open Postgres container shell and run (replace `PGPASSWORD` with the actual password):
 
-#### Keycloak config cli
+    ```bash
+    export PGUSER=postgres
+    export PGPASSWORD=YouShouldReallyChangeThis
+    export PGDUMP_DIR=/bitnami/postgresql
+
+    pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password > ${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump
+    ```
+
+##### Keycloak Config CLI
 
 > [!TIP]
-> If you don't use Keycloak Cli, disregard the information below and proceed next step with Helm upgrade.
+> If you don't use Keycloak CLI, disregard the information below and proceed to the next step.
 
 1. Enable `FGAP:V2` with the adding next line in realm file.
 
@@ -217,33 +224,25 @@ Please refer to the official documentation for more details:
 
     See [adminPermissionsEnabled documentation](https://www.keycloak.org/docs/latest/upgrading/index.html#migration-changes:~:text=FGAP%3AV2%20can%20be%20enabled%20for%20a%20realm%20using%20the%20new%20Admin%20Permissions%20switch%20in%20Realm%20Settings).
 
-1. Delete this client `realm-management` from your realm file.
+1. Delete the `realm-management` client from your realm file.
    See [Config CLI - Keycloak Version Compatibility: issue](https://github.com/adorsys/keycloak-config-cli/issues/1305)
 
 #### Auth helper
 
 > [!TIP]
-> If you don't use Auth Helper, disregard the information below and proceed next step.
+> If you don't use Auth Helper, disregard the information below and proceed to the next step.
 
-Auth helper will be deprecated in this release.
+The Auth helper (a standalone application that works with Keycloak only) is replaced by [ai-dial-auth-helpers](https://github.com/epam/ai-dial-keycloak-helpers) - custom Keycloak mappers.
 
-1. Update all Applications auth configuration for the updated Keycloak interractions
+1. Update Keycloak URL in all applications that use Keycloak authentication. The URL format has changed and now requires the realm path.
+  **Example for dial-chat:**
 
-    From
+  ```yaml
+  env:
+    AUTH_KEYCLOAK_HOST: "https://keycloak.example.com/realms/dial"
+  ```
 
-    ```yaml
-    env:
-      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com"
-    ```
-
-    To
-
-    ```yaml
-    env:
-      AUTH_KEYCLOAK_HOST: "https://example.keycloak.com/realms/EXAMPLE_REALM_NAME"
-    ```
-
-1. If you used auth-helper to add additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
+1. To reconfigure additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
 1. Delete section `authhelper` from values.
 
 #### DIAL assistant
