@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.11.0](https://img.shields.io/badge/Version-0.11.0-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
+![Version: 0.11.1](https://img.shields.io/badge/Version-0.11.1-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -243,7 +243,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | externalDatabase.user | string | `"dial_admin"` | non-root Username for Database |
 | extraDeploy | list | `[]` | Array of extra objects to deploy with the release |
 | frontend.containerPorts.http | int | `3000` | dial-admin frontend HTTP container port |
-| frontend.containerSecurityContext.enabled | bool | `false` |  |
+| frontend.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | frontend.enabled | bool | `true` | Enable dial-admin frontend deployment |
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
@@ -261,7 +261,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
 | manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
-| manager.containerSecurityContext.enabled | bool | `false` |  |
+| manager.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
 | manager.env.K8S_KNATIVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.knative.namespace }}"` |  |
 | manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |

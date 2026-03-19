@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
+![Version: 6.0.1](https://img.shields.io/badge/Version-6.0.1-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -82,7 +82,7 @@ helm install my-release dial/dial -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| bedrock.containerSecurityContext.enabled | bool | `false` |  |
+| bedrock.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
 | bedrock.image.tag | string | `"0.37.0"` |  |
@@ -92,7 +92,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.containerPorts.http | int | `3000` |  |
-| chat.containerSecurityContext.enabled | bool | `false` |  |
+| chat.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"0.43.4"` |  |
@@ -108,7 +108,7 @@ helm install my-release dial/dial -f values.yaml
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| dial.containerSecurityContext.enabled | bool | `false` |  |
+| dial.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
 | dial.image.tag | string | `"0.12.0"` |  |
@@ -141,7 +141,7 @@ helm install my-release dial/dial -f values.yaml
 | keycloak.proxy | string | `"edge"` |  |
 | keycloak.usePasswordFiles | bool | `false` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| openai.containerSecurityContext.enabled | bool | `false` |  |
+| openai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.37.0"` |  |
@@ -150,7 +150,8 @@ helm install my-release dial/dial -f values.yaml
 | openai.resourcesPreset | string | `"micro"` |  |
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
-| themes.containerSecurityContext.enabled | bool | `false` |  |
+| themes.containerSecurityContext.enabled | bool | `true` |  |
+| themes.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
@@ -159,7 +160,7 @@ helm install my-release dial/dial -f values.yaml
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| vertexai.containerSecurityContext.enabled | bool | `false` |  |
+| vertexai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.33.0"` |  |
@@ -235,10 +236,12 @@ Please refer to the official documentation for more details:
 The Auth helper (a standalone application that works with Keycloak only) is replaced by [ai-dial-auth-helpers](https://github.com/epam/ai-dial-keycloak-helpers) - custom Keycloak mappers.
 
 1. Update Keycloak URL in all applications that use Keycloak authentication. The URL format has changed and now requires the realm path. **Example for dial-chat:**
+
     ```yaml
     env:
       AUTH_KEYCLOAK_HOST: "https://keycloak.example.com/realms/dial"
     ```
+
 1. To reconfigure additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
 1. Delete section `authhelper` from values.
 
