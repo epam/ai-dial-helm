@@ -135,10 +135,12 @@ Please refer to the official documentation for more details:
 The Auth helper (a standalone application that works with Keycloak only) is replaced by [ai-dial-auth-helpers](https://github.com/epam/ai-dial-keycloak-helpers) - custom Keycloak mappers.
 
 1. Update Keycloak URL in all applications that use Keycloak authentication. The URL format has changed and now requires the realm path. **Example for dial-chat:**
+
     ```yaml
     env:
       AUTH_KEYCLOAK_HOST: "https://keycloak.example.com/realms/dial"
     ```
+
 1. To reconfigure additional claims such as `Job title` and/or `icon image`, you need to add specialized mappers in Keycloak as described in the following [github project](https://github.com/epam/ai-dial-keycloak-helpers)
 1. Delete section `authhelper` from values.
 

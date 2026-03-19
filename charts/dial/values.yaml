@@ -97,7 +97,7 @@ chat:
   resourcesPreset: small
 
   containerSecurityContext:
-    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-chat-themes configuration ###
 themes:
@@ -113,8 +113,9 @@ themes:
   podSecurityContext:
     fsGroup: 101
   containerSecurityContext:
-    enabled: false
+    enabled: true
     runAsUser: 101
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -140,7 +141,7 @@ openai:
   resourcesPreset: micro
 
   containerSecurityContext:
-    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -165,7 +166,7 @@ bedrock:
   resourcesPreset: micro
 
   containerSecurityContext:
-    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -186,7 +187,7 @@ vertexai:
   resourcesPreset: small
 
   containerSecurityContext:
-    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-dial configuration ###
 dial:
@@ -207,4 +208,4 @@ dial:
   resourcesPreset: micro
 
   containerSecurityContext:
-    enabled: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
+    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
