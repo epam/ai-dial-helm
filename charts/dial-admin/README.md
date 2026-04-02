@@ -259,7 +259,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
 | manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
-| manager.configuration.deploy | object | `{"knative":{"enabled":false,"namespace":""},"kserve":{"enabled":true,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
 | manager.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
