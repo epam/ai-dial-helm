@@ -571,13 +571,13 @@ manager:
     # -- Deploy mcp containers specific variables
     deploy:
       knative:
-        enabled: false
+        enabled: true
         namespace: ""
       nim:
         enabled: false
         namespace: ""
       kserve:
-        enabled: true
+        enabled: false
         namespace: ""
     # -- Build images for mcp containers specific variables
     build:
