@@ -530,7 +530,7 @@ frontend:
 
 manager:
   # -- Enable dial-admin deployment_manager deployment
-  enabled: false
+  enabled: true
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -553,6 +553,7 @@ manager:
     K8S_NIM_DEPLOYMENT_NAMESPACE: "{{ .Values.configuration.deploy.nim.namespace }}"
     K8S_KSERVE_ENABLED: "{{ .Values.configuration.deploy.kserve.enabled }}"
     K8S_KSERVE_DEPLOYMENT_NAMESPACE: "{{ .Values.configuration.deploy.kserve.namespace }}"
+    K8S_BUILD_NAMESPACE: "{{ .Values.configuration.build.namespace }}"
 
   rbac:
     create: true
