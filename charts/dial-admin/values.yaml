@@ -577,11 +577,11 @@ manager:
         enabled: false
         namespace: ""
       kserve:
-        enabled: false
-        namespace: ""
+        enabled: true
+        namespace: "test"
     # -- Build images for mcp containers specific variables
     build:
-      namespace: ""
+      namespace: "tert"
 
   extraEnvVarsSecret: "{{ .Release.Name }}-manager-db"
 
