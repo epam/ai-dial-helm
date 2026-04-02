@@ -530,7 +530,7 @@ frontend:
 
 manager:
   # -- Enable dial-admin deployment_manager deployment
-  enabled: true
+  enabled: false
   # -- Section to configure the image.
   # @default -- [Documentation](https://kubernetes.io/docs/concepts/containers/images/)
   image:
@@ -571,17 +571,17 @@ manager:
     # -- Deploy mcp containers specific variables
     deploy:
       knative:
-        enabled: true
+        enabled: false
         namespace: ""
       nim:
         enabled: false
         namespace: ""
       kserve:
         enabled: true
-        namespace: "test"
+        namespace: ""
     # -- Build images for mcp containers specific variables
     build:
-      namespace: "tert"
+      namespace: ""
 
   extraEnvVarsSecret: "{{ .Release.Name }}-manager-db"
 
