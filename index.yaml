@@ -4641,6 +4641,49 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 0.14.0
+    created: "2026-04-02T13:47:10.39629295Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.31.1
+    - alias: frontend
+      condition: frontend.enabled
+      name: dial-extension
+      repository: https://charts.dialx.ai
+      version: 3.0.1
+    - alias: manager
+      condition: manager.enabled
+      name: dial-extension
+      repository: https://charts.dialx.ai
+      version: 3.0.1
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.12
+    description: Helm chart for DIAL Admin
+    digest: cd04095f2eb4222e045a1e7118c64e8b3f15520728922d9991600b74087df300
+    home: https://dialx.ai
+    icon: https://docs.dialx.ai/img/favicon.ico
+    keywords:
+    - ai-dial
+    - ai-dial-admin
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - name: EPAM Systems
+      url: https://github.com/epam
+    name: dial-admin
+    sources:
+    - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-admin
+    urls:
+    - https://github.com/epam/ai-dial-helm/releases/download/dial-admin-0.11.2/dial-admin-0.11.2.tgz
+    version: 0.11.2
+  - annotations:
+      category: MachineLearning
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 0.14.0
     created: "2026-03-19T07:18:28.250182334Z"
     dependencies:
     - name: common
@@ -6781,4 +6824,4 @@ entries:
     urls:
     - https://github.com/epam/ai-dial-helm/releases/download/dial-extension-1.0.0/dial-extension-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-19T07:18:28.250801208Z"
+generated: "2026-04-02T13:47:10.396584553Z"
