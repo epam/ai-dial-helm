@@ -50,6 +50,8 @@ metadata:
   name: {{ include "common.names.fullname.namespace" .Subcharts.manager }}
   {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.build.namespace }}
   namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- else }}
+  namespace: {{ .Values.manager.configuration.build.namespace | quote }}
   {{- end }}
   labels: {{- include "common.labels.standard" (dict "customLabels" .Values.manager.commonLabels "context" $.Subcharts.manager) | nindent 4 }}
   {{- if .Values.manager.commonAnnotations }}
@@ -94,6 +96,7 @@ rules:
       - list
       - watch
       - create
+      - update
       - delete
   - apiGroups:
       - ""
@@ -125,6 +128,8 @@ metadata:
   {{- end }}
   {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.knative.namespace }}
   namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- else }}
+  namespace: {{ .Values.manager.configuration.deploy.knative.namespace | quote }}
   {{- end }}
 subjects:
   - kind: ServiceAccount
@@ -166,6 +171,7 @@ rules:
       - list
       - watch
       - create
+      - update
       - delete
   - apiGroups:
       - ""
@@ -197,6 +203,8 @@ metadata:
   {{- end }}
   {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.nim.namespace }}
   namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- else }}
+  namespace: {{ .Values.manager.configuration.deploy.nim.namespace | quote }}
   {{- end }}
 subjects:
   - kind: ServiceAccount
@@ -238,6 +246,7 @@ rules:
       - list
       - watch
       - create
+      - update
       - delete
   - apiGroups:
       - ""
@@ -269,6 +278,8 @@ metadata:
   {{- end }}
   {{- if eq (include "common.names.namespace" .Subcharts.manager) .Values.manager.configuration.deploy.kserve.namespace }}
   namespace: {{ include "common.names.namespace" .Subcharts.manager | quote }}
+  {{- else }}
+  namespace: {{ .Values.manager.configuration.deploy.kserve.namespace | quote }}
   {{- end }}
 subjects:
   - kind: ServiceAccount
