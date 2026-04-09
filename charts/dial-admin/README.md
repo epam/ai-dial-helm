@@ -1,6 +1,7 @@
 # dial-admin
 
-![Version: 0.11.2](https://img.shields.io/badge/Version-0.11.2-informational?style=flat-square) ![AppVersion: 0.14.0](https://img.shields.io/badge/AppVersion-0.14.0-informational?style=flat-square)
+
+![Version: 0.12.0](https://img.shields.io/badge/Version-0.12.0-informational?style=flat-square) ![AppVersion: 0.15.2](https://img.shields.io/badge/AppVersion-0.15.2-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -124,7 +125,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.14.3"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.15.2"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -248,7 +249,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.14.5"` | Frontend image tag |
+| frontend.image.tag | string | `"0.15.2"` | Frontend image tag |
 | frontend.resourcesPreset | string | `"micro"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
@@ -274,7 +275,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | manager.image.registry | string | `"docker.io"` | Image registry |
 | manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
-| manager.image.tag | string | `"0.14.3"` | Image tag (immutable tags are recommended) |
+| manager.image.tag | string | `"0.15.0"` | Image tag (immutable tags are recommended) |
 | manager.rbac.create | bool | `true` |  |
 | manager.resourcesPreset | string | `"small"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | manager.serviceAccount.create | bool | `true` |  |
