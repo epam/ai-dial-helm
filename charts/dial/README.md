@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.0.1](https://img.shields.io/badge/Version-6.0.1-informational?style=flat-square) ![AppVersion: 1.41.1](https://img.shields.io/badge/AppVersion-1.41.1-informational?style=flat-square)
+![Version: 6.1.0](https://img.shields.io/badge/Version-6.1.0-informational?style=flat-square) ![AppVersion: 1.42.0](https://img.shields.io/badge/AppVersion-1.42.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -85,7 +85,7 @@ helm install my-release dial/dial -f values.yaml
 | bedrock.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.37.0"` |  |
+| bedrock.image.tag | string | `"0.38.0"` |  |
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.enabled | bool | `true` |  |
 | bedrock.resourcesPreset | string | `"micro"` |  |
@@ -95,7 +95,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"0.43.4"` |  |
+| chat.image.tag | string | `"0.44.1"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -104,14 +104,14 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.resourcesPreset | string | `"small"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.41.0"` |  |
+| core.image.tag | string | `"0.42.0"` |  |
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
 | dial.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
-| dial.image.tag | string | `"0.12.0"` |  |
+| dial.image.tag | string | `"0.13.0"` |  |
 | dial.livenessProbe.enabled | bool | `true` |  |
 | dial.readinessProbe.enabled | bool | `true` |  |
 | dial.resourcesPreset | string | `"micro"` |  |
@@ -144,7 +144,7 @@ helm install my-release dial/dial -f values.yaml
 | openai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
-| openai.image.tag | string | `"0.37.0"` |  |
+| openai.image.tag | string | `"0.38.0"` |  |
 | openai.livenessProbe.enabled | bool | `true` |  |
 | openai.readinessProbe.enabled | bool | `true` |  |
 | openai.resourcesPreset | string | `"micro"` |  |
@@ -163,7 +163,7 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
-| vertexai.image.tag | string | `"0.33.0"` |  |
+| vertexai.image.tag | string | `"0.34.0"` |  |
 | vertexai.livenessProbe.enabled | bool | `true` |  |
 | vertexai.readinessProbe.enabled | bool | `true` |  |
 | vertexai.resourcesPreset | string | `"small"` |  |
