@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.2.0](https://img.shields.io/badge/Version-6.2.0-informational?style=flat-square) ![AppVersion: 1.42.0](https://img.shields.io/badge/AppVersion-1.42.0-informational?style=flat-square)
+![Version: 6.2.0](https://img.shields.io/badge/Version-6.2.0-informational?style=flat-square) ![AppVersion: 1.43.0](https://img.shields.io/badge/AppVersion-1.43.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
