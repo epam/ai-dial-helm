@@ -463,6 +463,41 @@ ingress:
     #   serviceName: foo
     #   servicePort: 80
 
+# -- HTTPRoute configuration (Gateway API)
+# @default -- [Documentation](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/)
+httpRoute:
+  # -- Enable HTTPRoute resource creation
+  enabled: false
+  # -- Additional annotations for the HTTPRoute resource
+  annotations: {}
+  # -- Gateway parent references (required when enabled)
+  # [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#parentreference)
+  parentRefs: []
+    # - name: my-gateway
+    #   namespace: gateway-ns
+    #   sectionName: https
+  # -- Hostnames to match for routing
+  hostnames: []
+    # - dial-extension.example.com
+  # -- Custom routing rules. When empty, a default rule is created that routes all traffic (PathPrefix /) to the service
+  # [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule)
+  rules: []
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /v1/chat
+    #   backendRefs:
+    #     - name: my-service
+    #       port: 80
+    #   filters:
+    #     - type: URLRewrite
+    #       urlRewrite:
+    #         path:
+    #           type: ReplacePrefixMatch
+    #           replacePrefixMatch: /
+    #   timeouts:
+    #     request: 30s
+
 # -- Section to configure persistence
 # @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
 persistence:

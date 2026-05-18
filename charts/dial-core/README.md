@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 5.1.1](https://img.shields.io/badge/Version-5.1.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 5.2.0](https://img.shields.io/badge/Version-5.2.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -125,6 +125,12 @@ helm install my-release dial/dial-core -f values.yaml
 | global.storageClass | string | `""` | Global StorageClass for Persistent Volume(s) |
 | hostAliases | list | `[]` | dial-core pods host aliases [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/) |
 | hostNetwork | bool | `false` | Enable Host Network If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet |
+| httpRoute | object | [Documentation](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/) | HTTPRoute configuration (Gateway API) |
+| httpRoute.annotations | object | `{}` | Additional annotations for the HTTPRoute resource |
+| httpRoute.enabled | bool | `false` | Enable HTTPRoute resource creation |
+| httpRoute.hostnames | list | `[]` | Hostnames to match for routing |
+| httpRoute.parentRefs | list | `[]` | Gateway parent references (required when enabled) [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#parentreference) |
+| httpRoute.rules | list | `[]` | Custom routing rules. When empty, a default rule is created that routes all traffic (PathPrefix /) to the service [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule) |
 | image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | image.digest | string | `""` | Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended) |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
