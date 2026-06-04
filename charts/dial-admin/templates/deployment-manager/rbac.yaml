@@ -25,6 +25,7 @@ rules:
       - watch
       - create
       - delete
+      - deletecollection
   - apiGroups:
       - ""
     resources:
