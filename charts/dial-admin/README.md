@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.15.0](https://img.shields.io/badge/Version-0.15.0-informational?style=flat-square) ![AppVersion: 0.17.0](https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square)
+![Version: 0.14.1](https://img.shields.io/badge/Version-0.14.1-informational?style=flat-square) ![AppVersion: 0.17.0](https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,8 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.dialx.ai | frontend(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | manager(dial-extension) | 3.1.0 |
+| https://charts.dialx.ai | frontend(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | manager(dial-extension) | 3.1.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
