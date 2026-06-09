@@ -394,6 +394,58 @@
                     },
                     "type": "object"
                 },
+                "httpRoute": {
+                    "type": "object",
+                    "description": "HTTPRoute configuration (Gateway API)",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "Enable HTTPRoute resource creation",
+                            "default": false
+                        },
+                        "annotations": {
+                            "type": "object",
+                            "description": "Additional annotations for the HTTPRoute resource",
+                            "default": {}
+                        },
+                        "parentRefs": {
+                            "type": "array",
+                            "description": "Gateway parent references (required when enabled)",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the Gateway resource"
+                                    },
+                                    "namespace": {
+                                        "type": "string",
+                                        "description": "Namespace of the Gateway resource"
+                                    },
+                                    "sectionName": {
+                                        "type": "string",
+                                        "description": "Section name of the Gateway listener"
+                                    }
+                                },
+                                "required": ["name"]
+                            }
+                        },
+                        "hostnames": {
+                            "type": "array",
+                            "description": "Hostnames to match for routing",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "rules": {
+                            "type": "array",
+                            "description": "Custom routing rules. When empty, a default rule routes all traffic to the service",
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "serviceAccount": {
                     "properties": {
                         "create": {

@@ -1,0 +1,35 @@
+{{- if and .Values.backend.enabled .Values.backend.httpRoute.enabled -}}
+
+{{- if or (not .Values.backend.httpRoute.parentRefs) (lt (len .Values.backend.httpRoute.parentRefs) 1) }}
+{{- fail (printf "backend.httpRoute.parentRefs must be defined and contain at least one gateway reference.") }}
+{{- end -}}
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ template "dialAdmin.backend.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: backend
+  {{- if or .Values.backend.httpRoute.annotations .Values.commonAnnotations }}
+  {{- $annotations := merge .Values.backend.httpRoute.annotations .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs: {{- include "common.tplvalues.render" (dict "value" .Values.backend.httpRoute.parentRefs "context" $) | nindent 4 }}
+  {{- if .Values.backend.httpRoute.hostnames }}
+  hostnames: {{- include "common.tplvalues.render" (dict "value" .Values.backend.httpRoute.hostnames "context" $) | nindent 4 }}
+  {{- end }}
+  rules:
+    {{- if .Values.backend.httpRoute.rules }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.backend.httpRoute.rules "context" $ ) | nindent 4 }}
+    {{- else }}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: {{ template "dialAdmin.backend.fullname" . }}
+          port: {{ .Values.backend.service.ports.http }}
+    {{- end }}
+{{- end }}

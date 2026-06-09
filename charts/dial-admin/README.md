@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.14.0](https://img.shields.io/badge/Version-0.14.0-informational?style=flat-square) ![AppVersion: 0.17.0](https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square)
+![Version: 0.15.0](https://img.shields.io/badge/Version-0.15.0-informational?style=flat-square) ![AppVersion: 0.17.0](https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,8 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.dialx.ai | frontend(dial-extension) | 3.0.1 |
-| https://charts.dialx.ai | manager(dial-extension) | 3.0.1 |
+| https://charts.dialx.ai | frontend(dial-extension) | 3.1.0 |
+| https://charts.dialx.ai | manager(dial-extension) | 3.1.0 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -118,6 +118,12 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.extraVolumes | list | `[]` | Optionally specify extra list of additional volumes for the dial-admin backend pod(s) |
 | backend.hostAliases | list | `[]` | dial-admin backend pods host aliases [Documentation](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/) |
 | backend.hostNetwork | bool | `false` | Enable Host Network If hostNetwork true, then dnsPolicy is set to ClusterFirstWithHostNet |
+| backend.httpRoute | object | [Documentation](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/) | HTTPRoute configuration (Gateway API) |
+| backend.httpRoute.annotations | object | `{}` | Additional annotations for the HTTPRoute resource |
+| backend.httpRoute.enabled | bool | `false` | Enable HTTPRoute resource creation |
+| backend.httpRoute.hostnames | list | `[]` | Hostnames to match for routing |
+| backend.httpRoute.parentRefs | list | `[]` | Gateway parent references (required when enabled) [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#parentreference) |
+| backend.httpRoute.rules | list | `[]` | Custom routing rules. When empty, a default rule is created that routes all traffic (PathPrefix /) to the service [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule) |
 | backend.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | backend.image.digest | string | `""` | Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag image tag (immutable tags are recommended) |
 | backend.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
