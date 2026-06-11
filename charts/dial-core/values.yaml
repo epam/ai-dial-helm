@@ -714,7 +714,7 @@ valkey:
     usersExistingSecret: ""
     aclUsers:
       default:
-        passwordKey: ""
+        password: ""
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
       replication-user:
         password: ""
