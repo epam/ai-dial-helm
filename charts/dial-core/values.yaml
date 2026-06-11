@@ -714,8 +714,6 @@ valkey:
     aclUsers:
       default:
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
-      readonly:
-        permissions: "~* -@all +@read +ping +info"
       replication-user:
         permissions: "on ~* +psync +replconf +ping"
 
