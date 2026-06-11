@@ -711,10 +711,13 @@ valkey:
 
   auth:
     enabled: true
+    usersExistingSecret: ""
     aclUsers:
       default:
+        passwordKey: ""
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
       replication-user:
+        password: ""
         permissions: "on ~* +psync +replconf +ping"
 
   valkeyConfig: |

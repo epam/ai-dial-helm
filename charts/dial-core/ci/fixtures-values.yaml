@@ -3,11 +3,3 @@ env:
   aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
   aidial.identityProviders.fake.rolePath: "roles"
   aidial.identityProviders.fake.issuerPattern: "issuer"
-
-auth:
-  enabled: true
-  aclUsers:
-    default:
-      password: "dummyCIDefaultPasswordjkkx3dJlgmKb4zP6"
-    replication-user:
-      password: "dummyCIReplicationUserPasswordjkkx3dJlgmKb4zP6"
