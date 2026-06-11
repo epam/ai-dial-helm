@@ -290,7 +290,7 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
-| valkey.auth.aclUsers.default.passwordKey | string | `""` |  |
+| valkey.auth.aclUsers.default.password | string | `""` |  |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"` |  |
 | valkey.auth.aclUsers.replication-user.password | string | `""` |  |
 | valkey.auth.aclUsers.replication-user.permissions | string | `"on ~* +psync +replconf +ping"` |  |
