@@ -714,10 +714,16 @@ valkey:
     usersExistingSecret: ""
     aclUsers:
       default:
+        # Password for the default user.
+        # If empty, a random password will be generated and stored in the secret.
         password: ""
+        # ACL permissions for the default user.
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
       replication-user:
+        # Password for the replication user.
+        # If empty, a random password will be generated and stored in the secret.
         password: ""
+        # ACL permissions for the replication user.
         permissions: "on ~* +psync +replconf +ping"
 
   valkeyConfig: |
