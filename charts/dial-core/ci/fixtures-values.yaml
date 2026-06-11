@@ -3,6 +3,8 @@ env:
   aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
   aidial.identityProviders.fake.rolePath: "roles"
   aidial.identityProviders.fake.issuerPattern: "issuer"
+  # aidial.redis.singleServerConfig.password: "dummy"
+  # aidial.redis.singleServerConfig.address: 'redis://valkey:6379'
 
 valkey:
   auth:

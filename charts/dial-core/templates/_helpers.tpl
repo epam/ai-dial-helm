@@ -126,7 +126,7 @@ Return Valkey configuration for dial-core for dependency chart
 - name: aidial.redis.singleServerConfig.address
   value: '[{{- printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.valkey) | quote -}}]'
 {{- if .Values.valkey.usePassword }}
-- name: aidial.redis.clusterServersConfig.password
+- name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
       name: {{ include "valkey.secretName" .Subcharts.valkey }}
