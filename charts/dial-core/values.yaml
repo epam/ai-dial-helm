@@ -734,7 +734,7 @@ valkey:
 
   replica:
     enabled: true
-    replicas: 3
+    replicas: 1  # Default number of replicas. Must be >= 1.
     disklessSync: true
 
     minReplicasToWrite: 1

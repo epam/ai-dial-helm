@@ -308,7 +308,7 @@ helm install my-release dial/dial-core -f values.yaml
 | valkey.replica.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | valkey.replica.persistence.size | string | `"5Gi"` |  |
 | valkey.replica.persistence.storageClass | string | `""` |  |
-| valkey.replica.replicas | int | `3` |  |
+| valkey.replica.replicas | int | `1` |  |
 | valkey.replica.replicationUser | string | `"replication-user"` |  |
 | valkey.replica.resources.limits.cpu | string | `"1"` |  |
 | valkey.replica.resources.limits.memory | string | `"6Gi"` |  |
