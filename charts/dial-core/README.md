@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 5.2.1](https://img.shields.io/badge/Version-5.2.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,7 +23,7 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 13.0.4 |
+| https://valkey.io/valkey-helm | valkey(valkey) | 0.9.4 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
@@ -255,18 +255,6 @@ helm install my-release dial/dial-core -f values.yaml
 | priorityClassName | string | `""` | dial-core pods' priorityClassName |
 | readinessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Readiness Probes configuration |
 | readinessProbe.enabled | bool | `true` | Enable/disable readinessProbe |
-| redis.cluster.nodes | int | `3` | The number of master nodes should always be >= 3, otherwise cluster creation will fail |
-| redis.cluster.replicas | int | `0` |  |
-| redis.cluster.update.currentNumberOfNodes | int | `3` |  |
-| redis.cluster.update.currentNumberOfReplicas | int | `0` |  |
-| redis.enabled | bool | `true` | Enable/disable Redis component |
-| redis.global.security.allowInsecureImages | bool | `true` |  |
-| redis.image.repository | string | `"bitnamilegacy/redis-cluster"` |  |
-| redis.redis.configmap | string | `"# Intentional gap from 2gb to 2Gi left\nmaxmemory 2gb\n# Evict using approximated LFU, only keys with an expire set\nmaxmemory-policy volatile-lfu"` |  |
-| redis.redis.resources.limits.memory | string | `"2Gi"` |  |
-| redis.redis.resources.requests.memory | string | `"2Gi"` |  |
-| redis.redis.useAOFPersistence | string | `"no"` | Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default) |
-| redis.usePasswordFiles | bool | `false` |  |
 | replicaCount | int | `1` | Number of dial-core replicas to deploy |
 | resources | object | `{}` | dial-core resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-core pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
@@ -302,6 +290,32 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
+| valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"` |  |
+| valkey.auth.aclUsers.readonly.permissions | string | `"~* -@all +@read +ping +info"` |  |
+| valkey.auth.aclUsers.replication-user.permissions | string | `"on ~* +psync +replconf +ping"` |  |
+| valkey.auth.enabled | bool | `true` |  |
+| valkey.enabled | bool | `true` | Enable/disable Valkey component |
+| valkey.image.pullPolicy | string | `"Always"` |  |
+| valkey.image.registry | string | `"ghcr.io"` |  |
+| valkey.image.repository | string | `"valkey-io/valkey"` |  |
+| valkey.image.tag | string | `"9.0.2"` |  |
+| valkey.replica.disklessSync | bool | `true` |  |
+| valkey.replica.enabled | bool | `true` |  |
+| valkey.replica.minReplicasMaxLag | int | `10` |  |
+| valkey.replica.minReplicasToWrite | int | `1` |  |
+| valkey.replica.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| valkey.replica.persistence.size | string | `"5Gi"` |  |
+| valkey.replica.persistence.storageClass | string | `""` |  |
+| valkey.replica.replicas | int | `3` |  |
+| valkey.replica.replicationUser | string | `"replication-user"` |  |
+| valkey.replica.resources.limits.cpu | string | `"1"` |  |
+| valkey.replica.resources.limits.memory | string | `"6Gi"` |  |
+| valkey.replica.resources.requests.cpu | string | `"500m"` |  |
+| valkey.replica.resources.requests.memory | string | `"1Gi"` |  |
+| valkey.replica.service.enabled | bool | `true` |  |
+| valkey.replica.service.port | int | `6379` |  |
+| valkey.replica.service.type | string | `"ClusterIP"` |  |
+| valkey.valkeyConfig | string | `"maxmemory 4G\nmaxmemory-policy volatile-lfu\ntcp-keepalive 300\ntimeout 0\n"` |  |
 
 ## Upgrading
 
