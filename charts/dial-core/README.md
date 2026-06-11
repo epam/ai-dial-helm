@@ -297,10 +297,6 @@ helm install my-release dial/dial-core -f values.yaml
 | valkey.auth.enabled | bool | `true` |  |
 | valkey.auth.usersExistingSecret | string | `""` |  |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
-| valkey.image.pullPolicy | string | `"Always"` |  |
-| valkey.image.registry | string | `"ghcr.io"` |  |
-| valkey.image.repository | string | `"valkey-io/valkey"` |  |
-| valkey.image.tag | string | `"9.0.2"` |  |
 | valkey.replica.disklessSync | bool | `true` |  |
 | valkey.replica.enabled | bool | `true` |  |
 | valkey.replica.minReplicasMaxLag | int | `10` |  |
