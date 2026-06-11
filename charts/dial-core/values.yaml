@@ -699,34 +699,61 @@ logger:
     #   mountPath: /etc/vector/vector.yaml
     #   subPath: vector.yaml
 
-redis:
-  # -- Enable/disable Redis component
+valkey:
+  # -- Enable/disable Valkey component
   enabled: true
-  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164
-  global:
-    security:
-      allowInsecureImages: true
+
   image:
-    repository: bitnamilegacy/redis-cluster
-  usePasswordFiles: false
-  redis:
+    pullPolicy: Always
+    registry: ghcr.io
+    repository: valkey-io/valkey
+    tag: 9.0.2
+
+  auth:
+    enabled: true
+    aclUsers:
+      default:
+        permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+      readonly:
+        permissions: "~* -@all +@read +ping +info"
+      replication-user:
+        permissions: "on ~* +psync +replconf +ping"
+
+  valkeyConfig: |
+    maxmemory 4G
+    maxmemory-policy volatile-lfu
+    tcp-keepalive 300
+    timeout 0
+
+  replica:
+    enabled: true
+    replicas: 3
+    disklessSync: true
+
+    minReplicasToWrite: 1
+    minReplicasMaxLag: 10
+
+    replicationUser: "replication-user"
+
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 6379
+
+    # Persistence configuration (required for replicas)
+    persistence:
+      # Size of the PVC for each replica (required when replica.enabled is true)
+      size: "5Gi"
+      # Storage class name (empty = use default storage class)
+      storageClass: ""
+      # Access modes for the PVC
+      accessModes:
+        - ReadWriteOnce
+
     resources:
       requests:
-        memory: 2Gi
+        memory: "1Gi"
+        cpu: "500m"
       limits:
-        memory: 2Gi
-    # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
-    useAOFPersistence: "no"
-    configmap: |-
-      # Intentional gap from 2gb to 2Gi left
-      maxmemory 2gb
-      # Evict using approximated LFU, only keys with an expire set
-      maxmemory-policy volatile-lfu
-  cluster:
-    # -- The number of master nodes should always be >= 3, otherwise cluster creation will fail
-    nodes: 3
-    replicas: 0
-    update:
-      currentNumberOfNodes: 3
-      currentNumberOfReplicas: 0
+        memory: "6Gi"
+        cpu: "1"

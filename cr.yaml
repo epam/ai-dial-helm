@@ -1,6 +1,6 @@
 # cr.yaml
 # Set to true for GPG signing
-sign: true
+sign: false
 
 # UID of the GPG key to use
 key: 149404362+ai-dial-actions@users.noreply.github.com
