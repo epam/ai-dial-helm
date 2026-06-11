@@ -291,7 +291,6 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"` |  |
-| valkey.auth.aclUsers.readonly.permissions | string | `"~* -@all +@read +ping +info"` |  |
 | valkey.auth.aclUsers.replication-user.permissions | string | `"on ~* +psync +replconf +ping"` |  |
 | valkey.auth.enabled | bool | `true` |  |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
