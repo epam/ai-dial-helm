@@ -2,7 +2,7 @@
 Return name for backend resources
 */}}
 {{- define "dialCore.names.fullname" -}}
-{{- template "common.names.fullname" . -}}
+{{- printf "%s-core" (include "common.names.fullname" .) -}}
 {{- end -}}
 
 {{/*
@@ -124,13 +124,13 @@ Return Valkey configuration for dial-core for dependency chart
 {{- define "dialCore.valkeySettings" -}}
 {{- if .Values.valkey.enabled -}}
 - name: aidial.redis.singleServerConfig.address
-  value: '{{ printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.valkey) }}'
-{{- if .Values.valkey.usePassword }}
+  value: {{ printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.valkey) | quote }}
+- name: aidial.redis.singleServerConfig.username
+  value: "default"
 - name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-      name: {{ include "valkey.secretName" .Subcharts.valkey }}
-      key: {{ include "valkey.secretPasswordKey" .Subcharts.valkey }}
-{{- end -}}
+      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) }}
+      key: default-password
 {{- end -}}
 {{- end -}}

@@ -703,11 +703,11 @@ valkey:
   # -- Enable/disable Valkey component
   enabled: true
 
-  image:
-    pullPolicy: Always
-    registry: ghcr.io
-    repository: valkey-io/valkey
-    tag: 9.0.2
+  # image:
+  #   pullPolicy: Always
+  #   registry: ghcr.io
+  #   repository: valkey-io/valkey
+  #   tag: 9.0.2
 
   auth:
     enabled: true
