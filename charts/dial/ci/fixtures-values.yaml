@@ -1,6 +1,15 @@
 openai:
   enabled: true
 
+bedrock:
+  enabled: false
+
+dial:
+  enabled: false
+
+vertexai:
+  enabled: false
+
 core:
   enabled: true
   env:
@@ -8,3 +17,15 @@ core:
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
+
+  valkey:
+    auth:
+      aclUsers:
+        default:
+          # Password for the default user.
+          # If empty, a random password will be generated and stored in the secret.
+          password: "dummy"
+        replication-user:
+          # Password for the replication user.
+          # If empty, a random password will be generated and stored in the secret.
+          password: "dummy"
