@@ -12,3 +12,4 @@ github-groups: true
 validate-maintainers: false
 # Increased timeout for heavy charts
 # helm-extra-args: --timeout 600s
+helm-extra-args: --timeout 300s

@@ -477,6 +477,41 @@ ingress:
     #   serviceName: foo
     #   servicePort: 80
 
+# -- HTTPRoute configuration (Gateway API)
+# @default -- [Documentation](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/)
+httpRoute:
+  # -- Enable HTTPRoute resource creation
+  enabled: false
+  # -- Additional annotations for the HTTPRoute resource
+  annotations: {}
+  # -- Gateway parent references (required when enabled)
+  # [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#parentreference)
+  parentRefs: []
+    # - name: my-gateway
+    #   namespace: gateway-ns
+    #   sectionName: https
+  # -- Hostnames to match for routing
+  hostnames: []
+    # - dial-core.example.com
+  # -- Custom routing rules. When empty, a default rule is created that routes all traffic (PathPrefix /) to the service
+  # [Documentation](https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule)
+  rules: []
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /v1/chat
+    #   backendRefs:
+    #     - name: my-service
+    #       port: 80
+    #   filters:
+    #     - type: URLRewrite
+    #       urlRewrite:
+    #         path:
+    #           type: ReplacePrefixMatch
+    #           replacePrefixMatch: /
+    #   timeouts:
+    #     request: 30s
+
 # -- Section to configure persistence
 # @default -- [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
 persistence:
@@ -664,34 +699,62 @@ logger:
     #   mountPath: /etc/vector/vector.yaml
     #   subPath: vector.yaml
 
-redis:
-  # -- Enable/disable Redis component
+valkey:
+  # -- Enable/disable Valkey component
   enabled: true
-  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: bitnamilegacy/redis-cluster
-  usePasswordFiles: false
-  redis:
+
+  auth:
+    enabled: true
+    usersExistingSecret: ""
+    aclUsers:
+      default:
+        # Password for the default user.
+        # If empty, a random password will be generated and stored in the secret.
+        password: ""
+        # ACL permissions for the default user.
+        permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+      replication-user:
+        # Password for the replication user.
+        # If empty, a random password will be generated and stored in the secret.
+        password: ""
+        # ACL permissions for the replication user.
+        permissions: "on ~* +psync +replconf +ping"
+
+  valkeyConfig: |
+    maxmemory 4G
+    maxmemory-policy volatile-lfu
+    tcp-keepalive 300
+    timeout 0
+
+  replica:
+    enabled: true
+    replicas: 1  # Default number of replicas. Must be >= 1.
+    disklessSync: true
+
+    minReplicasToWrite: 1
+    minReplicasMaxLag: 10
+
+    replicationUser: "replication-user"
+
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 6379
+
+    # Persistence configuration (required for replicas)
+    persistence:
+      # Size of the PVC for each replica (required when replica.enabled is true)
+      size: "5Gi"
+      # Storage class name (empty = use default storage class)
+      storageClass: ""
+      # Access modes for the PVC
+      accessModes:
+        - ReadWriteOnce
+
     resources:
       requests:
-        memory: 2Gi
+        memory: "1Gi"
+        cpu: "500m"
       limits:
-        memory: 2Gi
-    # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
-    useAOFPersistence: "no"
-    configmap: |-
-      # Intentional gap from 2gb to 2Gi left
-      maxmemory 2gb
-      # Evict using approximated LFU, only keys with an expire set
-      maxmemory-policy volatile-lfu
-  cluster:
-    # -- The number of master nodes should always be >= 3, otherwise cluster creation will fail
-    nodes: 3
-    replicas: 0
-    update:
-      currentNumberOfNodes: 3
-      currentNumberOfReplicas: 0
+        memory: "6Gi"
+        cpu: "1"

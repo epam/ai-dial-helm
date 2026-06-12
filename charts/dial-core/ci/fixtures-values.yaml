@@ -3,3 +3,17 @@ env:
   aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
   aidial.identityProviders.fake.rolePath: "roles"
   aidial.identityProviders.fake.issuerPattern: "issuer"
+  # aidial.redis.singleServerConfig.password: "dummy"
+  # aidial.redis.singleServerConfig.address: 'redis://defula:dummy@valkey:6379'
+
+valkey:
+  auth:
+    aclUsers:
+      default:
+        # Password for the default user.
+        # If empty, a random password will be generated and stored in the secret.
+        password: "dummy"
+      replication-user:
+        # Password for the replication user.
+        # If empty, a random password will be generated and stored in the secret.
+        password: "dummy"
