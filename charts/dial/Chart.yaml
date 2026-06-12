@@ -14,7 +14,7 @@ dependencies:
     condition: keycloak.enabled
     version: 24.9.0
   - name: dial-core
-    repository: https://charts.dialx.ai
+    repository: https://shearwater1978.github.io/ai-dial-helm
     alias: core
     condition: core.enabled
     version: 6.0.0
