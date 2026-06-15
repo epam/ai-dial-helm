@@ -2,7 +2,7 @@
 Return name for backend resources
 */}}
 {{- define "dialCore.names.fullname" -}}
-{{- printf "%s-core" (include "common.names.fullname" .) -}}
+{{- template "common.names.fullname" . -}}
 {{- end -}}
 
 {{/*
