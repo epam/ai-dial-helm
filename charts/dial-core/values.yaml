@@ -710,13 +710,13 @@ valkey:
       default:
         # Password for the default user.
         # If empty, a random password will be generated and stored in the secret.
-        password: ""
+        # password: ""
         # ACL permissions for the default user.
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
       replication-user:
         # Password for the replication user.
         # If empty, a random password will be generated and stored in the secret.
-        password: ""
+        # password: ""
         # ACL permissions for the replication user.
         permissions: "on ~* +psync +replconf +ping"
 
@@ -736,25 +736,7 @@ valkey:
 
     replicationUser: "replication-user"
 
-    # service:
-    #   enabled: true
-    #   type: ClusterIP
-    #   port: 6379
-
     # Persistence configuration (required for replicas)
     persistence:
       # Size of the PVC for each replica (required when replica.enabled is true)
       size: "5Gi"
-      # Storage class name (empty = use default storage class)
-      # storageClass: ""
-      # Access modes for the PVC
-      # accessModes:
-      #   - ReadWriteOnce
-
-    # resources:
-    #   requests:
-    #     memory: "1Gi"
-    #     cpu: "500m"
-      # limits:
-      #   memory: "6Gi"
-      #   cpu: "1"
