@@ -123,14 +123,33 @@ Return Valkey configuration for dial-core for dependency chart
 */}}
 {{- define "dialCore.valkeySettings" -}}
 {{- if .Values.valkey.enabled -}}
+{{- $auth := .Values.valkey.auth | default dict -}}
+{{- $aclUsers := $auth.aclUsers | default dict -}}
+{{- $defaultUser := get $aclUsers "default" | default dict -}}
+{{- $defaultPassword := get $defaultUser "password" | default "" -}}
+{{- $existingSecret := $auth.usersExistingSecret | default "" -}}
+
 - name: aidial.redis.singleServerConfig.address
   value: {{ printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.valkey) | quote }}
 - name: aidial.redis.singleServerConfig.username
   value: "default"
+
+{{- if $existingSecret }}
 - name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) }}
+      name: {{ $existingSecret | quote }}
       key: default-password
+{{- else if $defaultPassword }}
+- name: aidial.redis.singleServerConfig.password
+  value: {{ $defaultPassword | quote }}
+{{- else }}
+- name: aidial.redis.singleServerConfig.password
+  valueFrom:
+    secretKeyRef:
+      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+      key: default-password
+{{- end }}
+
 {{- end -}}
 {{- end -}}
