@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 6.0.1](https://img.shields.io/badge/Version-6.0.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -290,9 +290,7 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
-| valkey.auth.aclUsers.default.password | string | `""` |  |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"` |  |
-| valkey.auth.aclUsers.replication-user.password | string | `""` |  |
 | valkey.auth.aclUsers.replication-user.permissions | string | `"on ~* +psync +replconf +ping"` |  |
 | valkey.auth.enabled | bool | `true` |  |
 | valkey.auth.usersExistingSecret | string | `""` |  |
@@ -301,18 +299,9 @@ helm install my-release dial/dial-core -f values.yaml
 | valkey.replica.enabled | bool | `true` |  |
 | valkey.replica.minReplicasMaxLag | int | `10` |  |
 | valkey.replica.minReplicasToWrite | int | `1` |  |
-| valkey.replica.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | valkey.replica.persistence.size | string | `"5Gi"` |  |
-| valkey.replica.persistence.storageClass | string | `""` |  |
 | valkey.replica.replicas | int | `1` |  |
 | valkey.replica.replicationUser | string | `"replication-user"` |  |
-| valkey.replica.resources.limits.cpu | string | `"1"` |  |
-| valkey.replica.resources.limits.memory | string | `"6Gi"` |  |
-| valkey.replica.resources.requests.cpu | string | `"500m"` |  |
-| valkey.replica.resources.requests.memory | string | `"1Gi"` |  |
-| valkey.replica.service.enabled | bool | `true` |  |
-| valkey.replica.service.port | int | `6379` |  |
-| valkey.replica.service.type | string | `"ClusterIP"` |  |
 | valkey.valkeyConfig | string | `"maxmemory 4G\nmaxmemory-policy volatile-lfu\ntcp-keepalive 300\ntimeout 0\n"` |  |
 
 ## Upgrading
