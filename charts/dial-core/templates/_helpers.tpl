@@ -23,6 +23,7 @@ Compile all warnings into a single message.
 */}}
 {{- define "dialCore.validateValues" -}}
 {{- $messages := list -}}
+{{- $messages := append $messages (include "dialCore.validateValues.valkeyUser" .) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
@@ -119,36 +120,35 @@ Params:
 {{- end -}}
 
 {{/*
+Validate replica authentication configuration
+*/}}
+{{- define "dialCore.validateValues.valkeyUser" -}}
+{{- if and .Values.valkey.enabled .Values.valkey.auth.enabled }}
+  {{- if not (hasKey .Values.valkey.auth.aclUsers "default") }}
+The 'default' user must be defined in auth.aclUsers when authentication is enabled. Without it, DIAL core can't access the database without credentials.
+  {{- end }}
+{{- end }}
+{{- end -}}
+
+{{/*
 Return Valkey configuration for dial-core for dependency chart
 */}}
 {{- define "dialCore.valkeySettings" -}}
 {{- if .Values.valkey.enabled -}}
-{{- $auth := .Values.valkey.auth | default dict -}}
-{{- $aclUsers := $auth.aclUsers | default dict -}}
-{{- $defaultUser := get $aclUsers "default" | default dict -}}
-{{- $defaultPassword := get $defaultUser "password" | default "" -}}
-{{- $existingSecret := $auth.usersExistingSecret | default "" -}}
-
 - name: aidial.redis.singleServerConfig.address
-  value: {{ printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.valkey) | quote }}
+  value: {{ printf "redis://%s:6379" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+{{- if .Values.valkey.auth.enabled }}
 - name: aidial.redis.singleServerConfig.username
   value: "default"
-
-{{- if $existingSecret }}
 - name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-      name: {{ $existingSecret | quote }}
       key: default-password
-{{- else if $defaultPassword }}
-- name: aidial.redis.singleServerConfig.password
-  value: {{ $defaultPassword | quote }}
+{{- if .Values.valkey.auth.usersExistingSecret }}
+      name: {{ .Values.valkey.auth.usersExistingSecret }}
 {{- else }}
-- name: aidial.redis.singleServerConfig.password
-  valueFrom:
-    secretKeyRef:
       name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
-      key: default-password
+{{- end }}
 {{- end }}
 
 {{- end -}}

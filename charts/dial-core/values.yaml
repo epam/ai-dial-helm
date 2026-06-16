@@ -704,39 +704,20 @@ valkey:
   enabled: true
 
   auth:
-    enabled: true
-    usersExistingSecret: ""
+    enabled: false
+
     aclUsers:
       default:
-        # Password for the default user.
-        # If empty, a random password will be generated and stored in the secret.
-        # password: ""
-        # ACL permissions for the default user.
+        # ACL permissions for the DIAL core user.
         permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
-      replication-user:
-        # Password for the replication user.
-        # If empty, a random password will be generated and stored in the secret.
         # password: ""
-        # ACL permissions for the replication user.
-        permissions: "on ~* +psync +replconf +ping"
+
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 2Gi
 
   valkeyConfig: |
-    maxmemory 4G
+    maxmemory 2G
     maxmemory-policy volatile-lfu
-    tcp-keepalive 300
-    timeout 0
-
-  replica:
-    enabled: true
-    replicas: 1  # Default number of replicas. Must be >= 1.
-    disklessSync: true
-
-    minReplicasToWrite: 1
-    minReplicasMaxLag: 10
-
-    replicationUser: "replication-user"
-
-    # Persistence configuration (required for replicas)
-    persistence:
-      # Size of the PVC for each replica (required when replica.enabled is true)
-      size: "5Gi"
