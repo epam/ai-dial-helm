@@ -1,6 +1,6 @@
 # dial
 
-![Version: 7.0.0](https://img.shields.io/badge/Version-7.0.0-informational?style=flat-square) ![AppVersion: 1.44.0](https://img.shields.io/badge/AppVersion-1.44.0-informational?style=flat-square)
+![Version: 7.0.1](https://img.shields.io/badge/Version-7.0.1-informational?style=flat-square) ![AppVersion: 1.44.0](https://img.shields.io/badge/AppVersion-1.44.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -23,7 +23,7 @@ Kubernetes: `>=1.23.0-0`
 | https://charts.dialx.ai | bedrock(dial-extension) | 3.1.0 |
 | https://charts.dialx.ai | vertexai(dial-extension) | 3.1.0 |
 | https://charts.dialx.ai | dial(dial-extension) | 3.1.0 |
-| https://shearwater1978.github.io/ai-dial-helm | core(dial-core) | 6.0.0 |
+| https://shearwater1978.github.io/ai-dial-helm | core(dial-core) | 6.0.5 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
