@@ -291,18 +291,11 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"` |  |
-| valkey.auth.aclUsers.replication-user.permissions | string | `"on ~* +psync +replconf +ping"` |  |
-| valkey.auth.enabled | bool | `true` |  |
-| valkey.auth.usersExistingSecret | string | `""` |  |
+| valkey.auth.enabled | bool | `false` |  |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
-| valkey.replica.disklessSync | bool | `true` |  |
-| valkey.replica.enabled | bool | `true` |  |
-| valkey.replica.minReplicasMaxLag | int | `10` |  |
-| valkey.replica.minReplicasToWrite | int | `1` |  |
-| valkey.replica.persistence.size | string | `"5Gi"` |  |
-| valkey.replica.replicas | int | `1` |  |
-| valkey.replica.replicationUser | string | `"replication-user"` |  |
-| valkey.valkeyConfig | string | `"maxmemory 4G\nmaxmemory-policy volatile-lfu\ntcp-keepalive 300\ntimeout 0\n"` |  |
+| valkey.resources.limits.memory | string | `"2Gi"` |  |
+| valkey.resources.requests.memory | string | `"2Gi"` |  |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` |  |
 
 ## Upgrading
 
