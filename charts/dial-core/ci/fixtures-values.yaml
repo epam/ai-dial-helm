@@ -13,7 +13,3 @@ valkey:
         # Password for the default user.
         # If empty, a random password will be generated and stored in the secret.
         password: "dummy"
-      replication-user:
-        # Password for the replication user.
-        # If empty, a random password will be generated and stored in the secret.
-        password: "dummy"
