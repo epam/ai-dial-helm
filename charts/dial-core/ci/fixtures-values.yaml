@@ -6,8 +6,4 @@ env:
 
 valkey:
   auth:
-    aclUsers:
-      default:
-        # Password for the default user.
-        # If empty, a random password will be generated and stored in the secret.
-        password: "dummy"
+    enabled: false
