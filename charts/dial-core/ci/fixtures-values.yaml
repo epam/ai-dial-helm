@@ -3,3 +3,12 @@ env:
   aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
   aidial.identityProviders.fake.rolePath: "roles"
   aidial.identityProviders.fake.issuerPattern: "issuer"
+
+valkey:
+  enabled: true
+  auth:
+    enabled: true
+    aclUsers:
+      default:
+        # Password for the default user.
+        password: "dummy"

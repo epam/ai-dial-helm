@@ -9,11 +9,11 @@ dependencies:
     tags:
       - bitnami-common
     version: 2.31.4
-  - name: redis-cluster
-    repository: https://charts.bitnami.com/bitnami
-    alias: redis
-    condition: redis.enabled
-    version: 13.0.4
+  - name: valkey
+    repository: https://valkey.io/valkey-helm
+    alias: valkey
+    condition: valkey.enabled
+    version: 0.9.4
 description: Helm chart for dial core
 home: https://dialx.ai
 icon: "https://docs.dialx.ai/img/favicon.ico"
@@ -26,4 +26,4 @@ maintainers:
 name: dial-core
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial-core
-version: 5.2.1
+version: 6.0.0

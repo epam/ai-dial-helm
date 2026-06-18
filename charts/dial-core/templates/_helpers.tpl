@@ -23,6 +23,7 @@ Compile all warnings into a single message.
 */}}
 {{- define "dialCore.validateValues" -}}
 {{- $messages := list -}}
+{{- $messages := append $messages (include "dialCore.validateValues.valkeyUser" .) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
@@ -119,18 +120,36 @@ Params:
 {{- end -}}
 
 {{/*
-Return Redis configuration for dial-core for dependency chart
+Validate replica authentication configuration
 */}}
-{{- define "dialCore.redisSettings" -}}
-{{- if .Values.redis.enabled -}}
-- name: aidial.redis.clusterServersConfig.nodeAddresses
-  value: '[{{- printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.redis) | quote -}}]'
-{{- if .Values.redis.usePassword }}
-- name: aidial.redis.clusterServersConfig.password
+{{- define "dialCore.validateValues.valkeyUser" -}}
+{{- if and .Values.valkey.enabled .Values.valkey.auth.enabled }}
+  {{- if not (hasKey .Values.valkey.auth.aclUsers "default") }}
+The 'default' user must be defined in auth.aclUsers when authentication is enabled. Without it, DIAL core can't access the database without credentials.
+  {{- end }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Return Valkey configuration for dial-core for dependency chart
+*/}}
+{{- define "dialCore.valkeySettings" -}}
+{{- if .Values.valkey.enabled -}}
+- name: aidial.redis.singleServerConfig.address
+  value: {{ printf "redis://%s:6379" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+{{- if .Values.valkey.auth.enabled }}
+- name: aidial.redis.singleServerConfig.username
+  value: "default"
+- name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-      name: {{ include "redis-cluster.secretName" .Subcharts.redis }}
-      key: {{ include "redis-cluster.secretPasswordKey" .Subcharts.redis }}
-{{- end -}}
+      key: default-password
+{{- if .Values.valkey.auth.usersExistingSecret }}
+      name: {{ .Values.valkey.auth.usersExistingSecret }}
+{{- else }}
+      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+{{- end }}
+{{- end }}
+
 {{- end -}}
 {{- end -}}
