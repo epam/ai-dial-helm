@@ -295,7 +295,7 @@ helm install my-release dial/dial-core -f values.yaml
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
 | valkey.resources.limits.memory | string | `"2Gi"` |  |
 | valkey.resources.requests.memory | string | `"2Gi"` |  |
-| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu"` |  |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` |  |
 
 ## Upgrading
 
