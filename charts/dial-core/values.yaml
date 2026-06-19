@@ -709,7 +709,7 @@ valkey:
     aclUsers:
       default:
         # ACL permissions for the DIAL core user.
-        permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+        permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
 
   resources:
     limits:
