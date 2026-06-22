@@ -301,6 +301,7 @@ helm install my-release dial/dial-core -f values.yaml
 ## Upgrading
 
 ### To 6.0.0
+
 > [!TIP]
 > If you are not using the built-in Redis dependency (`redis.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
 > This release includes a migration from Redis to Valkey.
@@ -312,6 +313,7 @@ Replace the `redis` block with a `valkey` block and migrate the authentication p
 **Option 1: inline password** (previously `redis.password`)
 
 *Before:*
+
 ```yaml
 redis:
   enabled: true
@@ -319,6 +321,7 @@ redis:
 ```
 
 *After:*
+
 ```yaml
 valkey:
   enabled: true
@@ -332,6 +335,7 @@ valkey:
 **Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
 
 *Before:*
+
 ```yaml
 redis:
   enabled: true
@@ -340,6 +344,7 @@ redis:
 ```
 
 *After:*
+
 ```yaml
 valkey:
   enabled: true
@@ -352,6 +357,7 @@ valkey:
 ```
 
 ### To 5.0.0
+
 > [!TIP]
 > Bumping the major version to highlight Redis `7.2.4` --> `8.2.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/8.2/00-RELEASENOTES) for specific details.
 
@@ -359,7 +365,7 @@ The update may change the behavior of Redis when working with secrets. If you ar
 
 **Example:**
 
-```
+```yaml
 redis:
   usePasswordFiles: true
 ```
@@ -374,7 +380,7 @@ Add `data_dir: "/var/tmp/vector"` to `core.logger.config` if custom vector confi
 
 **Example:**
 
-```
+```yaml
 core:
   logger:
     config: |
@@ -445,7 +451,7 @@ The application uses a Valkey NoSQL database to store its data. By default, the 
 
 However, during the installation of Valkey as a dependency, it is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
 
-**Example values.yaml**
+### Example values.yaml
 
 ```yaml
   valkey:
