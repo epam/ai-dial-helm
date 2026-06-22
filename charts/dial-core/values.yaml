@@ -708,6 +708,7 @@ valkey:
 
     aclUsers:
       default:
+        # These permissions are needed for ai-dial-core and valkey replica
         permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
         passwordKey: ""
 
@@ -717,6 +718,8 @@ valkey:
     requests:
       memory: 2Gi
 
+  # Intentional gap from 2G to 2Gi left
+  # Evict using approximated LFU, only keys with an expire set
   valkeyConfig: |
     maxmemory 2G
     maxmemory-policy volatile-lfu

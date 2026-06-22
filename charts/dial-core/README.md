@@ -302,29 +302,53 @@ helm install my-release dial/dial-core -f values.yaml
 
 ### To 6.0.0
 > [!TIP]
-> Bumping the major version to highlight that this release includes a migration from Redis to Valkey.
-> For more details about `Valkey` you may want to check [Valkey 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES) for specific details.
+> If you are not using the built-in Redis dependency (`redis.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
+> This release includes a migration from Redis to Valkey.
+> For more details about `Valkey` server you may want to check [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES) for specific details.
 > Changes are required in the values.yaml file. An example is provided below.
 
-**Example:**
-`before changes`
-```
-core:
+Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
+
+**Option 1: inline password** (previously `redis.password`)
+
+*Before:*
+```yaml
+redis:
   enabled: true
-[redacted]
-  redis:
-    enabled: true
-[redacted]
+  password: "mypassword"
 ```
 
-`after changes`
-```
-core:
+*After:*
+```yaml
+valkey:
   enabled: true
-[redacted]
-  valkey:
+  auth:
     enabled: true
-    [redacted]
+    aclUsers:
+      default:
+        password: "mypassword"
+```
+
+**Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
+
+*Before:*
+```yaml
+redis:
+  enabled: true
+  existingSecret: "my-redis-secret"
+  existingSecretPasswordKey: "redis-password"
+```
+
+*After:*
+```yaml
+valkey:
+  enabled: true
+  auth:
+    enabled: true
+    usersExistingSecret: "my-redis-secret"
+    aclUsers:
+      default:
+        passwordKey: "redis-password"
 ```
 
 ### To 5.0.0
@@ -417,9 +441,9 @@ b) If using your own managed Kubernetes secret (`configuration.encryption.existi
 
 ## Valkey
 
-The application uses a Valkey NoSQL database to store its data. By default, the Helm chart will deploy a [Valkey standalone ](https://github.com/valkey-io/valkey-helm/tree/main/valkey) instance with recommended settings and the authentication mechanism disabled as a dependency.
+The application uses a Valkey NoSQL database to store its data. By default, the Helm chart will deploy a [Valkey standalone](https://github.com/valkey-io/valkey-helm) instance with default settings and the authentication mechanism disabled as a dependency.
 
-However, during the installation of Valkey as a dependency, it is strongly recommended to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
+However, during the installation of Valkey as a dependency, it is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
 
 **Example values.yaml**
 
@@ -432,5 +456,18 @@ However, during the installation of Valkey as a dependency, it is strongly recom
       aclUsers:
         default:
           passwordKey: "default-password"
-          permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
+          permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+```
+
+### Use an external Valkey database
+
+You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart — for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set the `valkey.enabled` parameter to `false` and specify the connection details using the `env.aidial.redis.*` parameters:
+
+```yaml
+valkey:
+  enabled: false
+env:
+  aidial.redis.singleServerConfig.address: "redis://myexternalhost:6379"
+secrets:
+  aidial.redis.singleServerConfig.password: "mypassword"
 ```

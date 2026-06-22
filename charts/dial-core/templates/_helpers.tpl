@@ -151,6 +151,5 @@ Return Valkey configuration for dial-core for dependency chart
       key: default-password
 {{- end }}
 {{- end }}
-
 {{- end -}}
 {{- end -}}
