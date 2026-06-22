@@ -72,11 +72,12 @@ helm install my-release dial/dial-core -f values.yaml
 
 ### To 6.0.0
 
-> [!TIP]
+> [!NOTE]
 > If you are not using the built-in Redis dependency (`redis.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
-> This release includes a migration from Redis to Valkey.
-> For more details about `Valkey` server you may want to check [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES) for specific details.
-> Changes are required in the values.yaml file. An example is provided below.
+
+This release migrates the built-in cache from Redis cluster to Valkey standalone.
+For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
+Changes are required in the `values.yaml` file as described below.
 
 Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
 
@@ -221,18 +222,16 @@ The application uses a Valkey NoSQL database to store its data. By default, the 
 
 However, during the installation of Valkey as a dependency, it is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
 
-### Example values.yaml
-
 ```yaml
-  valkey:
+valkey:
+  enabled: true
+  auth:
     enabled: true
-    auth:
-      enabled: true
-      usersExistingSecret: "dial-valkey-auth"
-      aclUsers:
-        default:
-          passwordKey: "default-password"
-          permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+    usersExistingSecret: "dial-valkey-auth"
+    aclUsers:
+      default:
+        passwordKey: "default-password"
+        permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
 ```
 
 ### Use an external Valkey database
