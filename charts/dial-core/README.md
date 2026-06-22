@@ -290,8 +290,9 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
+| valkey.auth.aclUsers.default.passwordKey | string | `""` |  |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"` |  |
-| valkey.auth.enabled | bool | `true` |  |
+| valkey.auth.enabled | bool | `false` |  |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
 | valkey.resources.limits.memory | string | `"2Gi"` |  |
 | valkey.resources.requests.memory | string | `"2Gi"` |  |
@@ -423,9 +424,6 @@ However, during the installation of Valkey as a dependency, it is strongly recom
 **Example values.yaml**
 
 ```yaml
-core:
-  enabled: true
-[redacted]
   valkey:
     enabled: true
     auth:
@@ -435,7 +433,4 @@ core:
         default:
           passwordKey: "default-password"
           permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
-    valkeyConfig: |
-      maxmemory 2G
-      maxmemory-policy volatile-lfu
 ```

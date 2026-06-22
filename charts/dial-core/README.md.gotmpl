@@ -194,9 +194,6 @@ However, during the installation of Valkey as a dependency, it is strongly recom
 **Example values.yaml**
 
 ```yaml
-core:
-  enabled: true
-[redacted]
   valkey:
     enabled: true
     auth:
@@ -206,7 +203,4 @@ core:
         default:
           passwordKey: "default-password"
           permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
-    valkeyConfig: |
-      maxmemory 2G
-      maxmemory-policy volatile-lfu
 ```
