@@ -704,14 +704,18 @@ valkey:
   enabled: true
 
   auth:
+    # -- Enable ACL-based authentication. [Documentation](https://github.com/valkey-io/valkey-helm)
     enabled: false
 
     aclUsers:
+      # -- Enable default Valkey user. [Documentation](https://github.com/valkey-io/valkey-helm)
       default:
-        # These permissions are needed for ai-dial-core and valkey replica
+        # -- Set permissions for the default Valkey user. [ACL Documentation](https://valkey.io/topics/acl/)
         permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
+        # -- Set the name for the Secret field where the password for the default Valkey user is stored. [Documentation](https://github.com/valkey-io/valkey-helm)
         passwordKey: ""
 
+  # -- dial-valkey resource requests and limits. [Documentation](https://github.com/valkey-io/valkey-helm)
   resources:
     limits:
       memory: 2Gi
@@ -720,6 +724,7 @@ valkey:
 
   # Intentional gap from 2G to 2Gi left
   # Evict using approximated LFU, only keys with an expire set
+  # -- Set Valkey config. [Documentation](https://valkey.io/topics/valkey.conf/)
   valkeyConfig: |
     maxmemory 2G
     maxmemory-policy volatile-lfu
