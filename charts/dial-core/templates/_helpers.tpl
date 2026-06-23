@@ -143,13 +143,15 @@ Return Valkey configuration for dial-core for dependency chart
 - name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-{{- if and .Values.valkey.auth.usersExistingSecret .Values.valkey.auth.aclUsers.default.passwordKey }}
+      {{- if .Values.valkey.auth.usersExistingSecret }}
+      {{- $defaultUser := index .Values.valkey.auth.aclUsers "default" | default dict }}
+      {{- $passwordKey := $defaultUser.passwordKey | default "default" }}
       name: {{ .Values.valkey.auth.usersExistingSecret }}
-      key: {{ .Values.valkey.auth.aclUsers.default.passwordKey }}
-{{- else }}
-      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+      key: {{ $passwordKey }}
+      {{- else }}
+      name: {{ include "valkey.fullname" . }}-auth
       key: default-password
-{{- end }}
+      {{- end }}
 {{- end }}
 {{- end -}}
 {{- end -}}

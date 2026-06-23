@@ -290,13 +290,13 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
-| valkey.auth.aclUsers.default | object | `{"passwordKey":"","permissions":"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"}` | Enable default Valkey user. [Documentation](https://github.com/valkey-io/valkey-helm) |
-| valkey.auth.aclUsers.default.passwordKey | string | `""` | Set the name for the Secret field where the password for the default Valkey user is stored. [Helm Existing Secret](https://github.com/valkey-io/valkey-helm/tree/main/valkey#existing-secret-recommended) |
+| valkey.auth.aclUsers | object | `{"default":{"permissions":"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"}}` | Set name of existing Kubernetes secret usersExistingSecret: "my-redis-secret" |
+| valkey.auth.aclUsers.default | object | `{"permissions":"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"}` | Enable default Valkey user. [Documentation](https://github.com/valkey-io/valkey-helm) |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"` | Set permissions for the default Valkey user. [ACL Documentation](https://valkey.io/topics/acl/) |
 | valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication) |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
 | valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96) |
-| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
 
 ## Upgrading
 
