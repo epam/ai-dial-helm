@@ -296,7 +296,7 @@ helm install my-release dial/dial-core -f values.yaml
 | valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication) |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
 | valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96) |
-| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
 
 ## Upgrading
 
