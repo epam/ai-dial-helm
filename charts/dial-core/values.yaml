@@ -715,7 +715,7 @@ valkey:
         # -- Set the name for the Secret field where the password for the default Valkey user is stored. [Documentation](https://github.com/valkey-io/valkey-helm)
         passwordKey: ""
 
-  # -- dial-valkey resource requests and limits. [Documentation](https://github.com/valkey-io/valkey-helm)
+  # -- Set the Valkey resource requests and limits. [Documentation](https://github.com/valkey-io/valkey-helm)
   resources:
     limits:
       memory: 2Gi
