@@ -291,19 +291,19 @@ helm install my-release dial/dial-core -f values.yaml
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
 | valkey.auth.aclUsers.default | object | `{"passwordKey":"","permissions":"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"}` | Enable default Valkey user. [Documentation](https://github.com/valkey-io/valkey-helm) |
-| valkey.auth.aclUsers.default.passwordKey | string | `""` | Set the name for the Secret field where the password for the default Valkey user is stored. [Documentation](https://github.com/valkey-io/valkey-helm) |
+| valkey.auth.aclUsers.default.passwordKey | string | `""` | Set the name for the Secret field where the password for the default Valkey user is stored. [Helm Existing Secret](https://github.com/valkey-io/valkey-helm/tree/main/valkey#existing-secret-recommended) |
 | valkey.auth.aclUsers.default.permissions | string | `"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"` | Set permissions for the default Valkey user. [ACL Documentation](https://valkey.io/topics/acl/) |
-| valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Documentation](https://github.com/valkey-io/valkey-helm) |
+| valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication) |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
-| valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. [Documentation](https://github.com/valkey-io/valkey-helm) |
-| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation](https://valkey.io/topics/valkey.conf/) |
+| valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96) |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
 
 ## Upgrading
 
 ### To 6.0.0
 
 > [!NOTE]
-> If you are not using the built-in Redis dependency (`redis.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
+> If you are not using the built-in Redis dependency (`valkey.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
 
 This release migrates the built-in cache from Redis cluster to [Valkey](https://valkey.io/docs/) standalone.
 For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
@@ -312,7 +312,7 @@ Changes are required in the `values.yaml` file as described below.
 Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
 > [!NOTE]
 > If using the built-in Redis cache, the created PVCs should be deleted manually to reduce storage costs for resource data.
-> If using a managed Redis cache, follow the provider's instructions for this managed Redis cache solution.
+> If using a managed Redis cache, PVC deletion, if necessary, should be performed according to the relevant instructions provided by the managed Redis cache provider.
 
 **Option 1: inline password** (previously `redis.password`)
 

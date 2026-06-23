@@ -704,7 +704,7 @@ valkey:
   enabled: true
 
   auth:
-    # -- Enable ACL-based authentication. [Documentation](https://github.com/valkey-io/valkey-helm)
+    # -- Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication)
     enabled: false
 
     aclUsers:
@@ -712,10 +712,10 @@ valkey:
       default:
         # -- Set permissions for the default Valkey user. [ACL Documentation](https://valkey.io/topics/acl/)
         permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
-        # -- Set the name for the Secret field where the password for the default Valkey user is stored. [Documentation](https://github.com/valkey-io/valkey-helm)
+        # -- Set the name for the Secret field where the password for the default Valkey user is stored. [Helm Existing Secret](https://github.com/valkey-io/valkey-helm/tree/main/valkey#existing-secret-recommended)
         passwordKey: ""
 
-  # -- Set the Valkey resource requests and limits. [Documentation](https://github.com/valkey-io/valkey-helm)
+  # -- Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96)
   resources:
     limits:
       memory: 2Gi
@@ -724,7 +724,7 @@ valkey:
 
   # Intentional gap from 2G to 2Gi left
   # Evict using approximated LFU, only keys with an expire set
-  # -- Set Valkey config. [Documentation](https://valkey.io/topics/valkey.conf/)
+  # -- Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/)
   valkeyConfig: |
     maxmemory 2G
     maxmemory-policy volatile-lfu
