@@ -706,7 +706,7 @@ valkey:
   auth:
     # -- Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication)
     enabled: false
-   
+
     # -- Set name of existing Kubernetes secret
     # usersExistingSecret: "my-redis-secret"
 
