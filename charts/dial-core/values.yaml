@@ -708,15 +708,18 @@ valkey:
     enabled: false
 
     # -- Set name of existing Kubernetes secret
-    usersExistingSecret: "my-redis-secret"
+    usersExistingSecret: ""
+    # Use an existing secret for user passwords. Key defaults to username.
+    # Example:
+    # usersExistingSecret: "my-redis-secret"
 
-    aclUsers:
-    # -- Enable default Valkey user. [Documentation](https://github.com/valkey-io/valkey-helm)
-      default:
-    # -- Set permissions for the default Valkey user. [ACL Documentation](https://valkey.io/topics/acl/)
-        permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
-    # -- Set the name for the Secret field where the password for the default Valkey user is stored. [Helm Existing Secret](https://github.com/valkey-io/valkey-helm/tree/main/valkey#existing-secret-recommended)
-        passwordKey: "redis-password"
+    # -- Map of users to create with ACL permissions [Documentation](https://github.com/valkey-io/valkey-helm)
+    aclUsers: {}
+    # Example:
+    # aclUsers:
+    #   default:
+    #     permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
+    #     passwordKey: "redis-password"
 
 
   # -- Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96)
