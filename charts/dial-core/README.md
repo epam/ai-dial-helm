@@ -309,56 +309,55 @@ This release migrates the built-in cache from Redis cluster to [Valkey](https://
 For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
 Changes are required in the `values.yaml` file as described below.
 
-Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
-> [!NOTE]
-> If using the built-in Redis cache, the created PVCs should be deleted manually to reduce storage costs for resource data.
-> If using a managed Redis cache, PVC deletion, if necessary, should be performed according to the relevant instructions provided by the managed Redis cache provider.
+1. Replace the `redis` block with a `valkey` block and migrate the authentication parameters in `values.yaml`. With Valkey, authentication is configured explicitly via `valkey.auth`.
 
-**Option 1: inline password** (previously `redis.password`)
+    **Option 1: inline password** (previously `redis.password`)
 
-*Before:*
+    *Before:*
 
-```yaml
-redis:
-  enabled: true
-  password: "mypassword"
-```
+    ```yaml
+    redis:
+      enabled: true
+      password: "mypassword"
+    ```
 
-*After:*
+    *After:*
 
-```yaml
-valkey:
-  enabled: true
-  auth:
-    enabled: true
-    aclUsers:
-      default:
-        password: "mypassword"
-```
+    ```yaml
+    valkey:
+      enabled: true
+      auth:
+        enabled: true
+        aclUsers:
+          default:
+            password: "mypassword"
+    ```
 
-**Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
+    **Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
 
-*Before:*
+    *Before:*
 
-```yaml
-redis:
-  enabled: true
-  existingSecret: "my-redis-secret"
-  existingSecretPasswordKey: "redis-password"
-```
+    ```yaml
+    redis:
+      enabled: true
+      existingSecret: "my-redis-secret"
+      existingSecretPasswordKey: "redis-password"
+    ```
 
-*After:*
+    *After:*
 
-```yaml
-valkey:
-  enabled: true
-  auth:
-    enabled: true
-    usersExistingSecret: "my-redis-secret"
-    aclUsers:
-      default:
-        passwordKey: "redis-password"
-```
+    ```yaml
+    valkey:
+      enabled: true
+      auth:
+        enabled: true
+        usersExistingSecret: "my-redis-secret"
+        aclUsers:
+          default:
+            passwordKey: "redis-password"
+    ```
+
+1. If using the built-in Redis cache, you should manually delete the PVCs used by Redis.
 
 ### To 5.0.0
 
