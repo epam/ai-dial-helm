@@ -309,9 +309,9 @@ This release migrates the built-in cache from Redis cluster to Valkey standalone
 For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
 Changes are required in the `values.yaml` file as described below.
 
-Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`, including ACL permissions (for example, via valkey.auth.aclUsers.<user>.permissions).
+Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
 > [!NOTE]
-> Any permissive configuration shown here is for demonstration purposes only; in production, you should follow the principle of least privilege and grant only the minimum required permissions.
+> If using the built-in Redis cache, the created PVCs should be deleted manually to reduce storage costs for resource data.
 
 **Option 1: inline password** (previously `redis.password`)
 
@@ -333,7 +333,6 @@ valkey:
     aclUsers:
       default:
         password: "mypassword"
-        permissions: "on ~* allchannels +@all"
 ```
 
 **Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
@@ -358,7 +357,6 @@ valkey:
     aclUsers:
       default:
         passwordKey: "redis-password"
-        permissions: "on ~* allchannels +@all"
 ```
 
 ### To 5.0.0
