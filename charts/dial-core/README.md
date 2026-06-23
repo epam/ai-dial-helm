@@ -305,7 +305,7 @@ helm install my-release dial/dial-core -f values.yaml
 > [!NOTE]
 > If you are not using the built-in Redis dependency (`redis.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
 
-This release migrates the built-in cache from Redis cluster to Valkey standalone.
+This release migrates the built-in cache from Redis cluster to [Valkey](https://valkey.io/docs/) standalone.
 For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
 Changes are required in the `values.yaml` file as described below.
 
