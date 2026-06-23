@@ -723,15 +723,18 @@ valkey:
 
 
   # -- Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96)
-  resources:
-    limits:
-      memory: 2Gi
-    requests:
-      memory: 2Gi
+  resources: {}
+  # Example:
+    # limits:
+    #   memory: 2Gi
+    # requests:
+    #   memory: 2Gi
 
   # Intentional gap from 2G to 2Gi left
   # Evict using approximated LFU, only keys with an expire set
   # -- Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/)
-  valkeyConfig: |
-    maxmemory 2G
-    maxmemory-policy volatile-lfu
+  valkeyConfig: ""
+  # Example:
+  # valkeyConfig: |
+  #   maxmemory 2G
+  #   maxmemory-policy volatile-lfu
