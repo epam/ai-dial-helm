@@ -312,6 +312,7 @@ Changes are required in the `values.yaml` file as described below.
 Replace the `redis` block with a `valkey` block and migrate the authentication parameters. With Valkey, authentication is configured explicitly via `valkey.auth`.
 > [!NOTE]
 > If using the built-in Redis cache, the created PVCs should be deleted manually to reduce storage costs for resource data.
+> If using a managed Redis cache, follow the provider's instructions for this managed Redis cache solution.
 
 **Option 1: inline password** (previously `redis.password`)
 
