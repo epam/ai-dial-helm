@@ -23,7 +23,6 @@ Compile all warnings into a single message.
 */}}
 {{- define "dialCore.validateValues" -}}
 {{- $messages := list -}}
-{{- $messages := append $messages (include "dialCore.validateValues.valkeyUser" .) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
@@ -120,17 +119,6 @@ Params:
 {{- end -}}
 
 {{/*
-Validate replica authentication configuration
-*/}}
-{{- define "dialCore.validateValues.valkeyUser" -}}
-{{- if and .Values.valkey.enabled .Values.valkey.auth.enabled }}
-  {{- if not (hasKey .Values.valkey.auth.aclUsers "default") }}
-The 'default' user must be defined in auth.aclUsers when authentication is enabled. Without it, DIAL core can't access the database without credentials.
-  {{- end }}
-{{- end }}
-{{- end -}}
-
-{{/*
 Return Valkey configuration for dial-core for dependency chart
 */}}
 {{- define "dialCore.valkeySettings" -}}
@@ -144,12 +132,10 @@ Return Valkey configuration for dial-core for dependency chart
   valueFrom:
     secretKeyRef:
       {{- if .Values.valkey.auth.usersExistingSecret }}
-      {{- $defaultUser := index .Values.valkey.auth.aclUsers "default" | default dict }}
-      {{- $passwordKey := $defaultUser.passwordKey | default "default" }}
       name: {{ .Values.valkey.auth.usersExistingSecret }}
-      key: {{ $passwordKey }}
+      key: {{ default "default" .Values.valkey.auth.aclUsers.default.passwordKey }}
       {{- else }}
-      name: {{ include "valkey.fullname" . }}-auth
+      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
       key: default-password
       {{- end }}
 {{- end }}

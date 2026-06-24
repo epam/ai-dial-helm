@@ -699,6 +699,8 @@ logger:
     #   mountPath: /etc/vector/vector.yaml
     #   subPath: vector.yaml
 
+# -- Valkey configuration
+# @default -- [Documentation](https://github.com/valkey-io/valkey-helm)
 valkey:
   # -- Enable/disable Valkey component
   enabled: true
@@ -707,18 +709,14 @@ valkey:
     # -- Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication)
     enabled: false
 
-    # -- Set name of existing Kubernetes secret
+    # -- Name of existing Secret containing valkey user passwords
     usersExistingSecret: ""
-    # Use an existing secret for user passwords. Key defaults to username.
-    # Example:
-    # usersExistingSecret: "my-redis-secret"
 
-    # -- Map of users to create with ACL permissions [Documentation](https://github.com/valkey-io/valkey-helm)
     aclUsers:
       default:
         permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
 
-  # -- Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96)
+  # -- Set the Valkey resource requests and limits.
   resources:
     limits:
       memory: 2Gi

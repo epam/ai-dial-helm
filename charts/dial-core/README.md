@@ -290,19 +290,19 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
-| valkey.auth.aclUsers | object | `{"default":{"permissions":"on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"}}` | Map of users to create with ACL permissions [Documentation](https://github.com/valkey-io/valkey-helm) |
+| valkey | object | [Documentation](https://github.com/valkey-io/valkey-helm) | Valkey configuration |
 | valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication) |
-| valkey.auth.usersExistingSecret | string | `""` | Set name of existing Kubernetes secret |
+| valkey.auth.usersExistingSecret | string | `""` | Name of existing Secret containing valkey user passwords |
 | valkey.enabled | bool | `true` | Enable/disable Valkey component |
-| valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. [Helm Values](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml#L96) |
+| valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. |
 | valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
 
 ## Upgrading
 
 ### To 6.0.0
 
-> [!NOTE]
-> If you are not using the built-in Redis dependency (`valkey.enabled: false`), no action is required — proceed with the Helm upgrade as usual.
+> [!TIP]
+> If you are not using the built-in Redis (`redis.enabled: false`), the only action required is to replace it with `valkey.enabled: false` and proceed with the Helm upgrade as usual.
 
 This release migrates the built-in cache from Redis cluster to [Valkey](https://valkey.io/docs/) standalone.
 For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
@@ -356,7 +356,7 @@ Changes are required in the `values.yaml` file as described below.
             passwordKey: "redis-password"
     ```
 
-1. If using the built-in Redis cache, you should manually delete the PVCs used by Redis.
+1. The PVCs created by the built-in Redis dependency must be deleted manually after upgrading.
 
 ### To 5.0.0
 
@@ -467,7 +467,7 @@ valkey:
 
 ### Use an external Valkey database
 
-You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart — for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set the `valkey.enabled` parameter to `false` and specify the connection details using the `env.aidial.redis.*` parameters:
+You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart - for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set the `valkey.enabled` parameter to `false` and specify the connection details using the `env.aidial.redis.*` parameters:
 
 ```yaml
 valkey:
