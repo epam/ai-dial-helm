@@ -119,18 +119,25 @@ Params:
 {{- end -}}
 
 {{/*
-Return Redis configuration for dial-core for dependency chart
+Return Valkey configuration for dial-core for dependency chart
 */}}
-{{- define "dialCore.redisSettings" -}}
-{{- if .Values.redis.enabled -}}
-- name: aidial.redis.clusterServersConfig.nodeAddresses
-  value: '[{{- printf "redis://%s:6379" (include "common.names.fullname" .Subcharts.redis) | quote -}}]'
-{{- if .Values.redis.usePassword }}
-- name: aidial.redis.clusterServersConfig.password
+{{- define "dialCore.valkeySettings" -}}
+{{- if .Values.valkey.enabled -}}
+- name: aidial.redis.singleServerConfig.address
+  value: {{ printf "redis://%s:6379" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+{{- if .Values.valkey.auth.enabled }}
+- name: aidial.redis.singleServerConfig.username
+  value: "default"
+- name: aidial.redis.singleServerConfig.password
   valueFrom:
     secretKeyRef:
-      name: {{ include "redis-cluster.secretName" .Subcharts.redis }}
-      key: {{ include "redis-cluster.secretPasswordKey" .Subcharts.redis }}
-{{- end -}}
+      {{- if .Values.valkey.auth.usersExistingSecret }}
+      name: {{ .Values.valkey.auth.usersExistingSecret }}
+      key: {{ default "default" .Values.valkey.auth.aclUsers.default.passwordKey }}
+      {{- else }}
+      name: {{ printf "%s-auth" (include "valkey.fullname" .Subcharts.valkey) | quote }}
+      key: default-password
+      {{- end }}
+{{- end }}
 {{- end -}}
 {{- end -}}

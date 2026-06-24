@@ -699,34 +699,33 @@ logger:
     #   mountPath: /etc/vector/vector.yaml
     #   subPath: vector.yaml
 
-redis:
-  # -- Enable/disable Redis component
+# -- Valkey configuration
+# @default -- [Documentation](https://github.com/valkey-io/valkey-helm)
+valkey:
+  # -- Enable/disable Valkey component
   enabled: true
-  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: bitnamilegacy/redis-cluster
-  usePasswordFiles: false
-  redis:
-    resources:
-      requests:
-        memory: 2Gi
-      limits:
-        memory: 2Gi
-    # -- Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default)
-    useAOFPersistence: "no"
-    configmap: |-
-      # Intentional gap from 2gb to 2Gi left
-      maxmemory 2gb
-      # Evict using approximated LFU, only keys with an expire set
-      maxmemory-policy volatile-lfu
-  cluster:
-    # -- The number of master nodes should always be >= 3, otherwise cluster creation will fail
-    nodes: 3
-    replicas: 0
-    update:
-      currentNumberOfNodes: 3
-      currentNumberOfReplicas: 0
+
+  auth:
+    # -- Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication)
+    enabled: false
+
+    # -- Name of existing Secret containing valkey user passwords
+    usersExistingSecret: ""
+
+    aclUsers:
+      default:
+        permissions: "on ~* allchannels +@read +@write +ping +info +psync +replconf +@hash +@list +@pubsub +@scripting +TIME"
+
+  # -- Set the Valkey resource requests and limits.
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 2Gi
+
+  # Intentional gap from 2G to 2Gi left
+  # Evict using approximated LFU, only keys with an expire set
+  # -- Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/)
+  valkeyConfig: |
+    maxmemory 2G
+    maxmemory-policy volatile-lfu

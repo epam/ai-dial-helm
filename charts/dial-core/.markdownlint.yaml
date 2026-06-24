@@ -1,0 +1,6 @@
+# Disable rules that cannot be controlled in the README.md.gotmpl template
+# because they arise from helm-docs' built-in chart.requirementsSection and
+# chart.valuesSection templates.
+MD013: false  # line-length: values table rows and badge lines exceed 80 chars
+MD034: false  # no-bare-urls: bare URLs in auto-generated requirements table
+MD060: false  # table-column-style: column alignment in auto-generated tables

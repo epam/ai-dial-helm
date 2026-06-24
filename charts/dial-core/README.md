@@ -1,6 +1,6 @@
 # dial-core
 
-![Version: 5.2.1](https://img.shields.io/badge/Version-5.2.1-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 6.0.0](https://img.shields.io/badge/Version-6.0.0-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 Helm chart for dial core
 
@@ -23,7 +23,7 @@ Kubernetes: `>=1.23.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis(redis-cluster) | 13.0.4 |
+| https://valkey.io/valkey-helm | valkey(valkey) | 0.9.4 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
@@ -255,18 +255,6 @@ helm install my-release dial/dial-core -f values.yaml
 | priorityClassName | string | `""` | dial-core pods' priorityClassName |
 | readinessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Readiness Probes configuration |
 | readinessProbe.enabled | bool | `true` | Enable/disable readinessProbe |
-| redis.cluster.nodes | int | `3` | The number of master nodes should always be >= 3, otherwise cluster creation will fail |
-| redis.cluster.replicas | int | `0` |  |
-| redis.cluster.update.currentNumberOfNodes | int | `3` |  |
-| redis.cluster.update.currentNumberOfReplicas | int | `0` |  |
-| redis.enabled | bool | `true` | Enable/disable Redis component |
-| redis.global.security.allowInsecureImages | bool | `true` |  |
-| redis.image.repository | string | `"bitnamilegacy/redis-cluster"` |  |
-| redis.redis.configmap | string | `"# Intentional gap from 2gb to 2Gi left\nmaxmemory 2gb\n# Evict using approximated LFU, only keys with an expire set\nmaxmemory-policy volatile-lfu"` |  |
-| redis.redis.resources.limits.memory | string | `"2Gi"` |  |
-| redis.redis.resources.requests.memory | string | `"2Gi"` |  |
-| redis.redis.useAOFPersistence | string | `"no"` | Whether to use AOF Persistence mode or not. We keep only RDB persistence (enabled by default) |
-| redis.usePasswordFiles | bool | `false` |  |
 | replicaCount | int | `1` | Number of dial-core replicas to deploy |
 | resources | object | `{}` | dial-core resource requests and limits [Documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | schedulerName | string | `""` | Name of the k8s scheduler (other than default) for dial-core pods [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/) |
@@ -302,10 +290,76 @@ helm install my-release dial/dial-core -f values.yaml
 | topologySpreadConstraints | list | `[]` | Topology Spread Constraints for pod assignment spread across your cluster among failure-domains (evaluated as a template) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/#spread-constraints-for-pods) |
 | updateStrategy | object | [Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies) | Deployment strategy type |
 | updateStrategy.type | string | `"RollingUpdate"` | StrategyType Can be set to RollingUpdate or OnDelete |
+| valkey | object | [Documentation](https://github.com/valkey-io/valkey-helm) | Valkey configuration |
+| valkey.auth.enabled | bool | `false` | Enable ACL-based authentication. [Helm Authentication](https://github.com/valkey-io/valkey-helm/tree/main/valkey#authentication) |
+| valkey.auth.usersExistingSecret | string | `""` | Name of existing Secret containing valkey user passwords |
+| valkey.enabled | bool | `true` | Enable/disable Valkey component |
+| valkey.resources | object | `{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}` | Set the Valkey resource requests and limits. |
+| valkey.valkeyConfig | string | `"maxmemory 2G\nmaxmemory-policy volatile-lfu\n"` | Set Valkey config. [Documentation: Configuration](https://valkey.io/topics/valkey.conf/) |
 
 ## Upgrading
 
+### To 6.0.0
+
+> [!TIP]
+> If you are not using the built-in Redis (`redis.enabled: false`), the only action required is to replace it with `valkey.enabled: false` and proceed with the Helm upgrade as usual.
+
+This release migrates the built-in cache from Redis cluster to [Valkey](https://valkey.io/docs/) standalone.
+For more details, see the [Valkey server 9.0.4 release notes](https://github.com/valkey-io/valkey/blob/9.0.4/00-RELEASENOTES).
+Changes are required in the `values.yaml` file as described below.
+
+1. Replace the `redis` block with a `valkey` block and migrate the authentication parameters in `values.yaml`. With Valkey, authentication is configured explicitly via `valkey.auth`.
+
+    **Option 1: inline password** (previously `redis.password`)
+
+    *Before:*
+
+    ```yaml
+    redis:
+      enabled: true
+      password: "mypassword"
+    ```
+
+    *After:*
+
+    ```yaml
+    valkey:
+      enabled: true
+      auth:
+        enabled: true
+        aclUsers:
+          default:
+            password: "mypassword"
+    ```
+
+    **Option 2: existing Kubernetes secret** (previously `redis.existingSecret` + `redis.existingSecretPasswordKey`)
+
+    *Before:*
+
+    ```yaml
+    redis:
+      enabled: true
+      existingSecret: "my-redis-secret"
+      existingSecretPasswordKey: "redis-password"
+    ```
+
+    *After:*
+
+    ```yaml
+    valkey:
+      enabled: true
+      auth:
+        enabled: true
+        usersExistingSecret: "my-redis-secret"
+        aclUsers:
+          default:
+            passwordKey: "redis-password"
+    ```
+
+1. The PVCs created by the built-in Redis dependency must be deleted manually after upgrading.
+
 ### To 5.0.0
+
 > [!TIP]
 > Bumping the major version to highlight Redis `7.2.4` --> `8.2.1` upgrade. No actions required, however you may want to check [Redis® 7.4 release notes](https://raw.githubusercontent.com/redis/redis/8.2/00-RELEASENOTES) for specific details.
 
@@ -313,7 +367,7 @@ The update may change the behavior of Redis when working with secrets. If you ar
 
 **Example:**
 
-```
+```yaml
 redis:
   usePasswordFiles: true
 ```
@@ -328,7 +382,7 @@ Add `data_dir: "/var/tmp/vector"` to `core.logger.config` if custom vector confi
 
 **Example:**
 
-```
+```yaml
 core:
   logger:
     config: |
@@ -393,22 +447,33 @@ b) If using your own managed Kubernetes secret (`configuration.encryption.existi
     helm upgrade my-release dial/dial-core -f values.yaml
     ```
 
-## Redis
+## Valkey
 
-The application uses a Redis database to store its data. By default, the Helm chart will deploy a [Redis cluster](https://github.com/bitnami/charts/tree/main/bitnami/redis-cluster) with recommended settings and auto-generated password as a dependency.\
-**You may have to set the `redis.password` value with the password generated by the Helm chart during the first installation.**
+The application uses a Valkey NoSQL database to store its data. By default, the Helm chart will deploy a [Valkey standalone](https://github.com/valkey-io/valkey-helm) instance with default settings and the authentication mechanism disabled as a dependency.
 
-For other configuration options, refer to redis-cluster Helm chart [documentation](https://github.com/bitnami/charts/tree/main/bitnami/redis-cluster#parameters).
-
-### Use an external Redis database
-
-However, you may want the application to connect to an external Redis database rather than a database provided by the Helm chart - for example, when using a cloud-managed service, or when running a single database server for all your applications. To do this, set the `redis.enabled` parameter to `false` and specify the credentials for the external database using the `env.aidial.redis.*` parameters. Here is an example:
+However, during the installation of Valkey as a dependency, it is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
 
 ```yaml
-redis:
+valkey:
+  enabled: true
+  auth:
+    enabled: true
+    usersExistingSecret: "dial-valkey-auth"
+    aclUsers:
+      default:
+        passwordKey: "default-password"
+        permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+```
+
+### Use an external Valkey database
+
+You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart - for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set the `valkey.enabled` parameter to `false` and specify the connection details using the `env.aidial.redis.*` parameters:
+
+```yaml
+valkey:
   enabled: false
 env:
-  aidial.redis.clusterServersConfig.nodeAddresses: '["redis://myexternalhost:6379"]'
+  aidial.redis.singleServerConfig.address: "redis://myexternalhost:6379"
 secrets:
-  aidial.redis.clusterServersConfig.password: "mypassword"
+  aidial.redis.singleServerConfig.password: "mypassword"
 ```
