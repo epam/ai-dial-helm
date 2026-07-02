@@ -107,7 +107,7 @@ themes:
     app.kubernetes.io/component: "webserver"
   image:
     repository: epam/ai-dial-chat-themes
-    tag: 0.16.0
+    tag: 0.17.0
   containerPorts:
     http: 8080
   podSecurityContext:

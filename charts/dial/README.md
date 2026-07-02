@@ -155,7 +155,7 @@ helm install my-release dial/dial -f values.yaml
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
-| themes.image.tag | string | `"0.16.0"` |  |
+| themes.image.tag | string | `"0.17.0"` |  |
 | themes.livenessProbe.enabled | bool | `true` |  |
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
