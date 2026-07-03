@@ -18,12 +18,12 @@ Kubernetes: `>=1.23.0-0`
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
 | https://charts.dialx.ai | core(dial-core) | 5.2.0 |
-| https://charts.dialx.ai | chat(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | themes(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | openai(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | bedrock(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | vertexai(dial-extension) | 3.1.0 |
-| https://charts.dialx.ai | dial(dial-extension) | 3.1.0 |
+| https://charts.dialx.ai | chat(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | themes(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | openai(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | bedrock(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | vertexai(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | dial(dial-extension) | 3.1.1 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
