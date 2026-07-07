@@ -82,24 +82,28 @@ In this version, we've updated the following underlying dependencies, some of wh
     - `redis` replaced with `valkey` version bumped to `9.0.2`
 
 1. Delete Redis-related config section in `values.yaml`
-```yaml
-  redis:
-    enabled: true
-    password: "%%REDIS_PASSWORD%%"
-```
+
+    ```yaml
+      redis:
+        enabled: true
+        password: "%%REDIS_PASSWORD%%"
+    ```
+
 1. Adding `values.yaml` with the following  Valkey config section. Strictly follow the indentation
   > [!tip]
   > Strictly follow the indentation
   > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey)
-```yaml
-valkey:
-  enabled: true
-  auth:
-    enabled: true
-    aclUsers:
-      default:
-        password: "%%REDIS_PASSWORD%%"
-```
+
+    ```yaml
+    valkey:
+      enabled: true
+      auth:
+        enabled: true
+        aclUsers:
+          default:
+            password: "%%REDIS_PASSWORD%%"
+    ```
+
 1. Run `helm upgrade` command with usual arguments, **new** `7.X.X` chart version
 1. Manually delete the PVCs that remain after stopping Redis
 
