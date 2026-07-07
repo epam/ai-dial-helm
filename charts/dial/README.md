@@ -183,7 +183,7 @@ In this version, we've updated the following underlying dependencies, some of wh
     - `redis` replaced with `valkey` version bumped to `9.0.2`
 
 1. Stop Redis
-1. Update values.yaml by replacing the Redis config block with the following block. Strictly follow the indentation
+1. Update `values.yaml` with the replasing Redis config block with the next block. Strictly follow the indentation
   > [!tip]
   > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey)
 ```yaml
