@@ -178,7 +178,6 @@ helm install my-release dial/dial -f values.yaml
 
 > [!TIP]
 > Strictly follow the indentation.
-
 > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
 
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
