@@ -175,6 +175,8 @@ helm install my-release dial/dial -f values.yaml
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
 > If you don't use embeded Redis, disregard the information below.
+> Strictly follow the indentation.
+> Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
 
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
 - `Redis` replaced with `Valkey`
@@ -191,9 +193,6 @@ In this version, we've updated the following underlying dependencies, some of wh
     ```
 
 1. Adding `values.yaml` with the following  Valkey config section. Strictly follow the indentation
-    > [!tip]
-    > Strictly follow the indentation
-    > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey)
 
     ```yaml
     valkey:
