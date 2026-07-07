@@ -182,9 +182,15 @@ In this version, we've updated the following underlying dependencies, some of wh
   - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
     - `redis` replaced with `valkey` version bumped to `9.0.2`
 
-1. Stop Redis
-1. Update `values.yaml` with the replasing Redis config block with the next block. Strictly follow the indentation
+1. Delete Redis-related config section in `values.yaml`
+```yaml
+  redis:
+    enabled: true
+    password: "%%REDIS_PASSWORD%%"
+```
+1. Adding `values.yaml` with the following  Valkey config section. Strictly follow the indentation
   > [!tip]
+  > Strictly follow the indentation
   > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey)
 ```yaml
 valkey:
