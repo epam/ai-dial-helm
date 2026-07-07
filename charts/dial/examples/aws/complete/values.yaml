@@ -30,42 +30,41 @@ core:
     aidial.identityProviders.cognito.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
-          "models": {
-              "gpt-4": {
-                  "type": "chat",
-                  "displayName": "GPT-4",
-                  "iconUrl": "https://themes.%%DOMAIN%%//gpt4.svg",
-                  "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
-                  "upstreams": [
-                      {
-                          "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
-                      }
-                  ]
-              },
-              "chat-bison": {
-                  "type": "chat",
-                  "displayName": "PaLM2",
-                  "iconUrl": "https://themes.%%DOMAIN%%/palm2.svg",
-                  "endpoint": "http://dial-vertex.%%NAMESPACE%%.svc.cluster.local/openai/deployments/chat-bison-32k@002/chat/completions"
-              },
-              "anthropic.claude-v1": {
-                  "type": "chat",
-                  "displayName": "Anthropic (Claude)",
-                  "iconUrl": "https://themes.%%DOMAIN%%/anthropic.svg",
-                  "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-instant-v1/chat/completions"
-              }
-          },
-          "roles": {
-              "default": {
-                  "limits": {
-                      "gpt-4": {},
-                      "chat-bison": {},
-                      "anthropic.claude-v1": {}
+        "models": {
+            "gpt-5-2025-08-07": {
+              "type": "chat",
+              "displayName": "GPT-5",
+              "iconUrl": "/gpt5.svg",
+              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-5-2025-08-07/chat/completions",
+              "upstreams": [
+                  {
+                      "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-5-2025-08-07/chat/completions"
                   }
-              }
+              ]
+          },
+          "gemini-2.5-pro": {
+            "type": "chat",
+            "displayName": "Gemini 2.5 Pro",
+            "iconUrl": "/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-2.5-pro/chat/completions"
+          },
+          "anthropic.claude-opus-4-6-v1": {
+              "type": "chat",
+              "displayName": "Anthropic (Claude)",
+              "iconUrl": "/anthropic.svg",
+              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/us.anthropic.claude-sonnet-4-6/chat/completions"
           }
+        },
+        "roles": {
+          "chat": {
+            "limits": {
+              "gpt-5-2025-08-07": {},
+              "gemini-2.5-pro": {},
+              "anthropic.claude-opus-4-6-v1": {}
+            }
+          }
+        }
       }
-
   extraVolumes:
     - name: config
       secret:
@@ -80,7 +79,7 @@ core:
       subPath: aidial.config.json
       readOnly: true
 
-  redis:
+  valkey:
     enabled: false
 
   ingress:

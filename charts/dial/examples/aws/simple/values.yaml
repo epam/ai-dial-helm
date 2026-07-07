@@ -25,11 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "anthropic.claude-v1": {
+          "anthropic.claude-opus-4-6-v1": {
             "type": "chat",
             "displayName": "Anthropic (Claude)",
             "iconUrl": "anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-instant-v1/chat/completions"
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/us.anthropic.claude-sonnet-4-6/chat/completions"
           }
         },
         "keys": {
@@ -41,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "anthropic.claude-v1": {}
+              "anthropic.claude-opus-4-6-v1": {}
             }
           }
         }
@@ -58,9 +58,14 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-  redis:
+
+  valkey:
     enabled: true
-    password: "%%REDIS_PASSWORD%%"
+    auth:
+      enabled: true
+      aclUsers:
+        default:
+          password: "%%REDIS_PASSWORD%%"
   ingress:
     enabled: false
 

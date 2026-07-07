@@ -16,11 +16,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gpt-35-turbo": {
+          "gpt-5-2025-08-07": {
             "type": "chat",
-            "displayName": "GPT-3.5",
-            "iconUrl": "gpt3.svg",
-            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-35-turbo/chat/completions",
+            "displayName": "GPT-5",
+            "iconUrl": "gpt5.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-5-2025-08-07/chat/completions",
             "upstreams": [
               {
                 "endpoint": "%%AZURE_MODEL_ENDPOINT%%",
@@ -38,7 +38,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "gpt-35-turbo": {}
+              "gpt-5-2025-08-07": {}
             }
           }
         }
@@ -55,9 +55,13 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-  redis:
+  valkey:
     enabled: true
-    password: "%%REDIS_PASSWORD%%"
+    auth:
+      enabled: true
+      aclUsers:
+        default:
+          password: "%%REDIS_PASSWORD%%"
   ingress:
     enabled: false
 

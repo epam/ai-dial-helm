@@ -64,7 +64,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%AZURE_MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions`
+    - Replace `%%AZURE_MODEL_ENDPOINT%%` with Azure OpenAI Model Endpoint from [prerequisites](#prerequisites), e.g. `https://not-a-real-endpoint.openai.azure.com/openai/deployments/gpt-5-2025-08-07/chat/completions`
     - Replace `%%AZURE_MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
     - Replace `%%AZURE_CORE_CLIENT_ID%%` with managed identity client ID from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)

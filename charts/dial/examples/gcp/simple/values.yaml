@@ -25,11 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gemini-pro": {
+          "gemini-2.5-pro": {
             "type": "chat",
-            "displayName": "Gemini Pro",
+            "displayName": "Gemini Pro 2.5 Pro",
             "iconUrl": "https://dial.%%DOMAIN%%/themes/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-2.5-pro/chat/completions"
           }
         },
         "keys": {
@@ -41,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "gemini-pro": {}
+              "gemini-2.5-pro": {}
             }
           }
         }
@@ -58,9 +58,13 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-  redis:
+  valkey:
     enabled: true
-    password: "%%REDIS_PASSWORD%%"
+    auth:
+      enabled: true
+      aclUsers:
+        default:
+          password: "%%REDIS_PASSWORD%%"
   ingress:
     enabled: true
     ingressClassName: nginx

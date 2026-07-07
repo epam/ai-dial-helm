@@ -31,36 +31,36 @@ core:
     aidial.config.json: |
       {
         "models": {
-            "gpt-4": {
-              "type": "chat",
-              "displayName": "GPT-4",
-              "iconUrl": "/gpt4.svg",
-              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
-              "upstreams": [
-                  {
-                      "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
-                  }
-              ]
-          },
-          "gemini-1.5-pro": {
+          "gpt-5-2025-08-07": {
             "type": "chat",
-            "displayName": "Gemini 1.5 Pro",
-            "iconUrl": "/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
+            "displayName": "GPT-5",
+            "iconUrl": "/gpt5.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-5-2025-08-07/chat/completions",
+            "upstreams": [
+              {
+                "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-5-2025-08-07/chat/completions"
+              }
+            ]
           },
-          "anthropic.claude-v2:1": {
-              "type": "chat",
-              "displayName": "Anthropic (Claude)",
-              "iconUrl": "/anthropic.svg",
-              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+          "gemini-2.5-pro": {
+            "type": "chat",
+            "displayName": "Gemini 2.5 Pro",
+            "iconUrl": "/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-2.5-pro/chat/completions"
+          },
+          "anthropic.claude-opus-4-6-v1": {
+            "type": "chat",
+            "displayName": "Anthropic (Claude)",
+            "iconUrl": "/anthropic.svg",
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/us.anthropic.claude-sonnet-4-6/chat/completions"
           }
         },
         "roles": {
           "chat": {
             "limits": {
-              "gpt-4": {},
-              "gemini-1.5-pro": {},
-              "anthropic.claude-v2:1": {}
+              "gpt-5-2025-08-07": {},
+              "gemini-2.5-pro": {},
+              "anthropic.claude-opus-4-6-v1": {}
             }
           }
         }
@@ -87,7 +87,7 @@ core:
       mountPath: "/mnt/secrets-store/redis-truststore.jks"
       subPath: redis-truststore.jks
       readOnly: true
-  redis:
+  valkey:
     enabled: false
   ingress:
     enabled: true
@@ -114,7 +114,7 @@ chat:
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gemini-1.5-pro"
+    DEFAULT_MODEL: "gemini-2.5-pro"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
     AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"

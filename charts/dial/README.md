@@ -1,6 +1,6 @@
 # dial
 
-![Version: 6.5.0](https://img.shields.io/badge/Version-6.5.0-informational?style=flat-square) ![AppVersion: 1.45.0](https://img.shields.io/badge/AppVersion-1.45.0-informational?style=flat-square)
+![Version: 7.0.0](https://img.shields.io/badge/Version-7.0.0-informational?style=flat-square) ![AppVersion: 1.45.0](https://img.shields.io/badge/AppVersion-1.45.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -17,7 +17,7 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | keycloak | 24.9.0 |
-| https://charts.dialx.ai | core(dial-core) | 5.2.0 |
+| https://charts.dialx.ai | core(dial-core) | 6.0.0 |
 | https://charts.dialx.ai | chat(dial-extension) | 3.1.1 |
 | https://charts.dialx.ai | themes(dial-extension) | 3.1.1 |
 | https://charts.dialx.ai | openai(dial-extension) | 3.1.1 |
@@ -169,6 +169,17 @@ helm install my-release dial/dial -f values.yaml
 | vertexai.resourcesPreset | string | `"small"` |  |
 
 ## Upgrading
+
+### To 7.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've updated the following underlying dependencies, some of which require manual actions:
+- `Redis` replaced with `Valkey`
+- `dial/dial-core` Helm chart version bumped from to `5.2.0` to `6.0.0`
+  - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
+    - `redis` replaced with `valkey` version bumped to `9.0.2`
 
 ### To 6.0.0
 
