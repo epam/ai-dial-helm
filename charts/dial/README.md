@@ -174,12 +174,29 @@ helm install my-release dial/dial -f values.yaml
 
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+> If you don't use embeded Redis, disregard the information below.
 
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
 - `Redis` replaced with `Valkey`
 - `dial/dial-core` Helm chart version bumped from to `5.2.0` to `6.0.0`
   - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
     - `redis` replaced with `valkey` version bumped to `9.0.2`
+
+1. Stop Redis
+1. Update `values.yaml` with the replasing Redis config block with the next block. Strictly follow the indentation
+  > [!tip]
+  > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey)
+```yaml
+valkey:
+  enabled: true
+  auth:
+    enabled: true
+    aclUsers:
+      default:
+        password: "%%REDIS_PASSWORD%%"
+```
+1. Run `helm upgrade` command with usual arguments, **new** `7.X.X` chart version
+1. Manually delete the PVCs that remain after stopping Redis
 
 ### To 6.0.0
 
