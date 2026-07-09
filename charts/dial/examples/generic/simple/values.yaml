@@ -16,11 +16,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gpt-5-2025-08-07": {
+          "gpt-chat-latest": {
             "type": "chat",
-            "displayName": "GPT-5",
-            "iconUrl": "gpt5.svg",
-            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-5-2025-08-07/chat/completions",
+            "displayName": "GPT Chat Latest",
+            "iconUrl": "./charts/dial/examples/gcp/complete/values.yaml",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
             "upstreams": [
               {
                 "endpoint": "%%AZURE_MODEL_ENDPOINT%%",
@@ -38,7 +38,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "gpt-5-2025-08-07": {}
+              "gpt-chat-latest": {}
             }
           }
         }

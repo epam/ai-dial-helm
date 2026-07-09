@@ -31,36 +31,36 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gpt-5-2025-08-07": {
+          "gpt-chat-latest": {
             "type": "chat",
-            "displayName": "GPT-5",
-            "iconUrl": "/gpt5.svg",
-            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-5-2025-08-07/chat/completions",
+            "displayName": "GPT Chat Latest",
+            "iconUrl": "gptchatlatest.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-chat-latest/chat/completions",
             "upstreams": [
               {
-                "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-5-2025-08-07/chat/completions"
+                "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-chat-latest/chat/completions"
               }
             ]
           },
-          "gemini-2.5-pro": {
+          "gemini-chat-latest": {
             "type": "chat",
-            "displayName": "Gemini 2.5 Pro",
+            "displayName": "Google (Gemini)",
             "iconUrl": "/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-2.5-pro/chat/completions"
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-chat-latest/chat/completions"
           },
-          "anthropic.claude-opus-4-6-v1": {
+          "anthropic-chat-latest": {
             "type": "chat",
             "displayName": "Anthropic (Claude)",
             "iconUrl": "/anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/us.anthropic.claude-sonnet-4-6/chat/completions"
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic-chat-latest/chat/completions"
           }
         },
         "roles": {
           "chat": {
             "limits": {
-              "gpt-5-2025-08-07": {},
-              "gemini-2.5-pro": {},
-              "anthropic.claude-opus-4-6-v1": {}
+              "gpt-chat-latest": {},
+              "gemini-chat-latest": {},
+              "anthropic-chat-latest": {}
             }
           }
         }
@@ -114,7 +114,7 @@ chat:
     # -- External URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gemini-2.5-pro"
+    DEFAULT_MODEL: "gemini-chat-latest"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
     AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"

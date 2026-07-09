@@ -24,7 +24,7 @@
   - [Vertex AI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
   - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic-chat-latest` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome

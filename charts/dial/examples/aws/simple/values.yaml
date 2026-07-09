@@ -25,11 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "anthropic.claude-opus-4-6-v1": {
+          "anthropic-chat-latest": {
             "type": "chat",
             "displayName": "Anthropic (Claude)",
             "iconUrl": "anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/us.anthropic.claude-sonnet-4-6/chat/completions"
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic-chat-latest/chat/completions"
           }
         },
         "keys": {
@@ -41,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "anthropic.claude-opus-4-6-v1": {}
+              "anthropic-chat-latest": {}
             }
           }
         }

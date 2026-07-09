@@ -26,11 +26,11 @@
   - [Downloading the Certificate Authority](https://cloud.google.com/memorystore/docs/redis/manage-in-transit-encryption#downloading_the_certificate_authority)
   - [Creating TrustStore](https://docs.oracle.com/cd/E19509-01/820-3503/ggfka/index.html)
 - [Google Identity](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/google) as identity provider
-- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
+- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-chat-latest` model deployed:
   - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
   - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic-chat-latest` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome

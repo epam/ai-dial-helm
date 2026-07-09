@@ -175,35 +175,57 @@ helm install my-release dial/dial -f values.yaml
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
 > If you don't use embeded Redis, disregard the information below.
-
-> [!TIP]
-> Strictly follow the indentation.
 > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
+>
 
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
 - `Redis` replaced with `Valkey`
 - `dial/dial-core` Helm chart version bumped from to `5.2.0` to `6.0.0`
   - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
-    - `redis` replaced with `valkey` version bumped to `9.0.2`
+    - **Cluster → non‑clustered deployment**. We moved away from Redis Cluster. 
+      For production you should review your HA/scale strategy and adjust accordingly.
+    - **Review memory / resources for Valkey**. Previous `redisCluster.*` values are ignored. 
+      Update Valkey settings in `values.yaml` (e.g. `valkey.resources`, `valkey.primary.resources`, `valkey.config.maxmemory`, persistence, etc.). 
+      This is not an obvious change without revisiting our values.
+
+> [!TIP]
+> If you don't use external Redis, disregard the information below and proceed to the next step.
+1. Replace Redis-related config section in `values.yaml`
+
+    From
+    ```yaml
+    core:
+      redis:
+        enabled: false
+    ```
+
+    To
+    ```yaml
+    core:
+      valkey:
+        enabled: false
+    ```
 
 1. Delete Redis-related config section in `values.yaml`
 
     ```yaml
-      redis:
-        enabled: true
-        password: "%%REDIS_PASSWORD%%"
+      core:
+        redis:
+          enabled: true
+          password: "%%REDIS_PASSWORD%%"
     ```
 
 1. Adding `values.yaml` with the following  Valkey config section. Strictly follow the indentation
 
     ```yaml
-    valkey:
-      enabled: true
-      auth:
+    core:
+      valkey:
         enabled: true
-        aclUsers:
-          default:
-            password: "%%REDIS_PASSWORD%%"
+        auth:
+          enabled: true
+          aclUsers:
+            default:
+              password: "%%REDIS_PASSWORD%%"
     ```
 
 1. Run `helm upgrade` command with usual arguments, **new** `7.X.X` chart version
