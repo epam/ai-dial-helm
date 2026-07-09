@@ -29,7 +29,7 @@ core:
             "type": "chat",
             "displayName": "Anthropic (Opus)",
             "iconUrl": "anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-opus-4-8/chat/completions"
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "keys": {
