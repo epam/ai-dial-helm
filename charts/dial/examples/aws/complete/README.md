@@ -20,6 +20,7 @@
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Cognito](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/cognito)
 - [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
+- [AWS Bedrock Regional availability by models](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
   - [Vertex AI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)

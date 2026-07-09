@@ -16,6 +16,7 @@
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
 - [AWS IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started-workloads.html)  installed and configured
+- [AWS Bedrock Regional availability by models](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html)
 - [Static IP address](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses) reserved for Chat
 - [DNS records](https://learn.microsoft.com/en-us/azure/dns/public-dns-overview) configured for Chat
 - [Azure-managed SSL certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate) issued for Chat
@@ -91,6 +92,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
+    - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
 
     ```json
         {

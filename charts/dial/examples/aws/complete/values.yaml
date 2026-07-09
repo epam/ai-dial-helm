@@ -31,16 +31,16 @@ core:
     aidial.config.json: |
       {
         "models": {
-            "gpt-chat-latest": {
-              "type": "chat",
-              "displayName": "GPT Chat Latest",
-              "iconUrl": "gptchatlatest.svg",
-              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-chat-latest/chat/completions",
-              "upstreams": [
-                  {
-                      "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-chat-latest/chat/completions"
-                  }
-              ]
+          "gpt-chat-latest": {
+            "type": "chat",
+            "displayName": "GPT Chat Latest",
+            "iconUrl": "gptchatlatest.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
+            "upstreams": [
+              {
+                  "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
+              }
+            ]
           },
           "gemini-3.5-flash": {
             "type": "chat",
@@ -49,10 +49,19 @@ core:
             "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions"
           },
           "anthropic.claude-opus-4-8": {
-              "type": "chat",
-              "displayName": "Anthropic (Opus)",
-              "iconUrl": "/anthropic.svg",
-              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
+            "type": "chat",
+            "displayName": "Anthropic Claude Opus 4.8",
+            "iconUrl": "/anthropic.svg",
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
+            "upstreams": [
+              {
+                  "endpoint": "%%AWS_BEDROCK_REGION%%",
+                  "extraData": {
+                      "region": "%%AWS_BEDROCK_REGION%%",
+                      "compatible_model_id": "anthropic.claude-opus-4-6-v1"
+                  }
+              }
+            ]
           }
         },
         "roles": {
