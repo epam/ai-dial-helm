@@ -25,11 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "gemini-chat-latest": {
+          "gemini-3.5-flash": {
             "type": "chat",
             "displayName": "Google (Gemini)",
             "iconUrl": "https://dial.%%DOMAIN%%/themes/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-chat-latest/chat/completions"
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions"
           }
         },
         "keys": {
@@ -41,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "gemini-chat-latest": {}
+              "gemini-3.5-flash": {}
             }
           }
         }

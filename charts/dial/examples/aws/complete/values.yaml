@@ -42,25 +42,25 @@ core:
                   }
               ]
           },
-          "gemini-chat-latest": {
+          "gemini-3.5-flash": {
             "type": "chat",
             "displayName": "Google (Gemini)",
             "iconUrl": "/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-chat-latest/chat/completions"
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions"
           },
-          "anthropic-chat-latest": {
+          "anthropic.claude-opus-4-8": {
               "type": "chat",
-              "displayName": "Anthropic (Claude)",
+              "displayName": "Anthropic (Opus)",
               "iconUrl": "/anthropic.svg",
-              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic-chat-latest/chat/completions"
+              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "roles": {
           "chat": {
             "limits": {
               "gpt-chat-latest": {},
-              "gemini-chat-latest": {},
-              "anthropic-chat-latest": {}
+              "gemini-3.5-flash": {},
+              "anthropic.claude-opus-4-8": {}
             }
           }
         }
