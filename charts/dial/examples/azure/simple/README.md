@@ -22,8 +22,8 @@
 
 ## Expected Outcome
 
-By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure GPT-gpt-chat-latest API.\
-Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
+By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Azure gpt-chat-latest API.
+Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.
 Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
