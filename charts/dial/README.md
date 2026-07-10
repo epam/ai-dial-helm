@@ -208,10 +208,10 @@ In this version, we've updated the following underlying dependencies, some of wh
 
     From
     ```yaml
-      core:
-        redis:
-          enabled: true
-          password: "%%REDIS_PASSWORD%%"
+    core:
+      redis:
+        enabled: true
+        password: "%%REDIS_PASSWORD%%"
     ```
    
     To
