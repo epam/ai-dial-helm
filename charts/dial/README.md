@@ -174,7 +174,6 @@ helm install my-release dial/dial -f values.yaml
 
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
-> If you don't use embedded Redis, disregard the information below.
 > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
 >
 
