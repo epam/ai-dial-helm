@@ -31,12 +31,11 @@ core:
           "gpt-chat-latest": {
             "type": "chat",
             "displayName": "GPT Chat Latest",
-            "iconUrl": "https://dial.%%DOMAIN%%/themes/gptchatlatest.svg",
+            "iconUrl": "gpt4.svg",
             "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
             "upstreams": [
               {
-                "endpoint": "%%AZURE_MODEL_ENDPOINT%%",
-                "key": "%%AZURE_MODEL_KEY%%"
+                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
               }
             ]
           }

@@ -36,7 +36,7 @@ core:
           "gpt-chat-latest": {
             "type": "chat",
             "displayName": "GPT Chat Latest",
-            "iconUrl": "gptchatlatest.svg",
+            "iconUrl": "gpt4.svg",
             "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
             "upstreams": [
               {
@@ -57,11 +57,10 @@ core:
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
             "upstreams": [
               {
-                  "endpoint": "%%AWS_BEDROCK_REGION%%",
-                  "extraData": {
-                      "region": "%%AWS_BEDROCK_REGION%%",
-                      "compatible_model_id": "anthropic.claude-opus-4-6-v1"
-                  }
+                "endpoint": "%%AWS_BEDROCK_REGION%%",
+                "extraData": {
+                  "region": "%%AWS_BEDROCK_REGION%%"
+                }
               }
             ]
           }

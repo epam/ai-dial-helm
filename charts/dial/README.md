@@ -188,9 +188,7 @@ In this version, we've updated the following underlying dependencies, some of wh
       Update Valkey settings in `values.yaml` (e.g. `valkey.resources`, `valkey.primary.resources`, `valkey.config.maxmemory`, persistence, etc.). 
       This is not an obvious change without revisiting our values.
 
-> [!TIP]
-> If you don't use external Redis, disregard the information below and proceed to the next step.
-1. Replace Redis-related config section in `values.yaml`
+1. If you use external Redis replace Redis-related config section in `values.yaml`
 
     From
     ```yaml
@@ -215,7 +213,7 @@ In this version, we've updated the following underlying dependencies, some of wh
           password: "%%REDIS_PASSWORD%%"
     ```
 
-1. Adding `values.yaml` with the following  Valkey config section. Strictly follow the indentation
+1. Adding `values.yaml` with the following Valkey config section. Strictly follow the indentation
 
     ```yaml
     core:
@@ -225,6 +223,7 @@ In this version, we've updated the following underlying dependencies, some of wh
           enabled: true
           aclUsers:
             default:
+              permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
               password: "%%REDIS_PASSWORD%%"
     ```
 

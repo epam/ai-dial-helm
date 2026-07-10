@@ -32,11 +32,10 @@ core:
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
             "upstreams": [
               {
-                  "endpoint": "us-east-1",
-                  "extraData": {
-                      "region": "us-east-1",
-                      "compatible_model_id": "anthropic.claude-opus-4-6-v1"
-                  }
+                "endpoint": "us-east-1",
+                "extraData": {
+                  "region": "us-east-1"
+                }
               }
             ]
           }
