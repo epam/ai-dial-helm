@@ -532,3 +532,56 @@ b) If using your own managed Kubernetes secret (`core.configuration.encryption.e
     ```console
     helm upgrade my-release dial/dial -f values.yaml
     ```
+
+## Valkey
+
+Core application uses a Valkey NoSQL database as a distributed cache. By default, the Helm chart deploys a [Valkey standalone](https://github.com/valkey-io/valkey-helm) instance as a dependency of the `dial-core` sub-chart with authentication disabled.
+
+It is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
+
+```yaml
+core:
+  valkey:
+    enabled: true
+    auth:
+      enabled: true
+      usersExistingSecret: "dial-valkey-auth"
+      aclUsers:
+        default:
+          passwordKey: "default-password"
+          permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+```
+
+### Configuring Valkey memory
+
+By default Valkey is allocated **2 Gi** of container memory and configured with a **2 G** `maxmemory` cap. Both values must be updated together when you need more cache capacity.
+
+> [!IMPORTANT]
+> Keep `valkeyConfig` `maxmemory` (e.g. `4G`) slightly below the container `resources.limits.memory` (e.g. `4Gi`) to leave headroom and avoid OOM kills. The intentional gap exists because Valkey `maxmemory` uses SI units while Kubernetes memory uses binary units.
+
+```yaml
+core:
+  valkey:
+    resources:
+      limits:
+        memory: 4Gi
+      requests:
+        memory: 4Gi
+    valkeyConfig: |
+      maxmemory 4G
+      maxmemory-policy volatile-lfu
+```
+
+### Use an external Valkey database
+
+You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart — for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set `core.valkey.enabled` to `false` and specify the connection details:
+
+```yaml
+core:
+  valkey:
+    enabled: false
+  env:
+    aidial.redis.singleServerConfig.address: "redis://myexternalhost:6379"
+  secrets:
+    aidial.redis.singleServerConfig.password: "mypassword"
+```
