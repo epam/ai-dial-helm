@@ -65,7 +65,6 @@ core:
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions",
             "upstreams": [
               {
-                "endpoint": "%%AWS_BEDROCK_REGION%%",
                 "extraData": {
                   "region": "%%AWS_BEDROCK_REGION%%"
                 }

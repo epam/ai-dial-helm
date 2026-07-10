@@ -29,26 +29,16 @@ core:
       {
         "models": {
           "gpt-chat-latest": {
-            "type": "chat",
-            "displayName": "GPT Chat Latest",
-            "iconUrl": "gpt4.svg",
-            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
-            "auth": {
-              "type": "bearer",
-              "apiKeyEnv": "%%AZURE_MODEL_KEY%%",
-              "header": "Authorization",
-              "prefix": "Bearer "
-            },
-            "provider": {
-              "name": "openai-compatible",
-              "requiresApiKey": true
-            },
-            "upstreams": [
-              {
-                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
-              }
-            ]
-          }
+          "type": "chat",
+          "displayName": "GPT Chat Latest",
+          "iconUrl": "gpt4.svg",
+          "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
+          "upstreams": [
+            {
+              "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses",
+              "key": "%%AZURE_MODEL_KEY%%"
+            }
+          ]
         },
         "keys": {
           "%%DIAL_API_KEY%%": {
