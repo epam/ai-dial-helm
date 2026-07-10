@@ -54,7 +54,7 @@ core:
                   "region": "global"
                 }
               }
-            ],
+            ]
           },
           "anthropic.claude-opus-4-8": {
             "type": "chat",
