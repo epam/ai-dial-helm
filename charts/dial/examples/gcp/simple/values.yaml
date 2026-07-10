@@ -24,19 +24,20 @@ core:
   secrets:
     aidial.config.json: |
       {
-        models: {
+        "models": {
           "gemini-3.5-flash": {
-          "type": "chat",
-          "displayName": "Google (Gemini)",
-          "iconUrl": "/Gemini.svg",
-          "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
-          "upstreams": [
-            {
-              "extraData": {
-                "region": "global"
+            "type": "chat",
+            "displayName": "Google (Gemini)",
+            "iconUrl": "/Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
+            "upstreams": [
+              {
+                "extraData": {
+                  "region": "global"
+                }
               }
-            }
-          ]
+            ]
+          }
         },
         "keys": {
           "%%DIAL_API_KEY%%": {

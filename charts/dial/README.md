@@ -174,13 +174,13 @@ helm install my-release dial/dial -f values.yaml
 
 > [!CAUTION]
 > The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
-> If you don't use embeded Redis, disregard the information below.
+> If you don't use embedded Redis, disregard the information below.
 > Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
 >
 
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
 - `Redis` replaced with `Valkey`
-- `dial/dial-core` Helm chart version bumped from to `5.2.0` to `6.0.0`
+- `dial/dial-core` Helm chart version bumped from `5.2.0` to `6.0.0`
   - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
     - **Cluster → non‑clustered deployment**. We moved away from Redis Cluster. 
       For production you should review your HA/scale strategy and adjust accordingly.
