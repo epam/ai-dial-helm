@@ -38,19 +38,10 @@ core:
             "displayName": "GPT Chat Latest",
             "iconUrl": "gpt4.svg",
             "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
-            "auth": {
-              "type": "bearer",
-              "apiKeyEnv": "%%AZURE_MODEL_KEY%%",
-              "header": "Authorization",
-              "prefix": "Bearer "
-            },
-            "provider": {
-              "name": "openai-compatible",
-              "requiresApiKey": true
-            },
             "upstreams": [
               {
-                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
+                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses",
+                "key": "%%AZURE_MODEL_KEY%%"
               }
             ]
           },
@@ -58,7 +49,14 @@ core:
             "type": "chat",
             "displayName": "Google (Gemini)",
             "iconUrl": "/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions"
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
+            "upstreams": [
+              {
+                "extraData": {
+                  "region": "global"
+                }
+              }
+            ],
           },
           "anthropic.claude-opus-4-8": {
             "type": "chat",
