@@ -38,8 +38,7 @@ core:
             "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
             "upstreams": [
               {
-                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses",
-                "key": "%%AZURE_MODEL_KEY%%"
+                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
               }
             ]
           },

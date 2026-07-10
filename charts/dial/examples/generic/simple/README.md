@@ -64,7 +64,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
-    - Replace `%%AZURE_MODEL_KEY%%` with Azure OpenAI Model Key from [prerequisites](#prerequisites), e.g. `3F0UZREXNOTAREALKEYDCvzSkznPFa`
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
