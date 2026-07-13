@@ -11,8 +11,9 @@
 
 - EKS 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
+- [Gateway API CRD](https://gateway-api.sigs.k8s.io/guides/getting-started/introduction/#installing-a-gateway-controller) installed in the cluster
+- [Ingress-Traefik Controller](https://doc.traefik.io/traefik/setup/kubernetes/) installed in the cluster
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
-- [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
