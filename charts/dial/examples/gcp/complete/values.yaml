@@ -163,12 +163,14 @@ bedrock:
 
   env:
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
-    AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
-    AWS_DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
+
+  podLabels:
+    eks.amazonaws.com/pod-identity-webhook: "true"
 
   serviceAccount:
     create: true
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
 
 openai:
   enabled: true

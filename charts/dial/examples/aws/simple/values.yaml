@@ -123,4 +123,3 @@ bedrock:
 
   env:
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"

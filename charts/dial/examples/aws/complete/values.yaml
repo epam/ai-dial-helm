@@ -60,13 +60,6 @@ core:
             "displayName": "Anthropic Claude Opus 4.8",
             "iconUrl": "/anthropic.svg",
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions",
-            "upstreams": [
-              {
-                "extraData": {
-                  "region": "%%AWS_BEDROCK_REGION%%"
-                }
-              }
-            ]
           }
         },
         "roles": {
@@ -176,7 +169,6 @@ bedrock:
 
   env:
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
 
   serviceAccount:
     create: true
@@ -189,7 +181,7 @@ vertexai:
 
   env:
     GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential.json"
-    AWS_DEFAULT_REGION: "us-central1"
+    DEFAULT_REGION: "%%GCP_REGION%%"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
 
