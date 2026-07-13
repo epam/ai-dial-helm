@@ -5,6 +5,9 @@ core:
     # -- You can use a aidial.storage.identity/aidial.storage.credential in the environment variable instead.
     annotations:
       eks.amazonaws.com/role-arn: "%%AWS_CORE_ROLE_ARN%%"
+  podAnnotations:
+    # -- Annotation hack to restart core pod after each Helm chart upgrade
+    autorestart: '{{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC" }}'
   configuration:
     encryption:
       secret: "%%CORE_ENCRYPT_SECRET%%"
@@ -209,7 +212,7 @@ openai:
     azure.workload.identity/use: "true"
 
   serviceAccount:
-    enabled: true
+    create: true
     name: dial-openai
     annotations:
       azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"

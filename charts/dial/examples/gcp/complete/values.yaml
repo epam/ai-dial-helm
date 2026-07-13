@@ -21,13 +21,13 @@ core:
     aidial.identityProviders.google.userInfoEndpoint: "https://openidconnect.googleapis.com/v1/userinfo"
     aidial.identityProviders.google.rolePath: "fn:getGoogleWorkspaceGroups"
     aidial.identityProviders.google.loggingKey: "sub"
-    aidial.identityProviders.google.loggingSalt: "loggingSalt"
     aidial.redis.provider.name: "gcp-memory-store"
     aidial.redis.provider.accountName: "projects/-/serviceAccounts/%%GCP_CORE_SERVICE_ACCOUNT%%"
     aidial.redis.clusterServersConfig.nodeAddresses: "%%GCP_MEMORYSTORE_REDISCLUSTER_ENDPOINT%%"
     aidial.redis.clusterServersConfig.sslTruststore: "file:///mnt/secrets-store/redis-truststore.jks"
     aidial.redis.clusterServersConfig.sslTruststorePassword: "%%TRUSTSTORE_PASSWORD%%"
   secrets:
+    aidial.identityProviders.google.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
         "models": {
@@ -180,7 +180,7 @@ openai:
     azure.workload.identity/use: "true"
 
   serviceAccount:
-    enabled: true
+    create: true
     name: dial-openai
     annotations:
       azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"

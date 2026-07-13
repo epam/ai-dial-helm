@@ -114,11 +114,11 @@ chat:
     annotations:
       cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
     hosts:
-      - dial.%%DOMAIN%%
+      - chat.%%DOMAIN%%
     tls:
       - secretName: "dial-tls-secret"
         hosts:
-          - dial.%%DOMAIN%%
+          - chat.%%DOMAIN%%
 
 themes:
   enabled: true

@@ -20,7 +20,6 @@ core:
     aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
     aidial.identityProviders.azure.loggingKey: "sub"
-    aidial.identityProviders.azure.loggingSalt: "loggingSalt"
     aidial.identityProviders.azure.jwksUrl: "https://login.microsoftonline.com/%%AZURE_TENANT_ID%%/discovery/v2.0/keys"
     aidial.identityProviders.azure.rolePath: "groups"
     aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
@@ -31,6 +30,7 @@ core:
     azure.workload.identity/use: "true"
 
   secrets:
+    aidial.identityProviders.azure.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
         "models": {
@@ -151,7 +151,7 @@ vertexai:
       iam.gke.io/gcp-service-account: "%%GCP_SERVICE_ACCOUNT_ID%%"
 
   env:
-    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential-configuration.json"
+    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential.json"
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DEFAULT_REGION: "%%GCP_REGION%%"
@@ -209,6 +209,6 @@ openai:
     azure.workload.identity/use: "true"
 
   serviceAccount:
-    enabled: true
+    create: true
     annotations:
       azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"
