@@ -78,7 +78,7 @@ core:
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
-      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
       alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
       alb.ingress.kubernetes.io/ssl-redirect: "443"
     hosts:
@@ -106,7 +106,20 @@ chat:
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
 
   ingress:
-    enabled: false
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-path: /api/health
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - chat.%%DOMAIN%%
 
 themes:
   enabled: true

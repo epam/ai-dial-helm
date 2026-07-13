@@ -112,3 +112,6 @@ themes:
 
 openai:
   enabled: true
+
+  env:
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
