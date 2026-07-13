@@ -76,7 +76,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
-    - Replace `%%THEMES_CONFIG_HOST%%` - with the host URL for a custom themes configuration. Can lead to public and private resource.
 
       ```json
           {

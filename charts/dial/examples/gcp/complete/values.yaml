@@ -45,7 +45,7 @@ core:
           "gemini-3.5-flash": {
             "type": "chat",
             "displayName": "Google (Gemini)",
-            "iconUrl": "/Gemini.svg",
+            "iconUrl": "Gemini.svg",
             "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
             "upstreams": [
               {
@@ -58,7 +58,7 @@ core:
           "anthropic.claude-opus-4-8": {
             "type": "chat",
             "displayName": "Anthropic Claude Opus 4.8",
-            "iconUrl": "/anthropic.svg",
+            "iconUrl": "anthropic.svg",
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
@@ -120,7 +120,7 @@ chat:
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
     # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
-    THEMES_CONFIG_HOST: "https://%%THEMES_CONFIG_HOST%%"
+    THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
     DEFAULT_MODEL: "gemini-3.5-flash"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
@@ -141,8 +141,6 @@ chat:
 
 themes:
   enabled: true
-  ingress:
-    enabled: false
 
 vertexai:
   enabled: true

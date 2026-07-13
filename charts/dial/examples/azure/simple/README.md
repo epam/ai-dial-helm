@@ -68,7 +68,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
-    - Replace `%%THEMES_CONFIG_HOST%%` - with the host URL for a custom themes configuration. Can lead to public and private resource.
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 

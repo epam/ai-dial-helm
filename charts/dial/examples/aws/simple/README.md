@@ -66,7 +66,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
-    - Replace `%%THEMES_CONFIG_HOST%%` - with the host URL for a custom themes configuration. Can lead to public and private resource.
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
