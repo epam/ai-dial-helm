@@ -77,7 +77,7 @@ core:
   
   ingress:
     enabled: true
-    ingressClassName: traefik
+    ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%" # To issue ssl certificate
     hosts:

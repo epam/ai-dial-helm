@@ -64,7 +64,16 @@ core:
           permissions: "on ~* allchannels +psync +replconf +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
           password: "%%REDIS_PASSWORD%%"
   ingress:
-    enabled: false
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
 
 chat:
   enabled: true

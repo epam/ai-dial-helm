@@ -13,6 +13,7 @@
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
+- [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
