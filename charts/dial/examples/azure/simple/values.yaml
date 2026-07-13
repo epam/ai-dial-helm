@@ -83,7 +83,7 @@ core:
     hosts:
       - dial.%%DOMAIN%%
     tls:
-      - secretName: "dial-tls"
+      - secretName: "dial-tls-secret"
         hosts:
           - dial.%%DOMAIN%%
 
@@ -116,7 +116,7 @@ chat:
     hosts:
       - chat.%%DOMAIN%%
     tls:
-      - secretName: "dial-tls-secret"
+      - secretName: "chat-tls-secret"
         hosts:
           - chat.%%DOMAIN%%
 
