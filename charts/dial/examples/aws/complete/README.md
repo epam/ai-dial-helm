@@ -19,7 +19,7 @@
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Cognito](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/cognito)
-- [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
+- [Amazon ElastiCache with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
   - [Vertex AI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
@@ -71,7 +71,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AUTH_COGNITO_SECRET%%` with Cognito secret [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
-    - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCashe like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
+    - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCache like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
     - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
