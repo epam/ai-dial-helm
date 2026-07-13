@@ -154,7 +154,7 @@ vertexai:
 
   env:
     GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential-configuration.json"
-    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DEFAULT_REGION: "%%GCP_REGION%%"
 
@@ -192,7 +192,7 @@ bedrock:
 
   env:
     AWS_DEFAULT_REGION: "%%AWS_REGION%%"
-    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
     AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
 
