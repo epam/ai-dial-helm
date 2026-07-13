@@ -81,10 +81,8 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
-    - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `[\"rediss://10.0.0.2:6380\"]`
-    - Replace `%%AZURE_CACHE_REDIS_PASSWORD%%` with Azure Cache for Redis password
+    - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `rediss://10.0.0.2:6380`
     - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
-    - Replace `%%AWS_REGION%%` with GCP Region e.g. `us-east-1`
     - Replace `%%GCP_PROJECT_ID%%` with GCP Project Id e.g. `dial-191923`
     - Replace `%%GCP_SERVICE_ACCOUNT_ID%%` with GCP service account id [link](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)

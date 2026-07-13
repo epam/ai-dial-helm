@@ -13,7 +13,6 @@
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
-- [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
@@ -32,7 +31,7 @@
 
 By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Vertex AI, OpenAI, Bedrock APIs.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
-For authenticaConfiguring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
+Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
 
