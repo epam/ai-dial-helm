@@ -109,26 +109,31 @@ chat:
 
   ingress:
     enabled: true
-    ingressClassName: traefik
+    ingressClassName: nginx
     annotations:
-      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%" # To issue ssl certificate
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
     hosts:
-      - chat.%%DOMAIN%%
+      - dial.%%DOMAIN%%
     tls:
-      - secretName: "chat-tls"
+      - secretName: "dial-tls-secret"
         hosts:
-          - chat.%%DOMAIN%%
+          - dial.%%DOMAIN%%
 
 themes:
   enabled: true
-  httpRoute:
+  ingress:
     enabled: true
-    parentRefs:
-      - name: traefik
-        namespace: traefik
-        sectionName: websecure
-    hostnames:
-      - themes.%%DOMAIN%%
+    ingressClassName: nginx
+    path: "/themes/(.*)"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
 
 openai:
   enabled: true

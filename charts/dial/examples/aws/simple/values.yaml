@@ -105,27 +105,12 @@ chat:
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
 
   ingress:
-    enabled: true
-    ingressClassName: traefik
-    annotations:
-      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%" # To issue ssl certificate
-    hosts:
-      - chat.%%DOMAIN%%
-    tls:
-      - secretName: "chat-tls"
-        hosts:
-          - chat.%%DOMAIN%%
+    enabled: false
 
 themes:
   enabled: true
-  httpRoute:
-    enabled: true
-    parentRefs:
-      - name: traefik
-        namespace: traefik
-        sectionName: websecure
-    hostnames:
-      - themes.%%DOMAIN%%
+  ingress:
+    enabled: false
 
 bedrock:
   enabled: true

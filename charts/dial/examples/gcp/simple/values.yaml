@@ -72,7 +72,6 @@ core:
       aclUsers:
         default:
           password: "%%REDIS_PASSWORD%%"
-
   ingress:
     enabled: true
     ingressClassName: traefik
@@ -120,14 +119,19 @@ chat:
 
 themes:
   enabled: true
-  httpRoute:
+  ingress:
     enabled: true
-    parentRefs:
-      - name: traefik
-        namespace: traefik
-        sectionName: websecure
-    hostnames:
-      - themes.%%DOMAIN%%
+    ingressClassName: nginx
+    path: "/themes/(.*)"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
 
 vertexai:
   enabled: true

@@ -62,18 +62,8 @@ core:
       aclUsers:
         default:
           password: "%%REDIS_PASSWORD%%"
-
   ingress:
-    enabled: true
-    ingressClassName: traefik
-    annotations:
-      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%" # To issue ssl certificate
-    hosts:
-      - dial.%%DOMAIN%%
-    tls:
-      - secretName: "dial-tls"
-        hosts:
-          - dial.%%DOMAIN%%
+    enabled: false
 
 chat:
   enabled: true
@@ -95,29 +85,33 @@ chat:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     # -- API key defined in core configuration
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
-
   ingress:
     enabled: true
-    ingressClassName: traefik
+    ingressClassName: nginx
     annotations:
-      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%" # To issue ssl certificate
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
     hosts:
       - chat.%%DOMAIN%%
     tls:
-      - secretName: "chat-tls"
+      - secretName: "chat-tls-secret"
         hosts:
           - chat.%%DOMAIN%%
 
 themes:
   enabled: true
-  httpRoute:
+  ingress:
     enabled: true
-    parentRefs:
-      - name: traefik
-        namespace: traefik
-        sectionName: websecure
-    hostnames:
-      - themes.%%DOMAIN%%
+    ingressClassName: nginx
+    path: "/themes/(.*)"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
 
 openai:
   enabled: true
