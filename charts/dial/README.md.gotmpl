@@ -146,6 +146,7 @@ In this version, we've updated the following underlying dependencies, some of wh
     core:
     -  redis:
     +  valkey:
+        enabled: true
     ```
 
 1. Replace credentials configuration in `values.yaml`, based on your existing approach:
@@ -212,9 +213,8 @@ In this version, we've updated the following underlying dependencies, some of wh
     core:
     -  redis:
     +  valkey:
+        enabled: false
     ```
-
-1. <!-- TODO -->
 
 ### To 6.0.0
 
