@@ -11,7 +11,7 @@
 
 - Kubernetes cluster 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
-- [Gateway API CRD](https://gateway-api.sigs.k8s.io/docs/concepts/api-overview/) installed in the cluster
+- [Gateway API CRD](https://gateway-api.sigs.k8s.io/guides/getting-started/introduction/#installing-a-gateway-controller) installed in the cluster
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
 - [Ingress-Traefik Controller](https://doc.traefik.io/traefik/setup/kubernetes/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)

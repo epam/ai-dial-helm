@@ -180,6 +180,7 @@ helm install my-release dial/dial -f values.yaml
 In this version, we've updated the following underlying dependencies, some of which require manual actions:
 
 - `Redis` replaced with `Valkey`
+- Install `Gateway API CRD`
 - `dial/dial-core` Helm chart version bumped from `5.2.0` to `6.0.0`
   - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey`
     - **Cluster → non‑clustered deployment**. We moved away from Redis Cluster.
@@ -187,6 +188,23 @@ In this version, we've updated the following underlying dependencies, some of wh
     - **Review memory / resources for Valkey**. Previous `redisCluster.*` values are ignored.
       Update Valkey settings in `values.yaml` (e.g. `valkey.resources`, `valkey.primary.resources`, `valkey.config.maxmemory`, persistence, etc.).
       This is not an obvious change without revisiting our values.
+
+1. If using the non-managed Kubernetes cluster, install `CRD Gateway API` and check `CRD Gateway API` with the following commands:
+
+    Install
+    ```shell
+    kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.0/standard-install.yaml
+    ```
+
+    Check
+    ```shell
+    kubectl get crd httproutes.gateway.networking.k8s.io
+
+    NAME                                   CREATED AT
+    httproutes.gateway.networking.k8s.io   %DATE%
+    ```
+
+1. If using a managed Kubernetes cluster, follow the service provider's instructions.
 
 1. If you use external Redis, replace Redis-related config section in `values.yaml`
 
