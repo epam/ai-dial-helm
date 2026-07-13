@@ -67,7 +67,154 @@ helm install my-release dial/dial -f values.yaml
 
 {{ template "chart.valuesSection" . }}
 
+## Valkey
+
+[Core](https://github.com/epam/ai-dial-core) application relies on in-memory NoSQL key-value database as a cache storage. Initially, the Helm chart was using [Redis](https://redis.io/) database, but starting from [version 7.0.0](#to-700), it is replaced with [Valkey](https://valkey.io/) - due to its enhancements and permissive license.
+
+By default, the Helm chart follows deploys `dial-core` sub-chart settings, which deploys Valkey in a [standalone](https://github.com/valkey-io/valkey-helm/tree/main/valkey#deployment-modes) mode (single instance, no replicas) with ACL-based authentication disabled.
+
+> [!warning]
+> It is **strongly recommended** to enable the authentication mechanism. An example of the configuration following the "least privilege" principles is provided below.
+
+```yaml
+core:
+  valkey:
+    enabled: true
+    auth:
+      enabled: true
+      usersExistingSecret: "dial-valkey-auth"
+      aclUsers:
+        default:
+          passwordKey: "default-password"
+          permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+```
+
+### Adjusting memory
+
+By default Valkey itself is configured with `maxmemory 2G` (two gigabytes) and container granted `resources.limits.memory: 2Gi` (two gibibytes). This creates an intentional gap due to SI units in [application configuration](https://github.com/valkey-io/valkey/blob/cdf98a251e2dcb5772d5e544df73b931633834ba/valkey.conf#L8-L18) and binary units in Kubernetes specification, thus helps to avoid OOM kills.
+
+> [!IMPORTANT]
+> Both values must be updated in pair when you adjust cache capacity
+
+```yaml
+core:
+  valkey:
+    resources:
+      limits:
+        memory: 4Gi
+      requests:
+        memory: 4Gi
+    valkeyConfig: |
+      maxmemory 4G
+      maxmemory-policy volatile-lfu
+```
+
+### Use an external Valkey database
+
+You may want the application to connect to an external Valkey (or Redis-compatible) database rather than the one provided by the Helm chart - for example, when using a cloud-managed service such as AWS ElastiCache or Azure Cache for Redis. To do this, set `core.valkey.enabled` to `false` and specify the connection details:
+
+```yaml
+core:
+  valkey:
+    enabled: false
+  env:
+    aidial.redis.singleServerConfig.address: "redis://myexternalhost:6379"
+  secrets:
+    aidial.redis.singleServerConfig.password: "mypassword"
+```
+
 ## Upgrading
+
+### To 7.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+> Find detailed information about this Valkey configuration block in [Valkey README.md](https://github.com/valkey-io/valkey-helm/tree/main/valkey).
+
+In this version, we've updated the following underlying dependencies, some of which require manual actions:
+
+- `dial/dial-core` Helm chart version bumped from `5.2.0` to `6.0.0`
+  - `bitnami/redis-cluster` Helm chart replaced with `valkey/valkey` Helm chart
+    - [Redis](https://redis.io/) replaced with [Valkey](https://valkey.io/) database
+    - **Cluster** architecture (multiple master nodes, or shards) replaced with **Standalone** architecture (single node, no replicas). For production usage you should review your HA architecture/scale strategy and adjust accordingly.
+
+#### In-house deployment
+
+1. Replace `core.redis` to `core.valkey` in `values.yaml`:
+
+    ```diff
+    core:
+    -  redis:
+    +  valkey:
+        enabled: true
+    ```
+
+1. Replace credentials configuration in `values.yaml`, based on your existing approach:
+
+    **Option 1: inline password** (previously `core.redis.password`)
+
+    *Before:*
+
+    ```yaml
+    core:
+      redis:
+        enabled: true
+        password: "%%REDIS_PASSWORD%%"
+    ```
+
+    *After:*
+
+    ```yaml
+    core:
+      valkey:
+        enabled: true
+        auth:
+          enabled: true
+          aclUsers:
+            default:
+              password: "%%REDIS_PASSWORD%%"
+    ```
+
+    **Option 2: existing Kubernetes secret** (previously `core.redis.existingSecret` + `core.redis.existingSecretPasswordKey`)
+
+    *Before:*
+
+    ```yaml
+    core:
+      redis:
+        enabled: true
+        existingSecret: "my-redis-secret"
+        existingSecretPasswordKey: "redis-password"
+    ```
+
+    *After:*
+
+    ```yaml
+    core:
+      valkey:
+        enabled: true
+        auth:
+          enabled: true
+          usersExistingSecret: "my-redis-secret"
+          aclUsers:
+            default:
+              passwordKey: "redis-password"
+    ```
+
+1. Ensure no other `core.redis` configuration blocks left in `values.yaml` or Helm `--set` arguments, otherwise migrate them according to [Valkey Helm chart documentation](https://github.com/valkey-io/valkey-helm/blob/main/valkey/values.yaml)
+1. Run `helm upgrade` command with usual arguments, **new** `7.X.X` chart version
+1. Manually delete the Redis-related PVCs
+
+#### External Valkey deployment
+
+1. Replace `core.redis` to `core.valkey` in `values.yaml`:
+
+    ```diff
+    core:
+    -  redis:
+    +  valkey:
+        enabled: false
+    ```
 
 ### To 6.0.0
 

@@ -15,7 +15,8 @@
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [GCP IAM roles for service accounts](https://cloud.google.com/iam/docs/service-account-overview) installed and configured
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
-- [AWS IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started-workloads.html) configured
+- [AWS IAM role for Bedrock access](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html) configured
+- [Amazon EKS Pod Identity Webhook](https://github.com/aws/amazon-eks-pod-identity-webhook) installed in the cluster with the `--aws-default-region` flag set (required to inject `AWS_DEFAULT_REGION` into the Bedrock pod)
 - [GKE Workload Identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
 - [GKE Ingress](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress) installed
 - [Static IP address](https://cloud.google.com/vpc/docs/reserve-static-external-ip-address) reserved for Chat and Core
@@ -26,11 +27,11 @@
   - [Downloading the Certificate Authority](https://cloud.google.com/memorystore/docs/redis/manage-in-transit-encryption#downloading_the_certificate_authority)
   - [Creating TrustStore](https://docs.oracle.com/cd/E19509-01/820-3503/ggfka/index.html)
 - [Google Identity](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/google) as identity provider
-- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
+- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-3.5-flash` model deployed:
   - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
   - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `global.anthropic.claude-opus-4-8` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
@@ -89,9 +90,9 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_GOOGLE_CLIENT_ID%%` with Cloud Identity client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_GOOGLE_SECRET%%` with Cloud Identity client secret from [prerequisites](#prerequisites)
     - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
-    - Replace `%%AWS_ACCESS_KEY%%` with AWS access key from [prerequisites](#prerequisites)
-    - Replace `%%AWS_SECRET_KEY%%` with AWS secret key from [prerequisites](#prerequisites)
+    - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
+    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 

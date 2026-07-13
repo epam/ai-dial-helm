@@ -16,7 +16,7 @@
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `global.anthropic.claude-opus-4-8` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
@@ -66,7 +66,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AWS_CORE_ROLE_ARN%%` with S3 AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
-    - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:

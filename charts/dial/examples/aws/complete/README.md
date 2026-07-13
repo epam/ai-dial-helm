@@ -19,19 +19,19 @@
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
 - [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Amazon Cognito](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/cognito)
-- [Amazon ElastiCache for Redis with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth-iam.html)
+- [Amazon ElastiCache with user configured in IAM authentication mode](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform)
   - [Vertex AI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
   - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `global.anthropic.claude-opus-4-8` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
 
 By following the instructions in this guide, you will successfully install the AI DIAL system with configured connection to the Vertex AI, OpenAI, Bedrock APIs.\
 Please note that this guide represents a very basic deployment scenario, and **should never be used in production**.\
-For authenticaConfiguring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
+Configuring authentication provider, encrypted secrets, model usage limits, Ingress allowlisting and other security measures are **out of scope** of this guide.
 
 ## Install
 
@@ -66,13 +66,14 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%AWS_COGNITO_REGION%%` - aws region where resides Cognito pool e.g. `us-east-1`
     - Replace `%%AWS_COGNITO_ID%%` with AWS Cognito pool id e.g. `us-east-1_AbcD0efGh`
-    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint from [prerequisites](#prerequisites)
+    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - Replace `%%AWS_CERTIFICATE_ARN%%` with associated ACM certificate arn e.g. `arn:aws:acm:us-east-1:123456789012:certificate/1234567a-b123-4567-8c9d-123456789012`
     - Replace `%%AUTH_COGNITO_HOST%%` with AWS Cognito host like `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AbcD0efGh`
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
     - Replace `%%AUTH_COGNITO_SECRET%%` with Cognito secret [link](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
-    - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCashe like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
+    - Replace `%%AWS_ELASTICACHE_ENDPOINT%%` with AWS ElastiCache like `'["rediss://clustercfg.yourEndpoint.cache.amazonaws.com:6379"]'`
     - Replace `%%GCP_PROJECT_ID%%` - with GCP Project id
+    - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
 
@@ -107,7 +108,6 @@ For authenticaConfiguring authentication provider, encrypted secrets, model usag
     - Replace `%%AWS_ELASTICACHE_CLUSTERNAME%%` with AWS ElastiCache cluster name [prerequisites](#prerequisites)
     - Replace `%%AWS_ELASTICACHE_IS_SERVERLES%%` with AWS ElastiCache serverless flag [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
-    - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
     - It's assumed you've configured **external-dns** and **aws-load-balancer-controller** beforehand, so replace `%%DOMAIN%%` with your domain name, e.g. `example.com`, and `%%AWS_CERTIFICATE_ARN%%` with your AWS ACM certificate ARN, e.g. `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 
 1. Install `dial` helm chart in created namespace, applying custom values file:

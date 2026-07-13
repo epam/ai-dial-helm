@@ -17,7 +17,7 @@
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [workload identity federation for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
 - [Google Storage bucket](https://cloud.google.com/storage/docs/buckets)
-- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-pro` model deployed:
+- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-3.5-flash` model deployed:
   - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
 
 ## Expected Outcome

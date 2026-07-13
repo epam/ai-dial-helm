@@ -15,7 +15,8 @@
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
 - [GCP Workload Identity Federation with Kubernetes](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes#eks) configured
-- [AWS IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started-workloads.html)  installed and configured
+- [AWS IAM role for Bedrock access](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html) configured
+- [Amazon EKS Pod Identity Webhook](https://github.com/aws/amazon-eks-pod-identity-webhook) installed in the cluster with the `--aws-default-region` flag set (required to inject `AWS_DEFAULT_REGION` into the Bedrock pod)
 - [Static IP address](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses) reserved for Chat
 - [DNS records](https://learn.microsoft.com/en-us/azure/dns/public-dns-overview) configured for Chat
 - [Azure-managed SSL certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate) issued for Chat
@@ -25,9 +26,9 @@
   - [Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
   - [OpenAI Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/openai-model-deployment)
-- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-1.5-pro` model deployed:
+- [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-3.5-flash` model deployed:
   - [GCP Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/vertex-model-deployment)
-- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `anthropic.claude-v1` model deployed:
+- [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html) `global.anthropic.claude-opus-4-8` model deployed:
   - [Bedrock Model Deployment Guide](https://docs.dialx.ai/tutorials/devops/deployment/deployment-of-models/bedrock-model-deployment)
 
 ## Expected Outcome
@@ -74,23 +75,21 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
-    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with appropriate endpoint from [prerequisites](#prerequisites)
+    - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - Replace `%%AZURE_CLIENT_ID%%` with a unique identifier for the client application registered in Azure Active Directory (AD). It is used to authenticate the client application when accessing Azure AD resources.
     - Replace `%%AZURE_TENANT_ID%%` with a Tenant ID refers to a globally unique identifier (GUID) that represents a specific Azure AD tenant. It is used to identify and authenticate the Azure AD tenant that the client application belongs to.
     - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
-    - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `[\"rediss://10.0.0.2:6380\"]`
-    - Replace `%%AZURE_CACHE_REDIS_PASSWORD%%` with Azure Cache for Redis password
+    - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `rediss://10.0.0.2:6380`
     - Replace `%%GCP_REGION%%` with GCP Region e.g. `us-east1`
-    - Replace `%%AWS_REGION%%` with GCP Region e.g. `us-east-1`
     - Replace `%%GCP_PROJECT_ID%%` with GCP Project Id e.g. `dial-191923`
     - Replace `%%GCP_SERVICE_ACCOUNT_ID%%` with GCP service account id [link](https://cloud.google.com/iam/docs/workload-identity-federation-with-kubernetes)
-    - Replace `%%AWS_ACCESS_KEY%%` with AWS access key from [prerequisites](#prerequisites)
-    - Replace `%%AWS_SECRET_KEY%%` with AWS secret key from [prerequisites](#prerequisites)
+    - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%GCP_SERVICE_ACCOUNT_AUDIENCE%%` with audience value from %%GCP_WORKLOAD_IDENTITY_CREDS%%
     - Replace `%%GCP_WORKLOAD_IDENTITY_CREDS%%` - with GCP Workload Identity
+    - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
 
     ```json
         {

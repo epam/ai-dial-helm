@@ -21,46 +21,53 @@ core:
     aidial.identityProviders.google.userInfoEndpoint: "https://openidconnect.googleapis.com/v1/userinfo"
     aidial.identityProviders.google.rolePath: "fn:getGoogleWorkspaceGroups"
     aidial.identityProviders.google.loggingKey: "sub"
-    aidial.identityProviders.google.loggingSalt: "loggingSalt"
     aidial.redis.provider.name: "gcp-memory-store"
     aidial.redis.provider.accountName: "projects/-/serviceAccounts/%%GCP_CORE_SERVICE_ACCOUNT%%"
     aidial.redis.clusterServersConfig.nodeAddresses: "%%GCP_MEMORYSTORE_REDISCLUSTER_ENDPOINT%%"
     aidial.redis.clusterServersConfig.sslTruststore: "file:///mnt/secrets-store/redis-truststore.jks"
     aidial.redis.clusterServersConfig.sslTruststorePassword: "%%TRUSTSTORE_PASSWORD%%"
   secrets:
+    aidial.identityProviders.google.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
         "models": {
-            "gpt-4": {
-              "type": "chat",
-              "displayName": "GPT-4",
-              "iconUrl": "/gpt4.svg",
-              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-4-0613/chat/completions",
-              "upstreams": [
-                  {
-                      "endpoint": "http://%%AZURE_DEPLOYMENT_HOST%%/openai/deployments/gpt-4/chat/completions"
-                  }
-              ]
-          },
-          "gemini-1.5-pro": {
+          "gpt-chat-latest": {
             "type": "chat",
-            "displayName": "Gemini 1.5 Pro",
-            "iconUrl": "/Gemini.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-pro/chat/completions"
+            "displayName": "GPT Chat Latest",
+            "iconUrl": "gpt4.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
+            "upstreams": [
+              {
+                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
+              }
+            ]
           },
-          "anthropic.claude-v2:1": {
-              "type": "chat",
-              "displayName": "Anthropic (Claude)",
-              "iconUrl": "/anthropic.svg",
-              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v1/chat/completions"
+          "gemini-3.5-flash": {
+            "type": "chat",
+            "displayName": "Google (Gemini)",
+            "iconUrl": "Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
+            "upstreams": [
+              {
+                "extraData": {
+                  "region": "global"
+                }
+              }
+            ]
+          },
+          "anthropic.claude-opus-4-8": {
+            "type": "chat",
+            "displayName": "Anthropic Claude Opus 4.8",
+            "iconUrl": "anthropic.svg",
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "roles": {
           "chat": {
             "limits": {
-              "gpt-4": {},
-              "gemini-1.5-pro": {},
-              "anthropic.claude-v2:1": {}
+              "gpt-chat-latest": {},
+              "gemini-3.5-flash": {},
+              "anthropic.claude-opus-4-8": {}
             }
           }
         }
@@ -87,7 +94,7 @@ core:
       mountPath: "/mnt/secrets-store/redis-truststore.jks"
       subPath: redis-truststore.jks
       readOnly: true
-  redis:
+  valkey:
     enabled: false
   ingress:
     enabled: true
@@ -111,10 +118,10 @@ chat:
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
-    # -- External URL of DIAL themes;
+    # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gemini-1.5-pro"
+    DEFAULT_MODEL: "gemini-3.5-flash"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
     AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"
@@ -134,8 +141,6 @@ chat:
 
 themes:
   enabled: true
-  ingress:
-    enabled: false
 
 vertexai:
   enabled: true
@@ -155,24 +160,27 @@ bedrock:
   enabled: true
 
   env:
-    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
-    AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+
+  podLabels:
+    eks.amazonaws.com/pod-identity-webhook: "true"
 
   serviceAccount:
     create: true
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
 
 openai:
   enabled: true
 
   env:
-    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
 
   podLabels:
     azure.workload.identity/use: "true"
 
   serviceAccount:
-    enabled: true
+    create: true
     name: dial-openai
     annotations:
       azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"

@@ -17,9 +17,9 @@ core:
     aidial.storage.bucket: "%%AZURE_CORE_BLOB_STORAGE_NAME%%"
     aidial.storage.endpoint: "%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%"
     aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
     aidial.identityProviders.azure.loggingKey: "sub"
-    aidial.identityProviders.azure.loggingSalt: "loggingSalt"
     aidial.identityProviders.azure.jwksUrl: "https://login.microsoftonline.com/%%AZURE_TENANT_ID%%/discovery/v2.0/keys"
     aidial.identityProviders.azure.rolePath: "groups"
     aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
@@ -30,41 +30,47 @@ core:
     azure.workload.identity/use: "true"
 
   secrets:
+    aidial.identityProviders.azure.loggingSalt: "loggingSalt"
     aidial.config.json: |
       {
         "models": {
-          "gpt-35-turbo-0301": {
-              "type": "chat",
-              "displayName": "GPT-3.5 Turbo",
-              "displayVersion": "0301",
-              "tokenizerModel": "gpt-3.5-turbo-0301",
-              "iconUrl": "gpt3.svg",
-              "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local.:80/openai/deployments/gpt-35-turbo-0301/chat/completions",
-              "upstreams": [
-                  {
-                      "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%.azure.com/openai/deployments/gpt-35-turbo-0301/chat/completions"
-                  }
-              ]
-          },
-           "gemini-1.5-pro-preview-0409": {
+          "gpt-chat-latest": {
             "type": "chat",
-            "displayName": "Gemini 1.5 Pro",
-            "iconUrl": "Gemini-Pro-Vision.svg",
-            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-1.5-pro-preview-0409/chat/completions"
+            "displayName": "GPT Chat Latest",
+            "iconUrl": "gpt4.svg",
+            "endpoint": "http://dial-openai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gpt-chat-latest/chat/completions",
+            "upstreams": [
+              {
+                "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
+              }
+            ]
           },
-          "anthropic.claude-v2:1": {
-              "type": "chat",
-              "displayName": "Anthropic (Claude)",
-              "iconUrl": "anthropic.svg",
-              "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-v2:1/chat/completions"
+          "gemini-3.5-flash": {
+            "type": "chat",
+            "displayName": "Google (Gemini)",
+            "iconUrl": "Gemini.svg",
+            "endpoint": "http://dial-vertexai.%%NAMESPACE%%.svc.cluster.local/openai/deployments/gemini-3.5-flash/chat/completions",
+            "upstreams": [
+              {
+                "extraData": {
+                  "region": "global"
+                }
+              }
+            ]
+          },
+          "anthropic.claude-opus-4-8": {
+            "type": "chat",
+            "displayName": "Anthropic Claude Opus 4.8",
+            "iconUrl": "anthropic.svg",
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "roles": {
           "chat": {
             "limits": {
-              "gpt-4": {},
-              "gemini-1.5-pro-preview-0409": {},
-              "anthropic.claude-v2:1": {}
+              "gpt-chat-latest": {},
+              "gemini-3.5-flash": {},
+              "anthropic.claude-opus-4-8": {}
             }
           }
         }
@@ -81,8 +87,20 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-  redis:
+  valkey:
     enabled: false
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
 
 chat:
   enabled: true
@@ -96,10 +114,10 @@ chat:
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
-    # -- External URL of DIAL themes;
+    # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gpt-35-turbo-0301"
+    DEFAULT_MODEL: "gpt-chat-latest"
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     AUTH_AZURE_AD_CLIENT_ID: "%%AZURE_CLIENT_ID%%"
@@ -123,8 +141,6 @@ chat:
 
 themes:
   enabled: true
-  ingress:
-    enabled: false
 
 vertexai:
   enabled: true
@@ -135,7 +151,7 @@ vertexai:
       iam.gke.io/gcp-service-account: "%%GCP_SERVICE_ACCOUNT_ID%%"
 
   env:
-    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential-configuration.json"
+    GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential.json"
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DEFAULT_REGION: "%%GCP_REGION%%"
@@ -173,13 +189,15 @@ bedrock:
   enabled: true
 
   env:
-    AWS_DEFAULT_REGION: "%%AWS_REGION%%"
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
-    AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
+
+  podLabels:
+    eks.amazonaws.com/pod-identity-webhook: "true"
 
   serviceAccount:
     create: true
+    annotations:
+      eks.amazonaws.com/role-arn: "%%AWS_BEDROCK_ROLE_ARN%%"
 
 openai:
   enabled: true
@@ -191,6 +209,6 @@ openai:
     azure.workload.identity/use: "true"
 
   serviceAccount:
-    enabled: true
+    create: true
     annotations:
       azure.workload.identity/client-id: "%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%"

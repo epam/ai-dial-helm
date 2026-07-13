@@ -93,9 +93,7 @@ chat:
     httpGet:
       path: /api/health
     failureThreshold: 6
-
   resourcesPreset: small
-
   containerSecurityContext:
     readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
@@ -137,9 +135,7 @@ openai:
     enabled: true
   readinessProbe:
     enabled: true
-
   resourcesPreset: micro
-
   containerSecurityContext:
     readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
@@ -162,9 +158,7 @@ bedrock:
     enabled: true
   readinessProbe:
     enabled: true
-
   resourcesPreset: micro
-
   containerSecurityContext:
     readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
@@ -183,9 +177,7 @@ vertexai:
     enabled: true
   readinessProbe:
     enabled: true
-
   resourcesPreset: small
-
   containerSecurityContext:
     readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
@@ -204,8 +196,6 @@ dial:
     enabled: true
   readinessProbe:
     enabled: true
-
   resourcesPreset: micro
-
   containerSecurityContext:
     readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.

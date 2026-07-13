@@ -24,4 +24,5 @@
 *.lock
 OWNERS
 README.md.gotmpl
+.markdownlint.yaml
 ci/

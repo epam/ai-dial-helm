@@ -25,11 +25,11 @@ core:
     aidial.config.json: |
       {
         "models": {
-          "anthropic.claude-v1": {
+          "anthropic.claude-opus-4-8": {
             "type": "chat",
-            "displayName": "Anthropic (Claude)",
+            "displayName": "Anthropic Claude Opus 4.8",
             "iconUrl": "anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/anthropic.claude-instant-v1/chat/completions"
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "keys": {
@@ -41,7 +41,7 @@ core:
         "roles": {
           "chat": {
             "limits": {
-              "anthropic.claude-v1": {}
+              "anthropic.claude-opus-4-8": {}
             }
           }
         }
@@ -58,11 +58,31 @@ core:
       mountPath: "/mnt/secrets-store/aidial.config.json"
       subPath: aidial.config.json
       readOnly: true
-  redis:
+
+  valkey:
     enabled: true
-    password: "%%REDIS_PASSWORD%%"
+    auth:
+      enabled: true
+      aclUsers:
+        default:
+          permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
+          password: "%%REDIS_PASSWORD%%"
+
   ingress:
-    enabled: false
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-path: /health
+      alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+      alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
+      alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+    hosts:
+      - dial.%%DOMAIN%%
 
 chat:
   enabled: true
@@ -76,13 +96,15 @@ chat:
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
-    # -- External URL of DIAL themes;
+    # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
+    DEFAULT_MODEL: "anthropic.claude-opus-4-8"
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
     # -- API key defined in core configuration
     DIAL_API_KEY: "%%DIAL_API_KEY%%"
+
   ingress:
     enabled: true
     ingressClassName: alb
@@ -93,7 +115,7 @@ chat:
       alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
       alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
       alb.ingress.kubernetes.io/listen-ports: '[{ "HTTP" : 80, "HTTPS" : 443 }]'
-      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
+      alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
       alb.ingress.kubernetes.io/certificate-arn: "%%AWS_CERTIFICATE_ARN%%"
       alb.ingress.kubernetes.io/ssl-redirect: "443"
     hosts:
@@ -101,8 +123,6 @@ chat:
 
 themes:
   enabled: true
-  ingress:
-    enabled: false
 
 bedrock:
   enabled: true
@@ -115,4 +135,3 @@ bedrock:
 
   env:
     DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
