@@ -229,7 +229,6 @@ In this version, we've updated the following underlying dependencies, some of wh
           enabled: true
           aclUsers:
             default:
-              permissions: "on ~* allchannels +@read +@write +ping +info +@hash +@list +@pubsub +@scripting +TIME"
               password: "%%REDIS_PASSWORD%%"
     ```
 

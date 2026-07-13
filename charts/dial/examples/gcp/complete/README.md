@@ -16,7 +16,6 @@
 - [GCP IAM roles for service accounts](https://cloud.google.com/iam/docs/service-account-overview) installed and configured
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html) installed and configured
 - [AWS IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started-workloads.html) configured
-- [AWS Bedrock Regional availability by models](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html)
 - [GKE Workload Identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
 - [GKE Ingress](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress) installed
 - [Static IP address](https://cloud.google.com/vpc/docs/reserve-static-external-ip-address) reserved for Chat and Core
@@ -95,6 +94,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - Replace `%%AWS_BEDROCK_REGION%%` with bedrock region from [prerequisites](#prerequisites)
+    - Replace `%%THEMES_CONFIG_HOST%%` - with the host URL for a custom themes configuration. Can lead to public and private resource.
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 

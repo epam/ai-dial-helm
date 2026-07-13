@@ -59,14 +59,7 @@ core:
             "type": "chat",
             "displayName": "Anthropic Claude Opus 4.8",
             "iconUrl": "/anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions",
-            "upstreams": [
-              {
-                "extraData": {
-                  "region": "%%AWS_BEDROCK_REGION%%"
-                }
-              }
-            ]
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "roles": {
@@ -121,13 +114,13 @@ chat:
     NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
-    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_API_HOST: "http://core.%%NAMESPACE%%.svc.cluster.local"
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
-    # -- External URL of DIAL themes;
+    # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
-    THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
+    THEMES_CONFIG_HOST: "https://%%THEMES_CONFIG_HOST%%"
     DEFAULT_MODEL: "gemini-3.5-flash"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
@@ -161,7 +154,7 @@ vertexai:
       iam.gke.io/gcp-service-account: "%%GCP_VERTEXAI_SERVICE_ACCOUNT%%"
 
   env:
-    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DEFAULT_REGION: "%%GCP_REGION%%"
 
@@ -172,6 +165,7 @@ bedrock:
     DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
     AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
     AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
+    AWS_DEFAULT_REGION: "%%AWS_BEDROCK_REGION%%"
 
   serviceAccount:
     create: true

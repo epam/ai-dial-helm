@@ -17,6 +17,7 @@ core:
     aidial.storage.bucket: "%%AZURE_CORE_BLOB_STORAGE_NAME%%"
     aidial.storage.endpoint: "%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%"
     aidial.storage.createBucket: "false"
+    aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
     aidial.identityProviders.azure.loggingKey: "sub"
     aidial.identityProviders.azure.loggingSalt: "loggingSalt"
@@ -61,14 +62,7 @@ core:
             "type": "chat",
             "displayName": "Anthropic Claude Opus 4.8",
             "iconUrl": "/anthropic.svg",
-            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions",
-            "upstreams": [
-              {
-                "extraData": {
-                  "region": "%%AWS_BEDROCK_REGION%%"
-                }
-              }
-            ]
+            "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
         "roles": {
@@ -96,6 +90,18 @@ core:
   valkey:
     enabled: false
 
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "%%CLUSTER_ISSUER%%"
+    hosts:
+      - dial.%%DOMAIN%%
+    tls:
+      - secretName: "dial-tls-secret"
+        hosts:
+          - dial.%%DOMAIN%%
+
 chat:
   enabled: true
   env:
@@ -108,9 +114,9 @@ chat:
     # -- List of DIAL chat features to enable;
     # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
     ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
-    # -- External URL of DIAL themes;
+    # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
-    THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
+    THEMES_CONFIG_HOST: "https://%%THEMES_CONFIG_HOST%%"
     DEFAULT_MODEL: "gpt-chat-latest"
   secrets:
     NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
@@ -148,7 +154,7 @@ vertexai:
 
   env:
     GOOGLE_APPLICATION_CREDENTIALS: "/etc/workload-identity/credential-configuration.json"
-    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
     GCP_PROJECT_ID: "%%GCP_PROJECT_ID%%"
     DEFAULT_REGION: "%%GCP_REGION%%"
 
@@ -186,7 +192,7 @@ bedrock:
 
   env:
     AWS_DEFAULT_REGION: "%%AWS_REGION%%"
-    DIAL_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_URL: "http://core.%%NAMESPACE%%.svc.cluster.local"
     AWS_ACCESS_KEY_ID: "%%AWS_ACCESS_KEY%%"
     AWS_SECRET_ACCESS_KEY: "%%AWS_SECRET_KEY%%"
 

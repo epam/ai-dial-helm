@@ -65,6 +65,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - It's assumed you've configured **external-dns** and **cert-manager** beforehand, so replace `%%CLUSTER_ISSUER%%` with your cluster issuer name, e.g. `letsencrypt-production`
+    - Replace `%%THEMES_CONFIG_HOST%%` - with the host URL for a custom themes configuration. Can lead to public and private resource.
 
 1. Install `dial` helm chart in created namespace, applying custom values file:
 
