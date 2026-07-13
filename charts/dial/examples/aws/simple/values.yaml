@@ -121,8 +121,14 @@ chat:
 
 themes:
   enabled: true
-  ingress:
-    enabled: false
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: traefik
+        namespace: traefik
+        sectionName: websecure
+    hostnames:
+      - themes.%%DOMAIN%%
 
 bedrock:
   enabled: true
