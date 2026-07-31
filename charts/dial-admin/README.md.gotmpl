@@ -247,10 +247,5 @@ If `manager.enabled` is set to `true` and this is an upgrade from a previous ver
 
 ### To 0.17.0
 
-> [!NOTE]
-> New optional Evaluation Framework components (`evaluation-postgresql`, `evaluation-metrics`, `evaluation-backend`) are now included and disabled by default.
-
-To enable the Evaluation Framework, see [Evaluation Framework](#evaluation-framework).
-
 > [!IMPORTANT]
 > If you use the Deployment Manager metrics functionality (`METRICS_SCRAPE_ENABLED`, including resource usage via `METRICS_SCRAPE_RESOURCE_USAGE_ENABLED`), a [metrics-server](https://github.com/kubernetes-sigs/metrics-server) must be installed in the cluster. Without it, resource metrics (`metrics.k8s.io`) requests from the Deployment Manager will fail.
