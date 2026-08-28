@@ -249,3 +249,19 @@ If `manager.enabled` is set to `true` and this is an upgrade from a previous ver
 
 > [!IMPORTANT]
 > If you use the Deployment Manager metrics functionality (`METRICS_SCRAPE_ENABLED`, including resource usage via `METRICS_SCRAPE_RESOURCE_USAGE_ENABLED`), a [metrics-server](https://github.com/kubernetes-sigs/metrics-server) must be installed in the cluster. Without it, resource metrics (`metrics.k8s.io`) requests from the Deployment Manager will fail.
+
+### To 0.18.0
+
+> [!NOTE]
+> Deployment Manager `0.20.0` adds GPU metrics scraping (per-pod utilization and framebuffer memory) from the
+> NVIDIA DCGM exporter, enabled by default (`METRICS_SCRAPE_GPU_ENABLED`). If you use the Deployment Manager's
+> metrics export and want GPU metrics populated, grant the Deployment Manager's ServiceAccount `get`/`list`/`watch`
+> on `pods`/`pods/proxy` in the DCGM exporter's namespace (default `gpu-operator`) - this chart does not create
+> that RBAC for you. If you don't use GPU metrics, no action is needed; the feature degrades gracefully. See the
+> [0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/upgrade-plans/0.20.0.md)
+> for the exact Role/RoleBinding manifest and the relevant `manager.env` settings.
+
+> [!NOTE]
+> DIAL Admin backend `0.20.0` adds `MS_SQL_SERVER_AZURE_JDBC_AUTH_MODE` (default `ActiveDirectoryMSI`). It's only
+> relevant when `backend.configuration.datasourceVendor: mssql` with `DATASOURCE_AUTH_TYPE: azure`; other setups
+> need no change. See the [backend 0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/upgrade-plans/0.20.0.md).

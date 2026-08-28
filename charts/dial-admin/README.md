@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.17.0](https://img.shields.io/badge/Version-0.17.0-informational?style=flat-square) ![AppVersion: 0.19.0](https://img.shields.io/badge/AppVersion-0.19.0-informational?style=flat-square)
+![Version: 0.18.0](https://img.shields.io/badge/Version-0.18.0-informational?style=flat-square) ![AppVersion: 0.20.0](https://img.shields.io/badge/AppVersion-0.20.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -130,7 +130,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.19.0"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.20.0"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -254,7 +254,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.19.0"` | Frontend image tag |
+| frontend.image.tag | string | `"0.20.0"` | Frontend image tag |
 | frontend.resourcesPreset | string | `"micro"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
@@ -280,7 +280,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | manager.image.registry | string | `"docker.io"` | Image registry |
 | manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
-| manager.image.tag | string | `"0.19.0"` | Image tag (immutable tags are recommended) |
+| manager.image.tag | string | `"0.20.0"` | Image tag (immutable tags are recommended) |
 | manager.rbac.create | bool | `true` |  |
 | manager.resourcesPreset | string | `"small"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | manager.serviceAccount.create | bool | `true` |  |
@@ -486,3 +486,19 @@ If `manager.enabled` is set to `true` and this is an upgrade from a previous ver
 
 > [!IMPORTANT]
 > If you use the Deployment Manager metrics functionality (`METRICS_SCRAPE_ENABLED`, including resource usage via `METRICS_SCRAPE_RESOURCE_USAGE_ENABLED`), a [metrics-server](https://github.com/kubernetes-sigs/metrics-server) must be installed in the cluster. Without it, resource metrics (`metrics.k8s.io`) requests from the Deployment Manager will fail.
+
+### To 0.18.0
+
+> [!NOTE]
+> Deployment Manager `0.20.0` adds GPU metrics scraping (per-pod utilization and framebuffer memory) from the
+> NVIDIA DCGM exporter, enabled by default (`METRICS_SCRAPE_GPU_ENABLED`). If you use the Deployment Manager's
+> metrics export and want GPU metrics populated, grant the Deployment Manager's ServiceAccount `get`/`list`/`watch`
+> on `pods`/`pods/proxy` in the DCGM exporter's namespace (default `gpu-operator`) - this chart does not create
+> that RBAC for you. If you don't use GPU metrics, no action is needed; the feature degrades gracefully. See the
+> [0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/upgrade-plans/0.20.0.md)
+> for the exact Role/RoleBinding manifest and the relevant `manager.env` settings.
+
+> [!NOTE]
+> DIAL Admin backend `0.20.0` adds `MS_SQL_SERVER_AZURE_JDBC_AUTH_MODE` (default `ActiveDirectoryMSI`). It's only
+> relevant when `backend.configuration.datasourceVendor: mssql` with `DATASOURCE_AUTH_TYPE: azure`; other setups
+> need no change. See the [backend 0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/upgrade-plans/0.20.0.md).
