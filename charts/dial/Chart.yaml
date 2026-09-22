@@ -2,17 +2,13 @@ annotations:
   category: MachineLearning
   licenses: Apache-2.0
 apiVersion: v2
-appVersion: "1.47.0"
+appVersion: "1.48.0"
 dependencies:
   - name: common
     repository: oci://registry-1.docker.io/bitnamicharts
     tags:
       - bitnami-common
     version: 2.31.4
-  - name: keycloak
-    repository: https://charts.bitnami.com/bitnami
-    condition: keycloak.enabled
-    version: 24.9.0
   - name: dial-core
     repository: https://charts.dialx.ai
     alias: core
@@ -60,4 +56,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 7.2.0
+version: 8.0.0
