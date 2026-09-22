@@ -83,7 +83,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.44.0
+    tag: 0.43.4
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets: {}

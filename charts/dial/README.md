@@ -81,17 +81,14 @@ helm install my-release dial/dial -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | bedrock.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| bedrock.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | bedrock.enabled | bool | `false` | Enable/disable ai-dial-adapter-bedrock |
 | bedrock.image.repository | string | `"epam/ai-dial-adapter-bedrock"` |  |
-| bedrock.image.tag | string | `"0.44.0"` |  |
+| bedrock.image.tag | string | `"0.43.4"` |  |
 | bedrock.livenessProbe.enabled | bool | `true` |  |
 | bedrock.readinessProbe.enabled | bool | `true` |  |
 | bedrock.resourcesPreset | string | `"micro"` |  |
 | bedrock.secrets | object | `{}` |  |
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
-| chat.containerPorts.http | int | `5000` |  |
-| chat.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
 | chat.image.tag | string | `"1.1.0"` |  |
@@ -107,7 +104,6 @@ helm install my-release dial/dial -f values.yaml
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| dial.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | dial.enabled | bool | `false` | Enable/disable ai-dial-adapter-dial |
 | dial.image.repository | string | `"epam/ai-dial-adapter-dial"` |  |
 | dial.image.tag | string | `"0.19.0"` |  |
@@ -116,7 +112,6 @@ helm install my-release dial/dial -f values.yaml
 | dial.resourcesPreset | string | `"micro"` |  |
 | extraDeploy | list | `[]` |  |
 | openai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| openai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | openai.enabled | bool | `false` | Enable/disable ai-dial-adapter-openai |
 | openai.image.repository | string | `"epam/ai-dial-adapter-openai"` |  |
 | openai.image.tag | string | `"0.44.0"` |  |
@@ -126,7 +121,6 @@ helm install my-release dial/dial -f values.yaml
 | themes.commonLabels."app.kubernetes.io/component" | string | `"webserver"` |  |
 | themes.containerPorts.http | int | `8080` |  |
 | themes.containerSecurityContext.enabled | bool | `true` |  |
-| themes.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | themes.containerSecurityContext.runAsUser | int | `101` |  |
 | themes.enabled | bool | `true` | Enable/disable ai-dial-chat-themes |
 | themes.image.repository | string | `"epam/ai-dial-chat-themes"` |  |
@@ -135,7 +129,6 @@ helm install my-release dial/dial -f values.yaml
 | themes.podSecurityContext.fsGroup | int | `101` |  |
 | themes.readinessProbe.enabled | bool | `true` |  |
 | vertexai.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
-| vertexai.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | vertexai.enabled | bool | `false` | Enable/disable ai-dial-adapter-vertexai |
 | vertexai.image.repository | string | `"epam/ai-dial-adapter-vertexai"` |  |
 | vertexai.image.tag | string | `"0.40.0"` |  |
