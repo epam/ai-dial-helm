@@ -234,7 +234,7 @@ The bundled `ai-dial-chat` image is upgraded from the `0.x` release line to the 
     ```
 
 1. If `chat.containerPorts.http` is explicitly configured, update it from `3000` to `5000`.
-1. Review custom Chat configuration against the [ai-dial-chat documentation](https://github.com/epam/ai-dial-chat), especially authentication and environment variable settings.
+1. Review and migrate custom Chat environment variables because environment variable names and configuration have changed between the `0.x` and `1.x` releases. Use the [Chat API environment variables documentation](https://github.com/epam/ai-dial-chat/tree/development/apps/chat-api#environment-variables) as a reference.
 
 #### Helm Upgrade
 

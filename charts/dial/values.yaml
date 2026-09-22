@@ -24,8 +24,6 @@ chat:
   image:
     repository: epam/ai-dial-chat
     tag: 1.1.0
-  containerPorts:
-    http: 5000
   livenessProbe:
     enabled: true
     httpGet:
@@ -37,8 +35,6 @@ chat:
       path: /api/health
     failureThreshold: 6
   resourcesPreset: small
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-chat-themes configuration ###
 themes:
@@ -56,7 +52,6 @@ themes:
   containerSecurityContext:
     enabled: true
     runAsUser: 101
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -79,8 +74,6 @@ openai:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -102,8 +95,6 @@ bedrock:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -121,8 +112,6 @@ vertexai:
   readinessProbe:
     enabled: true
   resourcesPreset: small
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-dial configuration ###
 dial:
@@ -140,5 +129,3 @@ dial:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
