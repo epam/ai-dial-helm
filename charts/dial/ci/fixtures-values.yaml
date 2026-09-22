@@ -8,3 +8,17 @@ core:
     aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
     aidial.identityProviders.fake.rolePath: "roles"
     aidial.identityProviders.fake.issuerPattern: "issuer"
+
+chat:
+  enabled: true
+  env:
+    # -- Base URL of your site for OAuth callback
+    AUTH_CALLBACK_BASE_URL: "https://chat.%%DOMAIN%%"
+    # -- URL to redirect after logout
+    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.%%DOMAIN%%"
+    # -- DIAL core API endpoint
+    # Internal service name (DNS name) of DIAL core service
+    DIAL_CORE_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+  secrets:
+    # -- Secret used to encrypt the session cookie
+    AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
