@@ -201,6 +201,52 @@ core:
 
 ## Upgrading
 
+### To 8.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've updated the following components, some of which require manual actions:
+
+- The `keycloak` Helm chart dependency was removed from the DIAL chart.
+- The bundled `ai-dial-chat` image was upgraded from `0.49.0` to `1.1.0`.
+
+#### Keycloak
+
+The DIAL chart no longer deploys or manages Keycloak. If you use the Keycloak deployment previously installed by this chart:
+
+1. Export or back up the Keycloak realm configuration and database before upgrading.
+1. Prepare an external or separately managed Keycloak deployment and update application configuration to use it.
+1. Remove the `keycloak` section from `values.yaml` and any `keycloak.*` Helm `--set` arguments.
+1. Remove obsolete Keycloak resources and PVCs only after confirming that the replacement deployment is working and the backup is no longer required.
+
+#### DIAL Chat
+
+The bundled `ai-dial-chat` image is upgraded from the `0.x` release line to the `1.x` release line.
+
+1. Update any explicit chat image override in `values.yaml` or Helm `--set` arguments:
+
+    ```diff
+    chat:
+      image:
+    -   tag: 0.49.0
+    +   tag: 1.1.0
+    ```
+
+1. If `chat.containerPorts.http` is explicitly configured, update it from `3000` to `5000`.
+1. Review custom Chat configuration against the [ai-dial-chat documentation](https://github.com/epam/ai-dial-chat), especially authentication and environment variable settings.
+
+#### Helm Upgrade
+
+1. Run `helm upgrade` with usual arguments, **new** `8.X.X` chart version
+1. Verify DIAL is up and running correctly:
+
+    ```bash
+    helm list
+    kubectl get pods
+    kubectl logs -l app=dial-core --tail=50
+    ```
+
 ### To 7.0.0
 
 > [!CAUTION]
