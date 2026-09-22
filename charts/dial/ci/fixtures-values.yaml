@@ -13,12 +13,12 @@ chat:
   enabled: true
   env:
     # -- Base URL of your site for OAuth callback
-    AUTH_CALLBACK_BASE_URL: "https://chat.%%DOMAIN%%"
+    AUTH_CALLBACK_BASE_URL: "https://chat.example.com"
     # -- URL to redirect after logout
-    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.%%DOMAIN%%"
+    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.example.com"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
-    DIAL_CORE_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
+    DIAL_CORE_URL: "http://dial-core.dial.svc.cluster.local"
   secrets:
     # -- Secret used to encrypt the session cookie
-    AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
+    AUTH_SESSION_SECRET: "7f3a9c2e4d81b6f05a27c9e13d8b4f6a92c7e5d1048ab3f67d2e9c51f8a604bd
