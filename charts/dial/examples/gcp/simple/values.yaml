@@ -18,9 +18,9 @@ core:
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials"}'
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.google.userInfoEndpoint: "https://openidconnect.googleapis.com/v1/userinfo"
+    aidial.identityProviders.google.rolePath: "fn:getGoogleWorkspaceGroups"
+    aidial.identityProviders.google.loggingKey: "sub"
   secrets:
     aidial.config.json: |
       {
@@ -37,12 +37,6 @@ core:
                 }
               }
             ]
-          }
-        },
-        "keys": {
-          "%%DIAL_API_KEY%%": {
-            "role": "chat",
-            "project": "example"
           }
         },
         "roles": {
@@ -87,23 +81,23 @@ core:
 chat:
   enabled: true
   env:
-    # -- Canonical URL of your site
-    # ref: https://next-auth.js.org/configuration/options#nextauth_url
-    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- Base URL of your site for OAuth callback
+    AUTH_CALLBACK_BASE_URL: "https://chat.%%DOMAIN%%"
+    # -- URL to redirect after logout
+    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.%%DOMAIN%%"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
-    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    # -- List of DIAL chat features to enable;
-    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
-    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
+    DIAL_CORE_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gemini-3.5-flash"
+    # -- CORS origin for DIAL chat; should be the same as AUTH_CALLBACK_BASE_URL
+    CORS_ORIGIN: "https://chat.%%DOMAIN%%"
   secrets:
-    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
-    # -- API key defined in core configuration
-    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+    AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
+    AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
+    AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
+    AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"
 
   ingress:
     enabled: true

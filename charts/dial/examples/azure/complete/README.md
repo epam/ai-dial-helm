@@ -22,6 +22,7 @@
 - [Azure-managed SSL certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate) issued for Chat
 - [Application Gateway Ingress Controller](https://github.com/Azure/application-gateway-kubernetes-ingress) installed and configured
 - [Azure Blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
+- [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/)
 - [Azure Cache for redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/quickstart-create-redis)
   - [Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
@@ -70,15 +71,15 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
-    - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
-    - Replace `%%AZURE_CLIENT_ID%%` with a unique identifier for the client application registered in Azure Active Directory (AD). It is used to authenticate the client application when accessing Azure AD resources.
     - Replace `%%AZURE_TENANT_ID%%` with a Tenant ID refers to a globally unique identifier (GUID) that represents a specific Azure AD tenant. It is used to identify and authenticate the Azure AD tenant that the client application belongs to.
-    - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
+    - Replace `%%AUTH_AZURE_AD_CLIENT_ID%%` with the Microsoft Entra application client ID from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_AZURE_AD_TENANT_ID%%` with the Microsoft Entra tenant ID from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_AZURE_AD_SECRET%%` with the Microsoft Entra application client secret from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `rediss://10.0.0.2:6380`
@@ -135,7 +136,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
-      - Use previously generated `%%DIAL_API_KEY%%` value
 
 ## Uninstall
 

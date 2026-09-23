@@ -15,6 +15,7 @@
 - [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
+- [Google Identity](https://docs.dialx.ai/tutorials/devops/auth-and-access-control/configure-idps/google) configured as the identity provider
 - [workload identity federation for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) installed and configured
 - [Google Storage bucket](https://cloud.google.com/storage/docs/buckets)
 - [Google Vertex AI](https://cloud.google.com/vertex-ai/?hl=en) `gemini-3.5-flash` model deployed:
@@ -59,10 +60,11 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
-    - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_GOOGLE_CLIENT_ID%%` with Cloud Identity client ID from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_GOOGLE_SECRET%%` with Cloud Identity client secret from [prerequisites](#prerequisites)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%GCP_CORE_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%GCP_CORE_STORAGE_BUCKET_NAME%%` with Google Storage bucket name from [prerequisites](#prerequisites)
@@ -99,7 +101,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
-      - Use previously generated `%%DIAL_API_KEY%%` value
 
 ## Uninstall
 
