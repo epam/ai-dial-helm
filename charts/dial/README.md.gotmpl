@@ -125,6 +125,31 @@ core:
 
 ## Upgrading
 
+### To 8.0.0
+
+> [!CAUTION]
+> The upgrade includes **BREAKING CHANGES** and require **MANUAL ACTIONS**.
+
+In this version, we've made the following component changes, some of which require manual actions:
+
+- The `keycloak` Helm chart dependency was removed from the DIAL chart.
+- The bundled `ai-dial-chat` image was upgraded from `0.49.0` to `1.1.0`.
+
+#### Keycloak
+
+The DIAL chart no longer deploys or manages Keycloak. If you use the Keycloak deployment previously installed by this chart:
+
+1. Back up the Keycloak configuration and database before upgrading.
+1. Prepare an external Keycloak deployment from backup.
+1. Remove the `keycloak` section from `values.yaml` and any `keycloak.*` Helm `--set` arguments.
+1. Remove obsolete Keycloak resources and PVCs only after confirming that the replacement deployment is working and the backup is no longer required.
+
+#### DIAL Chat
+
+The bundled `ai-dial-chat` image is upgraded from the `0.x` release line to the `1.x` release line.
+
+1. Review and migrate custom Chat environment variables because environment variable names and configuration have changed between the `0.x` and `1.x` releases. Use the [Migrating from the Legacy DIAL Chat documentation](https://github.com/epam/ai-dial-chat/blob/1.1.0/docs/legacy-chat-migration-guide.md) as a reference.
+
 ### To 7.0.0
 
 > [!CAUTION]

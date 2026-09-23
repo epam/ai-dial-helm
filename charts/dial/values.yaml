@@ -4,69 +4,12 @@
 
 extraDeploy: []
 
-### keycloak configuration ##
-# ref: https://github.com/bitnami/charts/blob/main/bitnami/keycloak/README.md
-keycloak:
-  # -- Enable/disable keycloak
-  enabled: false
-  usePasswordFiles: false
-  # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-  # ref: https://github.com/bitnami/charts/issues/35164
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: bitnamilegacy/keycloak
-  proxy: edge
-  # auth:
-  #   adminUser: "admin"
-  #   adminPassword: "youReallyNeedToChangeThis"
-  extraEnvVars:
-    - name: KC_FEATURES
-      value: "token-exchange,admin-fine-grained-authz"
-  postgresql:
-    enabled: true
-    usePasswordFiles: false
-    # HACK: Temporally use Bitnami "legacy" repository by default cause they'll delete old versions from the primary one
-    # ref: https://github.com/bitnami/charts/issues/35164
-    image:
-      repository: bitnamilegacy/postgresql
-      tag: 17.6.0-debian-12-r0
-    auth:
-      usePasswordFiles: false
-    metrics:
-      image:
-        repository: bitnamilegacy/postgres-exporter
-        tag: 0.17.1-debian-12-r15
-    volumePermissions:
-      image:
-        repository: bitnamilegacy/os-shell
-        tag: 12-debian-12-r50
-    # auth:
-    #   postgresPassword: "youReallyNeedToChangeThis"
-    #   password: "youReallyNeedToChangeThis"
-  keycloakConfigCli:
-    enabled: true
-    image:
-      repository: adorsys/keycloak-config-cli
-      tag: 6.4.0-26.1.0
-    command:
-      - java
-      - -jar
-      - /app/keycloak-config-cli.jar
-    extraEnvVars:
-      - name: IMPORT_VARSUBSTITUTION_ENABLED
-        value: "true"
-    # configuration:
-    #   realm.yaml: |
-    #     yourRealmConfig
-
 ### ai-dial-core configuration ###
 core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.47.0
+    tag: 0.48.0
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -80,9 +23,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 0.49.0
-  containerPorts:
-    http: 3000
+    tag: 1.1.0
   livenessProbe:
     enabled: true
     httpGet:
@@ -94,8 +35,6 @@ chat:
       path: /api/health
     failureThreshold: 6
   resourcesPreset: small
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-chat-themes configuration ###
 themes:
@@ -105,7 +44,7 @@ themes:
     app.kubernetes.io/component: "webserver"
   image:
     repository: epam/ai-dial-chat-themes
-    tag: 0.19.1
+    tag: 0.20.0
   containerPorts:
     http: 8080
   podSecurityContext:
@@ -113,7 +52,6 @@ themes:
   containerSecurityContext:
     enabled: true
     runAsUser: 101
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -127,7 +65,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.43.1
+    tag: 0.44.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -136,8 +74,6 @@ openai:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-bedrock configuration ###
 bedrock:
@@ -147,7 +83,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.43.0
+    tag: 0.43.4
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets: {}
@@ -159,8 +95,6 @@ bedrock:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-vertexai configuration ###
 vertexai:
@@ -170,7 +104,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.39.0
+    tag: 0.40.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
@@ -178,8 +112,6 @@ vertexai:
   readinessProbe:
     enabled: true
   resourcesPreset: small
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.
 
 ### ai-dial-adapter-dial configuration ###
 dial:
@@ -189,7 +121,7 @@ dial:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-dial
-    tag: 0.18.0
+    tag: 0.19.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
@@ -197,5 +129,3 @@ dial:
   readinessProbe:
     enabled: true
   resourcesPreset: micro
-  containerSecurityContext:
-    readOnlyRootFilesystem: false  # Temporarily disabled due to migration to a new domain. Requires review and removal in the next version.

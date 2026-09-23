@@ -9,9 +9,9 @@ core:
       key: "%%CORE_ENCRYPT_KEY%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.keycloak.jwksUrl: "%%AUTH_KEYCLOAK_HOST%%/protocol/openid-connect/certs"
+    aidial.identityProviders.keycloak.rolePath: "roles"
+    aidial.identityProviders.keycloak.issuerPattern: "^%%AUTH_KEYCLOAK_HOST%%$"
     aidial.storage.prefix: "core"
   secrets:
     aidial.config.json: |
@@ -27,12 +27,6 @@ core:
                 "endpoint": "https://%%AZURE_DEPLOYMENT_HOST%%/openai/v1/responses"
               }
             ]
-          }
-        },
-        "keys": {
-          "%%DIAL_API_KEY%%": {
-            "role": "chat",
-            "project": "example"
           }
         },
         "roles": {
@@ -77,23 +71,23 @@ core:
 chat:
   enabled: true
   env:
-    # -- Canonical URL of your site
-    # ref: https://next-auth.js.org/configuration/options#nextauth_url
-    NEXTAUTH_URL: "https://chat.%%DOMAIN%%"
+    # -- Base URL of your site for OAuth callback
+    AUTH_CALLBACK_BASE_URL: "https://chat.%%DOMAIN%%"
+    # -- URL to redirect after logout
+    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.%%DOMAIN%%"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
-    DIAL_API_HOST: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
-    # -- List of DIAL chat features to enable;
-    # ref: https://github.com/epam/ai-dial-chat/blob/development/libs/shared/src/types/features.ts
-    ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing"
+    DIAL_CORE_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    DEFAULT_MODEL: "gpt-chat-latest"
+    # -- CORS origin for DIAL chat; should be the same as AUTH_CALLBACK_BASE_URL
+    CORS_ORIGIN: "https://chat.%%DOMAIN%%"
   secrets:
-    NEXTAUTH_SECRET: "%%NEXTAUTH_SECRET%%"
-    # -- API key defined in core configuration
-    DIAL_API_KEY: "%%DIAL_API_KEY%%"
+    AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
+    AUTH_KEYCLOAK_CLIENT_ID: "%%AUTH_KEYCLOAK_CLIENT_ID%%"
+    AUTH_KEYCLOAK_HOST: "%%AUTH_KEYCLOAK_HOST%%"
+    AUTH_KEYCLOAK_SECRET: "%%AUTH_KEYCLOAK_SECRET%%"
   ingress:
     enabled: true
     ingressClassName: nginx
