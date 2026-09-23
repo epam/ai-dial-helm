@@ -119,9 +119,9 @@ chat:
     CORS_ORIGIN: "https://chat.%%DOMAIN%%"
   secrets:
     AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
-    AUTH_COGNITO_CLIENT_ID: "%%AUTH_COGNITO_CLIENT_ID%%"
-    AUTH_COGNITO_HOST: "%%AUTH_COGNITO_HOST%%"
-    AUTH_COGNITO_SECRET: "%%AUTH_COGNITO_SECRET%%"
+    AUTH_AZURE_AD_CLIENT_ID: "%%AUTH_AZURE_AD_CLIENT_ID%%"
+    AUTH_AZURE_AD_TENANT_ID: "%%AUTH_AZURE_AD_TENANT_ID%%"
+    AUTH_AZURE_AD_SECRET: "%%AUTH_AZURE_AD_SECRET%%"
   ingress:
     enabled: true
     ingressClassName: azure-application-gateway

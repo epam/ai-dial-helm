@@ -100,7 +100,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AWS_CORE_ROLE_ARN%%` with S3 AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
     - Replace `%%AWS_ELASTICACHE_USER_ID%%` with AWS ElastiCache User ID configured in IAM authentication mode [prerequisites](#prerequisites)

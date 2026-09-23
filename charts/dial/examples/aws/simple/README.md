@@ -12,6 +12,8 @@
 - EKS 1.24+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured
 - [Helm](https://helm.sh/docs/intro/install/) `3.8.0+` installed
+- [Keycloak]()
+- [Keycloak](https://www.keycloak.org/) configured with a realm for DIAL
 - [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/) installed in the cluster
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
 - [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) installed and configured
@@ -61,7 +63,10 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
-    - Replace `%%NEXTAUTH_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
+    - Replace `%%AUTH_KEYCLOAK_CLIENT_ID%%` with the Keycloak client ID
+    - Replace `%%AUTH_KEYCLOAK_HOST%%` with the Keycloak host, including the realm path
+    - Replace `%%AUTH_KEYCLOAK_SECRET%%` with the Keycloak client secret
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AWS_CORE_ROLE_ARN%%` with S3 AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
