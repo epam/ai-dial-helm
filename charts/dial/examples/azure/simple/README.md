@@ -15,7 +15,7 @@
 - [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/) installed in the cluster
 - [cert-manager](https://cert-manager.io/docs/installation/) installed in the cluster (optional)
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) installed in the cluster (optional)
-- [Keycloak](https://www.keycloak.org/) configured with a realm for DIAL
+- [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/) configured as the identity provider
 - [Azure AD Workload Identity](https://azure.github.io/azure-workload-identity/docs/introduction.html)
 - [Azure Blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) `gpt-chat-latest` model deployed:
@@ -64,9 +64,9 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
-    - Replace `%%AUTH_KEYCLOAK_CLIENT_ID%%` with the Keycloak client ID
-    - Replace `%%AUTH_KEYCLOAK_HOST%%` with the Keycloak host, including the realm path
-    - Replace `%%AUTH_KEYCLOAK_SECRET%%` with the Keycloak client secret
+    - Replace `%%AUTH_AZURE_AD_CLIENT_ID%%` with the Microsoft Entra application client ID from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_AZURE_AD_TENANT_ID%%` with the Microsoft Entra tenant ID from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_AZURE_AD_SECRET%%` with the Microsoft Entra application client secret from [prerequisites](#prerequisites)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - Replace `%%AZURE_CORE_CLIENT_ID%%` with managed identity client ID from [prerequisites](#prerequisites)
