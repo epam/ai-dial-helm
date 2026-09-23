@@ -65,7 +65,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AUTH_GOOGLE_CLIENT_ID%%` with Cloud Identity client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_GOOGLE_SECRET%%` with Cloud Identity client secret from [prerequisites](#prerequisites)
-    - Replace `%%AUTH_GOOGLE_SCOPE%%` with Cloud Identity scope from [prerequisites](#prerequisites)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%GCP_CORE_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%GCP_CORE_STORAGE_BUCKET_NAME%%` with Google Storage bucket name from [prerequisites](#prerequisites)

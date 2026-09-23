@@ -80,7 +80,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_AZURE_AD_CLIENT_ID%%` with the Microsoft Entra application client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_TENANT_ID%%` with the Microsoft Entra tenant ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_SECRET%%` with the Microsoft Entra application client secret from [prerequisites](#prerequisites)
-    - Replace `%%AUTH_AZURE_AD_SCOPE` with the Microsoft Entra application scope from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_NAME%%` with Azure Blob storage name from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CORE_BLOB_STORAGE_ENDPOINT%%` with Azure Blob storage endpoint from [prerequisites](#prerequisites)
     - Replace `%%AZURE_CACHE_REDIS_ADDRESS%%` with Azure Cache for Redis endpoint, e.g. `rediss://10.0.0.2:6380`

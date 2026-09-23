@@ -97,7 +97,7 @@ chat:
     AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
     AUTH_GOOGLE_SECRET: "%%AUTH_GOOGLE_SECRET%%"
-    AUTH_GOOGLE_SCOPE: "%%AUTH_GOOGLE_SCOPE%%"
+    AUTH_GOOGLE_SCOPE: "openid email profile https://www.googleapis.com/auth/cloud-identity.groups.readonly"
 
   ingress:
     enabled: true

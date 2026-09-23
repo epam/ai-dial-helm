@@ -88,7 +88,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%GCP_MEMORYSTORE_REDISCLUSTER_ENDPOINT%%` with MemoryStore RedisCluster endpoint, e.g. `[\"rediss://10.0.0.2:6379\"]`
     - Replace `%%AUTH_GOOGLE_CLIENT_ID%%` with Cloud Identity client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_GOOGLE_SECRET%%` with Cloud Identity client secret from [prerequisites](#prerequisites)
-    - Replace `%%AUTH_GOOGLE_SCOPE%%` with Cloud Identity scope from [prerequisites](#prerequisites)
     - Replace `%%GCP_VERTEXAI_SERVICE_ACCOUNT%%` with Google Service Account from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)

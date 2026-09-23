@@ -101,7 +101,7 @@ chat:
     AUTH_AZURE_AD_CLIENT_ID: "%%AUTH_AZURE_AD_CLIENT_ID%%"
     AUTH_AZURE_AD_TENANT_ID: "%%AUTH_AZURE_AD_TENANT_ID%%"
     AUTH_AZURE_AD_SECRET: "%%AUTH_AZURE_AD_SECRET%%"
-    AUTH_AZURE_AD_SCOPE: "%%AUTH_AZURE_AD_SCOPE%%"
+    AUTH_AZURE_AD_SCOPE: "openid profile %%AZURE_CLIENT_ID%%/.default email offline_access"
 
   ingress:
     enabled: true
