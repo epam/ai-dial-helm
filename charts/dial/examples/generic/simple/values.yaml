@@ -29,12 +29,6 @@ core:
             ]
           }
         },
-        "keys": {
-          "%%DIAL_API_KEY%%": {
-            "role": "chat",
-            "project": "example"
-          }
-        },
         "roles": {
           "chat": {
             "limits": {

@@ -33,12 +33,6 @@ core:
             "endpoint": "http://dial-bedrock.%%NAMESPACE%%.svc.cluster.local/openai/deployments/global.anthropic.claude-opus-4-8/chat/completions"
           }
         },
-        "keys": {
-          "%%DIAL_API_KEY%%": {
-            "role": "chat",
-            "project": "example"
-          }
-        },
         "roles": {
           "chat": {
             "limits": {
