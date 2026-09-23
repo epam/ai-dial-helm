@@ -71,15 +71,12 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
-    - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
     - Replace `%%AZURE_WORKLOAD_IDENTITY_CLIENT_ID%%` with appropriate workload identity from [prerequisites](#prerequisites)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
-    - Replace `%%AZURE_CLIENT_ID%%` with a unique identifier for the client application registered in Azure Active Directory (AD). It is used to authenticate the client application when accessing Azure AD resources.
     - Replace `%%AZURE_TENANT_ID%%` with a Tenant ID refers to a globally unique identifier (GUID) that represents a specific Azure AD tenant. It is used to identify and authenticate the Azure AD tenant that the client application belongs to.
-    - Replace `%%AZURE_CLIENT_SECRET%%` with a client secret or application secret, this parameter is a confidential string that authenticates and authorizes the client application to access Azure AD resources. It serves as a password for the client application.
     - Replace `%%AUTH_AZURE_AD_CLIENT_ID%%` with the Microsoft Entra application client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_TENANT_ID%%` with the Microsoft Entra tenant ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_SECRET%%` with the Microsoft Entra application client secret from [prerequisites](#prerequisites)
@@ -139,7 +136,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
-      - Use previously generated `%%DIAL_API_KEY%%` value
 
 ## Uninstall
 

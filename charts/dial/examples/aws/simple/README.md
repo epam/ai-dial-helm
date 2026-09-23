@@ -59,7 +59,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
-    - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
@@ -67,6 +66,8 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_COGNITO_CLIENT_ID%%` with AWS Cognito client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_COGNITO_SECRET%%` with AWS Cognito client secret from [prerequisites](#prerequisites)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
+    - Replace %%AWS_COGNITO_REGION%% with your Cognito region.
+    - Replace %%AWS_COGNITO_ID%% with your Cognito User Pool ID.
     - Replace `%%AWS_CORE_ROLE_ARN%%` with S3 AWS role ARN from [prerequisites](#prerequisites)
     - Replace `%%AWS_CORE_S3_BUCKET_NAME%%` with S3 bucket name from [prerequisites](#prerequisites)
     - Replace `%%AWS_BEDROCK_ROLE_ARN%%` with bedrock AWS role ARN from [prerequisites](#prerequisites)
@@ -100,7 +101,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
-      - Use previously generated `%%DIAL_API_KEY%%` value
 
 ## Uninstall
 

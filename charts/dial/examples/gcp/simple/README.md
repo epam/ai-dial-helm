@@ -60,7 +60,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Copy [values.yaml](values.yaml) file to your working directory and fill in missing values:
     - Replace `%%NAMESPACE%%` with namespace created above, e.g. `dial`
     - Replace `%%DOMAIN%%` with your domain name, e.g. `example.com`
-    - Replace `%%DIAL_API_KEY%%` with generated value (`pwgen -s -1 64`)
     - Replace `%%CORE_ENCRYPT_SECRET%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%CORE_ENCRYPT_KEY%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AUTH_SESSION_SECRET%%` with generated value (`openssl rand -base64 64`)
@@ -102,7 +101,6 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
 1. Now you can access:
     - Chat by the following URL: `https://chat.%%DOMAIN%%/`, e.g. `https://chat.example.com/`
     - API by the following URL: `https://dial.%%DOMAIN%%/`, e.g. `https://dial.example.com/`
-      - Use previously generated `%%DIAL_API_KEY%%` value
 
 ## Uninstall
 
