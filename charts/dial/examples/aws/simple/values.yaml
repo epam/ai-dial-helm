@@ -18,9 +18,10 @@ core:
     aidial.storage.bucket: "%%AWS_CORE_S3_BUCKET_NAME%%"
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.cognito.jwksUrl: "https://cognito-idp.%%AWS_COGNITO_REGION%%.amazonaws.com/%%AWS_COGNITO_ID%%/.well-known/jwks.json"
+    aidial.identityProviders.cognito.rolePath: "cognito:groups"
+    aidial.identityProviders.cognito.issuerPattern: '^https:\/\/cognito-idp\.%%AWS_COGNITO_REGION%%\.amazonaws\.com.+$'
+    aidial.identityProviders.cognito.loggingKey: "sub"
   secrets:
     aidial.config.json: |
       {

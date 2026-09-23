@@ -9,9 +9,9 @@ core:
       key: "%%CORE_ENCRYPT_KEY%%"
   env:
     aidial.config.files: '["/mnt/secrets-store/aidial.config.json"]'
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.keycloak.jwksUrl: "%%AUTH_KEYCLOAK_HOST%%/protocol/openid-connect/certs"
+    aidial.identityProviders.keycloak.rolePath: "roles"
+    aidial.identityProviders.keycloak.issuerPattern: "^%%AUTH_KEYCLOAK_HOST%%$"
     aidial.storage.prefix: "core"
   secrets:
     aidial.config.json: |

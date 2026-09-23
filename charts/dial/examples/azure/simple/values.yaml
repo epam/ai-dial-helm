@@ -21,9 +21,10 @@ core:
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.azure.loggingKey: "sub"
+    aidial.identityProviders.azure.jwksUrl: "https://login.microsoftonline.com/%%AZURE_TENANT_ID%%/discovery/v2.0/keys"
+    aidial.identityProviders.azure.rolePath: "groups"
+    aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
   secrets:
     aidial.config.json: |
       {

@@ -18,9 +18,9 @@ core:
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials"}'
-    aidial.identityProviders.fake.jwksUrl: "http://fakeJwksUrl"
-    aidial.identityProviders.fake.rolePath: "roles"
-    aidial.identityProviders.fake.issuerPattern: "issuer"
+    aidial.identityProviders.google.userInfoEndpoint: "https://openidconnect.googleapis.com/v1/userinfo"
+    aidial.identityProviders.google.rolePath: "fn:getGoogleWorkspaceGroups"
+    aidial.identityProviders.google.loggingKey: "sub"
   secrets:
     aidial.config.json: |
       {
