@@ -21,4 +21,4 @@ chat:
     DIAL_CORE_URL: "http://dial-core.dial.svc.cluster.local"
   secrets:
     # -- Secret used to encrypt the session cookie
-    AUTH_SESSION_SECRET: "fake-secret"
+    AUTH_SESSION_SECRET: "0000000000000000000000000000000000000000000000000000000000000000"

@@ -66,6 +66,7 @@ Configuring authentication provider, encrypted secrets, model usage limits, Ingr
     - Replace `%%AUTH_AZURE_AD_CLIENT_ID%%` with the Microsoft Entra application client ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_TENANT_ID%%` with the Microsoft Entra tenant ID from [prerequisites](#prerequisites)
     - Replace `%%AUTH_AZURE_AD_SECRET%%` with the Microsoft Entra application client secret from [prerequisites](#prerequisites)
+    - Replace `%%AUTH_AZURE_AD_SCOPE` with the Microsoft Entra application scope from [prerequisites](#prerequisites)
     - Replace `%%REDIS_PASSWORD%%` with generated value (`pwgen -s -1 32`)
     - Replace `%%AZURE_DEPLOYMENT_HOST%%` with Azure OpenAI endpoint host from prerequisites, e.g. `not-a-real-endpoint.openai.azure.com`
     - Replace `%%AZURE_CORE_CLIENT_ID%%` with managed identity client ID from [prerequisites](#prerequisites)

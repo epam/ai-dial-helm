@@ -19,7 +19,7 @@ core:
     aidial.storage.createBucket: "false"
     aidial.storage.prefix: "core"
     aidial.storage.overrides: '{"jclouds.oauth.credential-type": "bearerTokenCredentials", "jclouds.azureblob.auth" : "azureAd"}'
-    aidial.identityProviders.azure.loggingKey: "sub"
+    aidial.identityProviders.azure.loggingKey: "oid"
     aidial.identityProviders.azure.jwksUrl: "https://login.microsoftonline.com/%%AZURE_TENANT_ID%%/discovery/v2.0/keys"
     aidial.identityProviders.azure.rolePath: "groups"
     aidial.identityProviders.azure.issuerPattern: '^https:\/\/sts\.windows\.net.+$'
@@ -122,6 +122,7 @@ chat:
     AUTH_AZURE_AD_CLIENT_ID: "%%AUTH_AZURE_AD_CLIENT_ID%%"
     AUTH_AZURE_AD_TENANT_ID: "%%AUTH_AZURE_AD_TENANT_ID%%"
     AUTH_AZURE_AD_SECRET: "%%AUTH_AZURE_AD_SECRET%%"
+    AUTH_AZURE_AD_SCOPE: "%%AUTH_AZURE_AD_SCOPE%%"
   ingress:
     enabled: true
     ingressClassName: azure-application-gateway
