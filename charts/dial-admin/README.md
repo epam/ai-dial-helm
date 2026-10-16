@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.20.0](https://img.shields.io/badge/Version-0.20.0-informational?style=flat-square) ![AppVersion: 0.22.0](https://img.shields.io/badge/AppVersion-0.22.0-informational?style=flat-square)
+![Version: 0.20.1](https://img.shields.io/badge/Version-0.20.1-informational?style=flat-square) ![AppVersion: 0.22.0](https://img.shields.io/badge/AppVersion-0.22.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -265,7 +265,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
 | manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
-| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
 | manager.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
@@ -274,8 +274,6 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
 | manager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
 | manager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
-| manager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
-| manager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
 | manager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
 | manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | manager.image.registry | string | `"docker.io"` | Image registry |
@@ -301,7 +299,7 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ## Deployment Manager
 
-The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative, NIM, and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
+The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
 
 Enable the component with:
 

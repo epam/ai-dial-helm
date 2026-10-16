@@ -1,0 +1,22 @@
+apiVersion: v2
+name: dial-admin-evaluation
+description: Umbrella chart for AI DIAL Admin Evaluation services
+type: application
+version: 0.1.14
+appVersion: 0.2.0
+dependencies:
+  - name: postgresql
+    alias: evaluation-postgresql
+    version: 16.7.12
+    repository: https://charts.bitnami.com/bitnami
+    condition: evaluation-postgresql.enabled
+  - name: dial-extension
+    alias: evaluation-metrics
+    version: 3.1.1
+    repository: https://charts.dialx.ai
+    condition: evaluation-metrics.enabled
+  - name: dial-extension
+    alias: evaluation-backend
+    version: 3.1.1
+    repository: https://charts.dialx.ai
+    condition: evaluation-backend.enabled

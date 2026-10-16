@@ -1,0 +1,228 @@
+## CloudNativePG resources for the evaluation database, passed as raw manifests through
+## `evaluation-backend.extraDeploy` and rendered by the dial-extension subchart, which runs
+## them through `tpl` — so `{{ .Release.Namespace }}` and friends work here.
+##
+## See devops/pgnative/BACKUP.md in the documentation repo for the full rationale.
+##
+## The three CNPG objects cross-reference each other by name, and a mismatch fails silently:
+## the plugin reports `barmanObjectName not found` and backups never run. Each shared name
+## is declared once as a YAML anchor (`&name`) on the field that owns it, and referenced
+## elsewhere by alias (`*name`).
+##
+evaluation-backend:
+  enabled: true
+  fullnameOverride: dial-admin-evaluation-backend
+  image:
+    registry: ghcr.io
+    repository: epam/ai-dial-admin-evaluation-framework-backend
+    tag: 0.2.0
+
+  containerPorts:
+    http: 8080
+
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /api/v1/health
+
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /api/v1/health
+
+  # -- Backend log-level ConfigMap plus the CloudNativePG `Cluster`, `ScheduledBackup` and `ObjectStore`.
+  # @default -- see the Backups section in the README
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: admin-eval-backend-log-level-config
+        namespace: "{{ .Release.Namespace }}"
+      data:
+        # get content from --set-file
+        logging.levels.json: |
+          {
+            "loggerLevels": {
+              "com.epam.aidial": {
+                "defaultLevel": "INFO"
+              }
+            }
+          }
+
+    ## Postgres cluster. Owns the anchors for the cluster, plugin and object store names.
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        ## Renaming this breaks backups — the ServiceAccount is named after the Cluster and
+        ## is federated by that name in aks-platform/dial.tf.
+        name: &pgClusterName dial-admin-evaluation-postgresql
+        namespace: "{{ .Release.Namespace }}"
+      spec:
+        instances: 1
+        imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie
+        affinity:
+          podAntiAffinityType: preferred
+        enablePDB: false
+        enableSuperuserAccess: true
+        superuserSecret:
+          name: evaluation-pg-superuser
+        logLevel: info
+        failoverDelay: 0
+        maxSyncReplicas: 0
+        minSyncReplicas: 0
+        primaryUpdateMethod: restart
+        primaryUpdateStrategy: unsupervised
+        smartShutdownTimeout: 180
+        startDelay: 3600
+        stopDelay: 1800
+
+        plugins:
+          - name: &pgPluginName barman-cloud.cloudnative-pg.io
+            enabled: true
+            isWALArchiver: true                            # required for PITR
+            parameters:
+              barmanObjectName: &pgObjectStoreName evaluation-pg-azure-store
+
+        inheritedMetadata:
+          labels:
+            azure.workload.identity/use: "true"            # must land on the pods
+        serviceAccountTemplate:
+          metadata:
+            annotations:
+              ## recreate: client ID of dev-aks-dial-pg-native-backup, per environment
+              azure.workload.identity/client-id: 655f2e19-de1b-49d3-9cea-55f1d0cae696
+
+        monitoring:
+          customQueriesConfigMap:
+            - key: queries
+              name: cnpg-default-monitoring
+          disableDefaultQueries: false
+          enablePodMonitor: false
+
+        resources:
+          limits:
+            memory: 3Gi                                    # to define
+          requests:
+            cpu: "1"
+            memory: 2Gi                                    # to define
+
+        storage:
+          size: 50Gi
+          resizeInUseVolumes: true
+
+        ## One-shot import from the Bitnami release. Runs only at cluster creation and is
+        ## inert on later upgrades. The source service must still resolve while it runs.
+        bootstrap:
+          initdb:
+            encoding: UTF8
+            localeCType: C
+            localeCollate: C
+            import:
+              type: monolith
+              databases:
+                - evaluation-framework
+                - evaluation_analytics_db
+              roles:
+                - "*"
+              pgDumpExtraOptions:
+                - --jobs=2
+              pgRestoreExtraOptions:
+                - --jobs=2
+              source:
+                externalCluster: bitnami-source
+        externalClusters:
+          - name: bitnami-source                           # created in secrets section
+            connectionParameters:
+              host: dial-admin-evaluation-postgresql
+              dbname: postgres
+              user: postgres
+              sslmode: prefer
+            password:
+              name: evaluation-pg-superuser
+              key: password
+
+    ## Daily base backup. Schedule is SIX fields, seconds first.
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: ScheduledBackup
+      metadata:
+        name: evaluation-pg-daily
+        namespace: "{{ .Release.Namespace }}"
+      spec:
+        schedule: "0 30 1 * * *"                           # 01:30 UTC daily
+        immediate: true
+        backupOwnerReference: self
+        cluster:
+          name: *pgClusterName
+        method: plugin                                     # not barmanObjectStore
+        pluginConfiguration:
+          name: *pgPluginName
+
+    ## Backup target. One ObjectStore per cluster; PVC and NFS are not supported.
+    - apiVersion: barmancloud.cnpg.io/v1
+      kind: ObjectStore
+      metadata:
+        name: *pgObjectStoreName
+        namespace: "{{ .Release.Namespace }}"
+      spec:
+        configuration:
+          destinationPath: "https://devaksenvbackup.blob.core.windows.net/postgres-backups/{{ .Release.Name }}"
+          azureCredentials:
+            inheritFromAzureAD: true                       # no secret in the cluster
+          data:
+            compression: bzip2                             # highest ratio, 5.9:1
+            immediateCheckpoint: false
+            jobs: 4
+          wal:
+            compression: zstd                              # ratio at speed; must keep up
+            maxParallel: 4
+        retentionPolicy: 30d                               # spec level, NOT under configuration
+        instanceSidecarConfiguration:
+          logLevel: info
+          retentionPolicyIntervalSeconds: 1800
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+
+evaluation-postgresql:
+  ## Legacy Bitnami deployment. Disable only AFTER the CNPG import has been verified
+  ## and POSTGRES_*_DATASOURCE_URL point at dial-admin-evaluation-pg-rw:5432.
+  enabled: true
+  fullnameOverride: dial-admin-evaluation-postgresql
+  primary:
+    initdb:
+      scripts:
+        create-multiple-dbs.sql: |
+          SELECT 'CREATE DATABASE evaluation_analytics_db'
+          WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'evaluation_analytics_db')\gexec
+      user: "postgres"
+      ## @param primary.initdb.password Specify the PostgreSQL password to execute the initdb scripts
+      ##
+  auth:
+    database: evaluation-framework
+    usePasswordFiles: false
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/postgresql
+
+evaluation-metrics:
+  enabled: true
+  fullnameOverride: dial-admin-evaluation-metrics
+  image:
+    registry: ghcr.io
+    repository: epam/ai-dial-admin-evaluation-metrics
+    tag: 0.1.0
+
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /health
+
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /health
