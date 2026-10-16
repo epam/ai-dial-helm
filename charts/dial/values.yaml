@@ -9,7 +9,7 @@ core:
   # -- Enable/disable ai-dial-core
   enabled: true
   image:
-    tag: 0.48.0
+    tag: 0.49.2
   livenessProbe:
     enabled: true
   readinessProbe:
@@ -23,7 +23,7 @@ chat:
     app.kubernetes.io/component: "application"
   image:
     repository: epam/ai-dial-chat
-    tag: 1.1.0
+    tag: 1.2.4
   livenessProbe:
     enabled: true
     httpGet:
@@ -44,7 +44,7 @@ themes:
     app.kubernetes.io/component: "webserver"
   image:
     repository: epam/ai-dial-chat-themes
-    tag: 0.20.0
+    tag: 0.21.0
   containerPorts:
     http: 8080
   podSecurityContext:
@@ -65,7 +65,7 @@ openai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-openai
-    tag: 0.44.0
+    tag: 0.45.0
   # env:
   #   DIAL_USE_FILE_STORAGE: "true"
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
@@ -83,7 +83,7 @@ bedrock:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-bedrock
-    tag: 0.43.4
+    tag: 0.45.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   secrets: {}
@@ -104,7 +104,7 @@ vertexai:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-vertexai
-    tag: 0.40.0
+    tag: 0.41.1
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:
@@ -121,7 +121,7 @@ dial:
     app.kubernetes.io/component: "adapter"
   image:
     repository: epam/ai-dial-adapter-dial
-    tag: 0.19.0
+    tag: 0.20.0
   # env:
   #   DIAL_URL: "http://{{ .Release.Name }}-core"
   livenessProbe:

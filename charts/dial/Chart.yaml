@@ -2,7 +2,7 @@ annotations:
   category: MachineLearning
   licenses: Apache-2.0
 apiVersion: v2
-appVersion: "1.48.0"
+appVersion: "1.49.0"
 dependencies:
   - name: common
     repository: oci://registry-1.docker.io/bitnamicharts
@@ -56,4 +56,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 8.0.0
+version: 8.1.0
