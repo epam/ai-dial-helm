@@ -111,16 +111,12 @@ chat:
   env:
     # -- Base URL of your site for OAuth callback
     AUTH_CALLBACK_BASE_URL: "https://chat.%%DOMAIN%%"
-    # -- URL to redirect after logout
-    AUTH_POST_LOGOUT_REDIRECT_URI: "https://chat.%%DOMAIN%%"
     # -- DIAL core API endpoint
     # Internal service name (DNS name) of DIAL core service
     DIAL_CORE_URL: "http://dial-core.%%NAMESPACE%%.svc.cluster.local"
     # -- External or Internal URL of DIAL themes;
     # Same allowlist as for DIAL chat should be applied
     THEMES_CONFIG_HOST: "http://dial-themes.%%NAMESPACE%%.svc.cluster.local"
-    # -- CORS origin for DIAL chat; should be the same as AUTH_CALLBACK_BASE_URL
-    CORS_ORIGIN: "https://chat.%%DOMAIN%%"
   secrets:
     AUTH_SESSION_SECRET: "%%AUTH_SESSION_SECRET%%"
     AUTH_GOOGLE_CLIENT_ID: "%%AUTH_GOOGLE_CLIENT_ID%%"
