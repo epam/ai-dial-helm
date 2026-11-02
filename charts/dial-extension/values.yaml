@@ -397,6 +397,38 @@ metrics:
     # -- Timeout after which the scrape is ended
     # e.g: scrapeTimeout: 10s
     scrapeTimeout: ""
+    # -- Protocols (in order of preference) used by Prometheus to scrape metrics.
+    # NOTE: requires Prometheus >= v2.49.0 (`PrometheusText1.0.0` requires Prometheus >= v3.0.0 and Prometheus Operator >= v0.79.0)
+    # [Documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ScrapeProtocol)
+    scrapeProtocols: []
+      # - PrometheusProto
+      # - OpenMetricsText1.0.0
+      # - OpenMetricsText0.0.1
+      # - PrometheusText1.0.0
+      # - PrometheusText0.0.4
+    # -- Whether to also scrape the classic (bucket) representation of histograms that are exposed as native histograms.
+    # Not set by default (Prometheus default is used)
+    # NOTE: requires Prometheus >= v2.45.0
+    # e.g: scrapeClassicHistograms: true
+    scrapeClassicHistograms: null
+    # -- Whether Prometheus should ingest native histograms from this target.
+    # Not set by default (Prometheus default is used)
+    # NOTE: requires Prometheus >= v3.8.0 and Prometheus Operator >= v0.88.0
+    # e.g: scrapeNativeHistograms: true
+    scrapeNativeHistograms: null
+    # -- Whether Prometheus should convert classic histograms to native histograms with custom buckets (NHCB) while scraping.
+    # Useful when the application exposes only classic histograms. Not set by default (Prometheus default is used)
+    # NOTE: requires Prometheus >= v3.0.0 and Prometheus Operator >= v0.82.0
+    # e.g: convertClassicHistogramsToNHCB: true
+    convertClassicHistogramsToNHCB: null
+    # -- Maximum number of buckets in a native histogram. If exceeded, Prometheus reduces the histogram resolution. `0` means no limit
+    # NOTE: requires Prometheus >= v2.45.0
+    # e.g: nativeHistogramBucketLimit: 160
+    nativeHistogramBucketLimit: ""
+    # -- Minimum bucket growth factor to reduce native histogram resolution to when the bucket limit is exceeded
+    # NOTE: requires Prometheus >= v2.50.0
+    # e.g: nativeHistogramMinBucketFactor: "1.1"
+    nativeHistogramMinBucketFactor: ""
     # -- Specify additional relabeling of metrics
     metricRelabelings: []
     # -- Specify general relabeling

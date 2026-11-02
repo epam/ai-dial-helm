@@ -171,6 +171,7 @@ helm install my-release dial/dial-extension -f values.yaml
 | metrics.service.type | string | `"ClusterIP"` | dial-extension metrics service type |
 | metrics.serviceMonitor | object | [Documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/getting-started/design.md#servicemonitor) | Prometheus Operator ServiceMonitor configuration |
 | metrics.serviceMonitor.annotations | object | `{}` | Additional custom annotations for the ServiceMonitor |
+| metrics.serviceMonitor.convertClassicHistogramsToNHCB | string | `nil` | Whether Prometheus should convert classic histograms to native histograms with custom buckets (NHCB) while scraping. Useful when the application exposes only classic histograms. Not set by default (Prometheus default is used) NOTE: requires Prometheus >= v3.0.0 and Prometheus Operator >= v0.82.0 e.g: convertClassicHistogramsToNHCB: true |
 | metrics.serviceMonitor.enabled | bool | `false` | if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`) |
 | metrics.serviceMonitor.honorLabels | bool | `false` | honorLabels chooses the metric's labels on collisions with target labels |
 | metrics.serviceMonitor.interval | string | `""` | Interval at which metrics should be scraped. e.g: interval: 10s |
@@ -178,9 +179,14 @@ helm install my-release dial/dial-extension -f values.yaml
 | metrics.serviceMonitor.labels | object | `{}` | Extra labels for the ServiceMonitor |
 | metrics.serviceMonitor.metricRelabelings | list | `[]` | Specify additional relabeling of metrics |
 | metrics.serviceMonitor.namespace | string | `""` | Namespace in which Prometheus is running |
+| metrics.serviceMonitor.nativeHistogramBucketLimit | string | `""` | Maximum number of buckets in a native histogram. If exceeded, Prometheus reduces the histogram resolution. `0` means no limit NOTE: requires Prometheus >= v2.45.0 e.g: nativeHistogramBucketLimit: 160 |
+| metrics.serviceMonitor.nativeHistogramMinBucketFactor | string | `""` | Minimum bucket growth factor to reduce native histogram resolution to when the bucket limit is exceeded NOTE: requires Prometheus >= v2.50.0 e.g: nativeHistogramMinBucketFactor: "1.1" |
 | metrics.serviceMonitor.path | string | `"/metrics"` | Specify metrics path |
 | metrics.serviceMonitor.port | string | `"http-metrics"` | Specify service metrics port |
 | metrics.serviceMonitor.relabelings | list | `[]` | Specify general relabeling |
+| metrics.serviceMonitor.scrapeClassicHistograms | string | `nil` | Whether to also scrape the classic (bucket) representation of histograms that are exposed as native histograms. Not set by default (Prometheus default is used) NOTE: requires Prometheus >= v2.45.0 e.g: scrapeClassicHistograms: true |
+| metrics.serviceMonitor.scrapeNativeHistograms | string | `nil` | Whether Prometheus should ingest native histograms from this target. Not set by default (Prometheus default is used) NOTE: requires Prometheus >= v3.8.0 and Prometheus Operator >= v0.88.0 e.g: scrapeNativeHistograms: true |
+| metrics.serviceMonitor.scrapeProtocols | list | `[]` | Protocols (in order of preference) used by Prometheus to scrape metrics. Required for Prometheus native histograms, which are exposed only in the Prometheus protobuf format NOTE: requires Prometheus >= v2.49.0 (`PrometheusText1.0.0` requires Prometheus >= v3.0.0 and Prometheus Operator >= v0.79.0) [Documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ScrapeProtocol) |
 | metrics.serviceMonitor.scrapeTimeout | string | `""` | Timeout after which the scrape is ended e.g: scrapeTimeout: 10s |
 | metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels |
 | nameOverride | string | `""` | String to partially override common.names.name |

@@ -556,6 +556,42 @@
                         "scrapeTimeout": {
                             "type": "string"
                         },
+                        "scrapeProtocols": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "scrapeClassicHistograms": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        },
+                        "scrapeNativeHistograms": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        },
+                        "convertClassicHistogramsToNHCB": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        },
+                        "nativeHistogramBucketLimit": {
+                            "type": [
+                                "integer",
+                                "string"
+                            ]
+                        },
+                        "nativeHistogramMinBucketFactor": {
+                            "type": [
+                                "number",
+                                "string"
+                            ]
+                        },
                         "metricRelabelings": {
                             "type": "array"
                         },
