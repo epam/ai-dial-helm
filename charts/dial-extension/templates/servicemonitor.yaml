@@ -12,6 +12,24 @@ metadata:
   {{- end }}
 spec:
   jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | quote }}
+  {{- if .Values.metrics.serviceMonitor.scrapeProtocols }}
+  scrapeProtocols: {{- include "common.tplvalues.render" ( dict "value" .Values.metrics.serviceMonitor.scrapeProtocols "context" $ ) | nindent 4 }}
+  {{- end }}
+  {{- if kindIs "bool" .Values.metrics.serviceMonitor.scrapeClassicHistograms }}
+  scrapeClassicHistograms: {{ .Values.metrics.serviceMonitor.scrapeClassicHistograms }}
+  {{- end }}
+  {{- if kindIs "bool" .Values.metrics.serviceMonitor.scrapeNativeHistograms }}
+  scrapeNativeHistograms: {{ .Values.metrics.serviceMonitor.scrapeNativeHistograms }}
+  {{- end }}
+  {{- if kindIs "bool" .Values.metrics.serviceMonitor.convertClassicHistogramsToNHCB }}
+  convertClassicHistogramsToNHCB: {{ .Values.metrics.serviceMonitor.convertClassicHistogramsToNHCB }}
+  {{- end }}
+  {{- if .Values.metrics.serviceMonitor.nativeHistogramBucketLimit }}
+  nativeHistogramBucketLimit: {{ .Values.metrics.serviceMonitor.nativeHistogramBucketLimit }}
+  {{- end }}
+  {{- if .Values.metrics.serviceMonitor.nativeHistogramMinBucketFactor }}
+  nativeHistogramMinBucketFactor: {{ .Values.metrics.serviceMonitor.nativeHistogramMinBucketFactor | quote }}
+  {{- end }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 6 }}
       {{- if .Values.metrics.serviceMonitor.selector }}
