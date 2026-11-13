@@ -1,6 +1,6 @@
 # dial-admin
 
-![Version: 0.20.0](https://img.shields.io/badge/Version-0.20.0-informational?style=flat-square) ![AppVersion: 0.22.0](https://img.shields.io/badge/AppVersion-0.22.0-informational?style=flat-square)
+![Version: 0.21.0](https://img.shields.io/badge/Version-0.21.0-informational?style=flat-square) ![AppVersion: 0.23.0](https://img.shields.io/badge/AppVersion-0.23.0-informational?style=flat-square)
 
 Helm chart for DIAL Admin
 
@@ -16,8 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.dialx.ai | frontend(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | manager(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | frontend(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | manager(dial-extension) | 3.2.0 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
@@ -130,7 +130,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | backend.image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | backend.image.registry | string | `"docker.io"` | Image registry |
 | backend.image.repository | string | `"epam/ai-dial-admin-backend"` | Image repository |
-| backend.image.tag | string | `"0.22.1"` | Image tag (immutable tags are recommended) |
+| backend.image.tag | string | `"0.23.0"` | Image tag (immutable tags are recommended) |
 | backend.initContainers | list | `[]` | Add additional init containers to the dial-admin backend pod(s) [Documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | backend.lifecycleHooks | object | `{}` | for the dial-admin backend container(s) to automate configuration before or after startup |
 | backend.livenessProbe | object | [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes) | Liveness Probes configuration |
@@ -254,7 +254,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | frontend.image.pullPolicy | string | `"Always"` | Frontend image pull policy |
 | frontend.image.registry | string | `"docker.io"` | Frontend image registry |
 | frontend.image.repository | string | `"epam/ai-dial-admin-frontend"` | Frontend image repository |
-| frontend.image.tag | string | `"0.22.0"` | Frontend image tag |
+| frontend.image.tag | string | `"0.23.0"` | Frontend image tag |
 | frontend.resourcesPreset | string | `"micro"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | fullnameOverride | string | `""` | String to fully override common.names.fullname |
 | global.compatibility.openshift.adaptSecurityContext | string | `"disabled"` | Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation) |
@@ -265,7 +265,7 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.commonLabels."app.kubernetes.io/component" | string | `"deployment-manager"` |  |
 | manager.configuration.build | object | `{"namespace":""}` | Build images for mcp containers specific variables |
 | manager.configuration.database | object | `{"name":"deployment_manager","password":"","user":"deployment_manager"}` | Database specific variables. It will be used only in case of postgresql.enabled: true. In other cases, you need to supply credentials yourself via manager.secrets, manager.env, or manager.extraEnvVarsSecret. |
-| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""},"nim":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
+| manager.configuration.deploy | object | `{"knative":{"enabled":true,"namespace":""},"kserve":{"enabled":false,"namespace":""}}` | Deploy mcp containers specific variables |
 | manager.containerPorts.http | int | `8080` |  |
 | manager.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | manager.enabled | bool | `false` | Enable dial-admin deployment_manager deployment |
@@ -274,13 +274,11 @@ helm install my-release dial/dial-admin -f values.yaml
 | manager.env.K8S_KNATIVE_ENABLED | string | `"{{ .Values.configuration.deploy.knative.enabled }}"` |  |
 | manager.env.K8S_KSERVE_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.kserve.namespace }}"` |  |
 | manager.env.K8S_KSERVE_ENABLED | string | `"{{ .Values.configuration.deploy.kserve.enabled }}"` |  |
-| manager.env.K8S_NIM_DEPLOYMENT_NAMESPACE | string | `"{{ .Values.configuration.deploy.nim.namespace }}"` |  |
-| manager.env.K8S_NIM_ENABLED | string | `"{{ .Values.configuration.deploy.nim.enabled }}"` |  |
 | manager.extraEnvVarsSecret | string | `"{{ .Release.Name }}-manager-db"` |  |
 | manager.image | object | [Documentation](https://kubernetes.io/docs/concepts/containers/images/) | Section to configure the image. |
 | manager.image.registry | string | `"docker.io"` | Image registry |
 | manager.image.repository | string | `"epam/ai-dial-admin-deployment-manager-backend"` | Image repository |
-| manager.image.tag | string | `"0.22.0"` | Image tag (immutable tags are recommended) |
+| manager.image.tag | string | `"0.23.0"` | Image tag (immutable tags are recommended) |
 | manager.rbac.create | bool | `true` |  |
 | manager.resourcesPreset | string | `"small"` | Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if `resources` is set (recommended for production). [Documentation](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15) |
 | manager.serviceAccount.create | bool | `true` |  |
@@ -301,7 +299,7 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ## Deployment Manager
 
-The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative, NIM, and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
+The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
 
 Enable the component with:
 
@@ -502,3 +500,8 @@ If `manager.enabled` is set to `true` and this is an upgrade from a previous ver
 > DIAL Admin backend `0.20.0` adds `MS_SQL_SERVER_AZURE_JDBC_AUTH_MODE` (default `ActiveDirectoryMSI`). It's only
 > relevant when `backend.configuration.datasourceVendor: mssql` with `DATASOURCE_AUTH_TYPE: azure`; other setups
 > need no change. See the [backend 0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/upgrade-plans/0.20.0.md).
+
+### To 0.21.0
+
+> [!IMPORTANT]
+> NIM deployments are no longer supported by the Deployment Manager. The chart no longer provides NIM configuration, environment variables, or RBAC resources. Remove any NIM-specific settings from your values when upgrading.
