@@ -135,6 +135,8 @@ dial:
 modelProvider:
   # -- Enable/disable ai-dial-model-provider (experimental)
   enabled: false
+  # -- Resource names must be lowercase RFC 1123; the alias "modelProvider" is camelCase, so override the name
+  nameOverride: "model-provider"
   commonLabels:
     app.kubernetes.io/component: "model-provider"
   image:
