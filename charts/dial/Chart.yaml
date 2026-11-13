@@ -61,4 +61,4 @@ maintainers:
 name: dial
 sources:
   - https://github.com/epam/ai-dial-helm/tree/main/charts/dial
-version: 8.2.0
+version: 8.2.1

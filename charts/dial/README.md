@@ -1,6 +1,6 @@
 # dial
 
-![Version: 8.2.0](https://img.shields.io/badge/Version-8.2.0-informational?style=flat-square) ![AppVersion: 1.50.0](https://img.shields.io/badge/AppVersion-1.50.0-informational?style=flat-square)
+![Version: 8.2.1](https://img.shields.io/badge/Version-8.2.1-informational?style=flat-square) ![AppVersion: 1.50.0](https://img.shields.io/badge/AppVersion-1.50.0-informational?style=flat-square)
 
 Umbrella chart for DIAL solution
 
@@ -117,6 +117,7 @@ helm install my-release dial/dial -f values.yaml
 | modelProvider.image.repository | string | `"epam/ai-dial-model-provider"` |  |
 | modelProvider.image.tag | string | `"0.1.0"` |  |
 | modelProvider.livenessProbe.enabled | bool | `true` |  |
+| modelProvider.nameOverride | string | `"model-provider"` | Resource names must be lowercase RFC 1123; the alias "modelProvider" is camelCase, so override the name |
 | modelProvider.readinessProbe.enabled | bool | `true` |  |
 | modelProvider.resourcesPreset | string | `"small"` |  |
 | modelProvider.secrets | object | `{}` |  |
