@@ -91,7 +91,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.commonLabels."app.kubernetes.io/component" | string | `"application"` |  |
 | chat.enabled | bool | `true` | Enable/disable ai-dial-chat |
 | chat.image.repository | string | `"epam/ai-dial-chat"` |  |
-| chat.image.tag | string | `"1.3.0"` |  |
+| chat.image.tag | string | `"1.3.1"` |  |
 | chat.livenessProbe.enabled | bool | `true` |  |
 | chat.livenessProbe.failureThreshold | int | `6` |  |
 | chat.livenessProbe.httpGet.path | string | `"/api/health"` |  |
@@ -100,7 +100,7 @@ helm install my-release dial/dial -f values.yaml
 | chat.readinessProbe.httpGet.path | string | `"/api/health"` |  |
 | chat.resourcesPreset | string | `"small"` |  |
 | core.enabled | bool | `true` | Enable/disable ai-dial-core |
-| core.image.tag | string | `"0.50.0"` |  |
+| core.image.tag | string | `"0.50.1"` |  |
 | core.livenessProbe.enabled | bool | `true` |  |
 | core.readinessProbe.enabled | bool | `true` |  |
 | dial.commonLabels."app.kubernetes.io/component" | string | `"adapter"` |  |
