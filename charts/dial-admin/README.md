@@ -16,8 +16,8 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.dialx.ai | frontend(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | manager(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | frontend(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | manager(dial-extension) | 3.2.0 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.1 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 16.7.12 |
 
