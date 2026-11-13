@@ -64,7 +64,7 @@ helm install my-release dial/dial-admin -f values.yaml
 
 ## Deployment Manager
 
-The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative, NIM, and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
+The **DIAL Admin Deployment Manager** (`manager`) is an optional component that extends the DIAL Admin chart with model build-and-deploy capabilities. It manages Knative and KServe services and requires its own database connection. See the full [configuration reference](https://github.com/epam/ai-dial-admin-deployment-manager-backend/blob/development/docs/configuration.md) for all available environment variables.
 
 Enable the component with:
 
@@ -265,3 +265,8 @@ If `manager.enabled` is set to `true` and this is an upgrade from a previous ver
 > DIAL Admin backend `0.20.0` adds `MS_SQL_SERVER_AZURE_JDBC_AUTH_MODE` (default `ActiveDirectoryMSI`). It's only
 > relevant when `backend.configuration.datasourceVendor: mssql` with `DATASOURCE_AUTH_TYPE: azure`; other setups
 > need no change. See the [backend 0.20.0 upgrade plan](https://github.com/epam/ai-dial-admin-backend/blob/development/docs/upgrade-plans/0.20.0.md).
+
+### To 0.21.0
+
+> [!IMPORTANT]
+> NIM deployments are no longer supported by the Deployment Manager. The chart no longer provides NIM configuration, environment variables, or RBAC resources. Remove any NIM-specific settings from your values when upgrading.
