@@ -17,12 +17,13 @@ Kubernetes: `>=1.23.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.dialx.ai | core(dial-core) | 6.0.0 |
-| https://charts.dialx.ai | chat(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | themes(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | openai(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | bedrock(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | vertexai(dial-extension) | 3.1.1 |
-| https://charts.dialx.ai | dial(dial-extension) | 3.1.1 |
+| https://charts.dialx.ai | chat(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | themes(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | openai(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | bedrock(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | vertexai(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | dial(dial-extension) | 3.2.0 |
+| https://charts.dialx.ai | modelProvider(dial-extension) | 3.2.0 |
 | oci://registry-1.docker.io/bitnamicharts | common | 2.31.4 |
 
 ## Installing the Chart
