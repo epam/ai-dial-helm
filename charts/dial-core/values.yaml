@@ -451,6 +451,8 @@ ingress:
     # cert-manager.io/cluster-issuer: cluster-issuer-name
   # -- Change default name of service for the ingress record
   serviceName: ""
+  # -- Change default port of service for the ingress record (port name or number). Defaults to `service.ports.http`
+  servicePort: ""
   # -- An array with hostname(s) to be covered with the ingress record
   hosts:
     - dial-core.local

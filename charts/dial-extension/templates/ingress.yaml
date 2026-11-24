@@ -37,7 +37,7 @@ spec:
                 port:
                   {{- if typeIs "string" $servicePort }}
                   name: {{ $servicePort }}
-                  {{- else if or (typeIs "int" $servicePort) (typeIs "float64" $servicePort) }}
+                  {{- else if or (typeIs "int" $servicePort) (typeIs "int64" $servicePort) (typeIs "float64" $servicePort) }}
                   number: {{ $servicePort | int }}
                   {{- end }}
   {{- end }}
@@ -53,7 +53,7 @@ spec:
                 port:
                   {{- if typeIs "string" .servicePort }}
                   name: {{ .servicePort }}
-                  {{- else if or (typeIs "int" .servicePort) (typeIs "float64" .servicePort) }}
+                  {{- else if or (typeIs "int" .servicePort) (typeIs "int64" .servicePort) (typeIs "float64" .servicePort) }}
                   number: {{ .servicePort | int }}
                   {{- end }}
     {{- end }}
